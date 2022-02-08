@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Checkout Main Project Repo
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
         with:
           # Repository name with owner. For example, actions/checkout
           # Default: ${{ github.repository }}
