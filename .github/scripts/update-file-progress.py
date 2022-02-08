@@ -1,6 +1,6 @@
 import glob
 
-src_files = glob.glob("./goal_src/**/*.g[cs]", recursive=True)
+src_files = glob.glob("./jak-project/goal_src/**/*.g[cs]", recursive=True)
 
 # Find how many of each have been started
 
@@ -20,7 +20,7 @@ for f in src_files:
         src_files_started = src_files_started + 1
 
 import json
-with open('./docs/gh-pages-proj/src/config/progress.json', 'r+', encoding='utf-8') as f:
+with open('./src/config/progress.json', 'r+', encoding='utf-8') as f:
   data = {
     'jak1': {
       'fileProgress': {

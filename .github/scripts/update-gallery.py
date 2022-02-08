@@ -51,13 +51,13 @@ def get_links(key, folder_to_search):
     # sort by timestamp
     galleryLinks[key]["media"].sort(key=lambda x: x["timestamp"], reverse=True)
 
-get_links('jak1', './docs/gh-pages-proj/src/assets/gallery/jak1')
-get_links('jak2', './docs/gh-pages-proj/src/assets/gallery/jak2')
-get_links('jak3', './docs/gh-pages-proj/src/assets/gallery/jak3')
-get_links('jakx', './docs/gh-pages-proj/src/assets/gallery/jakx')
-get_links('misc', './docs/gh-pages-proj/src/assets/gallery/misc')
+get_links('jak1', './src/assets/gallery/jak1')
+get_links('jak2', './src/assets/gallery/jak2')
+get_links('jak3', './src/assets/gallery/jak3')
+get_links('jakx', './src/assets/gallery/jakx')
+get_links('misc', './src/assets/gallery/misc')
 
-with open('./docs/gh-pages-proj/src/config/gallery.json', 'r+', encoding='utf-8') as f:
+with open('./src/config/gallery.json', 'r+', encoding='utf-8') as f:
   f.seek(0)
   json.dump(galleryLinks, f, ensure_ascii=False, indent=2)
   f.truncate()
