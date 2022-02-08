@@ -27,7 +27,6 @@ jobs:
         run: |
           npm ci
           npm run build
-          cd ../..
           rm -r ./docs/css || true
           rm -r ./docs/img || true
           rm -r ./docs/js || true
