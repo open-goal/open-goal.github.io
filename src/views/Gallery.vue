@@ -9,7 +9,7 @@
         :key="name + asset + index"
         class="d-flex child-flex"
         cols="12"
-        md="4"
+        md="3"
       >
         <v-img
           v-if="!asset.video"
