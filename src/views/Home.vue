@@ -28,7 +28,7 @@
           </v-col>
           <v-col cols="auto">
             <v-btn
-              href="/jak-project/api-docs.html"
+              href="/api-docs.html"
               target="_blank"
               rounded
               color="indigo darken-1"
@@ -39,7 +39,7 @@
           </v-col>
           <v-col cols="auto">
             <v-btn
-              href="https://github.com/water111/jak-project"
+              href="https://github.com/open-goal/jak-project"
               target="_blank"
               rounded
               color="deep-purple darken-1"
