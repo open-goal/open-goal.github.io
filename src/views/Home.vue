@@ -1,6 +1,11 @@
 <template>
   <v-container fluid>
-    <v-row justify="center" align="center" class="bg-img">
+    <v-row
+      justify="center"
+      align="center"
+      class="bg-img"
+      v-bind:style="{ backgroundImage: 'linear-gradient( rgba(36,38,41, 0.5), rgba(36,38,41, 0.5)), url(' + getImgUrl(slideshowImages[slideshowIndex]) + ')' }"
+    >
       <v-col cols="12" align="center">
         <v-img
           max-height="150"
@@ -192,7 +197,6 @@
 
 <style scoped>
 .bg-img {
-  background-image: url("~@/assets/img/background-new.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -217,60 +221,72 @@ export default {
   components: {},
   data: function() {
     return {
+      slideshowImages: [
+        "slideshow-tfrag.jpg",
+        "slideshow-tie.jpg",
+        "slideshow-merc.jpg",
+      ],
+      slideshowIndex: 0,
       recentPRs: [],
       majorMilestones: {
         jak1: [
           {
             name: "Sky",
-            status: "Completed"
+            status: "Completed",
           },
           {
             name: "TFrag",
-            status: "Completed"
+            status: "Completed",
           },
           {
             name: "TIE",
-            status: "Completed"
+            status: "Completed",
           },
           {
             name: "Shrub",
-            status: "In-Progress"
+            status: "In-Progress",
           },
           {
             name: "Ocean",
-            status: "In-Progress"
+            status: "In-Progress",
           },
           {
             name: "MERC",
-            status: "In-Progress"
+            status: "In-Progress",
           },
           {
             name: "Shadow",
-            status: "In-Progress"
+            status: "In-Progress",
           },
           {
             name: "Generic",
-            status: "In-Progress"
+            status: "In-Progress",
           },
           {
             name: "Collision",
-            status: "In-Progress"
+            status: "In-Progress",
           },
           {
             name: "Bones",
-            status: "In-Progress"
-          }
-        ]
+            status: "In-Progress",
+          },
+        ],
       },
       jak1BlackLabelStatus: {
         srcFilesTotal: projectProgress.jak1.fileProgress.src_files_total,
         srcFilesFinished: projectProgress.jak1.fileProgress.src_files_finished,
-        srcFilesStarted: projectProgress.jak1.fileProgress.src_files_started
-      }
+        srcFilesStarted: projectProgress.jak1.fileProgress.src_files_started,
+      },
     };
   },
   mounted: async function() {
     await this.loadRecentPRs();
+    window.setInterval(() => {
+      this.slideshowIndex += 1;
+      if (this.slideshowIndex > this.slideshowImages.length - 1) {
+        this.slideshowIndex = 0;
+      }
+    }, 1000 * 5);
   },
   methods: {
     truncateString: function(str, num) {
@@ -293,7 +309,10 @@ export default {
         pr.body = this.truncateString(pr.body, 250);
         this.recentPRs.push(pr);
       }
+    },
+    getImgUrl(img) {
+      return require('../assets/slideshow/' + img)
     }
-  }
+  },
 };
 </script>
