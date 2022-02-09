@@ -4,7 +4,7 @@
       justify="center"
       align="center"
       class="bg-img"
-      v-bind:style="{ backgroundImage: 'linear-gradient( rgba(36,38,41, 0.5), rgba(36,38,41, 0.5)), url(' + getImgUrl(slideshowImages[slideshowIndex]) + ')' }"
+      v-bind:style="{ backgroundImage: 'linear-gradient( rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url(' + getImgUrl(slideshowImages[slideshowIndex]) + ')' }"
     >
       <v-col cols="12" align="center">
         <v-img
