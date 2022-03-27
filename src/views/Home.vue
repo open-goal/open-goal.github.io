@@ -248,10 +248,6 @@ export default {
             status: "Completed",
           },
           {
-            name: "Shrub",
-            status: "In-Progress",
-          },
-          {
             name: "Ocean",
             status: "Completed",
           },
@@ -264,20 +260,28 @@ export default {
             status: "Completed",
           },
           {
-            name: "Generic",
-            status: "In-Progress",
-          },
-          {
-            name: "Audio",
-            status: "In-Progress",
-          },
-          {
             name: "Collision",
             status: "Completed",
           },
           {
             name: "Bones",
             status: "Completed",
+          },
+          {
+            name: "Shrub",
+            status: "In-Progress",
+          },
+          {
+            name: "Generic",
+            status: "In-Progress",
+          },
+          {
+            name: "Sprite Distort",
+            status: "In-Progress",
+          },
+          {
+            name: "Audio",
+            status: "In-Progress",
           },
         ],
       },
