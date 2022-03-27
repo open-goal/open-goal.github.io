@@ -116,7 +116,7 @@
                 justify="center"
                 class="orange--text text--darken-4"
               >
-                <h5>Renderers and Core Pieces</h5>
+                <h5>Renderers and Core Milestones</h5>
               </v-col>
             </v-row>
             <v-row>
@@ -222,9 +222,14 @@ export default {
   data: function() {
     return {
       slideshowImages: [
-        "slideshow-tfrag.jpg",
-        "slideshow-tie.jpg",
-        "slideshow-merc.jpg",
+        "13-text.webp",
+        "14-sky.webp",
+        "15-sprite.webp",
+        "16-tfrag.webp",
+        "17-tie.webp",
+        "18-merc.webp",
+        "19-ocean.webp",
+        "20-shadow.webp",
       ],
       slideshowIndex: 0,
       recentPRs: [],
@@ -248,27 +253,31 @@ export default {
           },
           {
             name: "Ocean",
-            status: "In-Progress",
+            status: "Completed",
           },
           {
             name: "MERC",
-            status: "In-Progress",
+            status: "Completed",
           },
           {
             name: "Shadow",
-            status: "In-Progress",
+            status: "Completed",
           },
           {
             name: "Generic",
             status: "In-Progress",
           },
           {
-            name: "Collision",
+            name: "Audio",
             status: "In-Progress",
           },
           {
+            name: "Collision",
+            status: "Completed",
+          },
+          {
             name: "Bones",
-            status: "In-Progress",
+            status: "Completed",
           },
         ],
       },
@@ -281,6 +290,13 @@ export default {
   },
   mounted: async function() {
     await this.loadRecentPRs();
+
+    // Preload Images
+    for (let i = 0; i < this.slideshowImages.length; i++) {
+      const image = new Image();
+      image.src = `img/${this.slideshowImages[i]}`;
+    }
+
     window.setInterval(() => {
       this.slideshowIndex += 1;
       if (this.slideshowIndex > this.slideshowImages.length - 1) {
