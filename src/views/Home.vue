@@ -191,7 +191,7 @@
 .splash-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  min-height: 50vh;
+  height: 75vh;
 }
 .wrapped-pre {
   word-wrap: normal;
@@ -206,9 +206,9 @@
   position: relative;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   grid-area: 1/1/1/1;
-  filter: opacity(25%);
+  filter: opacity(45%);
 }
 .splash-contents {
   flex-direction: column;
