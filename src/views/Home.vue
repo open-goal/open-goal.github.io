@@ -3,21 +3,22 @@
     <v-row
       justify="center"
       align="center"
-      class="bg-img"
-      v-bind:style="{ backgroundImage: 'linear-gradient( rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url(' + getImgUrl(slideshowImages[slideshowIndex]) + ')' }"
+      class="splash-container"
     >
-      <v-col cols="12" align="center">
+      <video autoplay muted loop id="splash">
+        <source src="~@/assets/vid/splash-opengoal.mp4" type="video/mp4">
+      </video>
+      <v-col cols="12" align="center" class="splash-contents">
         <v-img
           max-height="150"
           max-width="250"
           src="~@/assets/img/logo-text-colored.png"
+          style="margin-bottom: 0.5em;"
         >
         </v-img>
-        <br />
-        <h4 class="text-stroke">
+        <h4 class="text-stroke" style="margin-bottom: 2em;">
           Reviving the Language that Brought us the Jak & Daxter Series
         </h4>
-        <br />
         <v-row justify="center">
           <v-col cols="auto">
             <v-btn href="#project-status" rounded color="pink darken-4">
@@ -57,15 +58,6 @@
       </v-col>
     </v-row>
     <v-row style="margin-top: 3em;">
-      <v-col
-        align="center"
-        justify="center"
-        cols="12"
-        id="project-status"
-        class="orange--text text--darken-1"
-      >
-        <h2>Project Status</h2>
-      </v-col>
       <v-container style="margin-top: 2em;">
         <v-row>
           <v-col cols="12" md="4">
@@ -196,11 +188,10 @@
 </template>
 
 <style scoped>
-.bg-img {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  min-height: 100vh;
+.splash-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  min-height: 50vh;
 }
 .wrapped-pre {
   word-wrap: normal;
@@ -210,6 +201,22 @@
 .text-stroke {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
     1px 1px 0 #000;
+}
+#splash {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  grid-area: 1/1/1/1;
+  filter: opacity(25%);
+}
+.splash-contents {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  grid-area: 1/1/1/1;
+  color: white;
+  z-index: 999;
 }
 </style>
 
@@ -221,17 +228,6 @@ export default {
   components: {},
   data: function() {
     return {
-      slideshowImages: [
-        "13-text.webp",
-        "14-sky.webp",
-        "15-sprite.webp",
-        "16-tfrag.webp",
-        "17-tie.webp",
-        "18-merc.webp",
-        "19-ocean.webp",
-        "20-shadow.webp",
-      ],
-      slideshowIndex: 0,
       recentPRs: [],
       majorMilestones: {
         jak1: [
@@ -269,7 +265,7 @@ export default {
           },
           {
             name: "Shrub",
-            status: "In-Progress",
+            status: "Completed",
           },
           {
             name: "Generic",
@@ -294,19 +290,7 @@ export default {
   },
   mounted: async function() {
     await this.loadRecentPRs();
-
-    // Preload Images
-    for (let i = 0; i < this.slideshowImages.length; i++) {
-      const image = new Image();
-      image.src = `img/${this.slideshowImages[i]}`;
-    }
-
-    window.setInterval(() => {
-      this.slideshowIndex += 1;
-      if (this.slideshowIndex > this.slideshowImages.length - 1) {
-        this.slideshowIndex = 0;
-      }
-    }, 1000 * 5);
+    document.getElementById("splash").playbackRate = 0.5;
   },
   methods: {
     truncateString: function(str, num) {
