@@ -1,6 +1,7 @@
 import glob
 
-src_files = glob.glob("./jak-project/goal_src/**/*.g[cs]", recursive=True)
+src_files = set(glob.glob("./jak-project/goal_src/**/*.g[cs]", recursive=True))
+src_files = src_files - set(glob.glob("./jak-project/goal_src/**/*-ag.gc", recursive=True))
 
 # Find how many of each have been started
 

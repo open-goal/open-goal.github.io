@@ -269,7 +269,7 @@ export default {
           },
           {
             name: "Generic",
-            status: "In-Progress",
+            status: "Completed",
           },
           {
             name: "Sprite Distort",
@@ -277,7 +277,7 @@ export default {
           },
           {
             name: "Audio",
-            status: "In-Progress",
+            status: "Completed",
           },
         ],
       },
