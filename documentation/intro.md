@@ -38,4 +38,4 @@ Some types are boxed vs. unboxed. If you have an object of boxed type, it is pos
 
 Some types are value or reference. A value type means it has value semantics, it is passed by value everywhere. A reference type is like a C/C++ pointer or reference, where there is memory allocated for the data somewhere, and the you just pass around a reference to this memory.
 
-For more information on the type system, see [the following](type_system.md)
+For more information on the type system, see [the following](reference/type_system.md)
