@@ -10,24 +10,22 @@ on:
 jobs:
   lint:
     name: Update Documentation Site
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     # Set some sort of timeout in the event of run-away builds.  We are limited on concurrent jobs so, get rid of them.
     timeout-minutes: 10
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Update Gallery Links
-        run: python ./.github/scripts/update-gallery.py
+      # - name: Update Gallery Links
+      #   run: python ./.github/scripts/update-gallery.py
 
       - name: Update Site
         run: |
           npm ci
           npm run build
-          rm -r ./docs/css || true
-          rm -r ./docs/img || true
-          rm -r ./docs/js || true
-          cp -r ./dist/* ./docs/
+          rm -fr ./docs/*
+          cp -r ./build/* ./docs/
 
       - name: Add & Commit
         uses: EndBug/add-and-commit@v8

@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'OpenGOAL',
-  tagline: ' Reviving the Language that Brought us the Jak & Daxter Series',
+  tagline: 'Reviving the Language that Brought us the Jak & Daxter Series',
   url: 'https://open-goal.github.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -45,17 +45,13 @@ const config = {
         docs: {
           path: "documentation",
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/open-goal/open-goal.github.io/tree/master/'
         },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          'https://github.com/open-goal/open-goal.github.io/tree/master/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
