@@ -1,0 +1,326 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #2e8555;
+  --ifm-color-primary-dark: #29784c;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #33925d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-heading-color: #fff;
+  --ifm-hero-text-color: #fff;
+  --ifm-font-color-base-inverse: #fff;
+  --ifm-menu-color-active: #febb01;
+  --ifm-navbar-link-hover-color: #febb01;
+  --ifm-breadcrumb-item-background-active: #080808;
+  --ifm-footer-background-color: #0c0e10;
+  --ifm-color-primary: #febb01;
+  --ifm-color-primary-dark: #21af90;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-font-weight-semibold: 700;
+}
+
+html {
+  font-family: 'Lato', sans-serif;
+  /* font-family: 'Roboto Mono', monospace; */
+}
+
+.footer--dark {
+  --ifm-footer-background-color: #0c0e10;
+}
+
+.header-github-link::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  display: flex;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E")
+    no-repeat;
+  filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(25deg) brightness(107%) contrast(102%);
+}
+
+.row.center {
+  align-items: center;
+}
+
+.col.center {
+  display: flex;
+  justify-content: center;
+}
+
+.hero {
+	text-align: unset !important;
+  background-color: #0c0e10;
+}
+
+.hero-subtitle {
+  font-size: 1rem;
+  font-family: "Roboto Mono", monospace;
+}
+
+.hero-prompt-prefix {
+  color: #00f900;
+}
+
+.hero-bracket-color {
+  color: #5caeef;
+}
+
+.hero-nested-bracket-color {
+  color: #dfb976;
+}
+
+.hero-identifier-color {
+  color: #36F9F6;
+}
+
+.hero-constant-color {
+  color: #F97E72;
+}
+
+.hero-string-color {
+  color: #FF8B39;
+}
+
+.hero-variable-color {
+  color: #FF7EDB;
+}
+
+.hero-tagline {
+  color: grey;
+  margin-top: 0.5rem;
+}
+
+@keyframes cursor-blink {
+  0% {
+    opacity: 0;
+  }
+}
+
+.alternate-bg-color {
+  background-color: #0c0e10;
+}
+
+.home-section {
+  padding-top: 5em;
+  padding-bottom: 5em;
+}
+
+.typed-cursor.typed-cursor--blink {
+	animation: cursor-blink 0.5s steps(2) infinite;
+}
+
+.img-logo {
+  width: 250px;
+}
+
+.col .left-align {
+  display: flex;
+  justify-content: left;
+}
+
+.box {
+	flex: 1;
+	position: relative;
+	border: 1px dashed #febb01;
+	border-radius: 10px;
+	transition: background-color .2s ease-in-out;
+}
+
+.box.disabled, .box.disabled .link {
+  opacity: 50%;
+  cursor: not-allowed;
+}
+
+.box:not(.disabled):hover {
+	background-color: #ff6000;
+}
+
+.box .icon {
+	display: flex;
+	align-items: center;
+	padding: 5px 21px 0;
+	height: 69px;
+  filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(25deg) brightness(107%) contrast(102%);
+}
+
+.box .icon img {
+  height: 40px;
+}
+
+.box .text {
+	padding: 0 16px 23px 21px;
+  text-align: left;
+}
+
+.box .text .title {
+	margin: 0;
+	line-height: 1.5;
+	font-size: 18px;
+	font-weight: 400;
+  font-family: "Roboto Mono", monospace;
+}
+
+.box .text .description {
+	margin: 10px 0 0;
+	line-height: 1.5;
+	font-size: 14.5px;
+}
+
+.box .text .more {
+	display: flex;
+	align-items: center;
+	margin-top: 14px;
+	line-height: 1.2;
+	font-size: 14.5px;
+	font-weight: 700;
+}
+
+.box .link {
+	z-index: 2;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow: hidden;
+	text-indent: -9999px;
+}
+
+.box:not(.disabled) .link {
+	cursor: pointer;
+}
+
+.hotspots {
+  position: relative;
+}
+.hotspots img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+.hotspot {
+  position: absolute;
+}
+
+.change-card::part(base) {
+  margin-bottom: 2em;
+}
+
+.mt-2 {
+  margin-top: 2em;
+}
+
+#hs-jak1-1 {
+  top: 7%;
+  left: 6%
+}
+
+#hs-jak1-2 {
+  top: 60%;
+  left: 80%
+}
+
+#hs-jak1-3 {
+  top: 5%;
+  left: 80%
+}
+
+#hs-jak1-4 {
+  top: 50%;
+  left: 35%
+}
+
+#hs-jak1-5 {
+  top: 50%;
+  left: 67%
+}
+
+#hs-jak1-6 {
+  top: 55%;
+  left: 20%
+}
+
+#hs-jak1-7 {
+  top: 55%;
+  left: 45%
+}
+
+#hs-jak1-8 {
+  top: 45%;
+  left: 38%
+}
+
+#hs-jak1-9 {
+  top: 38%;
+  left: 39%
+}
+
+#hs-jak1-10 {
+  top: 38%;
+  left: 36%
+}
+
+#hs-jak1-11 {
+  top: 40%;
+  left: 10%
+}
+
+#hs-jak1-12 {
+  top: 55%;
+  left: 5%
+}
+
+#hs-jak1-13 {
+  top: 25%;
+  left: 80%
+}
+
+#hs-jak1-14 {
+  top: 76%;
+  left: 90%
+}
+
+#hs-jak1-15 {
+  top: 20%;
+  left: 65%
+}
+
+.stacked-code-image {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.stacked-code-image > .screen {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.stacked-code-image > .code {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 35%;
+  clip-path: inset(0px 50% 0px 0px);
+}
