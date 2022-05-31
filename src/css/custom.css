@@ -42,6 +42,14 @@ html {
   /* font-family: 'Roboto Mono', monospace; */
 }
 
+.monospaced {
+  font-family: 'Roboto Mono', monospace;
+}
+
+.navbar__items {
+  font-family: 'Roboto Mono', monospace;
+}
+
 .footer--dark {
   --ifm-footer-background-color: #0c0e10;
 }

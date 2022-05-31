@@ -87,7 +87,7 @@ export default function Home() {
           <div className="container">
             <div className="row center">
               <div className="col col--4">
-                <h2>About the Project</h2>
+                <h2 className="monospaced">About the Project</h2>
                 <p>The project officially started back in 2020 and has continued to grow more and more ambitious</p>
                 <p>At a high level, our strategy is as follows:</p>
                 <ul>
@@ -110,12 +110,12 @@ export default function Home() {
           <div className="container">
             <div className="row center">
               <div className="col col--6">
-                <h2>Watch our Progress</h2>
+                <h2 className="monospaced">Watch our Progress</h2>
                 <p>OpenGOAL is always improving, if you want to see the latest changes checkout the progress page</p>
                 <a href="/progress">Check it Out</a>
               </div>
               <div className="col col--6">
-                <h2>Read the Docs</h2>
+                <h2 className="monospaced">Read the Docs</h2>
                 <p>While they can always be better, something is better than nothing.  If you are interested in assisting in developing, check out the docs here, as well as the documentation in the GitHub repo itself.</p>
                 <a href="/docs/intro">Reference Docs</a>
               </div>

@@ -66,7 +66,7 @@ function Feature({Svg, title, description}) {
         <Svg className={styles.featureSvg} role="img" />
       </div>
       <div className="text--center padding-horiz--md">
-        <h3>{title}</h3>
+        <h3 className="monospaced">{title}</h3>
         <p>{description}</p>
       </div>
     </div>

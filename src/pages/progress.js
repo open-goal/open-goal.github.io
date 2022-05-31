@@ -75,7 +75,7 @@ export default function Progress() {
           <div className="container">
             <div className="row">
               <div className="col">
-                <h1>Latest Changes</h1>
+                <h1 className="monospaced">Latest Changes</h1>
               </div>
             </div>
             <div className="row mt-2">
@@ -89,7 +89,7 @@ export default function Progress() {
           <div className="container">
             <div className="row">
               <div className="col">
-                <h1>Jak & Daxter - The Precursor Legacy</h1>
+                <h1 className="monospaced">Jak & Daxter - The Precursor Legacy</h1>
                 <a href="https://github.com/orgs/open-goal/projects/1/views/1" target="_blank">Tracking Board</a>
               </div>
             </div>
@@ -155,7 +155,7 @@ export default function Progress() {
           <div className="container">
             <div className="row">
               <div className="col">
-                <h1>Jak 2</h1>
+                <h1 className="monospaced">Jak 2</h1>
                 <p>Stay Tuned!</p>
               </div>
             </div>
