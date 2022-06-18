@@ -38,6 +38,10 @@
   --alternate-bg-color: #fbd24e;
 }
 
+.DocSearch-Hit-source {
+	color: var(--ifm-color-primary) !important;
+}
+
 html {
   font-family: 'Lato', sans-serif;
   /* font-family: 'Roboto Mono', monospace; */
