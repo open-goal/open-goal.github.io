@@ -95,7 +95,7 @@ export default function Progress() {
             </div>
             <div className="row mt-2">
               <div className="col hotspots">
-                <img src="/img/jak1/milestones-a.png"></img>
+                <img src="/img/jak1/milestones-a.webp"></img>
                 <sl-tooltip content="The font renderer was the first to be added in August 9th 2021 - PR#752">
                   <sl-badge variant="danger" pill pulse id="hs-jak1-1" class="hotspot">1</sl-badge>
                 </sl-tooltip>
@@ -134,7 +134,7 @@ export default function Progress() {
             </div>
             <div className="row mt-2">
               <div className="col hotspots">
-                <img src="/img/jak1/milestones-b.png"></img>
+                <img src="/img/jak1/milestones-b.webp"></img>
                 <sl-tooltip content="The beginnings of the particle system was added - September 18th 2021 - PR#849">
                   <sl-badge variant="danger" pill pulse id="hs-jak1-2" class="hotspot">2</sl-badge>
                 </sl-tooltip>

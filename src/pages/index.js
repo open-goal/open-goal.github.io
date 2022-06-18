@@ -40,7 +40,7 @@ function HomepageHeader() {
           <div className="col col--8 left-align">
             <div className="row">
               <div className="col col--12">
-                <img className="img-logo" src="/img/text-logo.png"></img>
+                <img className="img-logo" src="/img/text-logo.webp"></img>
               </div>
             </div>
             <div className="row">
@@ -98,10 +98,7 @@ export default function Home() {
                 </ul>
               </div>
               <div className="col col--8">
-                <div className="stacked-code-image">
-                  <img src="/img/game-screen.png" className="screen"></img>
-                  <img src="/img/game-code.png" className="code"></img>
-                </div>
+                <img src="/img/game-screen.webp" className="screen"></img>
               </div>
             </div>
           </div>
