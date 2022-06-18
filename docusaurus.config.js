@@ -63,9 +63,23 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      algolia: {
+        // The application ID provided by Algolia
+        appId: 'YAP33BKRCA',
+        // Public API key: it is safe to commit it
+        apiKey: '7d68c3181a134366b669225073fed1cb',
+        indexName: 'open-goal',
+        // Optional: see doc section below
+        contextualSearch: true,
+        // Optional: Algolia search parameters
+        searchParameters: {},
+        // Optional: path for search page that enabled by default (`false` to disable it)
+        searchPagePath: 'search',
+        //... other Algolia params
+      },
       colorMode: {
         defaultMode: 'dark',
-        disableSwitch: false, // TODO disabling the switch makes the localstorage value not set
+        disableSwitch: true,
         respectPrefersColorScheme: false,
       },
       navbar: {
