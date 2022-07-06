@@ -90,6 +90,7 @@ const config = {
         },
         items: [
           {to: '/progress', label: 'Progress', position: 'left'},
+          {to: '/docs/faq', label: 'FAQ', position: 'left'},
           {
             type: 'doc',
             docId: 'intro',
