@@ -8,7 +8,7 @@ const FeatureList = [
     Svg: require('@site/static/img/undraw_visual_data.svg').default,
     description: (
       <>
-        OpenGOAL is a fully fledged native x86 port. This means better performance, accuracy and compatibility
+        OpenGOAL is a fully fledged native x86-64 port. This means better performance, accuracy and compatibility
       </>
     ),
   },
