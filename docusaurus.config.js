@@ -35,7 +35,8 @@ const config = {
   ],
   stylesheets: [
     'https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&family=Roboto+Mono:wght@400;700&display=swap',
-    'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.74/dist/themes/dark.css'
+    'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.74/dist/themes/dark.css',
+    "https://fonts.googleapis.com/icon?family=Material+Icons"
   ],
   presets: [
     [
@@ -51,7 +52,7 @@ const config = {
         blog: {
           showReadingTime: true,
           editUrl:
-          'https://github.com/open-goal/open-goal.github.io/tree/master/',
+            'https://github.com/open-goal/open-goal.github.io/tree/master/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -89,14 +90,30 @@ const config = {
           src: 'img/logo.png',
         },
         items: [
-          {to: '/progress', label: 'Progress', position: 'left'},
-          {to: '/docs/faq', label: 'FAQ', position: 'left'},
+          {
+            to: '/progress/milestones', label: 'Progress', position: 'left',
+            items: [
+              {
+                label: 'Major Milestones',
+                to: '/progress/milestones',
+              },
+              {
+                label: 'Jak 1 - Decompilation',
+                to: '/progress/jak1',
+              },
+              {
+                label: 'Jak 2 - Decompilation',
+                to: '/progress/jak2',
+              }
+            ]
+          },
           {
             type: 'doc',
             docId: 'intro',
             position: 'left',
             label: 'Documentation',
           },
+          { to: '/docs/faq', label: 'FAQ', position: 'left' },
           // {to: '/gallery', label: 'Gallery', position: 'left'},
           {
             href: 'https://github.com/open-goal',

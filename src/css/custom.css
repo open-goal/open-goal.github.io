@@ -337,3 +337,44 @@ html {
   opacity: 35%;
   clip-path: inset(0px 50% 0px 0px);
 }
+
+.MuiTablePagination-selectLabel, .MuiTablePagination-displayedRows {
+  margin: 0;
+}
+
+.trackerIcon {
+  margin-right: 0.25em;
+}
+
+.mergeColor {
+  color: #8250df;
+}
+
+.openColor {
+  color: #2da44e;
+}
+
+.pendingColor {
+  color: #bf8700;
+}
+
+.mutedColor {
+  color: #797979;
+}
+
+.iconRow {
+  margin: 0;
+}
+
+.iconRow a {
+  text-decoration: none;
+  color: var(--ifm-font-color-base-inverse);
+}
+
+.iconRow a:hover {
+  color: var(--ifm-color-primary);
+}
+
+section {
+  margin-top: 2.5em;
+}
