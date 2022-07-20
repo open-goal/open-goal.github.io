@@ -1,0 +1,17 @@
+{
+  "excludedFromLoc": [
+    "ocean-trans-tables.gc",
+    "ocean-frames.gc",
+    "ocean-tables.gc"
+  ],
+  "locHistory": [
+    {
+      "timestamp": "2022-07-20T04:02:15.456Z",
+      "loc": 293246
+    },
+    {
+      "timestamp": "2022-07-20T04:46:44.147Z",
+      "loc": 306652
+    }
+  ]
+}
