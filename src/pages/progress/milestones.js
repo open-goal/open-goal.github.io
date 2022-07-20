@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
 
 function truncateString(str, num) {
   if (str.length <= num) {
@@ -90,7 +86,6 @@ export default function Progress() {
             <div className="row">
               <div className="col">
                 <h1 className="monospaced">Jak & Daxter - The Precursor Legacy</h1>
-                <a href="https://github.com/orgs/open-goal/projects/1/views/1" target="_blank">Tracking Board</a>
               </div>
             </div>
             <div className="row mt-2">
