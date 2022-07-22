@@ -59,6 +59,7 @@ export default function Jak2DecompProgress() {
                       {
                         title: 'File Name',
                         customFilterAndSearch: (filter, rowData) => rowData.fileName.includes(filter),
+                        customSort: (a, b) => a['fileName'].localeCompare(b['fileName']),
                         render: rowData => {
                           return <a href={`https://github.com/open-goal/jak-project/tree/master/${rowData.filePath}`} target="_blank" rel="noopener noreferrer">{rowData.fileName}</a>
                         }
@@ -81,7 +82,8 @@ export default function Jak2DecompProgress() {
                               In Progress
                             </div>;
                           }
-                        }
+                        },
+                        customSort: (a, b) => a['status'].localeCompare(b['status']),
                       },
                       {
                         title: 'Assigned To', render: rowData => {
@@ -102,16 +104,18 @@ export default function Jak2DecompProgress() {
                               {user_name}
                             </div>
                           }
-                        }
+                        },
+                        sorting: false
                       },
                       {
                         title: 'Line Count', render: rowData => {
                           // Check if it's excluded
-                          if (decompHistoryData.excludedFromLoc.includes(rowData.fileName)) {
+                          if (decompHistoryData.excludedFromLoc.includes(rowData.fileName) || rowData.status !== "decompiled") {
                             return <strike className="mutedColor">{rowData.loc}</strike>;
                           }
                           return rowData.loc;
-                        }
+                        },
+                        customSort: (a, b) => a['loc'] < b['loc'],
                       },
                       {
                         title: 'Issues', render: rowData => {
@@ -133,7 +137,8 @@ export default function Jak2DecompProgress() {
                               return <div>{issueIcons}<p className="iconRow">...and {totalClosedIssues} closed</p></div>
                             }
                           }
-                        }
+                        },
+                        customSort: (a, b) => a['issues'].length < b['issues'].length,
                       },
                       {
                         title: 'Pull Requests', render: rowData => {
@@ -159,7 +164,8 @@ export default function Jak2DecompProgress() {
                               return <div>{pullIcons}<p className="iconRow">...and {totalHiddenPulls} closed</p></div>
                             }
                           }
-                        }
+                        },
+                        customSort: (a, b) => a['pullRequests'].length < b['pullRequests'].length,
                       }
                     ]}
                     data={decompFileData}
