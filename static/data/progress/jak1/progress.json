@@ -4,26 +4,11 @@
     "filePath": "goal_src/jak1/kernel/gcommon.gc",
     "status": "decompiled",
     "assignedTo": {
-      "pr": 1636,
+      "pr": null,
       "sheet": null
     },
     "loc": 1468,
-    "issues": [{
-      "url": "https://github.com/open-goal/jak-project/pull/1636",
-      "number": 1636,
-      "title": "separate language settings into 3 settings/options",
-      "avatar_url": "https://avatars.githubusercontent.com/u/7569514?v=4",
-      "user": "ManDude",
-      "state": "closed"
-    },
-    {
-      "url": "https://github.com/open-goal/jak-project/pull/1636",
-      "number": 1111,
-      "title": "separate language settings into 3 settings/options",
-      "avatar_url": "https://avatars.githubusercontent.com/u/7569514?v=4",
-      "user": "ManDude",
-      "state": "open"
-    }],
+    "issues": [],
     "pullRequests": [
       {
         "url": "https://github.com/open-goal/jak-project/pull/1636",
