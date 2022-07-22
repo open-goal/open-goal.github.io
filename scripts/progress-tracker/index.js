@@ -48,7 +48,7 @@ function updateProgressDbEntry(fileMeta, fileLines, progressDb, gameName) {
   }
 
   // TODO - also check ref tests and add a "needs ref tests" status
-  let status = fileLines.length > 10 ? "decompiled" : "todo";
+  let status = fileLines.length > 7 ? "decompiled" : "todo";
 
   if (newEntry) {
     progressDb.push({
@@ -88,6 +88,10 @@ function scanFolder(fileList, gameName, progressDb) {
       let filePath = `./jak-project/goal_src/${gameName}/${fileMeta[4]}/${fileMeta[0]}.gc`;
       if (fs.existsSync(filePath)) {
         let fileLines = fs.readFileSync(filePath).toString().split(/\r?\n/);
+        // Check if the last line is empty
+        if (fileLines.length > 0 && fileLines[fileLines.length-1].trim().length === 0) {
+          fileLines.pop();
+        }
         updateProgressDbEntry(fileMeta, fileLines, progressDb, gameName);
       }
     }
@@ -134,16 +138,30 @@ function auditProcess(gameName, pulls, issues) {
     // Check issues title/body
     for (const issue of issues) {
       if (issue.title.includes(fileName) || (issue.body !== null && issue.body.includes(fileName))) {
-        entry.issues.push({
-          number: issue.number,
-          url: issue.html_url,
-          state: issue.state,
-          title: issue.title
-        })
+        // Check if the issue is for this game
+        let validIssue = false
+        if (gameName == "jak1") {
+          validIssue = true;
+        } else {
+          for (const label of issue.labels) {
+            if (label.name == gameName) {
+              validIssue = true;
+              break;
+            }
+          }
+        }
+        if (validIssue) {
+          entry.issues.push({
+            number: issue.number,
+            url: issue.html_url,
+            state: issue.state,
+            title: issue.title
+          });
+        }
       }
     }
 
-    // Sort!
+    // Sort by numbers
     entry.pullRequests.sort((a, b) => b.number - a.number);
     entry.issues.sort((a, b) => b.number - a.number);
 
@@ -171,6 +189,10 @@ function auditProcess(gameName, pulls, issues) {
       loc: newLocCount
     });
   }
+
+  // Sort by status
+  let order = { "in-progress": 1, "needs-ref-tests": 2, "todo": 3, "decompiled": 4, "default": 1000 };
+  progressDb.sort((a, b) => (order[a.status] || order.default) - (order[b.status] || order.default));
 
   // Write out progress files
   fs.writeFileSync(progressPath, JSON.stringify(progressDb, null, 2));

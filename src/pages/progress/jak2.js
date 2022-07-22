@@ -107,7 +107,7 @@ export default function Jak2DecompProgress() {
                       {
                         title: 'Line Count', render: rowData => {
                           // Check if it's excluded
-                          if (decompHistoryData.excludedFromLoc.includes(rowData.fileName)) {
+                          if (decompHistoryData.excludedFromLoc.includes(rowData.fileName) || rowData.status !== "decompiled") {
                             return <strike className="mutedColor">{rowData.loc}</strike>;
                           }
                           return rowData.loc;

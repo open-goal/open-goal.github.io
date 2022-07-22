@@ -20415,7 +20415,7 @@
     "user": "nameonascreen"
   },
   "1502": {
-    "sha": "79f421934b73c9ffa868443c586a8ac32fd9d68e",
+    "sha": "d1a2fc3fb07f8bda182103dd3c88225a83569a1c",
     "files_modified": [
       "goal_src/jak1/engine/debug/default-menu.gc"
     ],
@@ -20423,8 +20423,8 @@
     "number": 1502,
     "title": "Add German subtitles",
     "avatar_url": "https://avatars.githubusercontent.com/u/6624576?v=4",
-    "state": "open",
-    "user": "Hat-Kid"
+    "user": "Hat-Kid",
+    "state": "open"
   },
   "1503": {
     "sha": "13675ea83457a5248e71891afc57ca51eb08928c",
@@ -20865,7 +20865,7 @@
     "user": "jml95"
   },
   "1568": {
-    "sha": "b82544a6dfecb74e16bcdf99f10fef0c5fca3f71",
+    "sha": "58b55ded35bb27408a84b124706ee59304b198b0",
     "files_modified": [
       "goal_src/jak1/engine/debug/default-menu.gc"
     ],
@@ -20873,8 +20873,8 @@
     "number": 1568,
     "title": "Italian subtitles (WIP)",
     "avatar_url": "https://avatars.githubusercontent.com/u/18691849?v=4",
-    "state": "open",
-    "user": "manuelx98"
+    "user": "manuelx98",
+    "state": "open"
   },
   "1569": {
     "sha": "64a855bcefaff2a7651293dfadb8aa6266c261e1",
@@ -23685,7 +23685,7 @@
     "user": "ManDude"
   },
   "1687": {
-    "sha": "c15fcdd2652f1d096be4dea9ba64b6b21e66abf6",
+    "sha": "b8847fef761bbf436025762355d31b7566cbd65a",
     "files_modified": [
       "goal_src/jak1/engine/camera/cam-states.gc",
       "goal_src/jak1/levels/maincave/baby-spider.gc",
@@ -23695,7 +23695,101 @@
     "number": 1687,
     "title": "Some more high FPS fixes",
     "avatar_url": "https://avatars.githubusercontent.com/u/6609531?v=4",
-    "state": "open",
-    "user": "Francessco121"
+    "user": "Francessco121",
+    "state": "closed"
+  },
+  "1689": {
+    "sha": "5f5b5086f58641ebee8926283937ef8034b6de62",
+    "files_modified": [],
+    "url": "https://github.com/open-goal/jak-project/pull/1689",
+    "number": 1689,
+    "title": "Implement scheduling of IOP threads.",
+    "avatar_url": "https://avatars.githubusercontent.com/u/5276694?v=4",
+    "user": "Ziemas",
+    "state": "open"
+  },
+  "1690": {
+    "sha": "f712c1170e216a805c8bee807fa4876072f75509",
+    "files_modified": [],
+    "url": "https://github.com/open-goal/jak-project/pull/1690",
+    "number": 1690,
+    "title": "tools: Fix the memory dump analysis tool",
+    "avatar_url": "https://avatars.githubusercontent.com/u/13153231?v=4",
+    "user": "xTVaser",
+    "state": "closed"
+  },
+  "1692": {
+    "sha": "16ce84d7af988868d800cc003e5347d03ddfddc0",
+    "files_modified": [],
+    "url": "https://github.com/open-goal/jak-project/pull/1692",
+    "number": 1692,
+    "title": "Changed \"LITHER\" to \"LITTER\"",
+    "avatar_url": "https://avatars.githubusercontent.com/u/65382626?v=4",
+    "user": "possum93",
+    "state": "closed"
+  },
+  "1693": {
+    "sha": "06731780ac15e758fea9a80a3796c518393de9bf",
+    "files_modified": [],
+    "url": "https://github.com/open-goal/jak-project/pull/1693",
+    "number": 1693,
+    "title": "Changed \"BRIGE\" to \"BRIDGE\"",
+    "avatar_url": "https://avatars.githubusercontent.com/u/65382626?v=4",
+    "user": "possum93",
+    "state": "closed"
+  },
+  "1694": {
+    "sha": "7a5199d446cb6aa46adf1b4db33e32103c100b96",
+    "files_modified": [],
+    "url": "https://github.com/open-goal/jak-project/pull/1694",
+    "number": 1694,
+    "title": "Exclude unnecessary third-party build targets",
+    "avatar_url": "https://avatars.githubusercontent.com/u/5276694?v=4",
+    "user": "Ziemas",
+    "state": "closed"
+  },
+  "1695": {
+    "sha": "2e28c148897b7c26a2cc2a950c11e4140265eea3",
+    "files_modified": [
+      "goal_src/jak1/game.gp"
+    ],
+    "url": "https://github.com/open-goal/jak-project/pull/1695",
+    "number": 1695,
+    "title": "Fix typo in `game.gp` when building test zone",
+    "avatar_url": "https://avatars.githubusercontent.com/u/7569514?v=4",
+    "user": "ManDude",
+    "state": "closed"
+  },
+  "1696": {
+    "sha": "52306836ccfb848cd95cffca3eb9dbe5fc4659f2",
+    "files_modified": [
+      "goal_src/jak1/engine/debug/default-menu.gc"
+    ],
+    "url": "https://github.com/open-goal/jak-project/pull/1696",
+    "number": 1696,
+    "title": "game: add text language to debug menu",
+    "avatar_url": "https://avatars.githubusercontent.com/u/6624576?v=4",
+    "user": "Hat-Kid",
+    "state": "closed"
+  },
+  "1697": {
+    "sha": "f780756b8f6bc8b831c178a39bf2a905f1e6a89a",
+    "files_modified": [],
+    "url": "https://github.com/open-goal/jak-project/pull/1697",
+    "number": 1697,
+    "title": "Set thread names of system threads",
+    "avatar_url": "https://avatars.githubusercontent.com/u/5276694?v=4",
+    "user": "Ziemas",
+    "state": "open"
+  },
+  "1698": {
+    "sha": "eb41b7b33ccfa130f5c0775860c78dea71dc36e0",
+    "files_modified": [],
+    "url": "https://github.com/open-goal/jak-project/pull/1698",
+    "number": 1698,
+    "title": "utf8: fix locale mis-handling on linux",
+    "avatar_url": "https://avatars.githubusercontent.com/u/13153231?v=4",
+    "user": "xTVaser",
+    "state": "open"
   }
 }

@@ -2,8 +2,12 @@
   "excludedFromLoc": [],
   "locHistory": [
     {
-      "timestamp": "2022-07-20T04:46:44.530Z",
+      "timestamp": "2022-07-22T22:59:26.864Z",
       "loc": 5899
+    },
+    {
+      "timestamp": "2022-07-22T23:19:18.059Z",
+      "loc": 5893
     }
   ]
 }
