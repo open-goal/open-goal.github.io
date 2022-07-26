@@ -144,16 +144,20 @@ export default function Jak2DecompProgress() {
                         title: 'Pull Requests', render: rowData => {
                           let pullIcons = [];
                           let totalHiddenPulls = 0;
+                          let closedPr = undefined;
                           for (const pull of rowData.pullRequests) {
                             if (pull.state === "open") {
                               pullIcons.push(<p className="iconRow"><a target="_blank" rel="noopener noreferrer" href={pull.url}><GitPullRequestIcon className="trackerIcon openColor" size={24} />{pull.number}</a></p>)
                             } else {
                               if (totalHiddenPulls == 0) {
                                 // add one PR atleast, assuming this is the last time it was modified
-                                pullIcons.push(<p className="iconRow"><a target="_blank" rel="noopener noreferrer" href={pull.url}><GitMergeIcon className="trackerIcon mergeColor" size={24} />{pull.number}</a></p>);
+                                closedPr = <p className="iconRow"><a target="_blank" rel="noopener noreferrer" href={pull.url}><GitMergeIcon className="trackerIcon mergeColor" size={24} />{pull.number}</a></p>;
                               }
                               totalHiddenPulls++;
                             }
+                          }
+                          if (closedPr !== undefined) {
+                            pullIcons.push(closedPr);
                           }
                           if (pullIcons.length == 0) {
                             return <div>---</div>
