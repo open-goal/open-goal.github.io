@@ -67,21 +67,7 @@ export default function Progress() {
       title="Progress"
       description="Project Progress">
       <main className="sl-theme-dark">
-        <section className="home-section">
-          <div className="container">
-            <div className="row">
-              <div className="col">
-                <h1 className="monospaced">Latest Changes</h1>
-              </div>
-            </div>
-            <div className="row mt-2">
-              <div className="col center">
-                <LatestChanges />
-              </div>
-            </div>
-          </div>
-        </section>
-        <section className="home-section alternate-bg-color">
+        <section className="home-section" style={{marginTop: 0}}>
           <div className="container">
             <div className="row">
               <div className="col">
@@ -142,6 +128,20 @@ export default function Progress() {
                 <sl-tooltip content="Ocean renderer added - March 8th 2022 - PR#1230">
                   <sl-badge variant="danger" pill pulse id="hs-jak1-11" class="hotspot">11</sl-badge>
                 </sl-tooltip>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="home-section alternate-bg-color">
+          <div className="container">
+            <div className="row">
+              <div className="col">
+                <h1 className="monospaced">Latest Changes</h1>
+              </div>
+            </div>
+            <div className="row mt-2">
+              <div className="col center">
+                <LatestChanges />
               </div>
             </div>
           </div>

@@ -183,7 +183,7 @@ export default function Home() {
               <div className="col col--6">
                 <h2 className="monospaced">Watch our Progress</h2>
                 <p>OpenGOAL is always improving, if you want to see the latest changes checkout the progress page</p>
-                <a href="/progress">Check it Out</a>
+                <a href="/progress/milestones">Check it Out</a>
               </div>
               <div className="col col--6">
                 <h2 className="monospaced">Read the Docs</h2>
