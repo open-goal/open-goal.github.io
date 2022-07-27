@@ -26,6 +26,7 @@ jobs:
           npm run build
           rm -fr ./docs/*
           cp -r ./build/* ./docs/
+          cp ./CNAME ./docs/
 
       - name: Add & Commit
         uses: EndBug/add-and-commit@v9
