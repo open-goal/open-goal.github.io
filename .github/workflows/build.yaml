@@ -26,7 +26,7 @@ jobs:
           node-version: 16
           cache: npm
 
-      - name: Update Site
+      - name: Build Site
         run: |
           npm ci
           npm run build
