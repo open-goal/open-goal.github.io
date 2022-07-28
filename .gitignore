@@ -3,6 +3,7 @@ node_modules/
 
 # Production
 /build
+/docs/
 
 # Generated files
 .docusaurus
