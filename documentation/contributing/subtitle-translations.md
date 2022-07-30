@@ -125,9 +125,9 @@ Let's forget about the farmer and use Keira's intro cutscene `assistant-introduc
 ![](/docs/subtitle-translations/editor-copy-from-base.png)
 
 The scene should no longer be greyed out.  Let's demonstrate how to commit these changes and see them in action:
-1. Click the `Save Changes` button at the top
-![](/docs/subtitle-translations/editor-save-changes.png)
-    - If you go look at your `game_subtitle_*.gd` file, you should see the new changes!
+1. Click the `Save Changes` button at the top  
+  ![](/docs/subtitle-translations/editor-save-changes.png)
+  - If you go look at your `game_subtitle_*.gd` file, you should see the new changes!
 2. Click `Play Scene` on the cutscene, it should play and you should see the subtitles.
 
 Anytime you want to commit changes from the editor to the actual game, you just need to click `Save Changes` (and the REPL has to be connected!)
