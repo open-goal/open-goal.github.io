@@ -35,6 +35,27 @@ const octokit = new Octokit({
   },
 });
 
+function isFileDone(lines, gameName) {
+  // Exception for jak 1 files, since im not going to go and add the placeholder there
+  if (gameName === "jak1" && lines.length > 7) {
+    return true;
+  }
+  // Count lines after "decomp begins"
+  // if we can't find "decomp begins", then it definitely isn't done!
+  let numLinesAfter = 0;
+  let foundDecompBegins = false;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (foundDecompBegins && line.trim().length > 0) {
+      numLinesAfter++;
+    }
+    if (line.toLowerCase().includes("decomp begins")) {
+      foundDecompBegins = true;
+    }
+  }
+  return numLinesAfter > 5;
+}
+
 function updateProgressDbEntry(fileMeta, fileLines, progressDb, gameName) {
   // First, find it in the database, it's unfortunately an array for frontend reasons
   let newEntry = true;
@@ -48,7 +69,7 @@ function updateProgressDbEntry(fileMeta, fileLines, progressDb, gameName) {
   }
 
   // TODO - also check ref tests and add a "needs ref tests" status
-  let status = fileLines.length > 7 ? "decompiled" : "todo";
+  let status = isFileDone(fileLines, gameName) ? "decompiled" : "todo";
 
   if (newEntry) {
     progressDb.push({
