@@ -1,8 +1,8 @@
 ---
-sidebar_position: 2
+sidebar_position: 5
 ---
 
-# Assembly Emitter
+# Assembly emitter
 
 x86-64 has a lot of instructions.  They are described in Volume 2 of the 5 Volume "Intel® 64 and IA-32 Architectures Software Developer’s Manual". Just this volume alone is over 2000 pages, which would take forever to fully implement.  As a result, we will use only a subset of these instructions.  This the rough plan:
 

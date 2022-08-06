@@ -8,12 +8,14 @@ sidebar_position: 2
 
 ### How do I play it?
 
-:::caution
+:::danger
+
 You will need your own legitimately obtained copy of the original game.  The jak games are not rare and can be found used for very affordable prices.
 
-We support **_all_** versions of Jak 1
+We support **_all retail_** versions of Jak 1
 
 Jak 1 - https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=jak&_sacat=0
+
 :::
 
 If you are on Windows, we encourage you to use our Launcher which simplfiies the installation process.  You can find a link to get this from the homepage https://opengoal.dev
@@ -60,7 +62,7 @@ Please remember that we do this work for free, in our spare time, when we feel l
 - Jak 1 is essentially complete, bug fixes and improvements will likely continue to be added overtime.
 - Jak 2 is in very early stages, do not hold your breath on this being complete within atleast a year.
 - Jak 3 will probably be worked on after Jak 2 is "complete"
-- We are unsure if we will will on Jak X at this time
+- We are unsure if we will work on Jak X at this time
 
 ### Will you decompile Daxter or The Lost Frontier?
 

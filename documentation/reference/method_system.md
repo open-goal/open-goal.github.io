@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# OpenGOAL's Method System
+# Method System
 
 OpenGOAL has a virtual method system. This means that child types can override parent methods.  The first argument to a method is always the object the method is being called on, except for `new`.
 

@@ -1,8 +1,8 @@
 ---
-sidebar_position: 1
+sidebar_position: 4
 ---
 
-# Compiler Example
+# Compiling and example
 
 This describes how the compiler works using the following code snippet, saved in a file named `example_goal.gc`.
 

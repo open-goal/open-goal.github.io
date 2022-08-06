@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Standard Library
+# Standard library
 
 ## Runtime Functions
 

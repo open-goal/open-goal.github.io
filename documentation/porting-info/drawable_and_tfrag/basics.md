@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# Basic Process for Drawing
+# Basic process for drawing
 
 The first main part just gets the "drawable trees" added to the list.
 When the level loads, it gets added to the background engine in `level-status-set!`.  When the background system runs, it executes this engine, which calls `draw` on the `bsp-header`.  Eventually `draw` is called on the tfrag tree, and it gets added to the `*background-work*` list.
