@@ -3,7 +3,13 @@ name: Update Progress
 on:
   repository_dispatch:
     types: [updateProgress]
-  workflow_dispatch: []
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Dummy Value"
+        required: false
+        default: ""
+        type: string
 
 jobs:
   update:
