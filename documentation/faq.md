@@ -61,7 +61,7 @@ Please remember that we do this work for free, in our spare time, when we feel l
 - _Jak & Daxter_ is mostly finished, bug fixes and improvements will continue to be added overtime.
 - _Jak II_ is in very early stages, do not hold your breath on this being complete within atleast a year.
 - _Jak 3_ will probably be worked on after _Jak II_ is "complete."
-- We are unsure if we will will on _Jak X_ at this time.
+- We are unsure if we will work on _Jak X_ at this time.
 
 ### Will you decompile Daxter or The Lost Frontier?
 
