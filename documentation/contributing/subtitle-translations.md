@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Subtitle Translations
+# Subtitle translations
 
 OpenGOAL has added support for subtitles in Jak 1, a game that did not originally have subtitles.  In future games that do have subtitles we will similarly support translations to languages that didn't originally exist as well.
 
@@ -163,7 +163,7 @@ At this time, there is no `Remove Entry` feature.  So you will have to delete th
 
 At this point, it's just rinse-and-repeat until you've finished your changes.
 
-### Step 5 - Submitting your Pull Request
+## Step 5 - Submitting your Pull Request
 
 This is not the place to explain how to use git/github, see the links above if you are a beginner at this or reach out in the discord.
 

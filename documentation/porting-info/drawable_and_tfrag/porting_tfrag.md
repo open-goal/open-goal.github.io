@@ -3,6 +3,7 @@ sidebar_position: 4
 ---
 
 # Porting Tfrag
+
 Tfrag is the renderer for non-instanced background geometry. It's typically used for the floor and unique walls/level geometry. It has a level of detail system, and time of day lighting, optionaly transparancy and that's it. No other features.
 
 The approach I took was to go slowly and understand the rendering code. I made two different "test" renderers that were slow but did things exactly the same way as in the PS2 version.  After this, I made a custom PC version called tfrag3. The key difference with tfrag3 is that there is an offline preprocessing step that reads the level data and outputs data in a good format for PC.

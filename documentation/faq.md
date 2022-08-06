@@ -8,12 +8,14 @@ sidebar_position: 2
 
 ### How do I play it?
 
-:::caution
-You will need your own legitimately obtained copy of the original game. The Jak games are not rare and can be found used for very affordable prices in a variety of second-hand stores and online stores.
+:::danger
+
+You will need your own legitimately obtained copy of the original game. The Jak games are not rare and can be found used for very affordable prices at a variety of second-hand and online stores.
 
 We support *all retail versions* of the original _Jak & Daxter_. Early builds and demos have no planned support.
 
-Example _Jak & Daxter_ listing (THIS IS NOT AN ENDORSEMENT): https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=jak&_sacat=0
+[Example _Jak & Daxter_ listing (THIS IS NOT AN ENDORSEMENT)](https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=jak&_sacat=0)
+
 :::
 
 If you are on Windows, we encourage you to use our Launcher which simplifies the installation process. You can find a link to get this from the homepage: https://opengoal.dev

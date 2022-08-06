@@ -2,7 +2,19 @@
 sidebar_position: 1
 ---
 
-# OpenGOAL's Type System
+# Type system
+
+## Type System Introduction
+
+OpenGOAL has a type system. Every expression and object in OpenGOAL has a type. With the exception of three special types (`none`, `_varags_`, and `_types_`), every type has a parent type, and the root of all types is `object`.  Types themselves are objects in the runtime that contain some basic information and their method table.
+
+One annoying detail of OpenGOAL is that the type system has some slightly different types for variables and places in memory, and automatic conversions between them.
+
+Another annoying detail is that there are a totally separate set of rules for 128-bit integer types (or children of these). Nothing in this section applies to these.
+
+Some types are boxed vs. unboxed. If you have an object of boxed type, it is possible to figure out its type at runtime. If you have an object of unboxed type, you can't.  If you have an unboxed type, you can't tell if it's a boxed or unboxed object.
+
+Some types are value or reference. A value type means it has value semantics, it is passed by value everywhere. A reference type is like a C/C++ pointer or reference, where there is memory allocated for the data somewhere, and the you just pass around a reference to this memory.
 
 This document explains the GOAL type system.  The GOAL type system supports runtime typing, single inheritance, virtual methods, and dynamically sized structures.
 

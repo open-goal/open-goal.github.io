@@ -2,7 +2,7 @@
 sidebar_position: 7
 ---
 
-# Object File Formats
+# Object file formats
 
 ## CGO/DGO Files
 

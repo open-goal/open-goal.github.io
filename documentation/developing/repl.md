@@ -1,8 +1,8 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 ---
 
-# Compiler REPL
+# REPL
 
 When you start the OpenGOAL compiler, you'll see a prompt like this:
 
