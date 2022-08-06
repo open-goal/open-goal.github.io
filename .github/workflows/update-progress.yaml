@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.BOT_PAT }}
 
       - name: Checkout Main Project Repo
         run: git clone https://github.com/open-goal/jak-project.git
