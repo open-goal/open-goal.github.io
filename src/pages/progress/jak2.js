@@ -5,7 +5,7 @@ import MaterialTable from 'material-table';
 import decompFileData from "/data/progress/jak2/progress.json";
 import decompHistoryData from "/data/progress/jak2/history.json";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { GitPullRequestIcon, StopwatchIcon, GitMergeIcon, IssueOpenedIcon, CheckCircleIcon } from '@primer/octicons-react'
+import { GitPullRequestIcon, StopwatchIcon, SyncIcon, GitMergeIcon, IssueOpenedIcon, CheckCircleIcon } from '@primer/octicons-react'
 
 const darkTheme = createTheme({
   palette: {
