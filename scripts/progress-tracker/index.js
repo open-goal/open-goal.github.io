@@ -216,8 +216,8 @@ function auditProcess(gameName, pulls, issues) {
   progressDb.sort((a, b) => (order[a.status] || order.default) - (order[b.status] || order.default));
 
   // Write out progress files
-  fs.writeFileSync(progressPath, JSON.stringify(progressDb, null, 2));
-  fs.writeFileSync(progressHistoryDbPath, JSON.stringify(progressHistoryDb, null, 2));
+  fs.writeFileSync(progressPath, JSON.stringify(progressDb));
+  fs.writeFileSync(progressHistoryDbPath, JSON.stringify(progressHistoryDb));
   console.log(`Finished auditing - ${gameName}`);
 }
 
@@ -313,7 +313,7 @@ for (const pull of pullRequests) {
   prCount++;
 }
 // Update our history
-fs.writeFileSync("./scripts/progress-tracker/history/pulls.json", JSON.stringify(pullRequestHistory, null, 2));
+fs.writeFileSync("./scripts/progress-tracker/history/pulls.json", JSON.stringify(pullRequestHistory));
 
 console.log("getting issues");
 // For issues we only analyze the title and body and all of that is in the initial list response, so no need
