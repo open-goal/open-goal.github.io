@@ -42,7 +42,7 @@ jobs:
           npm run build
           cp ./CNAME ./build
 
-      - name: Upload artifact
+      - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v1
         with:
           path: './build/'
