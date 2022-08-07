@@ -12,9 +12,9 @@ sidebar_position: 2
 
 You will need your own legitimately obtained copy of the original game. The Jak games are not rare and can be found used for very affordable prices at a variety of second-hand and online stores.
 
-We support *all retail versions* of the original _Jak & Daxter_. Early builds and demos have no planned support.
+We support *all retail versions* of the original _Jak & Daxter_. For more details on how your version of the game matters, see [this page](./usage/game_versions_jak1.md). Early builds and demos have no planned support.
 
-[Example _Jak & Daxter_ listing (THIS IS NOT AN ENDORSEMENT)](https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=jak&_sacat=0)
+[Example _Jak & Daxter_ listing (THIS IS NOT AN ENDORSEMENT).](https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=jak&_sacat=0)
 
 :::
 
@@ -28,7 +28,7 @@ These are the minimum architecture requirements for the project at the time of w
 - x86-64 CPU with **AVX** support.
   - Most, if not all, 64-bit CPUs should work. OpenGOAL has a very small CPU footprint, so most modern CPUs will run the game fine.
 - Graphics card that supports **OpenGL 4.3**.
-  - If you have an AMD Radeon card, updating your AMD drivers to at least version 22.7.1 is recommended. Older driver versions or AMD cards will be running at a disadvantage.
+  - If you have an AMD Radeon card, updating your AMD drivers to at least version 22.7.1 is recommended. Older driver versions or other AMD cards will be running at a disadvantage.
 - You might experience slower loads with a hard drive compared to an SSD.
 - At least 2 GiB of available RAM for the game is recommended.
 
@@ -54,7 +54,7 @@ This is caused by a false-positive detection, which we can do nothing about. If 
 
 ### How finished is the project?
 
-The first is at a stage where it is mostly feature complete and bug free on the default settings. _Jak II_ is in very early stages, come back later!
+The first game is at a stage where it is mostly feature complete and bug free on the default settings. _Jak II_ is in very early stages, come back later!
 
 ### When is _Jak II_ / _Jak 3_ / _Jak X_?
 

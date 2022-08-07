@@ -1,0 +1,78 @@
+---
+sidebar_position: 5
+---
+
+# Game Versions & Changes (Jak & Daxter)
+
+The original _Jak & Daxter_ was first released in December 3, 2001. However, throughout the game's distribution different versions of the game were printed onto retail copies. There were in total **four** different versions released, in order:
+
+- **NTSC-U v1** (first print): Built at the end of October 2001. This is the version of the game that was produced first and distributed in NTSC-U markets when it first released. This is also called the "black label" version of the game due to its packaging.
+- **PAL**: Built around the start of November 2001. This is the second version of the game and was released in PAL markets. It has fixed many errors from the original NTSC-U release and made various small changes to various art and audio assets.
+- **NTSC-J**: Built around the end of November 2001. This is the third version of the game and was released in NTSC-J markets.
+- **NTSC-U v2** (second print): Built around the end of November 2001. This is the fourth version of the game and was distributed on re-prints of the game in NTSC-U markets, such as the "Greatest Hits" re-release which features red packaging ("red label").
+
+While OpenGOAL supports all these versions of the game, there will still be in-game differences depending on the version you use.
+
+This page lists the differences between each version and between the original game and OpenGOAL (except for graphics rendering differences and brand new features which apply to all versions).
+
+## Changes between game versions in the original game
+
+This is a list of all known and documented changes across the 4 original game versions.
+
+### PAL
+
+- Japanese is now selectable in the progress menu.
+- Dead Man's Gorge record time is fixed. In **NTSC-U v1**, the record time for the Dead Man's Gorge race will be set to 0:00.01 when talking to the Gambler and he reminds you of the race. When the Gambler reminds you of the orbs, this is reverted and the record time goes back to normal. This persists on the save file. If you get the power cell from the orbs, there is no way to undo the bug anymore and you are permanently unable to obtain the power cell.
+This is caused by the 5 bytes used to save each of the 5 digits for the record time overlapping with a 6th byte used by the Gambler to know which task to remind you of (it alternates between race and orbs). When *all* of the record time digits are set to zero, as is the case when starting a new game, the game will use the default of 45 seconds. The Gambler reminder counter happens to overlap with the units digit for the hundredths, setting the record time to 0:00.01 when the reminder counter is set to 1 and back to the default when the reminder counter is set back to zero.
+- After herding all the yakows into their pen, Daxter will no longer fail to speak his line if some other character is speaking or a hint (such as level name at the bottom) is currently playing. He will still fail if the hint is from the communicator.
+- Sound mixing for ice skating sounds and launcher sounds (when duck jumping) was adjusted.
+- Klaww's right hand claw now has three digits instead of four.
+- Klaww super boulder will no longer freeze in place and prevent the Klaww boss fight from continuing if Jak touches it while invincible.
+- Klaww super boulder death animation now has the lava melt particle effects instead of just disappearing.
+- Klaww super boulder is now considered an enemy.
+- Jak's burn animation can not longer be stacked to make him progressively darker.
+- Fixed Jak being unable to interact with various pickups after leaving "periscope" mode (e.g. jungle periscope mirrors and cannon).
+- CRT screen offset is now correctly loaded from a save file.
+- Credits have added lines. Six extra testers and four extra SCEI employees are credited. Eiichi Abe is now credit under a new "Japanese logo" section. "Kentaro Yasuhara" was corrected to "Kenichiroh Yasuhara."
+- Various French and Japanese text fixes. The character 掘 is now correctly part of the font map.
+- Flut Flut egg now correctly scales with game lag.
+- Flying lurker flight height logic was slightly altered at specific points in the Mountain Pass race.
+- Can no longer pause while auto-saving.
+- Some errors when pausing during the intro cutscene were fixed.
+- Culling bounds for the cooling balloon fixed.
+- Slight adjustment to launcher redirect logic.
+- Title logo animation no longer sometimes continues after pressing Start.
+- Fixed oversight that allowed the player to open the normal progress menu during the title screen.
+<!-- audio fixes and unknown art fixes -->
+
+### NTSC-J & NTSC-U v2
+
+- All fixes from **PAL** version.
+- Citadel continue points are fixed and breaking the Green Sage generator will also set the continue point to next to the elevator. In previous versions, the continue point was set to the one next to the elevator when watching the introduction cutscene to the level. If the player did not walk far enough into the level to get the correct continue point after watching it, it was possible to save and load (or die) and respawn at the end of the level next to the Green Sage generator.
+- On **NTSC-J**, language options are not available unless a cheat is inputted beforehand.
+- On **NTSC-J**, a different logo is used for the title screen.
+- On **NTSC-J**, different sound effects are used for Jak.
+
+## Changes between game versions in OpenGOAL
+
+The version you use for OpenGOAL will affect a few things in-game.
+
+- On **PAL**,  **NTSC-J** and **NTSC-U v2** the sound effects for Jak will be changed if the language is set to Japanese.
+- The appropriate "Sony Computer Entertainment" title will be picked.
+- On **PAL**, the date format used is D/M/Y.
+<!-- - On **NTSC-J**, the date format used is Y/M/D. -->
+- On **NTSC-J**, an extra intro splash screen will be displayed on first boot.
+
+## Differences between the original game and OpenGOAL
+
+This is a list of differences between the original game and OpenGOAL, regardless of version used. These apply along with the version-specific differences.
+
+<!-- undoubtedly missing some? -->
+- All **PAL** fixes, except for CRT offset not being loaded from save files properly as it is not used anyway and those pertaining non-text data (such as Klaww's claw's digit count and audio fixes).
+- A rare crash that could happen when warping from Geyser Rock to anywhere but the Green Sage's hut due to a bad code file setup in the original game is fixed. The behavior of using the warp gate from Geyser Rock is altered to fade to black instantly because of this.
+- An infinite recursion bug in the original code that would cause the game to crash when watching the cutscene of freeing the Red, Blue or Yellow Sages *after* freeing the Green Sage is fixed.
+- The same language options are available regardless of game version.
+- References to the PS2 memory card are changed appropriately since memory cards aren't used in OpenGOAL (obviously...).
+- The Japanese title for "Gol and Maia's Citadel" is fixed.
+- Some instances of music not loading while other audio is playing are fixed.
+- An erroneous sound stream playing sometimes is fixed.
