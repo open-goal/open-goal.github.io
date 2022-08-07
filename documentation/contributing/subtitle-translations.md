@@ -72,7 +72,7 @@ If your language is in the list, skip to the next step!
    1. Open a terminal / command prompt and enter `task repl`
       1. Once the REPL loads, run `(mi)`
    2. When the `(mi)` completes, open a separate terminal and run `task boot-game`
-   3. If everything boots up successfully, you should be able to see your new language in the menu, and selecting it shouldn't cause any errors!
+   3. If everything boots up successfully, you should be able to see your new language in the menu, and selecting it shouldn't cause any errors!  
    ![](/docs/subtitle-translations/game-new-lang-works.png)
    4. Since we added a test subtitle, go talk to the farmer and you should see your customized subtitle!
    ![](/docs/subtitle-translations/game-subtitle-test-works.png)

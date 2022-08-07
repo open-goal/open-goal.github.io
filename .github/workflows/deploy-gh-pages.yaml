@@ -36,6 +36,9 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v1
 
+      - name: Build Gallery
+        run: python ./scripts/gallery-updater/update-gallery.py
+
       - name: Build Static Content
         run: |
           npm ci

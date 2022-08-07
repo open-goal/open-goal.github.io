@@ -26,7 +26,6 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
-
   scripts: [
     {
       src: 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.74/dist/shoelace.js',
@@ -114,7 +113,19 @@ const config = {
             label: 'Documentation',
           },
           { to: '/docs/faq', label: 'FAQ', position: 'left' },
-          // {to: '/gallery', label: 'Gallery', position: 'left'},
+          {
+            label: 'Gallery', position: 'left',
+            items: [
+              {
+                label: 'Jak 1',
+                to: '/gallery/jak1',
+              },
+              {
+                label: 'Jak 2',
+                to: '/gallery/jak2',
+              }
+            ]
+          },
           {
             href: 'https://github.com/open-goal',
             position: 'right',
