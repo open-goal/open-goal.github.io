@@ -82,6 +82,7 @@ const config = {
         disableSwitch: true,
         respectPrefersColorScheme: false,
       },
+      image: 'img/logo.png',
       navbar: {
         title: 'OpenGOAL',
         logo: {
