@@ -9,7 +9,7 @@ ___IMAGE_IMPORTS___
 export default function render() {
   return (
     <Layout
-      title="__TITLE__"
+      title="___TITLE___"
       description="___DESCRIPTION___">
       <main className="sl-theme-dark">
         <section>
