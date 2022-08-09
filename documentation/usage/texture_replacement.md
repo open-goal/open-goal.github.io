@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# How to replace textures
+# How to Replace Textures
 
 <!-- TODO - doc for using the Launcher -->
 
