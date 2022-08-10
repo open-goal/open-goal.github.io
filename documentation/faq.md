@@ -71,7 +71,7 @@ No, these games run on completely different engines and were not made by Naughty
 
 ### Will you decompile Ratchet & Clank? Don't they share the same engine?
 
-No. _Ratchet & Clank_ does not use Naughty Dog's engine and was not written in GOAL, it was developed by a completely different team of people. As stated in staff roll for thr _Ratchet & Clank_ games, only the background renderers use Naughty Dog technology. Our work is not transferrable to that series.
+No. _Ratchet & Clank_ does not use Naughty Dog's engine and was not written in GOAL, it was developed by a completely different team of people. As stated in staff roll for the _Ratchet & Clank_ games, only the background renderers use Naughty Dog technology. Our work is not transferrable to that series.
 
 ### Will you decompile [_insert non-Jak game here_]?
 
