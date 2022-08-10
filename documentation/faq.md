@@ -14,7 +14,7 @@ You will need your own legitimately obtained copy of the original game. The Jak 
 [Example _Jak & Daxter_ listing (THIS IS NOT AN ENDORSEMENT).](https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=jak&_sacat=0)
 :::
 
-If you are on Windows, we encourage you to use our Launcher which simplifies the installation process. You can find a link to get this from the homepage: https://opengoal.dev
+If you are on Windows, we encourage you to use our Launcher which simplifies the installation process. You can find a link to get this from the homepage at: https://opengoal.dev
 
 If you are on Linux, at this time the Launcher is not yet ready, so you will have to get the latest release from our GitHub repo https://github.com/open-goal/jak-project/releases and provide the path to your ISO like so - `./extractor <path-to-iso>`. Once this completes, you should be able to run `gk` to start the game.
 
