@@ -99,7 +99,7 @@ In the future yes! We intend to make it as easy as we can to make your own code 
 
 ### I am getting "illegal operation"/"illegal instruction" errors when running the game or tools.
 
-Make sure your CPU supports AVX. If it does, this shouldn't happen, so please contact us in the support channel of the discord server and we can help.
+Make sure your CPU supports AVX. If it does, please contact us in the support channel of the discord server and we can try to help.
 
 ### The game is really slow.
 
