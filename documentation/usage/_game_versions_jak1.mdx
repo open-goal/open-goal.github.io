@@ -37,6 +37,8 @@ This is caused by the 5 bytes used to save each of the 5 digits for the record t
 - Slight adjustment to launcher redirect logic.
 - Title logo animation no longer sometimes continues after pressing Start.
 - Fixed oversight that allowed the player to open the normal progress menu during the title screen.
+- On **PAL** specifically, the date format used is D/M/Y.
+- On **PAL** specifically, selecting English as a language will always load a British English version of the text.
 <!-- audio fixes and unknown art fixes -->
 
 ## NTSC-J & NTSC-U v2
@@ -54,7 +56,7 @@ The version you use for OpenGOAL will affect a few things in-game.
 - On **PAL**,  **NTSC-J** and **NTSC-U v2** the sound effects for Jak will be changed if the language is set to Japanese.
 - The appropriate "Sony Computer Entertainment" title will be picked.
 - On **PAL**, the date format used is D/M/Y.
-<!-- - On **NTSC-J**, the date format used is Y/M/D. -->
+- On **NTSC-J**, the date format used is Y/M/D.
 - On **NTSC-J**, an extra intro splash screen will be displayed on first boot.
 
 # Differences between the original game and OpenGOAL
@@ -63,6 +65,7 @@ This is a list of differences between the original game and OpenGOAL, regardless
 
 <!-- undoubtedly missing some? -->
 - All **PAL** fixes, except for CRT offset not being loaded from save files properly as it is not used anyway and those pertaining non-text data (such as Klaww's claw's digit count and audio fixes).
+- The language cheat has been removed and all versions have access to the same settings.
 - A rare crash that could happen when warping from Geyser Rock to anywhere but the Green Sage's hut due to a bad code file setup in the original game is fixed. The behavior of using the warp gate from Geyser Rock is altered to fade to black instantly because of this.
 - An infinite recursion bug in the original code that would cause the game to crash when watching the cutscene of freeing the Red, Blue or Yellow Sages *after* freeing the Green Sage is fixed.
 - The same language options are available regardless of game version.
