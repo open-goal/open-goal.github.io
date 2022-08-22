@@ -9,18 +9,16 @@ sidebar_position: 2
 ### How do I play it?
 
 :::danger
-
 You will need your own legitimately obtained copy of the original game. The Jak games are not rare and can be found used for very affordable prices at a variety of second-hand and online stores.
 
-We support *all retail versions* of the original _Jak & Daxter_. Early builds and demos have no planned support.
-
-[Example _Jak & Daxter_ listing (THIS IS NOT AN ENDORSEMENT)](https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=jak&_sacat=0)
-
+[Example _Jak & Daxter_ listing (THIS IS NOT AN ENDORSEMENT).](https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=jak&_sacat=0)
 :::
 
-If you are on Windows, we encourage you to use our Launcher which simplifies the installation process. You can find a link to get this from the homepage: https://opengoal.dev
+If you are on Windows, we encourage you to use our Launcher which simplifies the installation process. You can find a link to get this from the homepage at: https://opengoal.dev
 
 If you are on Linux, at this time the Launcher is not yet ready, so you will have to get the latest release from our GitHub repo https://github.com/open-goal/jak-project/releases and provide the path to your ISO like so - `./extractor <path-to-iso>`. Once this completes, you should be able to run `gk` to start the game.
+
+We support *all retail versions* of the original _Jak & Daxter_. For more details on how your version of the games matter, see [this page](./usage/game_versions). <span class="reddishColor">**There is no planned support for early builds and demos.**</span>
 
 ### What are the minimum requirements?
 
@@ -28,7 +26,7 @@ These are the minimum architecture requirements for the project at the time of w
 - x86-64 CPU with **AVX** support.
   - Most, if not all, 64-bit CPUs should work. OpenGOAL has a very small CPU footprint, so most modern CPUs will run the game fine.
 - Graphics card that supports **OpenGL 4.3**.
-  - If you have an AMD Radeon card, updating your AMD drivers to at least version 22.7.1 is recommended. Older driver versions or AMD cards will be running at a disadvantage.
+  - If you have an AMD Radeon card, updating your AMD drivers to at least version 22.7.1 is recommended. Older driver versions or other AMD cards will be running at a disadvantage.
 - You might experience slower loads with a hard drive compared to an SSD.
 - At least 2 GiB of available RAM for the game is recommended.
 
@@ -54,7 +52,7 @@ This is caused by a false-positive detection, which we can do nothing about. If 
 
 ### How finished is the project?
 
-The first is at a stage where it is mostly feature complete and bug free on the default settings. _Jak II_ is in very early stages, come back later!
+The first game is at a stage where it is mostly feature complete and bug free on the default settings. _Jak II_ is in very early stages, come back later!
 
 ### When is _Jak II_ / _Jak 3_ / _Jak X_?
 
@@ -101,7 +99,7 @@ In the future yes! We intend to make it as easy as we can to make your own code 
 
 ### I am getting "illegal operation"/"illegal instruction" errors when running the game or tools.
 
-Make sure your CPU supports AVX. If it does, this shouldn't happen, so please contact us in the support channel of the discord server and we can help.
+Make sure your CPU supports AVX. If it does, please contact us in the support channel of the discord server and we can try to help.
 
 ### The game is really slow.
 
