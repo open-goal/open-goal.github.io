@@ -204,7 +204,7 @@ function auditProcess(gameName, pulls, issues) {
     }
   }
 
-  if (progressHistoryDb.locHistory.length == 0 || newLocCount != progressHistoryDb.locHistory[progressHistoryDb.locHistory.length - 1]) {
+  if (progressHistoryDb.locHistory.length == 0 || newLocCount != progressHistoryDb.locHistory[progressHistoryDb.locHistory.length - 1].loc) {
     progressHistoryDb.locHistory.push({
       timestamp: (new Date()).toISOString(),
       loc: newLocCount
