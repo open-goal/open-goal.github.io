@@ -5,7 +5,7 @@ import MaterialTable from 'material-table';
 import decompFileData from "/data/progress/jak2/progress.json";
 import decompHistoryData from "/data/progress/jak2/history.json";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { GitPullRequestIcon, StopwatchIcon, SyncIcon, GitMergeIcon, IssueOpenedIcon, CheckCircleIcon } from '@primer/octicons-react'
+import { GitPullRequestIcon, StopwatchIcon, SyncIcon, GitMergeIcon, IssueOpenedIcon, CheckCircleIcon, BeakerIcon } from '@primer/octicons-react'
 
 const darkTheme = createTheme({
   palette: {
@@ -75,6 +75,11 @@ export default function Jak2DecompProgress() {
                             return <div>
                               <StopwatchIcon size={24} className="trackerIcon openColor" />
                               TODO
+                            </div>;
+                          } else if (rowData.status === "started") {
+                            return <div>
+                              <BeakerIcon size={24} className="trackerIcon openColor" />
+                              <a href={`https://sourcegraph.com/search?q=context:global+repo:%5Egithub%5C.com/open-goal/jak-project%24+file:%5E${rowData.filePath}+TODO&patternType=standard`}>Started</a>
                             </div>;
                           } else {
                             return <div>

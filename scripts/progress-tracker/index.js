@@ -35,17 +35,27 @@ const octokit = new Octokit({
   },
 });
 
-function isFileDone(lines, gameName) {
+function getFileStatus(lines, gameName) {
   // Exception for jak 1 files, since im not going to go and add the placeholder there
   if (gameName === "jak1" && lines.length > 7) {
-    return true;
+    return "decompiled";
   }
+
+  // A file is...
+  // - `TODO` if completely empty
+  // - `Started` if there are lines added after `;; decomp begins` but the file contains TODO comments
+  // - `decompiled` if there are lines after the begins and no todos
+
   // Count lines after "decomp begins"
   // if we can't find "decomp begins", then it definitely isn't done!
   let numLinesAfter = 0;
   let foundDecompBegins = false;
+  let foundTODOs = false;
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
+    if (line.toLowerCase().includes("todo")) {
+      foundTODOs = true;
+    }
     if (foundDecompBegins && line.trim().length > 0) {
       numLinesAfter++;
     }
@@ -53,7 +63,25 @@ function isFileDone(lines, gameName) {
       foundDecompBegins = true;
     }
   }
-  return numLinesAfter > 5;
+
+  if (numLinesAfter > 0) {
+    if (foundTODOs) {
+      return "started";
+    }
+    return "decompiled";
+  }
+  return "todo";
+}
+
+function shouldIgnoreLineCount(lines) {
+  // Look for a `;; og:ignore-from-loc` line
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.toLowerCase().includes(";; og:ignore-from-loc")) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function updateProgressDbEntry(fileMeta, fileLines, progressDb, gameName) {
@@ -69,7 +97,8 @@ function updateProgressDbEntry(fileMeta, fileLines, progressDb, gameName) {
   }
 
   // TODO - also check ref tests and add a "needs ref tests" status
-  let status = isFileDone(fileLines, gameName) ? "decompiled" : "todo";
+  let status = getFileStatus(fileLines, gameName);
+  let ignoreFromLoc = shouldIgnoreLineCount(fileLines);
 
   if (newEntry) {
     progressDb.push({
@@ -80,6 +109,7 @@ function updateProgressDbEntry(fileMeta, fileLines, progressDb, gameName) {
         pr: null,
         sheet: null
       },
+      ignoreFromLoc: ignoreFromLoc,
       loc: fileLines.length,
       issues: [],
       pullRequests: []
@@ -136,6 +166,7 @@ function auditProcess(gameName, pulls, issues) {
   scanFolder(fileList, gameName, progressDb);
 
   let newLocCount = 0;
+  let excludedFromLocFiles = new Set();
 
   for (let entry of progressDb) {
     let fileName = entry.fileName.replace(".gc", "");
@@ -198,12 +229,18 @@ function auditProcess(gameName, pulls, issues) {
     }
 
     if (entry.status === "decompiled") {
-      if (!progressHistoryDb.excludedFromLoc.includes(entry.fileName)) {
+      if (!entry.ignoreFromLoc) {
         newLocCount += entry.loc;
+      } else {
+        excludedFromLocFiles.add(entry.fileName);
       }
     }
   }
 
+  // Update excluded file list
+  progressHistoryDb.excludedFromLoc = [...excludedFromLocFiles];
+
+  // Update loc count if it's changed
   if (progressHistoryDb.locHistory.length == 0 || newLocCount != progressHistoryDb.locHistory[progressHistoryDb.locHistory.length - 1].loc) {
     progressHistoryDb.locHistory.push({
       timestamp: (new Date()).toISOString(),
@@ -212,7 +249,7 @@ function auditProcess(gameName, pulls, issues) {
   }
 
   // Sort by status
-  let order = { "in-progress": 1, "needs-ref-tests": 2, "todo": 3, "decompiled": 4, "default": 1000 };
+  let order = { "in-progress": 1, "started": 2, "needs-ref-tests": 3, "todo": 4, "decompiled": 5, "default": 1000 };
   progressDb.sort((a, b) => (order[a.status] || order.default) - (order[b.status] || order.default));
 
   // Write out progress files
