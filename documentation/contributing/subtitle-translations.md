@@ -80,9 +80,9 @@ If your language is in the list, skip to the next step!
 ## Step 4 - Adding and Editing Subtitles {#edit-subtitles}
 
 It's recommended to use the built-in subtitle editor for atleast the following reasons:
-- Let's you easily reload the subtitles while the game is running
-- Let's you arbitrarily play cutscenes and hints back quickly (remember in debug mode you can skip/end cutscenes with "Triangle")
-- Let's you select a base language so you know what is yet to be translated
+- Lets you easily reload the subtitles while the game is running
+- Lets you arbitrarily play cutscenes and hints back quickly (remember in debug mode you can skip/end cutscenes with "Triangle")
+- Lets you select a base language so you know what is yet to be translated
 - Handles converting the characters to Jak's character set automatically.
 
 :::caution
@@ -116,7 +116,7 @@ Under `All Cutscenes` you'll see we only have `village1` as an option, and under
 
 ![](/docs/subtitle-translations/editor-all-cutscenes.png)
 
-- This is because it's the only subtitle we've setup.  The greyed out options are subtitles that are defined in the base language (see above, it's set to english).  This let's us keep track of what we havn't done yet and copy those existing definitions into our new language for editing.  Let's do that next.
+- This is because it's the only subtitle we've setup.  The greyed out options are subtitles that are defined in the base language (see above, it's set to english).  This lets us keep track of what we havn't done yet and copy those existing definitions into our new language for editing.  Let's do that next.
 
 ### Copying Subtitles from a Base Language
 
