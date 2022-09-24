@@ -49,6 +49,7 @@ const config = {
             'https://github.com/open-goal/open-goal.github.io/tree/master/'
         },
         blog: {
+          blogSidebarCount: 0,
           showReadingTime: true,
           editUrl:
             'https://github.com/open-goal/open-goal.github.io/tree/master/',
@@ -90,6 +91,7 @@ const config = {
           src: 'img/logo.png',
         },
         items: [
+          {to: 'blog', label: 'Blog', position: 'left'},
           {
             to: '/progress/milestones', label: 'Progress', position: 'left',
             items: [
