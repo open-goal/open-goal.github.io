@@ -77,8 +77,8 @@ export default function Jak2DecompProgress() {
                       data={typeCastData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={80}
-                      outerRadius={120}
+                      innerRadius={"50%"}
+                      outerRadius={"90%"}
                       fill="#8884d8"
                     >
                       {
@@ -99,8 +99,8 @@ export default function Jak2DecompProgress() {
                       data={stackCastData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={80}
-                      outerRadius={120}
+                      innerRadius={"50%"}
+                      outerRadius={"90%"}
                       fill="#8884d8"
                     >
                       {
@@ -121,8 +121,8 @@ export default function Jak2DecompProgress() {
                       data={labelCastData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={80}
-                      outerRadius={120}
+                      innerRadius={"50%"}
+                      outerRadius={"90%"}
                       fill="#8884d8"
                     >
                       {
