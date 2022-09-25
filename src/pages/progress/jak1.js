@@ -4,7 +4,8 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import MaterialTable from 'material-table';
 import decompFileData from "/data/progress/jak1/progress.json";
 import decompHistoryData from "/data/progress/jak1/history.json";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import castData from "/data/progress/jak1/casts.json";
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { GitPullRequestIcon, StopwatchIcon, SyncIcon, GitMergeIcon, IssueOpenedIcon, CheckCircleIcon, BeakerIcon } from '@primer/octicons-react'
 
 const darkTheme = createTheme({
@@ -29,6 +30,20 @@ const DateFormatter = (dateString) => {
   return dateString.substring(0, dateString.indexOf("T"));
 }
 
+const typeCastData = castData.typeCasts.filter(entry => {
+  return entry.value > castData.typeCastAvgFreq * 2;
+});
+
+const stackCastData = castData.stackCasts.filter(entry => {
+  return entry.value > castData.stackCastAvgFreq;
+});
+
+const labelCastData = castData.labelCasts.filter(entry => {
+  return entry.value > castData.labelCastAvgFreq;
+});
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
 export default function Jak1DecompProgress() {
   return (
     <Layout
@@ -48,6 +63,74 @@ export default function Jak1DecompProgress() {
                     <YAxis tickFormatter={DataFormater} />
                     <Tooltip contentStyle={{ backgroundColor: '#222222' }} />
                   </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div className="row mt-2 text--center">
+              <div className="col col--4">
+                <h2>Type Cast Frequency</h2>
+                <ResponsiveContainer width="100%" height={400}>
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      dataKey="value"
+                      isAnimationActive={false}
+                      data={typeCastData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={80}
+                      outerRadius={120}
+                      fill="#8884d8"
+                    >
+                      {
+                        typeCastData.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]} />)
+                      }
+                    </Pie>
+                    <Tooltip wrapperStyle={{ outline: "#febb01 solid 1px" }} contentStyle={{ backgroundColor: '#222222', border: null }} itemStyle={{ color: "#fff" }} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="col col--4">
+                <h2>Stack Cast Frequency</h2>
+                <ResponsiveContainer width="100%" height={400}>
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      dataKey="value"
+                      isAnimationActive={false}
+                      data={stackCastData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={80}
+                      outerRadius={120}
+                      fill="#8884d8"
+                    >
+                      {
+                        stackCastData.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]} />)
+                      }
+                    </Pie>
+                    <Tooltip wrapperStyle={{ outline: "#febb01 solid 1px" }} contentStyle={{ backgroundColor: '#222222', border: null }} itemStyle={{ color: "#fff" }} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="col col--4">
+                <h2>Label Cast Frequency</h2>
+                <ResponsiveContainer width="100%" height={400}>
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      dataKey="value"
+                      isAnimationActive={false}
+                      data={labelCastData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={80}
+                      outerRadius={120}
+                      fill="#8884d8"
+                    >
+                      {
+                        labelCastData.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]} />)
+                      }
+                    </Pie>
+                    <Tooltip wrapperStyle={{ outline: "#febb01 solid 1px" }} contentStyle={{ backgroundColor: '#222222', border: null }} itemStyle={{ color: "#fff" }} />
+                  </PieChart>
                 </ResponsiveContainer>
               </div>
             </div>
