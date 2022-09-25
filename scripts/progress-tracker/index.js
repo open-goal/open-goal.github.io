@@ -322,8 +322,11 @@ for (const pull of pullRequests) {
         user: pull.user.login,
         state: pull.state
       }
+    } else {
+      // else the files are the same, but the state/title may have changed so update that
+      pullRequestHistory[pull.number.toString()].state = pull.state;
+      pullRequestHistory[pull.number.toString()].title = pull.title;
     }
-    // else it's the same, hasn't changed, we're good
   } else {
     // new entry, ask for the files, initialize it
     // TODO - put this in a function
