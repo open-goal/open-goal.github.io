@@ -139,7 +139,11 @@ const config = {
       },
       footer: {
         style: 'dark',
-        copyright: `Copyright © ${new Date().getFullYear()} OpenGOAL. Built with Docusaurus.`,
+        copyright: `
+        Copyright © ${new Date().getFullYear()} OpenGOAL. Built with Docusaurus.
+        <br>
+        <br>
+        <span class="trademark-disclaimer">All third party trademarks (including but not limited to: logos and icons) referenced by OpenGOAL remain the property of their respective owners. Unless specifically identified as such, OpenGOAL's use of third party trademarks does not indicate any relationship, sponsorship, or endorsment between OpenGOAL and the owners of these trademarks.  Any references to the aforementioned trademarks are for informative purposes and should be considered nominative fair use.</span>`,
       },
       prism: {
         theme: darkCodeTheme,
