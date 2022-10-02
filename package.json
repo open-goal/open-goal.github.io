@@ -28,7 +28,7 @@
     "recharts": "^2.1.14"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.1"
+    "@docusaurus/module-type-aliases": "2.1.0"
   },
   "browserslist": {
     "production": [
