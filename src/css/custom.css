@@ -392,3 +392,8 @@ section {
 #galleryContainer .row {
   margin-bottom: var(--ifm-spacing-horizontal);
 }
+
+.trademark-disclaimer {
+  color: #6f6f6f;
+  font-size: 10pt;
+}
