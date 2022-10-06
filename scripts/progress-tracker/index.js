@@ -2,6 +2,8 @@ import { Octokit } from "@octokit/rest";
 import { throttling } from "@octokit/plugin-throttling";
 import { retry } from "@octokit/plugin-retry";
 import * as fs from "fs";
+import { exit } from "process";
+import { parse } from "comment-json";
 
 Octokit.plugin(throttling);
 Octokit.plugin(retry);
@@ -140,13 +142,109 @@ function scanFolder(fileList, gameName, progressDb) {
       if (fs.existsSync(filePath)) {
         let fileLines = fs.readFileSync(filePath).toString().split(/\r?\n/);
         // Check if the last line is empty
-        if (fileLines.length > 0 && fileLines[fileLines.length-1].trim().length === 0) {
+        if (fileLines.length > 0 && fileLines[fileLines.length - 1].trim().length === 0) {
           fileLines.pop();
         }
         updateProgressDbEntry(fileMeta, fileLines, progressDb, gameName);
       }
     }
   }
+}
+
+function scanCasts(gameName) {
+  // Check cast files as well
+  // - label
+  // - stack
+  // - type
+  // as these are the ones we might be able to find outliers on
+  let castFreqMap = {
+    stackCasts: {},
+    labelCasts: {},
+    typeCasts: {}
+  }
+  let decompFolder = "jak1_ntsc_black_label";
+  if (gameName === "jak2") {
+    decompFolder = "jak2";
+  }
+  let stackCasts = parse(fs.readFileSync(`./jak-project/decompiler/config/${decompFolder}/stack_structures.jsonc`, 'utf-8'), null, true);
+  for (const [funcName, casts] of Object.entries(stackCasts)) {
+    for (const cast of casts) {
+      let typeName = "";
+      if (cast.length == 2) {
+        if (Array.isArray(cast[1])) {
+          typeName = `(${cast[1][0]} ${cast[1][1]})`;
+        } else {
+          typeName = cast[1];
+        }
+      }
+      if (typeName !== "") {
+        if (typeName in castFreqMap.stackCasts) {
+          castFreqMap.stackCasts[typeName]++;
+        } else {
+          castFreqMap.stackCasts[typeName] = 1;
+        }
+      }
+    }
+  }
+  let labelCasts = parse(fs.readFileSync(`./jak-project/decompiler/config/${decompFolder}/label_types.jsonc`, 'utf-8'), null, true);
+  for (const [funcName, casts] of Object.entries(labelCasts)) {
+    for (const cast of casts) {
+      let typeName = "";
+      if (cast.length >= 2) {
+        typeName = cast[1];
+      }
+      if (typeName !== "") {
+        if (typeName in castFreqMap.labelCasts) {
+          castFreqMap.labelCasts[typeName]++;
+        } else {
+          castFreqMap.labelCasts[typeName] = 1;
+        }
+      }
+    }
+  }
+  let typeCasts = parse(fs.readFileSync(`./jak-project/decompiler/config/${decompFolder}/type_casts.jsonc`, 'utf-8'), null, true);
+  for (const [funcName, casts] of Object.entries(typeCasts)) {
+    for (const cast of casts) {
+      let typeName = "";
+      if (cast.length >= 3) {
+        typeName = cast[2];
+      }
+      if (typeName !== "") {
+        if (typeName in castFreqMap.typeCasts) {
+          castFreqMap.typeCasts[typeName]++;
+        } else {
+          castFreqMap.typeCasts[typeName] = 1;
+        }
+      }
+    }
+  }
+
+  // Prepare the format for the frontend charting library
+  // { name: 'Group A', value: 400 },
+  let finalData = {
+    stackCasts: [],
+    labelCasts: [],
+    typeCasts: [],
+    stackCastAvgFreq: 0,
+    labelCastAvgFreq: 0,
+    typeCastAvgFreq: 0
+  }
+  for (const [typeName, freq] of Object.entries(castFreqMap.stackCasts)) {
+    finalData.stackCasts.push({ name: typeName, value: freq });
+    finalData.stackCastAvgFreq += freq;
+  }
+  finalData.stackCastAvgFreq = finalData.stackCastAvgFreq / finalData.stackCasts.length;
+  for (const [typeName, freq] of Object.entries(castFreqMap.labelCasts)) {
+    finalData.labelCasts.push({ name: typeName, value: freq });
+    finalData.labelCastAvgFreq += freq;
+  }
+  finalData.labelCastAvgFreq = finalData.labelCastAvgFreq / finalData.labelCasts.length;
+  for (const [typeName, freq] of Object.entries(castFreqMap.typeCasts)) {
+    finalData.typeCasts.push({ name: typeName, value: freq });
+    finalData.typeCastAvgFreq += freq;
+  }
+  finalData.typeCastAvgFreq = finalData.typeCastAvgFreq / finalData.typeCasts.length;
+  return finalData;
 }
 
 function auditProcess(gameName, pulls, issues) {
@@ -164,6 +262,8 @@ function auditProcess(gameName, pulls, issues) {
   }
   // Scan the cloned git repo's files
   scanFolder(fileList, gameName, progressDb);
+
+  let castFreqData = scanCasts(gameName);
 
   let newLocCount = 0;
   let excludedFromLocFiles = new Set();
@@ -253,6 +353,7 @@ function auditProcess(gameName, pulls, issues) {
   progressDb.sort((a, b) => (order[a.status] || order.default) - (order[b.status] || order.default));
 
   // Write out progress files
+  fs.writeFileSync(`./static/data/progress/${gameName}/casts.json`, JSON.stringify(castFreqData));
   fs.writeFileSync(progressPath, JSON.stringify(progressDb));
   fs.writeFileSync(progressHistoryDbPath, JSON.stringify(progressHistoryDb));
   console.log(`Finished auditing - ${gameName}`);
@@ -322,8 +423,11 @@ for (const pull of pullRequests) {
         user: pull.user.login,
         state: pull.state
       }
+    } else {
+      // else the files are the same, but the state/title may have changed so update that
+      pullRequestHistory[pull.number.toString()].state = pull.state;
+      pullRequestHistory[pull.number.toString()].title = pull.title;
     }
-    // else it's the same, hasn't changed, we're good
   } else {
     // new entry, ask for the files, initialize it
     // TODO - put this in a function

@@ -34,7 +34,7 @@ jobs:
           cache: npm
 
       - name: Setup Pages
-        uses: actions/configure-pages@v1
+        uses: actions/configure-pages@v2
 
       - name: Build Gallery
         run: python ./scripts/gallery-updater/update-gallery.py
