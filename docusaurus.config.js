@@ -49,6 +49,7 @@ const config = {
             'https://github.com/open-goal/open-goal.github.io/tree/master/'
         },
         blog: {
+          path: 'blog',
           blogSidebarCount: 0,
           showReadingTime: true,
           editUrl:
