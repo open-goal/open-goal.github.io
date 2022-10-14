@@ -2,8 +2,8 @@ import { Octokit } from "@octokit/rest";
 import { throttling } from "@octokit/plugin-throttling";
 import { retry } from "@octokit/plugin-retry";
 import * as fs from "fs";
-import { exit } from "process";
 import { parse } from "comment-json";
+import fetch from 'node-fetch';
 
 Octokit.plugin(throttling);
 Octokit.plugin(retry);
@@ -247,6 +247,49 @@ function scanCasts(gameName) {
   return finalData;
 }
 
+let sheetData = {};
+
+async function loadSheetData() {
+  const link = process.env.SHEET_LINK;
+  sheetData = await (await fetch(link)).json();
+}
+
+function getSheetAssignmentFromName(objectName) {
+  for (const entry of sheetData) {
+    if (entry.Name === objectName) {
+      if ("Assign" in entry && entry.Assign !== "") {
+        return entry.Assign;
+      } else {
+        return null;
+      }
+    }
+  }
+  return null;
+}
+
+const sheetAssignmentMapping = {
+  water: {
+    avatar_url: "https://avatars.githubusercontent.com/u/48171810?v=4",
+    user_name: "water111",
+  },
+  vaser: {
+    avatar_url: "https://avatars.githubusercontent.com/u/13153231?v=4",
+    user_name: "xTVaser",
+  },
+  dass: {
+    avatar_url: "https://avatars.githubusercontent.com/u/7569514?v=4",
+    user_name: "ManDude",
+  },
+  hatkid: {
+    avatar_url: "https://avatars.githubusercontent.com/u/6624576?v=4",
+    user_name: "Hat-Kid",
+  },
+  francessco: {
+    avatar_url: "https://avatars.githubusercontent.com/u/6609531?v=4",
+    user_name: "Francessco121"
+  }
+}
+
 function auditProcess(gameName, pulls, issues) {
   console.log(`Auditing - ${gameName}`);
   let fileList;
@@ -328,6 +371,22 @@ function auditProcess(gameName, pulls, issues) {
       }
     }
 
+    // Update spreadsheet assignment
+    if (gameName === "jak2") { // only jak 2 is in active development
+      const assignment = getSheetAssignmentFromName(fileName);
+      if (assignment !== null) {
+        const assignmentLenient = assignment.replace(" ", "").toLowerCase()
+        if (assignmentLenient in sheetAssignmentMapping) {
+          entry.assignedTo.sheet = sheetAssignmentMapping[assignmentLenient];
+        } else {
+          entry.assignedTo.sheet = {
+            avatar_url: null,
+            user_name: assignment
+          }
+        }
+      }
+    }
+
     if (entry.status === "decompiled") {
       if (!entry.ignoreFromLoc) {
         newLocCount += entry.loc;
@@ -389,6 +448,8 @@ async function getPullRequestFiles(pullNumber) {
       pull_number: pullNumber
     });
 }
+
+await loadSheetData();
 
 // List all PRs and Issues from repos, do this once so we don't have to do it per game.
 console.log("getting PRs");

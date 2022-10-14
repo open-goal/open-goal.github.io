@@ -175,23 +175,36 @@ export default function Jak2DecompProgress() {
                       },
                       {
                         title: 'Assigned To', render: rowData => {
-                          if (rowData.assignedTo.pr === null && rowData.assignedTo.sheet === null) {
+                          // multiple sources of truth are confusing, use only the sheet!
+                          if (rowData.assignedTo.sheet === null) {
                             return <div>---</div>
-                          } else if (rowData.assignedTo.pr !== null) {
-                            // Find the person's avatar
-                            let avatar_url = "";
-                            let user_name = "";
-                            for (const pull of rowData.pullRequests) {
-                              if (pull.number == rowData.assignedTo.pr) {
-                                avatar_url = pull.avatar_url;
-                                user_name = pull.user;
-                              }
+                          } else if (rowData.assignedTo.sheet !== null) {
+                            if (rowData.assignedTo.sheet.avatar_url !== null) {
+                              return <div>
+                                <img src={rowData.assignedTo.sheet.avatar_url} style={{ width: "25px", marginRight: "0.25em", verticalAlign: "middle" }}></img>
+                                {rowData.assignedTo.sheet.user_name}
+                              </div>
+                            } else {
+                              return <div>
+                                {rowData.assignedTo.sheet.user_name}
+                              </div>
                             }
-                            return <div>
-                              <img src={avatar_url} style={{ width: "25px", marginRight: "0.25em", verticalAlign: "middle" }}></img>
-                              {user_name}
-                            </div>
                           }
+                          // else if (rowData.assignedTo.pr !== null) {
+                          //   // Find the person's avatar
+                          //   let avatar_url = "";
+                          //   let user_name = "";
+                          //   for (const pull of rowData.pullRequests) {
+                          //     if (pull.number == rowData.assignedTo.pr) {
+                          //       avatar_url = pull.avatar_url;
+                          //       user_name = pull.user;
+                          //     }
+                          //   }
+                          //   return <div>
+                          //     <img src={avatar_url} style={{ width: "25px", marginRight: "0.25em", verticalAlign: "middle" }}></img>
+                          //     {user_name}
+                          //   </div>
+                          // }
                         },
                         sorting: false
                       },
