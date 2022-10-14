@@ -177,6 +177,17 @@ export default function Jak1DecompProgress() {
                         title: 'Assigned To', render: rowData => {
                           if (rowData.assignedTo.pr === null && rowData.assignedTo.sheet === null) {
                             return <div>---</div>
+                          } else if (rowData.assignedTo.sheet !== null) {
+                            if (rowData.assignedTo.sheet.avatar_url !== null) {
+                              return <div>
+                                <img src={rowData.assignedTo.sheet.avatar_url} style={{ width: "25px", marginRight: "0.25em", verticalAlign: "middle" }}></img>
+                                {rowData.assignedTo.sheet.user_name}
+                              </div>
+                            } else {
+                              return <div>
+                                {rowData.assignedTo.sheet.user_name}
+                              </div>
+                            }
                           } else if (rowData.assignedTo.pr !== null) {
                             // Find the person's avatar
                             let avatar_url = "";
