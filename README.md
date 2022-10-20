@@ -4,14 +4,14 @@ This website is built using [Docusaurus 2](https://docusaurus.io/), a modern sta
 
 ### Installation
 
-```
-$ npm install
+```bash
+npm install
 ```
 
 ### Local Development
 
-```
-$ npm run start
+```bash
+npm run start
 ```
 
 And browse to http://localhost:3000
