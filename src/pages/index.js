@@ -5,7 +5,7 @@ import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import * as platform from 'platform';
 
-function LauncherDownloadLink() {
+export function LauncherDownloadLink() {
   const [loading, setLoading] = useState(true);
   const [available, setAvailable] = useState(false);
   const [apiError, setApiError] = useState(false);
@@ -84,7 +84,7 @@ function LauncherDownloadLink() {
         <img src="/img/download.svg" />
       </span>
       <DownloadContent />
-      <a href={downloadUrl} className="link">Read More</a>
+      <a href={downloadUrl} className="link">Download OpenGOAL</a>
     </div>
   );
 }
