@@ -397,3 +397,8 @@ section {
   color: #6f6f6f;
   font-size: 10pt;
 }
+
+/* Mimic the margin bottom separator used for most markdown elements, helps with consistent spacing */
+.markdownMarginBottom {
+  margin-bottom: var(--ifm-leading);
+}
