@@ -8,9 +8,9 @@ import { LauncherDownloadLink } from "/src/pages/index.js"
 
 ## Opening notes
 
-At the moment OpenGOAL only supports running the first Jak and Daxter game, with Jak 2 and Jak 3 in progress. There are no timelines for their completion, as this is an open source passion project, but you're more than welcome to contribute to their development with us! See [Contributing](/docs/category/contributing) and [Developing](/docs/category/developing) for more information.
+> Please note that help and support for this project is not always available, as everyone involved is donating their time to this project for free. If this page or the [FAQs](/faq.md) can't answer your question, you might be able to find help in the OpenGOAL [discord](https://discord.gg/VZbXMHXzWv), but we do not guarantee support.
 
-Please also note that help and support for this project is not always available, as everyone involved is donating their time to this project for free. If this page or the [FAQs](/faq.md) can't answer your question, you might be able to find help in the OpenGOAL [discord](https://discord.gg/VZbXMHXzWv), but we do not guarantee support.
+At the moment OpenGOAL only supports running the first Jak and Daxter game, and Jak 2 is currently in progress. There are no timelines for their completion, as this is an open source passion project, but you're more than welcome to contribute to their development with us! See [Contributing](/docs/category/contributing) and [Developing](/docs/category/developing) for more information.
 
 Additionally, if you'd like to see a video copy of this installation, there is a guide available [on YouTube](https://www.youtube.com/watch?v=p8I9NfuZOgE) that you can follow along with.
 
@@ -105,7 +105,15 @@ If this opens successfully, you've reached the final stage! Up next we'll be set
 
 This step is very straightforward, but as this project is still in active development you may come across issues along the way. If you hit issues please remember that this is a community led project, and we can't guarantee support. Please first visit the [FAQs](/faq.md) and if you can't find an answer there, you might be able to find help in the OpenGOAL [discord](https://discord.gg/VZbXMHXzWv), but we do not guarantee support.
 
-For this step we'll first give OpenGOAL the location of the `.iso` file we created earlier. Click the `SETUP` button in the launcher window to begin with.
+If you haven't already, you'll first need to navigate to the location you chose for OpenGOAL to install (by default this location is `C:\Program Files\OpenGOAL-Launcher`), and run `OpenGOAL-Launcher.exe`.
+
+:::danger
+If you see an error when you first open your launcher about your device not meeting requirements, you unfortunately **WILL NOT** be able to continue with the installation. OpenGOAL requires a minimum OpenGL version from your GPU as well as AVX support from your CPU, and if either of those requirements aren't met you **WILL NOT** be able to run OpenGOAL.
+
+![Missing minimum requirements](/docs/installation/opengoal_launcher_jd1_opengl_not_supported.png)
+:::
+
+If you don't see this above error though, you're ready to continue! For this step we'll first give OpenGOAL the location of the `.iso` file we created earlier. Click the `SETUP` button in the launcher window to begin with.
 
 ![Setup OpenGOAL with your .iso file](/docs/installation/opengoal_launcher_jd1_setup.png)
 
@@ -127,28 +135,34 @@ That's everything! At this point you should have a working copy of the game to p
 
 ## Linux
 
-The instructions for Linux users are a bit more sparse than the Windows users, but most of the steps are identical.
+> NOTE: If you are here looking to set up OpenGOAL on your Steam Deck there is a [video guide for Steam Deck users](https://www.youtube.com/watch?v=Cv7mlCSHKxc&t=564s) that covers the process of installing and running OpenGOAL very thoroughly. The only change in this video is that we do now support other non black label versions of Jak and Daxter, so any disc should work!
+
+The instructions for Linux users are a bit more sparse than for Windows users, but most of the steps are very similar.
 
 To begin with you'll first need to create a `.iso` file from your copy of Jak and Daxter, reading the dics for its content. The [Windows ISO instructions](installation#creating-your-iso) have some example instructions using a Windows program called ImgBurn, which you'll need an alternative to, but the rest of the instructions are the same.
 
-The biggest change is how you run OpenGOAL, as we don't provide a pre-built Linux installer, so the instructions for building the game are below.
+The biggest change is how you run OpenGOAL, as we currently don't provide a pre-built Linux installer, so the instructions for building the game are below.
 
 ### Running OpenGOAL on Linux
 
-As there is no pre-built launcher for Linux you will need to instead fetch the latest release from our [GitHub repo](https://github.com/open-goal/jak-project/releases). Here you can choose either the `.bin` installer or extract the files yourself from the `.tar.gz` folder to get the tools for this setup.
+As there is currently no pre-built launcher for Linux you will need to instead fetch the latest release from our [GitHub repo](https://github.com/open-goal/jak-project/releases). Here you will need to download the latest `.tar.gz` file (eg `opengoal-linux-v0.1.29.tar.gz`) to get the tools for this setup.
 
 If you have some technical experience, and would prefer to build this application from the source yourself, then take a look at the [project README instructions](https://github.com/open-goal/jak-project#setting-up-a-development-environment) instead. Support for this however is outside the scope of this document.
 
-If you're continuing with the builds from the latest releases, either install the `.bin` or extract the `.tar.gz` content to get an install with a similar list of files to the below.
+If you're continuing with the builds from the latest releases, extract the contents of the `.tar.gz` file to get a folder with a similar list of files to the below.
 
 ![Expected files for Linux users](/docs/installation/linux_files_list.png)
 
 Once you have these files extracted, there are two main steps required. The first is to extract all of the assets from the `.iso` file you created earlier, using the `extractor` from the install above (eg `./extractor <path-to-iso>`). Once this extraction completes, you should be able to run `gk` from the same folder to start the game.
+
+> NOTE: For Steam Deck users, you can add OpenGOAL to your Steam library at this point by pointing to the `gk` file in this folder. You will need to change the `File type` to `All Files` in order to see it!
+>
+> ![Add gk to add OpenGOAL to your Steam Library, filter by All Files](/docs/installation/steam_deck_add_to_library.png)
 
 That's everything! At this point you should have a working copy of the game to play. Join us in the [discord](https://discord.gg/VZbXMHXzWv) or finding streams/streaming yourself on [Twitch](https://www.twitch.tv/directory/game/Jak%20and%20Daxter:%20The%20Precursor%20Legacy) to get involved in the community.
 
 ## MacOS
 
 :::danger
-We do not officially support MacOS at this time. You may have some success with the [Linux installation instructions](installation#linux), but we will not provide any support if this does not work.
+We do not support macOS at this time. Unfortunately macOS does not currently support the version of OpenGL we use for this project, and we additionally do not support any ARM processors, meaning significant changes would be required.
 :::
