@@ -1,6 +1,6 @@
 ---
 title: Progress Report - Oct. 2022
-description: TODO
+description: October 2022's progress report
 slug: progress-report-oct-2022
 authors:
   - vaser
@@ -10,12 +10,9 @@ hide_table_of_contents: false
 draft: false
 ---
 
-TODO
+Another month gone, slowing down a little bit with the end of the year drawing close.  But there are still some things to share.
 
 <!--truncate-->
-
-import ReactPlayer from 'react-player'
-import PRLink from '@site/src/mdx/PRLink';
 
 ## Jak 2 Decompilation
 
@@ -27,10 +24,11 @@ More files have been completed, this month we reached the 300 file started miles
 
 Visibility data has been hooked up for Jak 2 and it seems to work quite well.
 
-<!-- TODO - columns -->
-
 ![](./img/vis-off.png)
+> Off
+
 ![](./img/vis-on.png)
+> On
 
 ### Time of Day Support <PRLink href="https://github.com/open-goal/jak-project/pull/1943"/>
 
@@ -48,17 +46,32 @@ More debugging code implemented and region boundary rendering now works
 
 The camera code is now functional:
 
+<ReactPlayer controls url={require("./video/camera.webm").default} />
+
 ### Sky Renderer Functional <PRLink href="https://github.com/open-goal/jak-project/pull/1972"/>
 
 The sky renderer returns:
 
-<ReactPlayer controls url="/videos/oct-2022/sky.mp4" />
+<ReactPlayer controls url={require("./video/sky.webm").default} />
 
-### Preliminary Sound Effect Support
+### Preliminary Sound Effect Support <PRLink href="https://github.com/open-goal/jak-project/pull/1991"/>
 
-A very early preview of Jak 2's sounds working
+A early preview of Jak 2's audio working
 
-<ReactPlayer controls url="/videos/oct-2022/j2sfx.mp4" />
+Various Sound Effects
+<audio controls src={require("./audio/sfx.mp3").default}/>
+
+Ambience 1
+<audio controls src={require("./audio/ambience1.mp3").default}/>
+
+Ambience 2
+<audio controls src={require("./audio/ambience2.mp3").default}/>
+
+Ambience 3
+<audio controls src={require("./audio/ambience3.mp3").default}/>
+
+Ambience 4
+<audio controls src={require("./audio/ambience4.mp3").default}/>
 
 ## Decompilation Tooling
 
@@ -104,3 +117,7 @@ Now if we take that same amount of work (800 files), and divide it amongst -- le
 ### Skip Added Back for Daxter/Naughty Dog Intro Cutscene <PRLink href="https://github.com/open-goal/jak-project/pull/1965"/>
 
 Was removed a while back but has been re-added.
+
+### Spanish Game Text <PRLink href="https://github.com/open-goal/jak-project/pull/1980"/>
+
+Spanish translation was improved by adding translations for most of the game text translations.
