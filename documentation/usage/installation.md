@@ -137,13 +137,21 @@ That's everything! At this point you should have a working copy of the game to p
 
 > NOTE: If you are here looking to set up OpenGOAL on your Steam Deck there is a [video guide for Steam Deck users](https://www.youtube.com/watch?v=Cv7mlCSHKxc&t=564s) that covers the process of installing and running OpenGOAL very thoroughly. The only change in this video is that we do now support other non black label versions of Jak and Daxter, so any disc should work!
 
-The instructions for Linux users are a bit more sparse than for Windows users, but most of the steps are very similar.
-
 To begin with you'll first need to create a `.iso` file from your copy of Jak and Daxter, reading the dics for its content. The [Windows ISO instructions](installation#creating-your-iso) have some example instructions using a Windows program called ImgBurn, which you'll need an alternative to, but the rest of the instructions are the same.
 
-The biggest change is how you run OpenGOAL, as we currently don't provide a pre-built Linux installer, so the instructions for building the game are below.
+### Running via the Launcher
 
-### Running OpenGOAL on Linux
+The pre-built Linux launcher should function identically to the [Windows steps above](installation#setting-up-the-launcher).
+
+It is distributed as an AppImage, so you will need to make sure your environment is setup to run them. However, this is typically provided out of the box for most modern distros.
+
+:::info
+Linux support via the launcher is relatively new and there may be issues, please reach out to us so we can correct them!
+:::
+
+### Running via the GitHub Release
+
+If the launcher is not working for you, or if you are using an environment where it's not suitable (ie. a Steamdeck) then you should use the release and the following steps
 
 As there is currently no pre-built launcher for Linux you will need to instead fetch the latest release from our [GitHub repo](https://github.com/open-goal/jak-project/releases). Here you will need to download the latest `.tar.gz` file (eg `opengoal-linux-v0.1.29.tar.gz`) to get the tools for this setup.
 
