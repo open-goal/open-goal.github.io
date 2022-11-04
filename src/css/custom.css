@@ -221,6 +221,16 @@ html {
 	cursor: pointer;
 }
 
+.simple-flex-box {
+	display: flex;
+	position: relative;
+  justify-content: space-around;
+	padding: 16px;
+  gap: 16px;
+	border: 1px dashed #febb01;
+	border-radius: 10px;
+}
+
 .hotspots {
   position: relative;
 }
