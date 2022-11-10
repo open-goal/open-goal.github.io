@@ -153,6 +153,7 @@ function HomepageHeader() {
           </div>
           <div className="col col--4">
             <LauncherDownloadLink />
+            <a href={"/docs/usage/installation"}>Issues installing?</a>
           </div>
         </div>
       </div>

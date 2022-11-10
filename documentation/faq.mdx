@@ -2,6 +2,8 @@
 sidebar_position: 2
 ---
 
+import Requirements from './partials/_requirements.mdx';
+
 # Frequently Asked Questions
 
 ## General Questions
@@ -18,21 +20,17 @@ If you are on Windows, we encourage you to use our Launcher which simplifies the
 
 If you are on Linux, at this time the Launcher is not yet ready, so you will have to get the latest release from our GitHub repo https://github.com/open-goal/jak-project/releases and provide the path to your ISO like so - `./extractor <path-to-iso>`. Once this completes, you should be able to run `gk` to start the game.
 
-We support *all retail versions* of the original _Jak & Daxter_. For more details on how your version of the games matter, see [this page](./usage/game_versions). <span class="reddishColor">**There is no planned support for early builds and demos.**</span>
+We support *all retail versions* of the original _Jak & Daxter_. For more details on how your version of the games matter, see [this page](./usage/game_versions). <span className="reddishColor">**There is no planned support for early builds and demos.**</span>
 
 ### What are the minimum requirements?
 
-These are the minimum architecture requirements for the project at the time of writing:
-- x86-64 CPU with **AVX** support.
-  - Most, if not all, 64-bit CPUs should work. OpenGOAL has a very small CPU footprint, so most modern CPUs will run the game fine.
-- Graphics card that supports **OpenGL 4.3**.
-  - If you have an AMD Radeon card, updating your AMD drivers to at least version 22.7.1 is recommended. Older driver versions or other AMD cards will be running at a disadvantage.
-- You might experience slower loads with a hard drive compared to an SSD.
-- At least 2 GiB of available RAM for the game is recommended.
+<Requirements/>
 
 #### Will AVX always be required?
 
-Yes, AVX instructions are used for basically all vector math computations used in rendering, collision detection, and other game logic. This requirement will *not* be lifted.
+At this time, **yes**.
+
+AVX instructions are used for basically all vector math computations used in rendering, collision detection, and other game logic.
 
 ### Where can I donate?
 
