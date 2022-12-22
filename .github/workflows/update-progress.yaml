@@ -36,6 +36,7 @@ jobs:
       - name: Update Statistics
         env:
           SHEET_LINK: ${{ secrets.SHEET_LINK }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pushd scripts/progress-tracker
           npm ci
