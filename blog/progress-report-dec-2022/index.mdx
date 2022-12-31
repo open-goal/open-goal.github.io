@@ -1,0 +1,116 @@
+---
+title: Progress Report - Dec. 2022
+description: December 2022's progress report
+slug: progress-report-dec-2022
+authors:
+  - vaser
+tags: [progress-report]
+image: ./img/winter.png
+hide_table_of_contents: false
+draft: false
+---
+
+Happy holidays.
+
+As one would expect many of us took a bit of a break this month so it isn't as earth-shattering as last month's report, but there is still plenty to talk about.
+
+<!--truncate-->
+
+## Project Level News
+
+This month's release is:
+- `0.1.31` OpenGOAL Tooling (jak-project repo)
+- distributed via the `1.7.0` Launcher release
+
+## Jak 1
+
+### Fix a debug menu regression <PRLink href="https://github.com/open-goal/jak-project/pull/2065"/>
+
+Back in September, we made a small mistake related to the debug menu. For certain options, they would appear always enabled / non-responsive.
+
+This change was finally released to the public last month and several people noticed it.
+
+So this has now been fixed and is the reason why we are pushing out atleast one release every month to catch these problems.  We don't want them to pile up and have to fix them all at once in a year from now -- so please don't hesitate to report them!
+
+## Jak 2 - Decompilation
+
+### Music!
+
+Lots of sound work bled over from the end of last month / early december.  In addition to sound effects working, so does the music now.
+
+<ReactPlayer controls url={require("./video/music.mp4").default} />
+
+### A bunch of files <PRLink href="https://github.com/open-goal/jak-project/pull/2042"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2048"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2059"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2069"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2070"/>
+
+This month we merged the decompilation of a bunch of files.  A lot of these files were simple ones such as:
+- particles
+- cutscenes
+- ocean data tables
+- header files
+
+But it's always nice to get the easy stuff out of the way and reduce the laundry list of remaining files. This is the explanation for the massive spike in line count recently.
+
+Other notable files that were finished:
+- lights
+- target-death
+- drawable
+
+### Sound fixes <PRLink href="https://github.com/open-goal/jak-project/pull/2049"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2057"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2072"/>
+
+It's amazing having sound so early on development, the silence of working on Jak 1 for so long was so much worse in hindsight.
+
+Most sound issues that have been found so far have been very minor, the most interesting of which to talk about relates to how on the original hardware null pointer dereferences did not cause a crash.  Well unfortunately on a modern PC it does, and this became obvious when playing a level with no music.
+
+### Miscellaneous game fixes <PRLink href="https://github.com/open-goal/jak-project/pull/2050"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2068"/>
+
+- Jetboard code was fixed to prevent some crashes
+- Crash related to dark bomb and giant dark jak was fixed
+- Dark jak works! (mostly, not texture morphing yet)
+
+<ReactPlayer controls url={require("./video/jetboard.mp4").default} />
+<ReactPlayer controls url={require("./video/darkjak.mp4").default} />
+
+### Guns! <PRLink href="https://github.com/open-goal/jak-project/pull/2067"/>
+
+Guns are mostly usable, while their effects are not yet perfect.
+
+<ReactPlayer controls url={require("./video/guns.mp4").default} />
+
+## Decompilation Tooling
+
+### Nicer offline test output <PRLink href="https://github.com/open-goal/jak-project/pull/2045"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2066"/>
+
+With the recent changes making the offline tests run way faster by using many threads -- this made the output an absolute unorganized mess.
+
+There is still some work to do:
+- the code is not aware of your terminal size which leads to issues
+- errors can be interwoven into the output instead of waiting until the end
+
+But it's a good start, at the same time we also cleaned up the offline test code quite a bit.
+
+<ReactPlayer controls url={require("./video/offline-tests.mp4").default} />
+
+### Update goal_src files via glob patterns <PRLink href="https://github.com/open-goal/jak-project/pull/2048"/>
+
+If you need to update a bunch of gsrc files at once, consider using the following command:
+
+```bash
+task update-gsrc-glob GLOB="**/*-part*.gc"
+```
+
+:::tip
+This will update gsrc files with `part` in their name -- if they are also in ref tests (so uncompleted ones aren't touched)
+:::
+
+### Partially compiling on Intel MacOS <PRLink href="https://github.com/open-goal/jak-project/pull/2063"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2064"/>
+
+Someone got a Mac, so there's an incentive for the project to compile on one now.
+
+We added CI that compiles some of the major parts of the project -- you still can't actually run the game, but it's nice to finally have the project compiling on the platform so we can slowly work towards supporting it and catch small bugs along the way.
+
+### Better decompiled output related to Mips2C <PRLink href="https://github.com/open-goal/jak-project/pull/2054"/>
+
+There's a good amount of code we have to mips2c in jak2, it's a more complex game.
+
+With that said, it's a fairly manual process.  These changes try to make it a little bit less manual -- though there's definitely still room for improvement.
+
