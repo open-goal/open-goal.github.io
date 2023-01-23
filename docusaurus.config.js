@@ -121,7 +121,7 @@ const config = {
             label: 'Galleries', position: 'left',
             items: [
               {
-                label: 'Jak and Daxter',
+                label: 'Jak and Daxter: The Precursor Legacy',
                 to: '/gallery/jak1',
               },
               {

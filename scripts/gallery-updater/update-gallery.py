@@ -5,7 +5,7 @@ import json
 
 galleryLinks = {
   'jak1': {
-    'name': "Jak and Daxter",
+    'name': "Jak and Daxter: The Precursor Legacy",
     'galleries': {
       'promo': {
         'name': "Promo Gallery",
@@ -153,7 +153,7 @@ def generate_gallery(title, description, game_name, gallery_names, out_path):
     gallery_items = ""
     current_gallery_content = gallery_template_file
     # Replace gallery title and description
-    current_gallery_content = current_gallery_content.replace("___TITLE___", "{} {}".format(galleryLinks[game_name]["name"], gallery["name"]))
+    current_gallery_content = current_gallery_content.replace("___TITLE___", "<i>{}</i> {}".format(galleryLinks[game_name]["name"], gallery["name"]))
     current_gallery_content = current_gallery_content.replace("___DESCRIPTION___", gallery["description"])
     for entry in gallery["media"]:
       if row_count % 3 == 0:
@@ -180,5 +180,5 @@ def generate_gallery(title, description, game_name, gallery_names, out_path):
     f.write(master_template_file)
 
 # write the actual gallery pages
-generate_gallery("Jak and Daxter Galleries", "Jak and Daxter promo & development galleries", "jak1", ["promo", "dev"], "./src/pages/gallery/jak1.js")
+generate_gallery("Jak and Daxter: The Precursor Legacy Galleries", "Jak and Daxter promo & development galleries", "jak1", ["promo", "dev"], "./src/pages/gallery/jak1.js")
 generate_gallery("Jak II Galleries", "Jak II promo & development galleries", "jak2", ["dev"], "./src/pages/gallery/jak2.js")
