@@ -48,7 +48,7 @@ The first major step requires a legal copy of any retail version of Jak and Daxt
 :::danger
 You will need your own legitimately obtained copy of the original game. The Jak games are not rare and can be found used for very affordable prices at a variety of second-hand and online stores.
 
-[Example _Jak & Daxter_ listing (THIS IS NOT AN ENDORSEMENT).](https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=jak&_sacat=0)
+[Example _Jak and Daxter_ listing (THIS IS NOT AN ENDORSEMENT).](https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=jak&_sacat=0)
 :::
 
 This guide will include one example of how to do this using ImgBurn, but any software that reads your disc will likely be able to do this. More information about this process and some alternatives can be found in the [PCSX2 guide](https://pcsx2.net/guides/basic-setup/#dumping-ps2-discs-via-imgburn).

@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 import Jak1Changes from './_game_versions_jak1.mdx';
 
 <Tabs>
-  <TabItem value="jak1" label="Jak & Daxter">
+  <TabItem value="jak1" label="Jak and Daxter">
     <Jak1Changes />
   </TabItem>
   <TabItem value="jak2" label="Jak II">

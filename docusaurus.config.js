@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/okaidia');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'OpenGOAL',
-  tagline: 'Reviving the Language that Brought us the Jak & Daxter Series',
+  tagline: 'Reviving the Language that Brought us the Jak and Daxter Series',
   url: 'https://open-goal.github.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -101,11 +101,11 @@ const config = {
                 to: '/progress/milestones',
               },
               {
-                label: 'Jak 1 - Decompilation',
+                label: 'Jak and Daxter - Decompilation',
                 to: '/progress/jak1',
               },
               {
-                label: 'Jak 2 - Decompilation',
+                label: 'Jak II - Decompilation',
                 to: '/progress/jak2',
               }
             ]
@@ -118,14 +118,14 @@ const config = {
           },
           { to: '/docs/faq', label: 'FAQ', position: 'left' },
           {
-            label: 'Gallery', position: 'left',
+            label: 'Galleries', position: 'left',
             items: [
               {
-                label: 'Jak 1',
+                label: 'Jak and Daxter: The Precursor Legacy',
                 to: '/gallery/jak1',
               },
               {
-                label: 'Jak 2',
+                label: 'Jak II',
                 to: '/gallery/jak2',
               }
             ]

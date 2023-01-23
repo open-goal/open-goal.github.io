@@ -5,37 +5,98 @@ import json
 
 galleryLinks = {
   'jak1': {
-    'name': "Jak 1",
-    'media': [],
+    'name': "Jak and Daxter: The Precursor Legacy",
+    'galleries': {
+      'promo': {
+        'name': "Promo Gallery",
+        'description': "Composed shots meant to show off the port, captured at 16K (15360x8640) and downscaled to 2K (2560x1440).",
+        'folder': 'jak1promo',
+        'media': []
+      },
+      'dev': {
+        'name': "Development Gallery",
+        'description': "Various pictures and videos we took while working on the Jak and Daxter port.",
+        'folder': 'jak1',
+        'media': []
+      }
+    }
   },
   'jak2': {
-    'name': "Jak 2",
-    'media': [],
+    'name': "Jak II",
+    'galleries': {
+      'dev': {
+        'name': "Development Gallery",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2',
+        'media': []
+      }
+    }
   },
   'jak3': {
     'name': "Jak 3",
-    'media': [],
+    'galleries': {
+      'dev': {
+        'name': "Development Gallery",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2',
+        'media': []
+      }
+    }
   },
   'jakx': {
     'name': "Jak X",
-    'media': [],
+    'galleries': {
+      'dev': {
+        'name': "Development Gallery",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2',
+        'media': []
+      }
+    }
   },
   'misc': {
     'name': "Miscellaneous",
-    'media': [],
+    'galleries': {
+      'dev': {
+        'name': "Development Gallery",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2',
+        'media': []
+      }
+    }
   }
 }
 
-def get_links(key, folder_to_search):
+def get_links(key, gallery_name, specific_order = False, no_captions = False):
+  gallery = galleryLinks[key]["galleries"][gallery_name]
+  folder_to_search = "./static/gallery/{}".format(gallery["folder"])
+  order_file = []
+  if os.path.exists("{}/order.json".format(folder_to_search)):
+    with open("{}/order.json".format(folder_to_search), 'r') as f:
+      order_file = json.load(f)
   if os.path.isdir(folder_to_search):
     files = glob.glob(folder_to_search + "/*.png", recursive=True)
     files.extend(glob.glob(folder_to_search + "/*.jpg", recursive=True))
     files.extend(glob.glob(folder_to_search + "/*.jpeg", recursive=True))
+    file_captions = {};
+    # change image captions if wanted
+    if os.path.exists("{}/captions.json".format(folder_to_search)):
+      with open("{}/captions.json".format(folder_to_search), 'r') as f:
+        file_captions = json.load(f)
     for f in files:
-      galleryLinks[key]["media"].append({
+      name = Path(f).stem.split("_")[0]
+      timestamp = ""
+      if specific_order:
+        # kinda hacky, using the timestamp field this way...
+        timestamp = len(order_file) - order_file.index(name)
+      else:
+        timestamp = Path(f).stem.split("_")[1]
+      caption = (file_captions.get(name), "")[no_captions]
+      gallery["media"].append({
         'fileName': os.path.basename(f),
-        'timestamp': Path(f).stem.split("_")[1],
-        'caption': Path(f).stem.split("_")[0].replace("-", " ").title(),
+        'name': name,
+        'timestamp': timestamp,
+        'caption': (caption, name.replace("-", " ").title())[caption is None],
         'video': False
       })
     # get videos potentially
@@ -43,60 +104,81 @@ def get_links(key, folder_to_search):
       with open("{}/videos.json".format(folder_to_search), 'r') as f:
         data = json.load(f)
         for video in data:
-          galleryLinks[key]["media"].append({
+          gallery["media"].append({
             'link': video["link"].replace("watch?v=", "embed/"),
             'timestamp': video["timestamp"],
             'caption': video["caption"],
             'video': True
           })
     # sort by timestamp
-    galleryLinks[key]["media"].sort(key=lambda x: x["timestamp"], reverse=True)
+    gallery["media"].sort(key=lambda x: x["timestamp"], reverse=True)
 
-get_links('jak1', './static/gallery/jak1')
-get_links('jak2', './static/gallery/jak2')
+# generate the gallery data
+get_links('jak1', 'dev')
+get_links('jak1', 'promo', specific_order=True)
+get_links('jak2', 'dev')
 
-def generate_gallery(title, description, gallery_entries, gallery_folder, out_path):
-  # Read in the gallery template
-  template_file = ""
+def generate_gallery(title, description, game_name, gallery_names, out_path):
+  # Read in the gallery templates
+  master_template_file = ""
+  with open('./scripts/gallery-updater/gallery-master.template', 'r', encoding='utf-8') as f:
+    master_template_file = f.read()
+  gallery_template_file = ""
   with open('./scripts/gallery-updater/gallery.template', 'r', encoding='utf-8') as f:
-    template_file = f.read()
+    gallery_template_file = f.read()
 
   # Replace title and description
-  template_file = template_file.replace("___TITLE___", title)
-  template_file = template_file.replace("___DESCRIPTION___", description)
+  master_template_file = master_template_file.replace("___TITLE___", title)
+  master_template_file = master_template_file.replace("___DESCRIPTION___", description)
 
   # Generate image imports
+  # this checks all images in all galleries supplied
   image_imports = []
   image_idx = 0
-  for entry in gallery_entries:
-    if not entry["video"]:
-      image_imports.append("import image{} from '/gallery/{}/{}';".format(image_idx, gallery_folder, entry["fileName"]))
-      image_idx = image_idx + 1
-  template_file = template_file.replace("___IMAGE_IMPORTS___", "\n".join(image_imports))
+  for gallery_name in gallery_names:
+    gallery = galleryLinks[game_name]["galleries"][gallery_name]
+    for entry in gallery["media"]:
+      if not entry["video"]:
+        image_imports.append("import image{} from '/gallery/{}/{}';".format(image_idx, gallery["folder"], entry["fileName"]))
+        image_idx = image_idx + 1
+  master_template_file = master_template_file.replace("___IMAGE_IMPORTS___", "\n".join(image_imports))
 
-  # Generate the actual images, 3 per row
-  gallery_items = ""
+  # Generate each (sub-)gallery
+  galleries_text = ""
   image_idx = 0
-  row_count = 0
-  for entry in gallery_entries:
-    if row_count % 3 == 0:
-      gallery_items = gallery_items + '            <div className="row center">\n'
-    gallery_items = gallery_items + '              <div className="col col--4">\n'
-    if entry["video"]:
-      gallery_items = gallery_items + '                <iframe width="100%" height="300px" src="{}"></iframe>\n'.format(entry["link"])
-    else:
-      gallery_items = gallery_items + '                <img loading="lazy" src={{image{}}} alt="{} - {}" />\n'.format(image_idx, entry["caption"], entry["timestamp"])
-    gallery_items = gallery_items + '                <blockquote>{}</blockquote>\n'.format(entry["caption"])
-    gallery_items = gallery_items + '              </div>\n'
-    row_count = row_count + 1
-    if row_count % 3 == 0:
-      gallery_items = gallery_items + '            </div>\n'
-    if not entry["video"]:
-      image_idx = image_idx + 1
-  template_file = template_file.replace("___ENTRIES___", gallery_items)
+  for gallery_name in gallery_names:
+    gallery = galleryLinks[game_name]["galleries"][gallery_name]
+    # Generate the actual images, 3 per row
+    row_count = 0
+    gallery_items = ""
+    current_gallery_content = gallery_template_file
+    # Replace gallery title and description
+    current_gallery_content = current_gallery_content.replace("___TITLE___", "<i>{}</i> {}".format(galleryLinks[game_name]["name"], gallery["name"]))
+    current_gallery_content = current_gallery_content.replace("___DESCRIPTION___", gallery["description"])
+    for entry in gallery["media"]:
+      if row_count % 3 == 0:
+        gallery_items = gallery_items + '            <div className="row center">\n'
+      gallery_items = gallery_items + '              <div className="col col--4">\n'
+      if entry["video"]:
+        gallery_items = gallery_items + '                <iframe width="100%" height="300px" src="{}"></iframe>\n'.format(entry["link"])
+      else:
+        gallery_items = gallery_items + '                <img loading="lazy" src={{image{}}} alt="{} - {}" />\n'.format(image_idx, entry["caption"], entry["timestamp"])
+      gallery_items = gallery_items + '                <blockquote>{}</blockquote>\n'.format(entry["caption"])
+      gallery_items = gallery_items + '              </div>\n'
+      row_count = row_count + 1
+      if row_count % 3 == 0:
+        gallery_items = gallery_items + '            </div>\n'
+      if not entry["video"]:
+        image_idx = image_idx + 1
+    current_gallery_content = current_gallery_content.replace("___ENTRIES___", gallery_items)
+    galleries_text = galleries_text + current_gallery_content
+
+  # write all the galleries now
+  master_template_file = master_template_file.replace("___GALLERIES___", galleries_text)
 
   with open(out_path, 'w', encoding='utf-8') as f:
-    f.write(template_file)
+    f.write(master_template_file)
 
-generate_gallery("Jak 1 Development Gallery", "Various pictures and videos we took while working on Jak 1", galleryLinks["jak1"]["media"], "jak1", "./src/pages/gallery/jak1.js")
-generate_gallery("Jak 2 Development Gallery", "Various pictures and videos we took while working on Jak 2", galleryLinks["jak2"]["media"], "jak2", "./src/pages/gallery/jak2.js")
+# write the actual gallery pages
+generate_gallery("Jak and Daxter: The Precursor Legacy Galleries", "Jak and Daxter promo & development galleries", "jak1", ["promo", "dev"], "./src/pages/gallery/jak1.js")
+generate_gallery("Jak II Galleries", "Jak II promo & development galleries", "jak2", ["dev"], "./src/pages/gallery/jak2.js")
