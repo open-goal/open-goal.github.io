@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Subtitle translations
 
-OpenGOAL has added support for subtitles in Jak 1, a game that did not originally have subtitles.  In future games that do have subtitles we will similarly support translations to languages that didn't originally exist as well.
+OpenGOAL has added support for subtitles in Jak and Daxter, a game that did not originally have subtitles.  In future games that do have subtitles we will similarly support translations to languages that didn't originally exist as well.
 
 If you are interested in contributing subtitles, this document hopes to help get you started with an end-to-end example.
 
@@ -35,7 +35,7 @@ If you adding to a language that already has subtitles (ie. English) [skip ahead
 ## Step 2 - Adding a Brand New Language
 
 :::caution
-Be aware that at the time of writing we use the original Jak 1 font, which has a very limited character set.  Your language might not be supported well by this font so you'll want to confirm this first.  Feel free to reach out for clarification if you are unsure.
+Be aware that at the time of writing we use the original Jak and Daxter font, which has a very limited character set.  Your language might not be supported well by this font so you'll want to confirm this first.  Feel free to reach out for clarification if you are unsure.
 :::
 
 To add subtitles to a new language, we're going to have to do some slight source-code editing.
@@ -49,7 +49,7 @@ To add subtitles to a new language, we're going to have to do some slight source
 If your language is in the list, skip to the next step!
 :::
 
-3. We now have to setup text entries for this new language.  First add it to the `game-text-id` enum in the respective `all-types.gc` file, for Jak 1 that is `decompiler/config/all-types.gc`
+3. We now have to setup text entries for this new language.  First add it to the `game-text-id` enum in the respective `all-types.gc` file, for Jak and Daxter that is `decompiler/config/all-types.gc`
 ![](/docs/subtitle-translations/new-lang-all-types.png)
 4. Add this same entry to the same enum in `goal_src/{GAME_NAME}/engine/ui/text-h.gc`
 ![](/docs/subtitle-translations/new-lang-text-h.png)
@@ -89,7 +89,7 @@ It's recommended to use the built-in subtitle editor for atleast the following r
 Be aware of these limitations before proceeding too far
 :::
 
-1. Subtitles should be done in all uppercase (Jak 1's font does not have a lower-case character set)
+1. Subtitles should be done in all uppercase (Jak and Daxter's font does not have a lower-case character set)
 2. Subtitles should be limited to 2 lines on the default 4x3 resolution
    1. We have a way to automatically check for outliers, but keeping this in mind in-advance will help reduce work for you!
 
