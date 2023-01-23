@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
+import LatestBlogs from '@site/src/components/LatestBlogs';
 import * as platform from 'platform';
 
 export function LauncherDownloadLink() {
@@ -169,8 +170,9 @@ export default function Home() {
       description="The Jak & Daxter Project">
       <HomepageHeader />
       <main className="sl-theme-dark">
+        <LatestBlogs/>
         <HomepageFeatures />
-        <section className="home-section alternate-bg-color">
+        <section className="home-section">
           <div className="container">
             <div className="row center">
               <div className="col col--4">
@@ -190,7 +192,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="home-section">
+        <section className="home-section alternate-bg-color">
           <div className="container">
             <div className="row center">
               <div className="col col--6">

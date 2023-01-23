@@ -75,7 +75,7 @@ function Feature({Svg, title, description}) {
 
 export default function HomepageFeatures() {
   return (
-    <section className="home-section {styles.features}">
+    <section className={"home-section alternate-bg-color"}>
       <div className="container">
         <div className="row">
           {FeatureList.map((props, idx) => (
