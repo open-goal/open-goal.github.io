@@ -16,5 +16,8 @@
 	"promoC4": "OpenGOAL mood debug tools",
 	"promoC5": "Various Naughty Dog debug tools enabled at once",
 	"promoD1": "Precursor Basin rolling hills",
-	"promoD2": "Dark eco barrels in Lava Tube"
+	"promoD2": "Dark eco barrels in Lava Tube",
+	"promoE1": "OpenGOAL has added subtitle support for in-game hints",
+	"promoE2": "...as well as cutscenes",
+	"promoE3": "OpenGOAL level-of-detail (LOD) control (left: highest detail; right: lowest detail)"
 }
