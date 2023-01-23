@@ -166,7 +166,7 @@ export default function Home() {
   return (
     <Layout
       title={siteConfig.title}
-      description="The Jak & Daxter Project">
+      description="The Jak and Daxter Project">
       <HomepageHeader />
       <main className="sl-theme-dark">
         <HomepageFeatures />

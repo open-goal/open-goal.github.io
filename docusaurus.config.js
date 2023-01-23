@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/okaidia');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'OpenGOAL',
-  tagline: 'Reviving the Language that Brought us the Jak & Daxter Series',
+  tagline: 'Reviving the Language that Brought us the Jak and Daxter Series',
   url: 'https://open-goal.github.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
