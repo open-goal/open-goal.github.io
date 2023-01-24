@@ -31,17 +31,6 @@
   { "name": "promoA2.png", "caption": "Gol and Maia's Citadel" },
   { "name": "promoB1.png", "caption": "Spider Cave main cave" },
   { "name": "promoB2.png", "caption": "Volcanic Crater minecarts" },
-  { "name": "promoC1.png", "caption": "OpenGOAL Collision Renderer" },
-  {
-    "name": "promoC2.png",
-    "caption": "OpenGOAL debug menu tab and memory overview"
-  },
-  { "name": "promoC3.png", "caption": "OpenGOAL joint and bones debug tools" },
-  { "name": "promoC4.png", "caption": "OpenGOAL mood debug tools" },
-  {
-    "name": "promoC5.png",
-    "caption": "Various Naughty Dog debug tools enabled at once"
-  },
   { "name": "promoD1.png", "caption": "Precursor Basin rolling hills" },
   { "name": "promoD2.png", "caption": "Dark eco barrels in Lava Tube" },
   {
@@ -52,5 +41,16 @@
   {
     "name": "promoE3.png",
     "caption": "OpenGOAL level-of-detail (LOD) control (left: highest detail; right: lowest detail)}"
+  },
+  { "name": "promoC1.png", "caption": "OpenGOAL Collision Renderer" },
+  {
+    "name": "promoC2.png",
+    "caption": "OpenGOAL debug menu tab and memory overview"
+  },
+  { "name": "promoC3.png", "caption": "OpenGOAL joint and bones debug tools" },
+  { "name": "promoC4.png", "caption": "OpenGOAL mood debug tools" },
+  {
+    "name": "promoC5.png",
+    "caption": "Various Naughty Dog debug tools enabled at once"
   }
 ]
