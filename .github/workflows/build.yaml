@@ -27,7 +27,9 @@ jobs:
           cache: npm
 
       - name: Build Gallery
-        run: python ./scripts/gallery-updater/update-gallery.py
+        run: |
+          pip install pillow
+          python ./scripts/gallery-updater/update-gallery.py
 
       - name: Build Site
         run: |
