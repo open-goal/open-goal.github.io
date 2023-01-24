@@ -8,11 +8,11 @@ galleryMap = {
   'jak1': {
     'name': "Jak and Daxter: The Precursor Legacy",
     'metaTitle': "Jak and Daxter: The Precursor Legacy Galleries",
-    'metaDescription': "A collection of images taken with OpenGOAL as well as during it's development running Jak and Daxter: The Precursor Legacy",
+    'metaDescription': "A collection of images taken with OpenGOAL as well as during its development running Jak and Daxter: The Precursor Legacy",
     'galleries': {
       'promo': {
         'name': "Promo Gallery",
-        'description': "Composed shots meant to show off the port, captured at 16K (15360x8640) and downscaled to 2K (2560x1440).",
+        'description': "Composed shots meant to show off the port. Click the images to open them in 4K (3840x2160) resolution! Originally captured at 16K (15360x8640).",
         'folder': 'jak1/promo',
         'media': []
       },
@@ -27,7 +27,7 @@ galleryMap = {
   'jak2': {
     'name': "Jak II",
     'metaTitle': "Jak II Galleries",
-    'metaDescription': "A collection of images taken with OpenGOAL as well as during it's development running Jak II",
+    'metaDescription': "A collection of images taken with OpenGOAL as well as during its development running Jak II",
     'galleries': {
       'dev': {
         'name': "Development Gallery",
@@ -43,7 +43,7 @@ def gen_thumbnail(file, out_folder):
   file_name_no_ext = Path(file).stem
   thumb_path = out_folder + file_name_no_ext + ".jpg"
   with Image.open(file) as im:
-    im.thumbnail([512,512])
+    im.thumbnail([768,512])
     im.save(thumb_path, "JPEG")
   return thumb_path.replace("./static", "")
 
@@ -140,7 +140,7 @@ def generate_gallery(gallery, out_path):
     gallery_items = ""
     current_gallery_content = gallery_template_file
     # Replace gallery title and description
-    current_gallery_content = current_gallery_content.replace("___TITLE___", "<i>{}</i>".format(sub_gallery["name"]))
+    current_gallery_content = current_gallery_content.replace("___TITLE___", "{}".format(sub_gallery["name"]))
     current_gallery_content = current_gallery_content.replace("___DESCRIPTION___", sub_gallery["description"])
     for idx, media_entry in enumerate(sub_gallery["media"]):
       if row_count % 3 == 0:
