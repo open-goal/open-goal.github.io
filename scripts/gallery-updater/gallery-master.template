@@ -12,7 +12,16 @@ export default function render() {
       title="___TITLE___"
       description="___DESCRIPTION___">
       <main className="sl-theme-dark">
+        <div id="galleryContainer" className="container-fluid">
+          <section>
+            <div className="row">
+              <div className="col col--12">
+                <h1>___GALLERY-TITLE___</h1>
+              </div>
+            </div>
+          </section>
 ___GALLERIES___
+        </div>
       </main>
     </Layout>
   );

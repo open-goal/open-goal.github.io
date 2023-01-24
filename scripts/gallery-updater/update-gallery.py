@@ -2,6 +2,7 @@ import glob
 import os
 from pathlib import Path
 import json
+from PIL import Image
 
 galleryMap = {
   'jak1': {
@@ -38,6 +39,14 @@ galleryMap = {
   }
 }
 
+def gen_thumbnail(file, out_folder):
+  file_name_no_ext = Path(file).stem
+  thumb_path = out_folder + file_name_no_ext + ".jpg"
+  with Image.open(file) as im:
+    im.thumbnail([512,512])
+    im.save(thumb_path, "JPEG")
+  return thumb_path.replace("./static", "")
+
 def is_file_in_dir(file_listing, file_name):
   for f in file_listing:
     name = os.path.basename(f)
@@ -61,9 +70,12 @@ def init_media_links(folder, meta):
         continue
       file_name = file_info["name"]
       file_name_no_ext = Path(file_name).stem
+      file_path = "{}/{}".format(folder, file_name)
       if is_file_in_dir(files, file_name):
+        thumb_path = gen_thumbnail(file_path, folder + "/thumbs/")
         media_links.append({
-          'link': ("{}/{}".format(folder, file_name)).replace("./static", ""),
+          'link': file_path.replace("./static", ""),
+          'thumbLink': thumb_path,
           'timestamp': None if "timestamp" not in file_info else file_info["timestamp"],
           'caption': file_name_no_ext.replace("-"," ").title() if "caption" not in file_info else file_info["caption"],
           'video': False if "video" not in file_info else file_info["video"]
@@ -82,8 +94,10 @@ def init_media_links(folder, meta):
     file_name_no_ext = Path(file).stem
     if file_name in file_names:
       continue # skip files we've already done
+    gen_thumbnail(file, folder + "/thumbs/")
     media_links.append({
       'link': ("{}/{}".format(folder, file_name)).replace("./static", ""),
+      'thumbLink': thumb_path,
       'timestamp': None,
       'caption': file_name_no_ext.replace("-"," ").title(),
       'video': False # TODO - support finding video files
@@ -116,6 +130,7 @@ def generate_gallery(gallery, out_path):
   # Replace title and description
   master_template_file = master_template_file.replace("___TITLE___", gallery["metaTitle"])
   master_template_file = master_template_file.replace("___DESCRIPTION___", gallery["metaDescription"])
+  master_template_file = master_template_file.replace("___GALLERY-TITLE___", gallery["name"])
 
   # Generate each (sub-)gallery
   galleries_text = ""
@@ -134,8 +149,9 @@ def generate_gallery(gallery, out_path):
       if media_entry["video"]:
         gallery_items = gallery_items + '                <ReactPlayer controls width=\'100%\' url="{}"></ReactPlayer>\n'.format(media_entry["link"])
       else:
+        imgThumbSrc = "useBaseUrl('{}')".format(media_entry["thumbLink"])
         imgSrc = "useBaseUrl('{}')".format(media_entry["link"])
-        gallery_items = gallery_items + '                <img loading="lazy" src={{{}}} alt="{} - {}" />\n'.format(imgSrc, media_entry["caption"], media_entry["timestamp"])
+        gallery_items = gallery_items + '                <a href={{{}}} ><img loading="lazy" src={{{}}} alt="{} - {}" /></a>\n'.format(imgSrc, imgThumbSrc, media_entry["caption"], media_entry["timestamp"])
       if media_entry["caption"] != None:
         gallery_items = gallery_items + '                <blockquote>{}</blockquote>\n'.format(media_entry["caption"])
       gallery_items = gallery_items + '              </div>\n'

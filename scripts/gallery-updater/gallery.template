@@ -1,11 +1,9 @@
-        <section>
-          <div id="galleryContainer" className="container-fluid">
+          <section>
             <div className="row">
               <div className="col col--12">
-                <h1>___TITLE___</h1>
+                <h2>___TITLE___</h2>
                 <p>___DESCRIPTION___</p>
               </div>
             </div>
 ___ENTRIES___
-          </div>
-        </section>
+          </section>
