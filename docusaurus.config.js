@@ -26,6 +26,9 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  markdown: {
+    mermaid: true,
+  },
   scripts: [
     {
       src: 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.74/dist/shoelace.js',
@@ -61,7 +64,20 @@ const config = {
       }),
     ],
   ],
-
+  plugins: [
+    [
+      'ideal-image',
+      /** @type {import('@docusaurus/plugin-ideal-image').PluginOptions} */
+      ({
+        quality: 70,
+        max: 1030,
+        min: 640,
+        steps: 2,
+        // Use false to debug, but it incurs huge perf costs
+        disableInDev: true,
+      }),
+    ],
+  ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -85,6 +101,7 @@ const config = {
         respectPrefersColorScheme: false,
       },
       image: 'img/logo.png',
+      metadata: [{ name: 'twitter:card', content: 'summary' }],
       navbar: {
         title: 'OpenGOAL',
         logo: {
@@ -92,7 +109,7 @@ const config = {
           src: 'img/logo.png',
         },
         items: [
-          {to: 'blog', label: 'Blog', position: 'left'},
+          { to: 'blog', label: 'Blog', position: 'left' },
           {
             to: '/progress/milestones', label: 'Progress', position: 'left',
             items: [
