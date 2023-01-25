@@ -2,6 +2,16 @@ import React from 'react';
 
 const BlogList = [
   {
+    title: 'Progress Report - Jan. 2023',
+    image: require('@site/blog/progress-report-jan-2023/img/emerc-after.png').default,
+    description: (
+      <>
+        First progress report to kick off the year.  This is going to be a big one!  Lots of missions are partially working and large portions of the remaining complicated systems in Jak 2 are on their way to completion.
+      </>
+    ),
+    link: "/blog/progress-report-jan-2023"
+  },
+  {
     title: 'Progress Report - Dec. 2022',
     image: require('@site/blog/progress-report-dec-2022/img/winter.png').default,
     description: (
@@ -26,7 +36,7 @@ const BlogList = [
 function BlogPost({ image, title, description, link }) {
   console.log(image);
   return (
-    <a href={link} className="col col--6 text--center padding-horiz--md" style={{ textDecoration: "none", marginBottom: "2.5em" }}>
+    <a href={link} className="col col--4 text--center padding-horiz--md" style={{ textDecoration: "none", marginBottom: "2.5em" }}>
       <div style={{
         backgroundImage: `linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url(${image})`
       }} className="blog-card">

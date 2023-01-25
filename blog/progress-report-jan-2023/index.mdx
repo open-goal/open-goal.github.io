@@ -66,9 +66,17 @@ This improves environment mapping (shiny textures) in both Jak 1, and Jak 2.  In
 For Jak 1 this means much better performance in applicable areas.  Though not in all areas, Jak 1 will still fall back to `generic` for blend shapes / eyes / etc.
 
 <ImageCompare left={require("./img/emerc-before.png").default} right={require("./img/emerc-after.png").default}/>
+
 > The white bar is `generic` which is completely eliminated with EMERC
 
-<!-- TODO show way of toggling -->
+:::tip
+A new menu option has been added to toggle this new renderer on or off.  If you think you see a graphical issue, try toggling the option to confirm that is indeed the culprit, and please reach out to us if so!
+
+Issues we are already currently aware of:
+- Red eco rings on the final boss look off
+:::
+
+![](./img/menu-option.png)
 
 ## Jak 2
 
@@ -79,6 +87,7 @@ We've decompiled a lot of files, at this point it's probably easier to just look
 Normal ground enemies use a `nav-mesh` to know where to go and how to get there.  This is very complicated code, but as you can imagine prevents a lot of things from working properly.  Well this month we finally finished it up:
 
 <ReactPlayer controls url={require("./video/nav-mesh.mp4").default} />
+
 > Jak 2's nav-mesh debugging isn't as cool as Jak 1's by default.  But you can atleast see the 2d mesh that the enemies adhere to.
 
 In Jak 1, this would have basically meant that all enemy movement was sorted out.  But this is Jak 2, so of course it isn't that easy.  In Jak 2 there are all kinds of other `nav` like systems.  For example, the flying enemies, the vehicle traffic, etc.  However these enemies are either smaller in scope, or built ontop of the basic system we've finished here.

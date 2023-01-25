@@ -65,6 +65,10 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      announcementBar: {
+        id: 'announcementBar-0', // Increment on change
+        content: `<a href="/blog/progress-report-jan-2023">Check out January's Progress Report Here!</a>`,
+      },
       algolia: {
         // The application ID provided by Algolia
         appId: 'YAP33BKRCA',
