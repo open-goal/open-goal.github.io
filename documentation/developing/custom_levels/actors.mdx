@@ -1,0 +1,437 @@
+---
+sidebar_position: 4
+---
+
+# Actors
+
+## Common actors
+
+As said earlier, actors are all of the interactive objects in the game. What I'm calling "common" actors are the ones that do not need anything extra to be included in your level to work by themselves. Such as the main collectables like Power-cells, orbs or eco but also blue eco jump pads and eco valves.
+
+Technically, some "common actors" are not always included and will need to be added to the ".gd" manually. I'll omit those for now and they'll be explained in the "Advanced actor" part of this guide.
+
+## General information for all actors
+
+These will apply to every actor, I'll then go in more details with each type of actor. The first thing to know is where to even create the actors. As said earlier several times, these are done in the ".jsonc" file of your level.
+
+If you've copied the ".jsonc" from "test-zone", you'll already have some actors present in the file:
+
+![](./img/initial-actors.png)
+
+Let's look at all of these individually in detail.
+
+### "trans"
+
+"trans", in this case, is short for "translation". This will be the position set for the actor in the game's world. It's set in meters by default. You can use either the "Stats \> Target" method or the blender empties method to find the correct placement for your actors.
+
+### "etype"
+
+"etype", is simply which type of actor you want to spawn. Here's the list of the common actors "etypes" as well as what they actually are in the game:
+
+- " **money**", is simply the orbs.
+- " **fuel-cell**", is the power cell.
+- " **crate**", is a group of different types of crates such as wooden chest, steel crates that usually contain orbs in the base game as well as the iron crates which contain the scout flies and more.
+  - " **bucket**", is technically crate with the type set to bucket by default.
+  - " **barrel**", is also a crate with a type set to barrel by default.
+- " **eco**", is a group of different ecos that you can specify later, same as with the crates.
+  - " **eco-yellow**", is the same as the eco but with yellow eco set by default.
+  - " **eco-red**", is the same as the eco but with red eco set by default.
+  - " **eco-blue**", is the same as the eco but with blue eco set by default.
+  - " **health**", is the same as the eco but with green eco set by default.
+  - " **eco-pill**", is the same as the eco but with green eco pills set by default.
+- " **ecovent**", is the eco vent found throughout the game, the specific eco, or item, what they'll give you can be set.
+  - " **ventyellow**", is the same as an ecovent which will be set to yellow eco by default but can technically be changed to anything else as well.
+  - " **ventred**", is the same as an ecovent which will be set to red eco by default but can technically be changed to anything else as well.
+  - " **ventblue**", is the same as an ecovent which will be set to blue eco by default but can technically be changed to anything else as well.
+- " **launcher**", is the blue eco jump pad.
+
+There's technically other "common" actors but those won't be listed here as those require extra files to be included in the ".gd" of the level which will be explained in the "advanced actors" part of this guide with the other actors.
+
+### "game-task"
+
+This will associate our actor with a game task. These are used to set which tasks have been done in the game. You'll need this for your cell and fly to even count to the total as well as if you want something in your levels to only happen if a specific task has been completed or not.
+
+More on those in the "tasks and menu" part of this guide. You can keep these at "0" for now.
+
+### "quat"
+
+"quat", in this case, is short for "quaternion". These will set the rotation of your actor. Quaternions are just a mathematical formula that uses 4 values to set the rotation of your object.
+
+You do not need to do any of this math yourself, you can simply set Blender to use this method and copy the values as such:
+
+![](./img/quaternion.png)
+
+### "bsphere"
+
+-
+
+### "lump"
+
+The "lump" will be a group of other values you can set for your actors, some will be able to be used in every actor, such as the "name" one which allows you to give an unique name to each actor.
+
+Some will be specific to some "etype" of actors such as "eco-info" to set the collectable information of a crate or "spring-height" to set the height of a blue eco jump pad to name a few.
+
+## Testing the existing actors
+
+As a first test for actors, I'll simply be moving the 3 existing ones in the "jsonc" to my level. Using the empty method, I'll set their position precisely where I want them in the level.
+
+### Setting the empties in blender
+
+Here's my empties all set in Blender:
+
+![](./img/blender-empties.png)
+
+You should also keep your file well organized. You can start having hundreds of different actors for big and complex levels. You should both use the same name as the one that'll be set in the actor's lump as the name of the object in Blender as well as having all your actors in a collection:
+
+![](./img/actor-organization.png)
+
+You could even have different collections set for each "etype" if you're starting to have a huge amount of them. I'd also suggest using different "display as" for empties for different kinds of etypes so you can tell by a glance which one each is.
+
+I usually use cubes for "crate" and spheres for "money" for example.
+
+### Copying the position in the "jsonc"
+
+Now that I have all these empties set where I want those actors to spawn, I'll simply copy the position values from blender into the "jsonc" without forgetting the axis transformation as usual, as well as copying them in the "bsphere" part:
+
+![](./img/actor-change-pos.png)
+
+Link to the commit: [028cd45192dec59b716ae286bd970d2245d1eb03](https://github.com/OpenGOAL-Unofficial-Mods/OpenGOAL-example-Code/commit/028cd45192dec59b716ae286bd970d2245d1eb03)
+
+### Testing in-game
+
+Don't forget to save your file, then build in the compiler, restart the game into debug mode. If you haven't set the spawn point, also select the continue-point of your level in the debug menu.
+
+You'll now be greeted with a whole lot of…
+
+![](./img/test-nothing.png)
+
+Nothing.
+
+Don't despair, the reason you can not see any of the actors is simply because they do not have any kind of visibility data to spawn then, so the game doesn't know it has to do so. You can bandage that by forcing the game to display all actors.
+
+Simply go into the debug menu in "PC Settings… \> All actors" and turn it on:
+
+![](./img/force-actors.png)
+
+Your actors should now be visible in the game:
+
+![](./img/actors-now-visible.png)
+
+**Important note** : "All actors" is only used here as a quick and dirty fix, this shouldn't be the final way you spawn your actors as doing it this way loads in every actor that is in any loaded level. This will impact performance a lot on weaker systems.
+
+Some more efficient methods are being looked at for this at the moment and this part will be updated whenever a really good way is available.
+
+You can also save the setting at the bottom of that same list so you do not need to always switch it on every reboot.
+
+If the debug menu isn't allowing you to switch between on and off for the "all actors" option and your actors are not visible, you might have a version with a broken debug menu. To fix it,
+
+you might need to update to a newer version of the mod-base or the main project.
+
+## The "money" etype, aka orbs
+
+Orbs don't have much more to set up. You just need to set the position correctly and I'd also suggest giving them a unique name. I usually do "levelname-etype-count" to keep track of everything.
+
+![](./img/actor-orb.png)
+
+Link to the commit: [03db97866818abe57b0007544ec7624c4c7dee24](https://github.com/OpenGOAL-Unofficial-Mods/OpenGOAL-example-Code/commit/03db97866818abe57b0007544ec7624c4c7dee24)
+
+Small advice I can give for orbs is to move them 1.5 to 2.0 meters up from the ground for them to look "correctly".
+
+![](./img/orb-positioning.png)
+
+Link to the commit: [d926d4e18d54e643642cce5fc0af8da6a87c5e58](https://github.com/OpenGOAL-Unofficial-Mods/OpenGOAL-example-Code/commit/d926d4e18d54e643642cce5fc0af8da6a87c5e58)
+
+If you mess around with the rotation of the orb, you can have some wild rotation that don't appear normally in the game as such:
+
+![](./img/orb-rotation.png)
+
+Link to the commit: [70d7977c3b1b45044ed84572e60a6e3fc3000128](https://github.com/OpenGOAL-Unofficial-Mods/OpenGOAL-example-Code/commit/70d7977c3b1b45044ed84572e60a6e3fc3000128)
+
+You can technically add an eco-info and change the type of collectible you'll get by collecting the orb. It'll still look like an orb in the game but will give you whatever collectible you changed it to.
+
+Check the list in the "eco-info" part of the "crate" type.
+
+You can also change the quantity in the 2nd part of the eco-info which means you can make one Orb give you several ones.
+
+## The "fuel-cell" etype, aka power cells
+
+Power-cells also don't have too much going on either. The only thing special you need to take care of is the task which will be required if you want your cell to actually count. This part will however be explained in the "Tasks and menu" part of the guide.
+ For now we'll just keep it at 0:
+
+![](./img/actor-fuel.png)
+
+Link to the commit: [fe16dd4c1e19fab688eb108a449a27d9967d2ec0](https://github.com/OpenGOAL-Unofficial-Mods/OpenGOAL-example-Code/commit/fe16dd4c1e19fab688eb108a449a27d9967d2ec0)
+
+Same as for Orbs, you should move them up by around 2.0 meters up from the ground for it to look normal.
+
+## The "crate" etype
+
+Crates have a few more things to keep track of. Mainly the type of crate as well as the content of said crate. The position of crates, as opposed to orbs and cells, should be placed exactly on the ground.
+
+Furthermore, the "quat" for rotation are a lot more important here to get right so your crates look like they're sitting correctly on the ground.
+
+### "crate-type"
+
+The "crate-type", which is part of the lump, will set what kind of crate you're spawning in.
+
+#### 'wood crate type
+
+These are the basic wooden chests that usually have green eco pills in them in the original game with sometimes full health or another eco. You can however change whatever is inside as with every other crate.
+
+![](./img/actor-wood-crate.png)
+
+#### 'iron crate type
+
+These are the iron crates with red middles that normally have a scout fly inside. For these to work you'll also need to set the eco-info's content, talked about in the next part, to 8, which puts a scout fly inside.
+
+![](./img/actor-iron-crate.png)
+
+For scout flies to work properly, they'll need their task set correctly. This part will however be explained in the "Tasks and menu" part of the guide.
+
+#### 'steel crate type
+
+These are the tough steel crates that can't be broken with simple attacks that normally have orbs inside and sometimes cells. Same as for the wooden chest, you can also change the content of these to whatever you please.
+
+![](./img/actor-steel-crate.png)
+
+As these steel crates can't be broken with simple attacks, make sure you add things in your level to break them. Such as yellow eco, flut-flut, a zoomer or a way to fall down onto it from far up.
+
+#### 'bucket crate type
+
+Buckets are technically also a type of crate. You can find some of them on sentinel beach. By default in the game they do not drop any item but you can change that if you want to.
+
+![](./img/actor-bucket.png)
+
+#### 'barrel crate type
+
+Barrels are also another type of crate, they mostly work like wooden crates by default.
+
+![](./img/actor-barrel.png)
+
+#### 'darkeco crate type
+
+Dark eco crates are the usual crate that damage you, they don't need anything specific more than the crate-type set to 'darkeco to work.
+
+![](./img/actor-dark-eco.png)
+
+The cluster of 8 dark eco crates you can see in zoomer levels are actually a different actor which needs to be included in the level's ".gd" so it'll be explored in the "advanced actors" part of this guide.
+
+You can also technically put anything inside like any other crate. I'd advise against doing so as players are taught to try to avoid these as much as possible. Unless you want to play with this very thing in itself and torture the players…
+
+### "eco-info"
+
+Don't get fooled by the name, the eco-info, also part of the lump, will actually be used to set any collectable that's inside the crate. Here's how it's set in the "jsonc":
+
+![](./img/eco-info.png)
+
+The " **int32**" is simply tere to set what type of value you'll be using here. You need integers here which is what this sets it to.
+
+The **first number** sets the **type** of collectable that'll spawn from breaking that crate. Here's the values that you can set this for and what they'll spawn:
+
+- **1** = Yellow eco blob
+- **2** = Red eco blob
+- **3** = Blue eco blob
+- **4** = Green eco blob
+- **5** = Orbs
+- **6** = Power cell
+
+Needs a "movie-pos" to work properly. Explained later.
+
+- **7** = Green eco pill
+- **8** = Scout fly
+
+Also turns wood crate-type into iron but not any other.
+
+Also make the crate bounce like iron crates even if it's another crate-type
+
+- **9** = Several green eco pills
+
+The **second number** sets either the **quantity** of items that drops **or** is used for the **task** in the case of power cells and scout flies, which again, will be explained in the "Tasks and menu" part of this guide.
+
+### "movie-pos"
+
+The movie-pos, which you can also add in the lump, will set where the power cell will spawn when you break the crate or collect the last scout fly linked to that crate. So you should only have to add this movie-pos in case you've added either a power cell (6) or a Scout fly (8) to the crate.
+
+Here how it looks like in the lump:
+
+![](./img/movie-pos.png)
+
+You can simply copy the same position in meters that's in the "trans" which will make the power cell simply jump in place and stay there. You can also change it so the cell moves toward that new position when the crate is broken or the scout fly is collected if it's the last one.
+
+### How to get the correct rotation
+
+Using the cube visualization in blender for the empties used for the crates isn't just for nothing. This makes it a bit easier to line up with the ground. You can also make use of the "create orientation" and the "align to transform orientation" functions to align it perfectly.
+
+Or just manually rotate it.
+
+Whenever the empty is aligned, you can copy the "quat" rotation values as explained earlier.
+
+![](./img/correct-rotation.png)
+
+### Some crates examples
+
+I'll create some examples here so you can see different combinations. You can copy and edit these around as well for more testing.
+
+Use the commit at the end to be able to copy the code
+
+Some wooden crates with different contents:
+
+![](./img/wood-crate-example.png)
+
+An iron crate with a scout fly in:
+
+![](./img/scout-fly-example.png)
+
+Some steel crates with different contents:
+
+![](./img/steel-crate-example.png)
+
+A bucket, barrel and dark eco crate with no set content:
+
+![](./img/bucket-example.png)
+
+Link to commit: [238370ae492932994c6913d3535124cf7e4d5c11](https://github.com/OpenGOAL-Unofficial-Mods/OpenGOAL-example-Code/commit/238370ae492932994c6913d3535124cf7e4d5c11)
+
+I've also added the "jsonc" info next to each actor on the level itself so you can move around the level and see next to each actor how it was created:
+
+![](./img/code-ingame.png)
+
+## The "eco" etype
+
+The "eco" etype allows you to put eco blobs on the ground without having to break a crate to access them.
+
+You can technically use anything that you can put "eco-info". But using things that aren't eco in these can become very confusing so I'd advise against doing so.
+
+Here some example of eco types:
+
+1 Yellow eco blob
+
+![](./img/yellow-eco.png)
+
+1 Red eco blob
+
+![](./img/red-eco.png)
+
+1 Blue eco blob
+
+![](./img/blue-eco.png)
+
+1 Green eco blob
+
+![](./img/green-eco-blob.png)
+
+1 Green eco pill
+
+![](./img/green-eco-single.png)
+
+You can also set the quantity value for green eco pills to a higher number than one. This won't spawn multiple ones but will make the one that does count for more. This only works with eco pills and not the other eco types.
+
+1 Green eco pill that counts for 10
+
+![](./img/green-eco-ten.png)
+
+Note that using "9" in the eco-info for the collectible's type will crash the game. This is only usable with crates. If you want several green eco pills on the ground, you'll need to add them individually as different actors.
+
+Link to commit: [509199cffdcf5ca0b9baf430ff8e6bcf236f0e1a](https://github.com/OpenGOAL-Unofficial-Mods/OpenGOAL-example-Code/commit/509199cffdcf5ca0b9baf430ff8e6bcf236f0e1a)
+
+## The "ecovent" etype
+
+The eco vents can be set to the 4 base eco by using the same "eco-info" values as for the eco blobs.
+
+Note that the under part of the vent in the game are not part of the actor but are actually part of the level's geometry, you'll need to add them/create them as well in Blender to get them in game.
+
+### Basic eco vents
+
+Here's examples for the 4 basic eco vents you can make:
+
+Yellow eco vent:
+
+![](./img/yellow-vent.png)
+
+Red eco vent:
+
+![](./img/red-vent.png)
+
+Blue eco vent:
+
+![](./img/blue-vent.png)
+
+Green eco vent:
+
+![](./img/green-vent.png)
+
+Link to commit: [6d4b12795387180824f98bc55cab9103354066ec](https://github.com/OpenGOAL-Unofficial-Mods/OpenGOAL-example-Code/commit/6d4b12795387180824f98bc55cab9103354066ec)
+
+### "alt-actor" for blocked vents
+
+By adding an "alt-actor" in the lump, you can set the vent to only be active if another actor has been broken. You can set a variety of different actors for it but it has to be one that is broken, not just collected like an orb or cell.
+
+Any type of crate will do fine and be what I'll use in this example as they're the only common actor that you can break.
+
+First you'll need an actor to break, I'll use a bucket here:
+
+![](./img/blocked-vent-bucket.png)
+
+Then an ecovent with an alt-actor set to this breakable actor we just made:
+
+![](./img/blocked-vent.png)
+
+In game you'll just see the bucket:
+
+![](./img/just-bucket.png)
+
+Then after breaking it, the vent will start working:
+
+![](./img/break-bucket.png)
+
+Link to the commit: [089849870b3cd836285d7e989b1198544c950e56](https://github.com/OpenGOAL-Unofficial-Mods/OpenGOAL-example-Code/commit/089849870b3cd836285d7e989b1198544c950e56)
+
+My two actors here are on top of each other to make it looks like the bucket is blocking the vent. You can however have them at two completely different spots and it'll still work.
+
+Just make sure it makes sense as far as game design goes in your level if you have them separated like that.
+
+### "options" for deactivated vents
+
+(cba figuring this one rn, will write whenever I do)
+
+### Other collectable in vents
+
+While the ecovent are supposed to be made for eco, it's actually possible to put a different collectable in there. There won't be any particle animation for those but they can be functional.
+
+As they don't look like anything, I'll just post the "jsonc" info you need to spawn them.
+
+This vent will give you orbs infinitely:
+
+![](./img/vent-orbs.png)
+
+This vent will give you small green eco pills, which will heal you a bit slower than a normal green eco vent:
+
+![](./img/vent-pills.png)
+
+Link to the commit: [6dbd77a0a82ac626c0007a2c948852e627b9f7cb](https://github.com/OpenGOAL-Unofficial-Mods/OpenGOAL-example-Code/commit/6dbd77a0a82ac626c0007a2c948852e627b9f7cb)
+
+## The "Launcher" etype, aka blue eco jump pads
+
+There's two main things you can set with launchers, the launcher's height and the landing spot. If you don't set a landing spot, you'll be free to move however you want when you use it.
+
+### "spring-height" for the jump's height
+
+The spring height will allow you to determine how far up the launcher will send you, you can set it to meters like I did to make it much easier to calculate how high you need it to put it.
+
+![](./img/sprint-height.png)
+
+![](./img/spring-demo.png)
+
+Link to the commit: [cee84c58f4a1c902bd60fa6cfcaffb7fb3e2db34](https://github.com/OpenGOAL-Unofficial-Mods/OpenGOAL-example-Code/commit/cee84c58f4a1c902bd60fa6cfcaffb7fb3e2db34)
+
+### "alt-vector" for the landing spot
+
+The alt-vector will allow you to set the exact landing of the launcher. Don't forget using this will make it so you can't move around during the jump. You can use either "vector" or "vector4m", I'll be using "vector4m" so I don't have to do any unit conversion and easily set the position.
+
+![](./img/landing-spot.png)
+
+The position is set here to the spawn:
+
+![](./img/landing-spot-demo.png)
+
+Link to the commit: [292f078128208cbfd54b30cf1028c90c93f5429c](https://github.com/OpenGOAL-Unofficial-Mods/OpenGOAL-example-Code/commit/292f078128208cbfd54b30cf1028c90c93f5429c)

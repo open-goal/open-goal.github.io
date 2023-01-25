@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/okaidia');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'OpenGOAL',
-  tagline: 'Reviving the Language that Brought us the Jak & Daxter Series',
+  tagline: 'Reviving the Language that Brought us the Jak and Daxter Series',
   url: 'https://open-goal.github.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -25,6 +25,9 @@ const config = {
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
+  },
+  markdown: {
+    mermaid: true,
   },
   scripts: [
     {
@@ -61,13 +64,26 @@ const config = {
       }),
     ],
   ],
-
+  plugins: [
+    [
+      'ideal-image',
+      /** @type {import('@docusaurus/plugin-ideal-image').PluginOptions} */
+      ({
+        quality: 70,
+        max: 1030,
+        min: 640,
+        steps: 2,
+        // Use false to debug, but it incurs huge perf costs
+        disableInDev: true,
+      }),
+    ],
+  ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       announcementBar: {
         id: 'announcementBar-0', // Increment on change
-        content: `<a href="/blog/progress-report-jan-2023">Check out January's Progress Report Here!</a>`,
+        content: `<a href="/blog/progress-report-jan-2023">Check out the Latest Progress Report Here!</a>`,
       },
       algolia: {
         // The application ID provided by Algolia
@@ -89,6 +105,7 @@ const config = {
         respectPrefersColorScheme: false,
       },
       image: 'img/logo.png',
+      metadata: [{ name: 'twitter:card', content: 'summary' }],
       navbar: {
         title: 'OpenGOAL',
         logo: {
@@ -96,7 +113,7 @@ const config = {
           src: 'img/logo.png',
         },
         items: [
-          {to: 'blog', label: 'Blog', position: 'left'},
+          { to: 'blog', label: 'Blog', position: 'left' },
           {
             to: '/progress/milestones', label: 'Progress', position: 'left',
             items: [
@@ -105,11 +122,11 @@ const config = {
                 to: '/progress/milestones',
               },
               {
-                label: 'Jak 1 - Decompilation',
+                label: 'Jak and Daxter - Decompilation',
                 to: '/progress/jak1',
               },
               {
-                label: 'Jak 2 - Decompilation',
+                label: 'Jak II - Decompilation',
                 to: '/progress/jak2',
               }
             ]
@@ -122,14 +139,14 @@ const config = {
           },
           { to: '/docs/faq', label: 'FAQ', position: 'left' },
           {
-            label: 'Gallery', position: 'left',
+            label: 'Galleries', position: 'left',
             items: [
               {
-                label: 'Jak 1',
+                label: 'Jak and Daxter: The Precursor Legacy',
                 to: '/gallery/jak1',
               },
               {
-                label: 'Jak 2',
+                label: 'Jak II',
                 to: '/gallery/jak2',
               }
             ]

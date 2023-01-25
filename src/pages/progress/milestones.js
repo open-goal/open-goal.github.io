@@ -71,7 +71,7 @@ export default function Progress() {
           <div className="container">
             <div className="row">
               <div className="col">
-                <h1 className="monospaced">Jak & Daxter - The Precursor Legacy</h1>
+                <h1 className="monospaced">Jak and Daxter - The Precursor Legacy</h1>
               </div>
             </div>
             <div className="row mt-2">

@@ -1,0 +1,71 @@
+---
+sidebar_position: 0
+---
+
+# Introduction
+
+Most of this information comes from Kuitar's guide here - https://docs.google.com/document/d/1oPPV4U8iq8yjarE_9EyDScY3UkHUY2ZKX5vHazkcXCc
+
+See the Google Doc link for the latest info at this time.
+
+:::danger
+The tooling around building custom levels is in very early stages.
+
+Be Prepared to encounter many situations where you won't be able to do certain things without _significant_ effort in areas such as:
+- Programming C++
+- Programming OpenGOAL
+- 3D Modelling without a lot of tooling
+- etc.
+:::
+
+This guide will hopefully serve as a stepping stone for you to get into it. While I’m not going to pretend I’m an expert in everything here, there are a lot of things that I have learned.
+
+This is a work in progress and will probably be public before it’s fully finished, whenever there’s enough to get started with. Bear with me.
+Note that some tools which will make part of this guide obsolete are being worked on at the moment. I do not know when they’ll be completed but will try to update the guide when those changes are made.
+
+## What you’ll learn here
+
+This guide will get you up to speed on all the fundamental you’ll need to create a working level within the game such as:
+- Initial setup for a new level
+- Exporting a level from blender
+- Adding actors
+- Changing collisions
+- Creating checkpoints and load boundaries
+- Lighting your level, jak and actors
+- Creating task for your cell and flies to work properly
+- Creating the menu for your level
+- Adding and editing particle systems
+
+This guide will not teach you how to use blender or coding. While I’ll go over what I do in blender and might give some tips here and there, this is not in the scope of this guide to teach you how to use blender, you’ll need to learn it from other sources.
+
+The coding aspects will also be very basic, you can learn more about GOAL on the [main website's documentation](https://opengoal.dev/docs/reference/)
+
+## Required Software
+
+Here's the list of each software you'll need or that I'd suggest you do to make your work better.
+
+- **Blender 3.2.2** While other 3D modeling software might also allow you to export into ".glb" files, there's specific addons and things that'll only be possible through Blender. Also you should just learn blender, it's one of the most impressive pieces of open source software that exists (not biased). You'll specifically need the version 3.2.2 for now for reasons that'll be explained later. You can download this specific version [here by clicking on "download every version of Blender"](https://www.blender.org/download/previous-versions/) and looking through the list.
+- **Visual Studio Code or Sublime text.** The choice here isn't as important, you could edit code in notepad if you really wanted but an advanced source-code editor will make your life much easier, the two mentioned here also have specific addons to color GOAL's syntax. I'll personally be using Visual Studio Code.
+- **GitHub Desktop** , this one is not fully a requirement and if you're not used to working with Git, you probably don't need to set all of that up on your first try at a custom level. But if you're going to work on a large project and especially working with a team, it'll pretty much be a requirement. I'll not go into how any of this works in specific.
+- **OpenGOAL** , specifically the [opengoal-mod-base made by Zed and Barg](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base). This has some changes made to make modding easier and most importantly has the requirements to be able to get added to the mod launcher later on.
+- **Jak 1 ISO** , same as for playing opengoal normally, you'll need an iso to extract, this doesn't come with the opengoal-mod-base.
+
+## Scope of your project
+
+Before you even start, it's a good idea to think about the scope of your own project. Depending on what you want to do, the skill-set you'll need can be very varied.
+
+- It can be as simple as importing a level file from another game and placing a few actors which unless you want to do advanced things with those actors, shouldn't need high levels of blender or coding knowledge.
+- The next steps are levels made from importing assets. These will need quite a bit more knowledge of blender to be able to place things well. Without needing to know things like actual 3D modeling. There's also currently no library made of the base's game assets to make this easier so you'll need to rip the assets yourself from the base game's models which, while it's not the hardest thing to do, will definitely be a lot more time consuming.
+- The last "difficulty" is a level with fully custom geometry, this will require a pretty good level of blender or 3D modeling in general. While I think anyone that puts in the time and effort should be able to learn blender enough for this, know that this is a huge undertaking if you've never done 3D modeling. As someone that has done 3D modeling for 15+ years and teaches some of it, you'll have to strap in. So I'll suggest being realistic with your goals when starting.
+
+This whole thing isn't to scare any of you. Quite the opposite, I think huge expectations are more likely to stop you. You can also ignore my advice and prove me wrong by doing some insane shit, I'd love to see them.
+
+## Current limitations
+
+While there's a lot that can already be done within custom levels, there's also things that can not. Crystal cave is a decent showing of a lot of the things that are currently possible but not all. Here's the main things that are not possible or would require a lot of hard coding:
+
+- **Nav-mesh** , these are required to have any enemy or npc that moves around. So any moving enemy, which is almost all of them, can not be used at the moment.
+- **Paths** are used for a lot of things, most notably moving platforms and enemies. While platforms can be spawned easily, you can't give them a path the normal way yet.
+- **Water** is another of those big things that can't be done yet as well for similar reasons to the nav-mesh.
+
+There's probably a lot more stuff like cutscenes and very advanced things but these are the more basic ones that aren't possible so far.

@@ -1,28 +1,9 @@
-import React from 'react';
-import Layout from '@theme/Layout';
-
-// NOTE - this file is generated at build time, don't touch it!
-// - if you know of a better way to do this, contribute it!
-
-___IMAGE_IMPORTS___
-
-export default function render() {
-  return (
-    <Layout
-      title="___TITLE___"
-      description="___DESCRIPTION___">
-      <main className="sl-theme-dark">
-        <section>
-          <div id="galleryContainer" className="container-fluid">
+          <section>
             <div className="row">
               <div className="col col--12">
-                <h1>___TITLE___</h1>
+                <h2>___TITLE___</h2>
+                <p>___DESCRIPTION___</p>
               </div>
             </div>
 ___ENTRIES___
-          </div>
-        </section>
-      </main>
-    </Layout>
-  );
-}
+          </section>
