@@ -6,7 +6,7 @@ const BlogList = [
     image: require('@site/blog/progress-report-jan-2023/img/emerc-after.png').default,
     description: (
       <>
-        First progress report to kick off the year.  This is going to be a big one!  Lots of missions are partially working and large portions of the remaining complicated systems in Jak 2 are on their way to completion.
+        The first progress report to kick off the year, perhaps surprisingly, it's going to be a big one!
       </>
     ),
     link: "/blog/progress-report-jan-2023"

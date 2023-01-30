@@ -5,6 +5,7 @@ import CaptionedImage from '@site/src/mdx/CaptionedImage';
 import PRLink from '@site/src/mdx/PRLink';
 import ImageCompare from '@site/src/mdx/ImageCompare';
 import ReactPlayer from 'react-player'
+import LauncherDownloadLink from "@site/src/components/LauncherDownloadLink"
 
 export default {
   // Re-use the default mapping
@@ -12,5 +13,6 @@ export default {
   "CaptionedImage": CaptionedImage,
   "PRLink": PRLink,
   "ReactPlayer": ReactPlayer,
-  "ImageCompare": ImageCompare
+  "ImageCompare": ImageCompare,
+  "LauncherDownloadLink": LauncherDownloadLink
 };
