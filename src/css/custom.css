@@ -446,3 +446,7 @@ div[class^='announcementBar_'] {
   );
   font-weight: bold;
 }
+
+.blog-video {
+  margin-bottom: 1em;
+}

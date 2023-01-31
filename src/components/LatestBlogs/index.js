@@ -3,10 +3,10 @@ import React from 'react';
 const BlogList = [
   {
     title: 'Progress Report - Jan. 2023',
-    image: require('@site/blog/progress-report-jan-2023/img/emerc-after.png').default,
+    image: require('@site/blog/progress-report-jan-2023/img/poster.png').default,
     description: (
       <>
-        The first progress report to kick off the year, perhaps surprisingly, it's going to be a big one!
+        The first progress report to kick off the year and perhaps surprisingly, it's a big one!
       </>
     ),
     link: "/blog/progress-report-jan-2023"

@@ -6,7 +6,7 @@ slug: progress-report-jan-2023
 authors:
   - vaser
 tags: [progress-report]
-image: ./img/emerc-after.png
+image: ./img/poster.png
 hide_table_of_contents: false
 draft: false
 ---
@@ -15,7 +15,7 @@ draft: false
   <meta name="twitter:card" content="summary_large_image" />
 </head>
 
-The first progress report to kick off the year, perhaps surprisingly, it's going to be a big one!  Lots of missions are partially working and large portions of the remaining complicated systems in Jak 2 are on their way to completion.  We even have some new features in Jak 1 to share!
+The first progress report to kick off the year and perhaps surprisingly, a big one!  Lots of missions are partially working and large portions of the remaining complicated systems in Jak 2 are on their way to completion.  We even have some new features in Jak 1 to share!
 
 <!--truncate-->
 
@@ -37,7 +37,7 @@ I figured these monthly reports would be a great place to highlight some of the 
 
 ### Crystal Cave by *Kuitar*
 
-Probably the biggest thing that happened this month was the alpha release of Kuitar's custom level, **Crystal Cave**. Despite custom level tooling currently hit-or-miss, it is amazing what Kuitar has already achieved.  Having such a high-fidelity example hopefully inspires others to follow suit and continues to help motivate development for better tooling!  You can check it out via the [Unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io/)
+Probably the biggest thing that happened this month was the alpha release of Kuitar's custom level, **Crystal Cave**. Despite custom level tooling currently being hit-or-miss, it is amazing what Kuitar has been able to achieve in spite of it.  Having such a high-fidelity example hopefully inspires others to follow suit and continues to help motivate development for better tooling.  You can check it out via the [Unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io/)
 
 :::info
 Additionally, Kuitar put together a fairly comprehensive guide for making a custom level.  [Which you can find here](/docs/developing/custom_levels/intro)
@@ -79,10 +79,10 @@ For Jak 1 this means much better performance in applicable areas.  Jak 1 will st
 > The white bar is `generic` which is completely eliminated with EMERC
 
 :::info
-A new menu option has been added to toggle this new renderer on or off.  If you think you see a graphical issue, try toggling the option to confirm that is indeed the culprit, and please reach out to us if so!
+A new menu option has been added to toggle this new renderer on or off.  If you think you've found a graphical issue, try toggling the option to confirm that is indeed the culprit, and please reach out to us if so!
 
 Issues we are already currently aware of:
-- Red eco rings on the final boss look off
+- Red eco rings on the final boss
 :::
 
 ![](./img/menu-option.png)
@@ -103,11 +103,11 @@ This change essentially adds a level select menu, that is tailored towards these
 You bring up this menu by pressing L1 + R1 + X + Start while speedrunner mode is enabled.
 :::
 
-<ReactPlayer controls url={require("./video/il-select.mp4").default} />
+<ReactPlayer controls url={require("./video/il-select.mp4").default} className="blog-video"/>
 
 In addition, a new `Checkpoint Select` menu was added to the `Secrets` menu once you finish the game.  Allowing you to quickly warp anywhere, from anywhere.
 
-<ReactPlayer controls url={require("./video/checkpoint-select.mp4").default} />
+<ReactPlayer controls url={require("./video/checkpoint-select.mp4").default} className="blog-video"/>
 
 In the future, expect a `Level Select` menu for normal users to be added that would allow you to replay an area without having to mess around with a bunch of save files or the built-in debug menu.  This should be fairly simple to add since it will be very similar to the individual level menu, just with some differences on what should be pre-unlocked.
 
@@ -119,11 +119,11 @@ We've decompiled **a lot** of files, at this point it's easier to just look at o
 
 Normal ground enemies use a `nav-mesh` to know where to go and how to get there.  This is very complicated code, which only got more complicated in Jak 2, but as you can imagine it prevents a lot of things from working properly.  Well this month we finally finished it up:
 
-<ReactPlayer controls url={require("./video/nav-mesh.mp4").default} />
+<ReactPlayer controls url={require("./video/nav-mesh.mp4").default} className="blog-video"/>
 
 > Jak 2's nav-mesh debugging isn't as cool as Jak 1's by default.  But you can atleast see the 2-D mesh that the enemies adhere to.
 
-In Jak 1, this would have basically meant that all enemy movement was sorted out.  But this is Jak 2, so of course it isn't that easy.  In Jak 2 there are all kinds of other `nav` like systems.  For example, the flying enemies, the vehicle traffic, etc.  However these enemies are either smaller in scope, or built ontop of the basic system we've finished here.
+In Jak 1, this would have basically meant that all enemy movement was sorted out.  But this is Jak 2, so of course it isn't that easy.  In Jak 2 there are all kinds of other `nav` like systems.  For example, the flying enemies, the vehicle traffic, etc.  However these systems are either smaller in scope, or built ontop of the basic system we've finished here.
 
 :::info
 If you are _really_ interested in how this works, besides reading the OpenGOAL code, their basic nav-mesh design is described in **Game Programming Gems 3**
@@ -137,13 +137,13 @@ A fairly critical piece of Jak's gameplay.  For Jak 2 this also includes things 
 
 The HUD is now mostly working.  Just like in Jak 1 the HUD code is one of the few places that has some very strange edge-cases we have to deal with and work around involving the layout of the associated types.
 
-<ReactPlayer controls url={require("./video/hud.mp4").default} />
+<ReactPlayer controls url={require("./video/hud.mp4").default} className="blog-video"/>
 
 ### Particle Fixes <PRLink href="https://github.com/open-goal/jak-project/pull/2088"/>
 
 Unfortunately, the issue causing the insanely fast spawning of bullet shells has been fixed :(
 
-<ReactPlayer controls url={require("./video/shells.mp4").default} />
+<ReactPlayer controls url={require("./video/shells.mp4").default} className="blog-video"/>
 
 ### Streaming Audio Work <PRLink href="https://github.com/open-goal/jak-project/pull/2096"/>
 
@@ -155,21 +155,21 @@ The jetboard training mission is one of the first missions we got mostly working
 
 Additionally, a small feature was added to truly complete that skateboarding video game experience.  I suppose this would be one of the first mods for Jak 2 as well!
 
-<ReactPlayer controls url={require("./video/jetboard.mp4").default} />
+<ReactPlayer controls url={require("./video/jetboard.mp4").default} className="blog-video"/>
 
 ### Catch Scouts <PRLink href="https://github.com/open-goal/jak-project/pull/2090"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2106"/>
 
 With the jetboard training mission working, the next logical mission to try to get working was `Catch Scouts`. For the most part, this is yet another mission we have working end to end.
 
-<ReactPlayer controls url={require("./video/scouts.mp4").default} />
+<ReactPlayer controls url={require("./video/scouts.mp4").default} className="blog-video"/>
 
 ### The Titansuit <PRLink href="https://github.com/open-goal/jak-project/pull/2091"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2099"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2114"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2152"/>
 
 The core code for the titansuit / mechsuit was decompiled, and for the most part works in the relevant missions.
 
-<ReactPlayer controls url={"https://www.youtube.com/watch?v=8tJlI_88NjQ"} />
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=8tJlI_88NjQ"} className="blog-video"/>
 
-<ReactPlayer controls url={"https://www.youtube.com/watch?v=Hj9aefxAUtU"} />
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=Hj9aefxAUtU"} className="blog-video"/>
 
 ### Discord RPC <PRLink href="https://github.com/open-goal/jak-project/pull/2100"/>
 
@@ -186,17 +186,17 @@ Our plan is to add the game name to the RPC string, for example `Playing OpenGOA
 
 Normal on-foot crimson guards are working, along with a bunch of missions that they are a part of.
 
-<ReactPlayer controls url={require("./video/guards.mp4").default} />
+<ReactPlayer controls url={require("./video/guards.mp4").default} className="blog-video"/>
 
 This also includes the dig mission
 
-<ReactPlayer controls url={require("./video/dig.mp4").default} />
+<ReactPlayer controls url={require("./video/dig.mp4").default} className="blog-video"/>
 
 And fortress related missions (notice the broken hovering crimson guards)
 
-<ReactPlayer controls url={require("./video/fordump.mp4").default} />
+<ReactPlayer controls url={require("./video/fordump.mp4").default} className="blog-video"/>
 
-<ReactPlayer controls url={require("./video/fortress-friends.mp4").default} />
+<ReactPlayer controls url={require("./video/fortress-friends.mp4").default} className="blog-video"/>
 
 ### Minimap <PRLink href="https://github.com/open-goal/jak-project/pull/2118"/>
 
@@ -206,15 +206,15 @@ The minimap code has been decompiled.  There isn't much to show other than the e
 
 More mostly completable missions!
 
-<ReactPlayer controls url={require("./video/sewer-enemy.mp4").default} />
+<ReactPlayer controls url={require("./video/sewer-enemy.mp4").default} className="blog-video"/>
 
-<ReactPlayer controls url={require("./video/sewer-board.mp4").default} />
+<ReactPlayer controls url={require("./video/sewer-board.mp4").default} className="blog-video"/>
 
 ### Mountain Temple is sort of Working <PRLink href="https://github.com/open-goal/jak-project/pull/2110"/>
 
 There is still a good amount of mountain temple that doesn't work or look properly yet.  But there is a good amount that does!
 
-<ReactPlayer controls url={"https://www.youtube.com/watch?v=EkdPVqQXwqE"} />
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=EkdPVqQXwqE"} className="blog-video"/>
 
 Essentially all the shiny precursor metal surfaces don't render properly and there are minor issues around the various animations that play throughout the level.  Critical parts of the mission like the block puzzle and falling boulder sections have some bugs as well.
 
@@ -222,11 +222,11 @@ Essentially all the shiny precursor metal surfaces don't render properly and the
 
 These missions were decompiled for a week or so without being able to be tested.  This was related to an issue in the level extraction itself, which when fixed allowed this level to be played as well as the drill platform.
 
-<ReactPlayer controls url={require("./video/strip-rescue.mp4").default} />
+<ReactPlayer controls url={require("./video/strip-rescue.mp4").default} className="blog-video"/>
 
-<ReactPlayer controls url={"https://www.youtube.com/watch?v=8C5Z3aNOnjA"} />
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=8C5Z3aNOnjA"} className="blog-video"/>
 
-<ReactPlayer controls url={require("./video/strip-eggs.mp4").default} />
+<ReactPlayer controls url={require("./video/strip-eggs.mp4").default} className="blog-video"/>
 
 ### A bunch of AI related code <PRLink href="https://github.com/open-goal/jak-project/pull/2127"/>
 
@@ -236,21 +236,21 @@ Jak 2 has a bunch of dedicated systems for controlling other characters. For exa
 
 While not yet totally complete, some of mars tomb is now functional:
 
-<ReactPlayer controls url={"https://www.youtube.com/watch?v=0FpVqH6Kcx0"} />
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=0FpVqH6Kcx0"} className="blog-video"/>
 
-<ReactPlayer controls url={"https://www.youtube.com/watch?v=pN1jqBeHO14"} />
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=pN1jqBeHO14"} className="blog-video"/>
 
 ### Ruins Tower <PRLink href="https://github.com/open-goal/jak-project/pull/2114"/>
 
-Getting this mission to work end-to-end highlighted a lot of missing pieces.  It's still not perfect (as with most missions that work right now), but it's fairly well along.  One of the interesting things to note about it is how detailed some of the original animations and effects were (see the falling platforms), with OpenGOAL we can now see them in their full glory :)
+Getting this mission to work end-to-end highlighted a lot of missing pieces.  It's still not perfect (as with most missions that work right now), but it's fairly well along.  One of the interesting things to note is how detailed some of the original animations and effects were (see the falling platforms), with OpenGOAL we can now see them in their full glory :)
 
-<ReactPlayer controls url={"https://www.youtube.com/watch?v=fm2al5kqoBQ"} />
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=fm2al5kqoBQ"} className="blog-video"/>
 
 ### A bunch of enemies <PRLink href="https://github.com/open-goal/jak-project/pull/2101"/>
 
 A long list of enemies were fully decompiled and added to the code base.  A lot of the previous videos would have been pretty boring without this work being done!
 
-<ReactPlayer controls url={"https://www.youtube.com/watch?v=RnQ38kX-A-8"} />
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=RnQ38kX-A-8"} className="blog-video"/>
 
 ### Pumping Station <PRLink href="https://github.com/open-goal/jak-project/pull/2134"/>
 
@@ -264,13 +264,13 @@ Almost all side missions scattered around haven city are mostly working.  For ex
 
 At first we were just concerned with fixing the issue related to the ocean lacking collision.  But now the ocean is more or less fully rendering with only some minor issues related to the transition between the `near` and `mid/far` ocean sections.
 
-<ReactPlayer controls url={"https://www.youtube.com/watch?v=bPqckATicws"} />
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=bPqckATicws"} className="blog-video"/>
 
 ### Metal Head Arcade <PRLink href="https://www.youtube.com/watch?v=f6HPWKO0yAc"/>
 
 The metalhead arcade is also working quite well.  The score counter needs some work but other than yet, add another completable mission to the pile!
 
-<ReactPlayer controls url={"https://www.youtube.com/watch?v=f6HPWKO0yAc"} />
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=f6HPWKO0yAc"} className="blog-video"/>
 
 ### Underport <PRLink href="https://github.com/open-goal/jak-project/pull/2163"/>
 
@@ -280,13 +280,13 @@ The underport levels are sort of working.  Similar to the ammo dump mission at f
 
 Texture issues aside, the fight on the palace roof with the baron is now totally working end-to-end.
 
-<ReactPlayer controls url={"https://www.youtube.com/watch?v=e3IBm6SwAyI"} />
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=e3IBm6SwAyI"} className="blog-video"/>
 
 ### Destroy Equipment at Port <PRLink href="https://github.com/open-goal/jak-project/pull/2169"/>
 
 The mission where you destroy the blue devices for Krew in the port area is now working. You have to do it on the jetboard because vehicles still aren't working yet but that's about it.
 
-TODO video
+<ReactPlayer controls url={require("./video/portrun.mp4").default} className="blog-video"/>
 
 ## Jak 2 - Decompilation Tooling
 
@@ -294,7 +294,7 @@ TODO video
 
 If you've ever used Jak's debug mode, you know things can get a bit...messy.  Now there is a new ImGUI menu to make this much cleaner.  You can filter by the content of the strings as well as by how far away they are from Jak.
 
-<ReactPlayer controls url={require("./video/debug-text.mp4").default} />
+<ReactPlayer controls url={require("./video/debug-text.mp4").default} className="blog-video"/>
 
 :::info
 This feature should also work in Jak 1.
@@ -312,11 +312,11 @@ This improves both Jak 1 and Jak 2.  Up until now, Jak 2's decompiled code hasn'
 
 In a previous progress report, I showed off the nice new offline-test output.  One of the issues with this is if you had more threads than your terminal could display -- it looked terrible.  No more! It now factors in the amount of rows in your terminal and adjusts how many threads it shows.  It will also prefer active threads and hide completed ones.
 
-### REPL QoL Improvements <PRLink href="https://github.com/open-goal/jak-project/pull/2104"/>
+### REPL QoL Improvements <PRLink href="https://github.com/open-goal/jak-project/pull/2104"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2176"/>
 
 As we are now launching the game a lot to test or debug things, some changes were added to make this workflow better.
 
-Now your `startup.gc` file can be split into two sections, so when you re-listen to the game, it will run the second section automatically.  This is super useful for spawning yourself at the mission you are trying to test, toggle on debug options, etc.
+Now your `startup[-jak1|-jak2].gc` file can be split into two sections, so when you re-listen to the game, it will run the second section automatically.  This is super useful for spawning yourself at the mission you are trying to test, toggle on debug options, etc.
 
 REPL keybinds can also now be customized via the JSON settings file, and you can list all current keybinds with `(repl-keybinds)`
 
@@ -344,7 +344,7 @@ Before it was possible for actors to share the same ID as an actor in another le
 
 ### Ambient support <PRLink href="https://github.com/open-goal/jak-project/pull/2173"/>
 
-Not merged yet, but ambient support is being added for custom levels.  This lets you do things like play hints when Jak enters a given area.
+Ambient support has being added for custom levels.  This lets you do things like play hints when Jak enters a given area.
 
 This PR also serves as a fantastic example for how we would currently go about adding support for something.  If you are working on a custom level and are struggling to do something because it isn't supported yet, consider doing the C++ work and submitting a PR so we can improve the experience together.
 
