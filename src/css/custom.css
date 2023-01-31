@@ -132,8 +132,8 @@ html {
 }
 
 .home-section {
-  padding-top: 5em;
-  padding-bottom: 5em;
+  padding-top: 2.5em;
+  padding-bottom: 2.5em;
 }
 
 .typed-cursor.typed-cursor--blink {
@@ -411,4 +411,42 @@ section {
 /* Mimic the margin bottom separator used for most markdown elements, helps with consistent spacing */
 .markdownMarginBottom {
   margin-bottom: var(--ifm-leading);
+}
+
+.blog-card {
+  padding-top: 5em;
+  padding-bottom: 5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  min-height: 350px;
+  background-size: cover;
+  background-position: center;
+  transition: all .05s ease-in-out;
+  color: white;
+  font-weight: 700;
+}
+
+.blog-card:hover {
+  transform: scale(1.05);
+}
+
+div[class^='announcementBar_'] {
+  --site-announcement-bar-stripe-color1: hsl(
+    44, 99%, 85%
+  );
+  --site-announcement-bar-stripe-color2: hsl(
+    44, 99%, 95%
+  );
+  background: repeating-linear-gradient(
+    35deg,
+    var(--site-announcement-bar-stripe-color1),
+    var(--site-announcement-bar-stripe-color1) 20px,
+    var(--site-announcement-bar-stripe-color2) 10px,
+    var(--site-announcement-bar-stripe-color2) 40px
+  );
+  font-weight: bold;
+}
+
+.blog-video {
+  margin-bottom: 1em;
 }

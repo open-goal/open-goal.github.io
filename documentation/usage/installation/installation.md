@@ -2,7 +2,6 @@
 sidebar_position: 0
 ---
 
-import { LauncherDownloadLink } from "/src/pages/index.js"
 import Requirements from '../../partials/_requirements.mdx';
 
 # Installation
