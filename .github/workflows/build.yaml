@@ -28,7 +28,7 @@ jobs:
 
       - name: Build Gallery
         run: |
-          pip install pillow
+          pip install pillow pillow-avif-plugin
           python ./scripts/gallery-updater/update-gallery.py
 
       - name: Build Site

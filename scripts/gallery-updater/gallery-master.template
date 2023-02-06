@@ -16,7 +16,7 @@ export default function render() {
           <section>
             <div className="row">
               <div className="col col--12">
-                <h1>___GALLERY-TITLE___</h1>
+                <h1><i>___GALLERY-TITLE___</i></h1>
               </div>
             </div>
           </section>
