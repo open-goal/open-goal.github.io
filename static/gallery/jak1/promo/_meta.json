@@ -40,7 +40,7 @@
   { "name": "promoE2.avif", "caption": "...as well as cutscenes" },
   {
     "name": "promoE3.avif",
-    "caption": "OpenGOAL level-of-detail (LOD) control (left: highest detail; right: lowest detail)}"
+    "caption": "OpenGOAL level-of-detail (LOD) control (left: highest detail; right: lowest detail)"
   },
   { "name": "promoC1.avif", "caption": "OpenGOAL Collision Renderer" },
   {
