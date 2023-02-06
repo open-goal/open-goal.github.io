@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import json
 from PIL import Image
+import pillow_avif
 
 galleryMap = {
   'jak1': {
@@ -12,7 +13,7 @@ galleryMap = {
     'galleries': {
       'promo': {
         'name': "Promo Gallery",
-        'description': "Composed shots meant to show off the port. Click the images to open them in 4K (3840x2160) resolution! Originally captured at 16K (15360x8640).",
+        'description': "Composed shots meant to show off the port. Click the images to open them in 8K (7680x4320) resolution! Originally captured at 16K (15360x8640).",
         'folder': 'jak1/promo',
         'media': []
       },
@@ -43,6 +44,8 @@ def gen_thumbnail(file, out_folder):
   file_name_no_ext = Path(file).stem
   thumb_path = out_folder + file_name_no_ext + ".jpg"
   with Image.open(file) as im:
+    if im.mode in  ("RGBA", "P"):
+      im = im.convert("RGB")
     im.thumbnail([768,512])
     im.save(thumb_path, "JPEG")
   return thumb_path.replace("./static", "")
@@ -57,6 +60,7 @@ def is_file_in_dir(file_listing, file_name):
 
 def init_media_links(folder, meta):
   files = glob.glob(folder + "/*.png", recursive=False)
+  files.extend(glob.glob(folder + "/*.avif", recursive=False))
   files.extend(glob.glob(folder + "/*.jpg", recursive=False))
   files.extend(glob.glob(folder + "/*.jpeg", recursive=False))
 
