@@ -4,6 +4,20 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+  {
+    "name": "Gen Docs",
+    "request": "launch",
+    "runtimeArgs": [
+      "run-script",
+      "gen-docs"
+    ],
+    "runtimeExecutable": "npm",
+    "skipFiles": [
+      "<node_internals>/**"
+    ],
+    "type": "node",
+    "cwd": "${workspaceFolder}"
+  },
     {
       "name": "Python: Current File",
       "type": "python",
