@@ -450,3 +450,7 @@ div[class^='announcementBar_'] {
 .blog-video {
   margin-bottom: 1em;
 }
+
+.no-margin p {
+  margin: 0;
+}

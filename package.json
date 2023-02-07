@@ -12,7 +12,8 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "new-blog": "node ./scripts/new-blog.js"
+    "new-blog": "node ./scripts/new-blog.js",
+    "gen-docs": "node ./scripts/doc-formatter/index.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "2.2.0",

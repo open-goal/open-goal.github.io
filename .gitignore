@@ -9,6 +9,10 @@ node_modules/
 .docusaurus
 .cache-loader
 
+# Generate Documentation
+documentation/source-docs/**/*.mdx
+!documentation/source-docs/**/index.mdx
+
 # Misc
 .DS_Store
 .env.local
