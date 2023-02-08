@@ -21,6 +21,7 @@ export default function LauncherDownloadLink() {
       return;
     }
     const data = await response.json();
+    console.log(`[OG]: Platform - ${platform.os}`);
     const isWindows = platform.os.family.toLowerCase().includes("win");
     const isLinux = platform.os.family.toLowerCase().includes("linux");
     if (isWindows) {
