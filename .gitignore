@@ -11,7 +11,7 @@ node_modules/
 
 # Generate Documentation
 documentation/source-docs/**/*.mdx
-!documentation/source-docs/**/index.mdx
+!documentation/source-docs/source-docs/index.mdx
 
 # Misc
 .DS_Store
