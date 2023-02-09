@@ -22,8 +22,9 @@ export default function LauncherDownloadLink() {
     }
     const data = await response.json();
     console.log(`[OG]: Platform - ${platform.os}`);
-    const isWindows = platform.os.family.toLowerCase().includes("win");
-    const isLinux = platform.os.family.toLowerCase().includes("linux");
+    const platformLower = platform.os.family.toLowerCase()
+    const isWindows = platformLower.includes("win");
+    const isLinux = platformLower.includes("linux") || platformLower.includes("ubuntu") || platformLower.includes("debian") || platformLower.includes("fedora") || platformLower.includes("red hat") || platformLower.includes("suse");
     if (isWindows) {
       for (const asset of data.assets) {
         if (asset.name.match(/^.*\.msi$/)) {
