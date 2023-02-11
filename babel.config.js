@@ -1,3 +1,8 @@
 module.exports = {
   presets: [require.resolve('@docusaurus/core/lib/babel/preset')],
+  env: {
+    development : {
+      compact: false
+    }
+  }
 };

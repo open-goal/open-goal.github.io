@@ -479,6 +479,8 @@ details.doc-toggle > summary::before {
 	vertical-align: middle;
 	opacity: .5;
 	filter: invert(100%);
+  position: absolute;
+  margin-top: 0.15rem;
 }
 
 details.doc-toggle {
@@ -520,7 +522,7 @@ details.doc-toggle > summary.hideme > span, .more-examples-toggle summary, .more
 }
 
 details.doc-toggle > summary > span {
-	margin-left: 9px;
+  padding-left: 25px;
 }
 
 .doc-block {
@@ -538,9 +540,11 @@ details.doc-toggle > summary:focus::before, details.doc-toggle > summary:hover::
   margin-top: 2em;
 }
 
-.doc-file-header > h2 {
+.doc-file-header > h1,h2 {
   flex-grow: 1;
   margin-bottom: 0.5em;
+  color: #febb01;
+  font-size: var(--ifm-h2-font-size);
 }
 
 .doc-source-link {
@@ -551,6 +555,7 @@ details.doc-toggle > summary:focus::before, details.doc-toggle > summary:hover::
 .doc-identifier-heading {
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .doc-identifier-heading > span {
@@ -565,6 +570,12 @@ details.doc-toggle > summary:focus::before, details.doc-toggle > summary:hover::
 
 .doc-file h3 {
   margin-bottom: 0.5rem;
+}
+
+.doc-file h4,h5 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  font-size: var(--ifm-h4-font-size);
 }
 
 .doc-file p {
@@ -591,4 +602,9 @@ details.doc-toggle > summary:focus::before, details.doc-toggle > summary:hover::
 .doc-identifier-link:hover {
   color: #fdd687;
   text-decoration: none;
+}
+
+.doc-nothing-defined {
+  color: gray;
+  font-style: italic;
 }
