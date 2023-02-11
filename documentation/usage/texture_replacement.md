@@ -20,6 +20,16 @@ The PNG file should have an alpha channel. Some textures use their alpha channel
 
 ## Where to place the files?
 
+### Using the OpenGOAL Launcher
+
+Click on the gear icon in the bottom left of the launcher to get to the Settings page of the launcher. Then click on the button labeled `Open App Directory`, this should open up a folder with your systems file manager. Inside of this directory open the `data` folder and create a folder called `texture_replacements` . The directory structure should be
+
+```
+data/texture_replacements/page_name/texture_name.png
+```
+
+Where `page_name` is the name of the folder in `data/decompiler_out/jak1/textures` and `texture_name.png` is the name of the texture. After you have placed your texture replacements into the proper directory, click on the `Decompile` button on the front page of the launcher to replace the textures in your game.
+
 ### Using a Release build
 
 Create a folder called `texture_replacements` inside the `data` directory. The directory structure should be
