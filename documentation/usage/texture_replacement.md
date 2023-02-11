@@ -22,7 +22,7 @@ The PNG file should have an alpha channel. Some textures use their alpha channel
 
 ### Using the OpenGOAL Launcher
 
-Click on the gear icon in the bottom left of the launcher to get to the Settings page of the launcher. Then click on the button labeled Open App Directory, this should open up a folder with your systems file manager. Inside of this directory open the `data` folder and create a folder called `texture_replacements` . The directory structure should be
+Click on the gear icon in the bottom left of the launcher to get to the Settings page of the launcher. Then click on the button labeled `Open App Directory`, this should open up a folder with your systems file manager. Inside of this directory open the `data` folder and create a folder called `texture_replacements` . The directory structure should be
 
 ```
 data/texture_replacements/page_name/texture_name.png
