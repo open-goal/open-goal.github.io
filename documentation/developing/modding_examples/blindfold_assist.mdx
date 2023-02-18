@@ -10,7 +10,7 @@ February 16, 2023
 
 ## Background
 
-Today I'm going to run through the process of building a mod to assist with blindfolded runs. I chose to kick things off with this mod because it only required some simple changes, so I think reviewing the code should be easy enough. If you want to play this mod yourself, it's waiting for you in the [Unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io/) 😁
+Today I'm going to run through the process of building a mod to assist with blindfolded runs. I chose to kick things off with this mod because it only required a few simple changes, so I think reviewing the code should be easy enough. If you want to play this mod yourself, it's waiting for you in the [Unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io/) 😁
 
 ![](./img/blindfold_assist/mod_image.png)
 
@@ -19,7 +19,7 @@ If you're unfamiliar with [blindfolded video gaming](https://www.denofgeek.com/g
 - being able to move in straight lines and/or consistent distances
 - manipulating the camera in consistent patterns
 
-When it comes to Jak, the game's responsive engine provides maybe too much flexibility in controlling Jak's movement and the camera 😅 which ends up hindering the consistency of blindfolded setups. So for this mod we'll actually be limiting some functionality - here are the two changes I set out to tackle (thanks Borrdi for the suggestions):
+When it comes to Jak, the game's responsive engine provides maybe too much flexibility in controlling Jak's movement and the camera 😅. This ends up hindering the consistency of blindfolded setups - so for this mod we'll actually be limiting some functionality! Here are the two changes I set out to tackle (thanks Borrdi for the suggestions):
 - limit analog stick input to 8 directions ↑ ↗ → ↘ ↓ ↙ ← ↖ (every 45 degrees)
 - add a button combo to (attempt to) center the camera behind Jak
 
@@ -79,6 +79,8 @@ This next part gets a little math-heavy, but the basic idea for limiting to 8 di
 
 Since we took the absolute value of the slope, `leftrad` will always be between 0 and π/2. Therefore we can just check if it's closer to 0 (the X-axis, left/right), to π/4 (45 degrees, diagonal), or to π/2 (the Y-axis, up/down), and multiply by -1 afterwards where needed. If we're closest to the X-axis, we can just set the Y coordinate to 0 to snap to the X-axis, leaving the X coordinate alone. Vice-versa if we're closest to the Y-axis. If we're closest to the diagonal, we can set the X/Y coordinates both to the average of their absolute values - guaranteeing a 45-degree angle. For the final results, we need to make sure we're using the [0,255] range.
 
+![](./img/blindfold_assist/trig2.png)
+
 ```lisp
 (cond 
   ((< leftrad (/ PI 8))
@@ -106,8 +108,6 @@ Since we took the absolute value of the slope, `leftrad` will always be between 
     )
   )
 ```
-
-![](./img/blindfold_assist/trig2.png)
 
 And that's it! We repeat this code for the right stick, and everything downstream now uses our modified analog stick input values!
 
