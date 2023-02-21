@@ -145,10 +145,9 @@ As you might guess from the name, `rand-vu-percent?` is one of the ways RNG can 
 Unfortunately with the nested linked list design of `*level-load-info*` and the inner `continues` lists, it's tough to apply something like this directly. There are also a few test checkpoints that we'd want to exclude in the randomizer. So instead we can build a custom flat array of the checkpoints we want to use:
 
 ```lisp
-(define *num-checkpoints* 77)
 (define *checkpoint-list* 
   (the-as (array string) 
-    (new 'static 'boxed-array :type string :length *num-checkpoints* :allocated-length *num-checkpoints*
+    (new 'static 'boxed-array :type string :length 77 :allocated-length 77
       "game-start"
       "village1-hut"
       "village1-warp"
@@ -164,20 +163,63 @@ Unfortunately with the nested linked list design of `*level-load-info*` and the 
 And then we're free to combine our checkpoint warp command with `rand-vu-int-count` to randomize where we warp to:
 
 ```lisp
-(let ((checkpoint-name (-> *checkpoint-list* (rand-vu-int-count *num-checkpoints*))))
+(let ((checkpoint-name (-> *checkpoint-list* (rand-vu-int-count 77))))
   (start 'play (get-continue-by-name *game-info* checkpoint-name))
   )
 ```
 
 ### Triggering on Power Cell pickup
 
-TODO: work backwards from adjust game-info; call out modbase hook
+The last piece of the puzzle for the original mod is to trigger this randomized checkpoint warp whenever the player picks up a Power Cell. Internally these are known as `fuel-cell`s, and are [defined in `goal_src/jak1/engine/common-obs/collectables.gc`](https://github.com/open-goal/jak-project/blob/08ce65fd9bafa56f0d0017a9670112acc1019bb7/goal_src/jak1/engine/common-obs/collectables.gc#L1305-L1317). 
+
+There are a few core steps in the process of collecting a Power Cell:
+
+- [`fuel-cell` enters `pickup` state](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/common-obs/collectables.gc#L1525-L1965)
+  - [`*target*` is sent `'get-pickup` event](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/common-obs/collectables.gc#L1659)
+    - [`*target*` receives `'get-pickup` event](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/target/target-handler.gc#L42-L60)
+      - [`(-> *target* fact-info-target)` is updated](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/game/game-info.gc#L616-L631)
+        - [`*game-info*` (Power Cell internal counter) is updated](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/game/game-info.gc#L378-L399)
+          - misc Power Cell stats are updated
+          - related `entity-perm-status` and `game-task` is marked complete
+  - [game auto-saves](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/common-obs/collectables.gc#L1667)
+  - [Power Cell victory cutscene plays](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/common-obs/collectables.gc#L1668-L1673)
+
+For this mod, we decided to [disable the victory cutscene](https://github.com/dallmeyer/jak-project/blob/76a46a233cad22c5d84f001329836d6a752f5aa4/goal_src/jak1/engine/common-obs/collectables.gc#L1700-L1707) and [execute the checkpoint warp here](https://github.com/dallmeyer/jak-project/blob/76a46a233cad22c5d84f001329836d6a752f5aa4/goal_src/jak1/engine/common-obs/collectables.gc#L1723-L1726), after the internal counter and related `entity-perm-status` and `game-task` are updated. In effect, the moment the victory cutscene would normally appear is when Jak is warped away.
 
 ## Softlocks & edge cases
 
-### Misty softlock
+### Citadel missing elevator
+
+This was an interesting and important edge case we stumbled across: if you collected the Green Sage Power Cell and just so happened to warp back to the top of Citadel checkpoint, the elevator door would open but no elevator would appear (unless you died or de/respawned the elevator). What we realized was that the `(start 'play ...)` method of warping to a checkpoint would not reload any currently loaded levels or entities.
+
+The [solution](https://github.com/dallmeyer/jak-project/blob/f3bdd9273531ea03e47c588862649fd9d7726a83/goal_src/jak1/engine/mods/checkpoint-randomizer.gc#L334-L343) we settled on was to instead warp by manually setting the checkpoint and then killing Jak 😬 which ensures the level is reloaded properly after the Power Cell has been collected. Our previous checkpoint warp call would end up [setting the checkpoint here in `init-target`](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/target/logic-target.gc#L1932). If we look at the [definition for `set-continue!`](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/game/game-info.gc#L113), we see it should accept a `continue-point` or a string as an argument. Now we just need a proper way to kill Jak, and we again borrowed from the debug menu - this time looking at `Game` > `New Life` and copying the underlying [`(initialize! *game-info* 'die ...)` call](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/debug/default-menu.gc#L3391-L3395).
+
+```lisp
+(defun warpToCheckpoint ((checkpointName string))
+  ;; warps to checkpoint, assuming it is already safe to use
+  (format 0 "RANDOMIZER: ...warping to ~A~%" checkpointName)
+  (set-continue! *game-info* checkpointName)
+
+  ;; trigger death to warp to checkpoint
+  ;; this ensures init functions for new level run (misty boat, citadel elevator)
+  (initialize! *game-info* 'die (the-as game-save #f) (the-as string #f))
+  (none)
+  )
+```
 
 ### Citadel softlock
+
+One of the first softlocks we ran into was with Gol & Maia's Citadel, and the 2 things that initially prevent you from entering (or more important in this case, exiting). Until you've collected the End of Lava Tube Power Cell from the Zoomer pad, there will be a large invisible wall in front of the Citadel entrance. Additionally, the Citadel door won't open until you've pressed the Lava Tube warp gate button and gotten past Keira's cutscene. 
+
+With the checkpoint randomizer, it was possible to be warped into Citadel enough times to collect all the Power Cells, without having unlocked both of these things - leaving you trapped within the Citadel walls!
+
+TODO: fix
+
+### Misty softlock
+
+A similar issue could occur if you were warped to Misty Island several times before you completed the fishing game. Since the fisherman's boat wouldn't be available to take you back to the mainland, once you had collected everything on Misty Island, you'd have no way off the island.
+
+TODO: fix
 
 ### Pelican softlock
 
