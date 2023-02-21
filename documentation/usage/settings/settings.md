@@ -20,9 +20,7 @@ When enabled, non-playable characters (mainly Daxter) will assist Jak over the c
 
 ### SUBTITLES
 
-Subtitles represent a major additional feature that was not present in the original game.
-
-When enabled, displays subtitles for the in-game cutscenes. This can be toggled on and off by using the punch button (Square on PlayStation) during an in-game cutscene. Default value is off.
+Subtitles represent a major additional feature that was not present in the original game. When enabled, displays subtitles for the in-game cutscenes. This can be toggled on and off by using the punch button (Square on PlayStation) during an in-game cutscene, which you will be notified about during the intro cutscene of the game. Default value is off.
 
 ### HINT SUBTITLES
 
@@ -38,7 +36,7 @@ import Jak1LanguageStatusTable from './language_status.js';
 
 <Jak1LanguageStatusTable game="jak1" />
 
-Note that if a language is marked with "<span className="reddishColor">No</span>" in this table then it will not appear as a selectable option for that column's setting. "<span className="yellowColor">Partial</span>" indicates a significant amount of missing text. Note that a cell marked with "<span className="greenColor">Yes</span>" can still be missing a few strings of text due to the continuously developing nature of OpenGOAL.
+Note that if a language is marked with "<span className="reddishColor">No</span>" in this table then it will not appear as a selectable option for that column's setting. "<span className="yellowColor">Partial</span>" indicates a significant amount of missing text. A text language marked with "<span className="greenColor">Yes</span>" can still be missing a few strings of text due to the continuously developing nature of OpenGOAL.
 
 If you're interested in adding new subtitles or text to the game, or editing existing ones, take a look [at the subtitle translations page](/docs/contributing/subtitle-translations).
 
@@ -49,7 +47,14 @@ If you're interested in adding new subtitles or text to the game, or editing exi
 
 Determines whether the name of the speaker will be displayed at the start of each string of text for the subtitles. Three options are available: "ALWAYS" will make the name always appear, "NEVER" will make the name never appear and "OFF-SCREEN" will make the name appear if the speaker is off-screen (note: hints are always considered "off-screen" for this purpose). Default value is **OFF-SCREEN**.
 
-IMAGEGOESHERE
+<div className="row markdownMarginBottom">
+    <div className="col">
+        <div className="simple-flex-box">
+            <CaptionedImage caption="Subtitle speaker hidden" src={require("./img/subtitle-speaker-off.png").default} />
+            <CaptionedImage caption="Subtitle speaker shown" src={require("./img/subtitle-speaker-on.png").default} />
+        </div>
+    </div>
+</div>
 
 ### CAMERA OPTIONS
 
@@ -82,8 +87,8 @@ Adds a glow backdrop effect to all Precursor Orbs. This is a small visual tweak,
 <div className="row markdownMarginBottom">
     <div className="col">
         <div className="simple-flex-box">
-            <CaptionedImage caption="Orb glow off, the original" src={require("./img/orb_glow_off.png").default} />
-            <CaptionedImage caption="Orb glow on, new option" src={require("./img/orb_glow_on.png").default} />
+            <CaptionedImage caption="Orb glow off, the original" src={require("./img/orb-glow-off.png").default} />
+            <CaptionedImage caption="Orb glow on, new option" src={require("./img/orb-glow-on.png").default} />
         </div>
     </div>
 </div>
@@ -109,7 +114,7 @@ Effects of speedrunner mode:
 
 ## Graphic Options
 
-Options that affect the game's visuals.
+Options that affect the game's visuals. Note that a few of the options present in the original game, such as **VIDEO MODE** and **CENTER SCREEN**, have been removed as they are no longer useful.
 
 ### GAME RESOLUTION
 
@@ -119,10 +124,17 @@ This menu brings up a list of resolutions, which will vary according to your mon
 
 Default values are 640x480 for windowed mode and your monitor's resolution for fullscreen modes. Recommended value is whatever you think looks best without a performance drawback!
 
+<div className="row markdownMarginBottom">
+    <div className="col">
+        <div className="simple-flex-box">
+            <CaptionedImage caption="Running at 512x224 on a 1920x1080 display" src={require("./img/game-resolution-ntsc.png").default} />
+            <CaptionedImage caption="Running at 1920x1080 on a 1920x1080 display" src={require("./img/game-resolution-1080.png").default} />
+            <CaptionedImage caption="Running at 3840x2160 on a 1920x1080 display" src={require("./img/game-resolution-4k.png").default} />
+        </div>
+    </div>
+</div>
+
 <sup>1</sup> If OpenGOAL detects the wrong monitor or the wrong settings for this for this, it is possible for resolutions that do not work properly to be displayed here and could lead to a game crash when used. Please select a smaller resolution if this is the case.
-
-
-TODO PUT IMAGES HERE!!!!!!!!!
 
 ### DISPLAY MODE
 
@@ -146,7 +158,22 @@ Default value is **FIT TO SCREEN** which will automatically expand or contract t
 
 When any option other than **FIT TO SCREEN** is selected, the excess parts of the window will be letterboxed or pillarboxed accordingly.
 
-EXAMPLEIMAGEHERE
+<div className="row markdownMarginBottom">
+    <div className="col">
+        <div className="simple-flex-box">
+            <CaptionedImage caption="4x3 on a 4x3 display area" src={require("./img/aspect-pc-4x3.png").default} />
+            <CaptionedImage caption="OpenGOAL 16x9 on a 4x3 display area" src={require("./img/aspect-pc-16x9.png").default} />
+        </div>
+    </div>
+</div>
+<div className="row markdownMarginBottom">
+    <div className="col">
+        <div className="simple-flex-box">
+            <CaptionedImage caption="OpenGOAL 16x9 on a 16x9 display area" src={require("./img/aspect-16x9-native.png").default} />
+            <CaptionedImage caption="PS2 16x9 on a 16x9 display area" src={require("./img/aspect-16x9-ps2.png").default} />
+        </div>
+    </div>
+</div>
 
 ### MSAA
 
@@ -161,7 +188,7 @@ EXAMPLEIMAGEHERE
     </div>
 </div>
 
-Default setting is off. Recommended value is as high as you can go without running into performance issues. Note that MSAA has worse results than super-sampling (rendering at a higher resolution than shown).
+Default setting is 2x. Recommended value is as high as you can go without running into performance issues. Note that super-sampling (rendering at a higher resolution than what is shown) is preferred over MSAA.
 
 ### FRAME RATE
 
@@ -175,22 +202,62 @@ Additional visual modifiers that affect the game's built-in engine limitations t
 
 Affects the level of detail used for the background scenery in the game. This is generally the parts that don't move (or simply sway in the wind). Default value is **HIGH**. Reccommended value is **HIGH**. Performance impact is nearly nonexistant.
 
+<div className="row markdownMarginBottom">
+    <div className="col">
+        <div className="simple-flex-box">
+            <CaptionedImage caption="High level of detail" src={require("./img/lod-bg-hi.png").default} />
+            <CaptionedImage caption="Low level of detail" src={require("./img/lod-bg-lo.png").default} />
+        </div>
+    </div>
+</div>
+
 #### LEVEL OF DETAIL (FOREGROUND)
 
-Affects the level of detail used for the foreground actors in the game. This is every 3D graphics that is not the background, such as enemies, crates and moving platforms. Default value is **HIGH**. Reccommended value is **HIGH**. Performance impact is nearly nonexistant.
+Affects the level of detail used for the foreground actors in the game. This is every 3D graphic that is not the background, such as enemies, crates and moving platforms. Default value is **HIGH**. Reccommended value is **HIGH**. Performance impact is nearly nonexistant.
+
+<div className="row markdownMarginBottom">
+    <div className="col">
+        <div className="simple-flex-box">
+            <CaptionedImage caption="High level of detail" src={require("./img/lod-fg-hi.png").default} />
+            <CaptionedImage caption="Low level of detail (PS2 behavior)" src={require("./img/lod-fg-lo.png").default} />
+        </div>
+    </div>
+</div>
 
 #### PARTICLE CULLING
 
 Affects the particle culling effect, where less and less particle effects spawn as the camera moves further away. When disabled, this effect is removed completely making all particles spawn regardless of camera distance. It also raises the maximum amount of on-screen particle effects by a whopping 12x and makes the off-camera particle effects spawn more aggressively. This makes the game look more lively, especially at higher resolutions. Default value is off. Recommended value is off. Performance impact is very small, but on rare occasions enabling this might fix some massive lag spikes.
 
-Imaaaaaaaaaaages
+<div className="row markdownMarginBottom">
+    <div className="col">
+        <div className="simple-flex-box">
+            <CaptionedImage caption="Culling disabled" src={require("./img/sprite-pc.png").default} />
+            <CaptionedImage caption="Culling enabled (PS2 behavior)" src={require("./img/sprite-ps2.png").default} />
+        </div>
+    </div>
+</div>
 
 #### FORCE ENVIRONMENT MAPPING
 
 Controls the environment mapping effect on foreground objects, such as Precursor Orbs. When enabled, environment mapping and ripple effects (seen in bodies of liquid) are always rendered instead of fading out with the camera distance, removing the noticeable level-of-detail fading. Default value is on. Recommended value is on. Performance impact is nearly nonexistant.
 
+<div className="row markdownMarginBottom">
+    <div className="col">
+        <div className="simple-flex-box">
+            <CaptionedImage caption="PS2 environment mapping" src={require("./img/envmap-off.png").default} />
+            <CaptionedImage caption="Forced environment mapping" src={require("./img/envmap-on.png").default} />
+        </div>
+    </div>
+</div>
 
-imaggggggeeeeee
+<div className="row markdownMarginBottom">
+    <div className="col">
+        <div className="simple-flex-box">
+            <CaptionedImage caption="PS2 ripple effect" src={require("./img/ripple-off.png").default} />
+            <CaptionedImage caption="Forced ripple effect" src={require("./img/ripple-on.png").default} />
+        </div>
+    </div>
+</div>
 
 ## Sound Options
 
