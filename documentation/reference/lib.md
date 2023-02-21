@@ -770,7 +770,7 @@ will return the `inspect` method of `string`.
 
 ### `car` and `cdr`
 
-Get element from pair
+Get element from pair. `car` returns the first element, `cdr` returns the second element. 
 
 ```lisp
 (car some-pair)

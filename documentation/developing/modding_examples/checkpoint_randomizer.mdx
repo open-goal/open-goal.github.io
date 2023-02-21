@@ -1,0 +1,252 @@
+---
+sidebar_position: 1
+title: Checkpoint Randomizer
+description: A deep dive into the code changes for the Checkpoint Randomizer Mod
+---
+
+# Checkpoint Randomizer Mod - Code Review
+February 22, 2023
+<a href="https://github.com/dallmeyer"><img style={{verticalAlign:"middle"}} src="https://github.com/dallmeyer.png" width="40px" hspace="5"/><b>barg034</b></a>
+
+## Background
+
+In this Code Review, I'm going to walk through the changes we made to build the Checkpoint Randomizer mod. A little backstory to this mod - before OpenGOAL, there was actually a [predecessor that ran alongside the PCSX2 emulator](https://www.youtube.com/watch?v=jpYPk8eoDts), which would read from/write to PCSX2 memory, developed by [Ruh](https://www.youtube.com/@PunishedRuh). Around mid-2022 as OpenGOAL Jak 1 development was wrapping up, [Zed](https://github.com/Zedb0T) then ported the concept over to OpenGOAL, creating one of the earliest mods for the game. This is actually what sparked my interest in OpenGOAL modding, and how I met Zed - he popped into my stream while I was trying out his original randomizer 😅 If you'd like to play this mod yourself, you can find it in the [Unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io/).
+
+![](./img/checkpoint_randomizer/gambler.png)
+
+Initially, the intent of the mod was pretty straightforward - whenever you collect a Power Cell, it should warp you to a randomly selected checkpoint in the game. Over time, we've added quite a few enhancements and variations to this, such as:
+- addressing miscellaneous softlocks and edge cases
+- refactoring the random checkpoint logic to make it consistent based on an initial seed value
+- letting the user change various options:
+  - random seed vs set seed
+  - randomizing by level vs by checkpoint
+  - number of Power Cells collected before being warped
+  - toggling warp when picking up Power Cells, Precursor Orbs, Scout Flies, Eco and/or dying
+  - toggling a few additional custom checkpoints
+- extending the pause menu to configure the above options, and persisting them to file
+
+Unfortunately I don't have the cleanest *full* diff for this, because our Checkpoint Randomizer mod is bundled with some other challenge options (bonkless, pacifist, etc) and a bit of local multiplayer code. With that said [here is the full diff](https://github.com/dallmeyer/jak-project/compare/master...dallmeyer:jak-project:rando?w=1#files_bucket) of changes for this mod - I'll point out the specific pieces relating to the Checkpoint Randomizer as we go.
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/MPPQ-9oYs3c?start=1013" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+## Main idea
+
+### Checkpoint warping
+
+First let's talk about the checkpoint system a bit. We'll start by looking at what the built-in debug menu offers, similar to how we explored what was possible with the camera in the [Blindfold Assist mod](./blindfold_assist#wherehow-is-the-camera-defined).
+
+![](./img/checkpoint_randomizer/debug_continue.png)
+
+Under `Game` > `Continue` you'll find the list of all checkpoints - your current checkpoint will be highlighted, and you can select any of them to warp to that checkpoint within your current game. This menu is incredibly useful in general for development purposes, and a great jumping off point for building this mod.
+
+If we search for the `"Continue"` string in `goal_src/jak1/engine/debug/default-menu.gc`, we'll see that [here](https://github.com/open-goal/jak-project/blob/65f2146d736cf6cb4d8e0c09f12aceda18835e05/goal_src/jak1/engine/debug/default-menu.gc#L3536-L3538) it calls a `build-continue-menu` function, which looks like this:
+
+```lisp
+(defun build-continue-menu ((arg0 debug-menu) (arg1 game-info))
+  (let ((s5-0 *level-load-list*))
+    (while (not (null? s5-0))
+      (let ((s4-0 (-> (the-as level-load-info (-> (the-as symbol (car s5-0)) value)) continues)))
+        (while (not (null? s4-0))
+          (let* ((v1-2 (the-as level-load-info (car s4-0)))
+                 (a1-2 (new 'debug 'debug-menu-item-flag (the-as string (-> v1-2 name)) (-> v1-2 name) dm-current-continue))
+                 )
+            (debug-menu-append-item arg0 a1-2)
+            )
+          (set! s4-0 (cdr s4-0))
+          )
+        )
+      (set! s5-0 (cdr s5-0))
+      )
+    )
+  (the-as debug-menu-context arg0)
+  )
+```
+
+Let's break this down - first it sets a local variable `s5-0` to `*level-load-list*` which is defined [here in `goal_src/jak1/engine/level/level-info.gc`](https://github.com/open-goal/jak-project/blob/b130b2eac27966c43f6816ee604a3a93a67e82fa/goal_src/jak1/engine/level/level-info.gc#L1943-L1970). `*level-load-list*` is technically of type [`pair`](../../reference/reader/#pair), but you can think of it like a [linked list](../../reference/reader/#list). Within this list, each element is an object of type [`level-load-info`](https://github.com/open-goal/jak-project/blob/b130b2eac27966c43f6816ee604a3a93a67e82fa/goal_src/jak1/engine/level/level-h.gc#L92-L127), defining a level within the game. Note that 'level' here refers to how the engine actually loads levels, and this doesn't always correspond one-to-one with the levels you see in the pause menu - for example, Spider Cave is actually represented as 3 distinct levels: `maincave`, `darkcave`, and `robocave`.
+
+So for a list like this, what `s5-0` really represents is a reference to the first element in the list, whose `value` would be the `training` instance of `level-load-info` in our case. With this in mind, on the next line we see a `while` loop which runs until that reference becomes null - so you might reasonably guess that we'll be iterating through the list. Sure enough, a few lines down you'll see it reassigns `s5-0` to `(cdr s5-0)`, which advances us to the next element in the list. [`cdr`](../../reference/lib/#car-and-cdr) extracts the second element of the `pair`, which in the case of this list will either be another `pair` or null once we've reached the end of the list.
+
+Within the level loop, we can see we have a new local variable `s4-0`, which is initially set to `(-> (car s5-0) value continues)` (type conversions removed for readability). [`car`](../../reference/lib/#car-and-cdr) extracts the first element of the `pair`, whose `value` in this case is the actual `level-load-info` object. Similar to how `*level-load-list*` is a list of `level-load-info` objects, each `level-load-info` object's [`continues`](https://github.com/open-goal/jak-project/blob/b130b2eac27966c43f6816ee604a3a93a67e82fa/goal_src/jak1/engine/level/level-h.gc#L110) field is a list of the `continue-point`s within that level. For example, we can see the `finalboss` level has 2 `continue-point`s:
+
+```lisp
+(define finalboss
+  (new 'static 'level-load-info
+    ...
+    :continues '((new 'static 'continue-point
+        :name "finalboss-start"
+        :level 'finalboss
+        :trans (new 'static 'vector :x 11548456.0 :y 2215872.0 :z -19409498.0 :w 1.0)
+        :quat (new 'static 'quaternion :y 0.7325 :w 0.6807)
+        :camera-trans (new 'static 'vector :x 11513311.0 :y 2234999.5 :z -19435708.0 :w 1.0)
+        :camera-rot (new 'static 'array float 9 0.5883 0.0 -0.8085 0.1074 0.9911 0.0781 0.8014 -0.1328 0.5831)
+        :load-commands '((special "citb-exit-plat-4" #t))
+        :vis-nick 'fin
+        :lev0 'finalboss
+        :disp0 'display
+        :lev1 'citadel
+        :disp1 'special
+        )
+      (new 'static 'continue-point
+        :name "finalboss-fight"
+        :level 'finalboss
+        :trans (new 'static 'vector :x 12288335.0 :y 1970461.9 :z -19848522.0 :w 1.0)
+        :quat (new 'static 'quaternion :y -0.5359 :w -0.8442)
+        :camera-trans (new 'static 'vector :x 12265366.0 :y 1984228.5 :z -19842574.0 :w 1.0)
+        :camera-rot (new 'static 'array float 9 -0.243 0.0 -0.97 0.2594 0.9635 -0.065 0.9346 -0.2675 -0.2341)
+        :load-commands '((special "citb-exit-plat-4" #t))
+        :vis-nick 'fin
+        :lev0 'finalboss
+        :disp0 'display
+        :lev1 'citadel
+        :disp1 'special
+        )
+      )
+    ...
+    )
+  )
+```
+
+From here the code uses a similar `while` loop to go through all the `continue-point`s in each level, and adds a new debug menu item for each one. I'll gloss over the details of the debug menu itself, but the important takeaway is that when one of these options is selected, it will run the `dm-current-continue` function and pass the name of the `continue-point` as an argument.
+
+OK we're finally getting to where the magic happens! Within [`dm-current-continue`](https://github.com/open-goal/jak-project/blob/b130b2eac27966c43f6816ee604a3a93a67e82fa/goal_src/jak1/engine/debug/default-menu.gc#L301-L306), we see `(start 'play (get-continue-by-name *game-info* arg0))`. `arg0` here is the name of the `continue-point`, based on which option was selected in the debug menu. We can confirm this is the relevant code by connecting our REPL and running a sample such as `(start 'play (get-continue-by-name *game-info* "finalboss-fight"))`, which will send us to the final boss fight.
+
+### Making it random
+
+Alright so now we know how to warp to a particular `continue-point`, let's work on randomizing where we warp to. Let's assume you didn't know anything about RNG implementation in OpenGOAL - one way to figure out how RNG works is to pick something in the game that you know relies on RNG, and read through the related code. A nice isolated candidate for this is the fishing game in Forbidden Jungle, which uses RNG to determine the fish types and patterns.
+
+If you search the codebase for "fishgame" you should eventually find yourself in `goal_src/jak1/levels/jungle/fisher.gc`, which contains the code for the fisherman and his fishing game. With some luck, you'll come across [the code where the fish are spawned](https://github.com/open-goal/jak-project/blob/65f2146d736cf6cb4d8e0c09f12aceda18835e05/goal_src/jak1/levels/jungle/fisher.gc#L1461-L1491), and in particular let's look at this `cond` branch:
+
+```lisp
+(cond
+  ((rand-vu-percent? (-> self params powerup-percent))
+    (if (and (>= (- (-> *display* base-frame-counter) (-> self ambient-big-one)) (seconds 30))
+            (play-ambient (-> self ambient) "FIS-TA03" #t (-> self root-override trans))
+            )
+        (set! (-> self ambient-big-one) (-> *display* base-frame-counter))
+        )
+    'powerup
+    )
+  ((rand-vu-percent? (-> self params bad-percent))
+    'bad
+    )
+  ((rand-vu-percent? (-> self params deadly-percent))
+    'deadly
+    )
+  (else
+    'normal
+    )
+  )
+```
+
+As you might guess from the name, `rand-vu-percent?` is one of the ways RNG can be introduced. Defined in [`goal_src/jak1/engine/math/math.gc`](https://github.com/open-goal/jak-project/blob/08ce65fd9bafa56f0d0017a9670112acc1019bb7/goal_src/jak1/engine/math/math.gc#L230-L233), this function will return `#t` with the probability that is provided as an argument. In this case, it's used to randomly determine whether a 5 pound fish (`'powerup`), an eel (`'bad`), or a 1 pound fish (`'normal`) will be spawned next, based on the probabilities set for that part of the fish game (`'deadly-percent` is always 0, so the `'deadly` branch is never hit 🤷‍♂️). 
+
+`math.gc` actually contains a whole library of RNG functions that we can use in different scenarios, so now how can we use these to randomly choose a `continue-point` to warp to? Well if we had an array of 10 checkpoints, we could select an index by generating a random integer between 0 and 9 (inclusive) using [`rand-vu-int-count`](https://github.com/open-goal/jak-project/blob/08ce65fd9bafa56f0d0017a9670112acc1019bb7/goal_src/jak1/engine/math/math.gc#L230-L233). 
+
+Unfortunately with the nested linked list design of `*level-load-info*` and the inner `continues` lists, it's tough to apply something like this directly. There are also a few test checkpoints that we'd want to exclude in the randomizer. So instead we can build a custom flat array of the checkpoints we want to use:
+
+```lisp
+(define *num-checkpoints* 77)
+(define *checkpoint-list* 
+  (the-as (array string) 
+    (new 'static 'boxed-array :type string :length *num-checkpoints* :allocated-length *num-checkpoints*
+      "game-start"
+      "village1-hut"
+      "village1-warp"
+      "beach-start"
+      ...
+      "citadel-generator-end"
+      "citadel-elevator"
+      )
+    )
+  )
+```
+
+And then we're free to combine our checkpoint warp command with `rand-vu-int-count` to randomize where we warp to:
+
+```lisp
+(let ((checkpoint-name (-> *checkpoint-list* (rand-vu-int-count *num-checkpoints*))))
+  (start 'play (get-continue-by-name *game-info* checkpoint-name))
+  )
+```
+
+### Triggering on Power Cell pickup
+
+TODO: work backwards from adjust game-info; call out modbase hook
+
+## Softlocks & edge cases
+
+### Misty softlock
+
+### Citadel softlock
+
+### Pelican softlock
+
+### Resuming run if gk is closed
+
+TODO: part of motivation behind seeding
+
+## RNG Seeding
+
+### Pre-generating checkpoint list
+
+### Restoring state after gk is closed
+
+### Checkpoint predictability
+
+TODO: talk about ported rand-vu limitation, why it surfaced only now
+
+## RNG Options
+
+### Random seed vs set seed
+
+### Randomizing by level
+
+TODO: balancing gameplay; initial hack with repeated checkpoints
+
+## Warp trigger variations
+
+### Every X Power Cells
+
+### Scout Flies
+
+### Precursor Orbs
+
+TODO: issues with crates, vents
+
+### Eco
+
+TODO: single vs vents
+
+### Death
+
+## Additional custom checkpoints
+
+## Randomizer settings file
+
+TODO: mirror pc-settings
+
+## Pause menu randomizer options
+
+TODO: on/off, slider
+
+---
+
+## Appendix
+
+- [Using the OpenGOAL REPL](../repl)
+- [OpenGOAL unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io)
+- [OpenGOAL Mod Base - Github](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base)
+- [OpenGOAL Randomizer Mod Pack - Github](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-randomizer-mod-pack)
+- [OpenGOAL Language Reference](../../reference)
+  - [`if`](../../reference/lib/#if)
+  - [`and`](../../reference/goos/#and)
+  - [`cond`](../../reference/lib/#cond)
+  - [`let`](../../reference/lib/#let)
+  - [`let*`](../../reference/lib/#let-1)
+  - [`+`](../../reference/lib/#-2)
+  - [`-`](../../reference/lib/#-)
+  - [`/`](../../reference/lib/#-4)
+  - [`set!`](../../reference/goos/#set)
+  - [`the-as`](../../reference/lib/#the-as)
+  - [Processes and States](../../reference/process_and_state)
+  - [Comments](../../reference/syntax/#comments)
