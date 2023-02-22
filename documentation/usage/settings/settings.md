@@ -266,7 +266,7 @@ This menu remains unaltered from the original game and its settings are self exp
 
 ### CHEATS
 
-A staple feature of Jak and Daxter games that only got introduced in Jak II, now in the first game thanks to contributions from the OpenGOAL community. We won't spoil the various cheats here, but here's just a quick sneak peek...
+A staple feature of Jak and Daxter games that only got introduced in Jak II, now in the first game thanks to contributions from the OpenGOAL community. We won't spoil the various cheats, but here's just a quick sneak peek...
 
 ![](./img/cheats_example.png)
 
