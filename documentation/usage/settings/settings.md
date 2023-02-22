@@ -152,7 +152,14 @@ Toggles v-sync to reduce screen tearing in non-windowed modes. Default value is 
 
 Pick the aspect ratio for the display area of the game. The options marked with **(PS2)** use the original game's settings for aspect ratio as opposed to OpenGOAL's more versatile (but incomplete) scaling. For example, the original game would crop out the field of view vertically if the aspect ratio was wider than 4X3, but OpenGOAL will instead expand it.
 
-COMPARISON IMAGE HERE
+<div className="row markdownMarginBottom">
+    <div className="col">
+        <div className="simple-flex-box">
+            <CaptionedImage caption="OpenGOAL 16x9 on a 16x9 display area" src={require("./img/aspect-16x9-native.png").default} />
+            <CaptionedImage caption="PS2 16x9 on a 16x9 display area" src={require("./img/aspect-16x9-ps2.png").default} />
+        </div>
+    </div>
+</div>
 
 Default value is **FIT TO SCREEN** which will automatically expand or contract the aspect ratio according to the size of the display area of the game. Recommended value is **FIT TO SCREEN**, although only **4X3 (PS2)** and **16X9 (PS2)** are guaranteed to have zero graphical issues.
 
@@ -163,14 +170,6 @@ When any option other than **FIT TO SCREEN** is selected, the excess parts of th
         <div className="simple-flex-box">
             <CaptionedImage caption="4x3 on a 4x3 display area" src={require("./img/aspect-pc-4x3.png").default} />
             <CaptionedImage caption="OpenGOAL 16x9 on a 4x3 display area" src={require("./img/aspect-pc-16x9.png").default} />
-        </div>
-    </div>
-</div>
-<div className="row markdownMarginBottom">
-    <div className="col">
-        <div className="simple-flex-box">
-            <CaptionedImage caption="OpenGOAL 16x9 on a 16x9 display area" src={require("./img/aspect-16x9-native.png").default} />
-            <CaptionedImage caption="PS2 16x9 on a 16x9 display area" src={require("./img/aspect-16x9-ps2.png").default} />
         </div>
     </div>
 </div>
