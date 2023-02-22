@@ -10,7 +10,9 @@ February 22, 2023
 
 ## Background
 
-In this Code Review, I'm going to walk through the changes we made to build the Checkpoint Randomizer mod. A little backstory to this mod - before OpenGOAL, there was actually a [predecessor that ran alongside the PCSX2 emulator](https://www.youtube.com/watch?v=jpYPk8eoDts), which would read from/write to PCSX2 memory, developed by [Ruh](https://www.youtube.com/@PunishedRuh). Around mid-2022 as OpenGOAL Jak 1 development was wrapping up, [Zed](https://github.com/Zedb0T) then ported the concept over to OpenGOAL, creating one of the earliest mods for the game. This is actually what sparked my interest in OpenGOAL modding, and how I met Zed - he popped into my stream while I was trying out his original randomizer 😅 If you'd like to play this mod yourself, you can find it in the [Unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io/).
+👋 Today I'm going to walk through the changes we made to build the Checkpoint Randomizer mod. To my knowledge, this was one of the earliest OpenGOAL mods, and as such there was a lot of trial and error to get things right. I'll do my best to describe the *process* of figuring out how things worked and what we needed to do, in addition to walking through the latest version of the code.
+
+A little backstory to this mod - before OpenGOAL, there was actually a [predecessor that ran alongside the PCSX2 emulator](https://www.youtube.com/watch?v=jpYPk8eoDts), which would read from/write to PCSX2 memory, developed by [Ruh](https://www.youtube.com/@PunishedRuh). Around mid-2022 as OpenGOAL Jak 1 development was wrapping up, [Zed](https://github.com/Zedb0T) then ported the concept over to OpenGOAL. This is actually what sparked my interest in OpenGOAL modding, and how I met Zed 😅 he popped into my stream while I was trying out his original randomizer, we started talking about enhancements, and the rest is history. If you'd like to play this mod yourself, you can find it in the [Unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io/).
 
 ![](./img/checkpoint_randomizer/gambler.png)
 
@@ -37,7 +39,7 @@ First let's talk about the checkpoint system a bit. We'll start by looking at wh
 
 ![](./img/checkpoint_randomizer/debug_continue.png)
 
-Under `Game` > `Continue` you'll find the list of all checkpoints - your current checkpoint will be highlighted, and you can select any of them to warp to that checkpoint within your current game. This menu is incredibly useful in general for development purposes, and a great jumping off point for building this mod.
+Under `Game > Continue` you'll find the list of all checkpoints - your current checkpoint will be highlighted, and you can select any of them to warp to that checkpoint within your current game. This menu is incredibly useful in general for development purposes, and a great jumping off point for building this mod.
 
 If we search for the `"Continue"` string in `goal_src/jak1/engine/debug/default-menu.gc`, we'll see that [here](https://github.com/open-goal/jak-project/blob/65f2146d736cf6cb4d8e0c09f12aceda18835e05/goal_src/jak1/engine/debug/default-menu.gc#L3536-L3538) it calls a `build-continue-menu` function, which looks like this:
 
@@ -186,13 +188,15 @@ There are a few core steps in the process of collecting a Power Cell:
 
 For this mod, we decided to [disable the victory cutscene](https://github.com/dallmeyer/jak-project/blob/76a46a233cad22c5d84f001329836d6a752f5aa4/goal_src/jak1/engine/common-obs/collectables.gc#L1700-L1707) and [execute the checkpoint warp here](https://github.com/dallmeyer/jak-project/blob/76a46a233cad22c5d84f001329836d6a752f5aa4/goal_src/jak1/engine/common-obs/collectables.gc#L1723-L1726), after the internal counter and related `entity-perm-status` and `game-task` are updated. In effect, the moment the victory cutscene would normally appear is when Jak is warped away.
 
+It may be worth noting that if you use cheat/debug mode to give yourself Power Cells with L1 + R1 in the pause menu, this jumps directly to [sending `*target*` the `get-pickup` event](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/ui/progress/progress.gc#L1883-L1892), without actually spawning any `fuel-cell`, auto-saving, or playing any victory cutscene. Because we added our checkpoint warping code to the `fuel-cell` code itself, "picking up Power Cells" this way does not trigger a warp.
+
 ## Softlocks & edge cases
 
 ### Citadel missing elevator
 
 This was an interesting and important edge case we stumbled across: if you collected the Green Sage Power Cell and just so happened to warp back to the top of Citadel checkpoint, the elevator door would open but no elevator would appear (unless you died or de/respawned the elevator). What we realized was that the `(start 'play ...)` method of warping to a checkpoint would not reload any currently loaded levels or entities.
 
-The [solution](https://github.com/dallmeyer/jak-project/blob/f3bdd9273531ea03e47c588862649fd9d7726a83/goal_src/jak1/engine/mods/checkpoint-randomizer.gc#L334-L343) we settled on was to instead warp by manually setting the checkpoint and then killing Jak 😬 which ensures the level is reloaded properly after the Power Cell has been collected. Our previous checkpoint warp call would end up [setting the checkpoint here in `init-target`](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/target/logic-target.gc#L1932). If we look at the [definition for `set-continue!`](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/game/game-info.gc#L113), we see it should accept a `continue-point` or a string as an argument. Now we just need a proper way to kill Jak, and we again borrowed from the debug menu - this time looking at `Game` > `New Life` and copying the underlying [`(initialize! *game-info* 'die ...)` call](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/debug/default-menu.gc#L3391-L3395).
+The [solution](https://github.com/dallmeyer/jak-project/blob/f3bdd9273531ea03e47c588862649fd9d7726a83/goal_src/jak1/engine/mods/checkpoint-randomizer.gc#L334-L343) we settled on was to instead warp by manually setting the checkpoint and then killing Jak 😬 which ensures the level is reloaded properly after the Power Cell has been collected. Our previous checkpoint warp call would end up [setting the checkpoint here in `init-target`](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/target/logic-target.gc#L1932). If we look at the [definition for `set-continue!`](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/game/game-info.gc#L113), we see it should accept a `continue-point` or a string as an argument. Now we just need a proper way to kill Jak, and we again borrowed from the debug menu - this time looking at `Game > New Life` and copying the underlying [`(initialize! *game-info* 'die ...)` call](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/debug/default-menu.gc#L3391-L3395).
 
 ```lisp
 (defun warpToCheckpoint ((checkpointName string))
@@ -209,17 +213,141 @@ The [solution](https://github.com/dallmeyer/jak-project/blob/f3bdd9273531ea03e47
 
 ### Citadel softlock
 
-One of the first softlocks we ran into was with Gol & Maia's Citadel, and the 2 things that initially prevent you from entering (or more important in this case, exiting). Until you've collected the End of Lava Tube Power Cell from the Zoomer pad, there will be a large invisible wall in front of the Citadel entrance. Additionally, the Citadel door won't open until you've pressed the Lava Tube warp gate button and gotten past Keira's cutscene. 
+One of the first softlocks we ran into was with Gol & Maia's Citadel, and the 2 things that initially prevent you from entering (or more important in this case, exiting). Until you've collected the End of Lava Tube Power Cell from the Zoomer pad, there will be a large invisible wall in front of the Citadel entrance. Additionally, the Citadel door won't open until you've pressed the Lava Tube warp gate button and gotten past Keira's cutscene.
 
-With the checkpoint randomizer, it was possible to be warped into Citadel enough times to collect all the Power Cells, without having unlocked both of these things - leaving you trapped within the Citadel walls!
+With the checkpoint randomizer, it's entirely possible to collect all the Citadel Power Cells before unlocking these two things in Lava Tube. If you end up in this scenario and happen to get warped to Citadel again, there's no way to get out! To address this issue, we decided to automatically unlock the Citadel door and remove the invisible wall whenever you are in Lava Tube or Citadel.
 
-TODO: fix
+To unlock the Citadel door, first we need to figure out its type so that we can identify the code that's involved. In the debug menu, there's a useful setting we can toggle to help with this: `Actor > Actor Mark > On`.
+
+![](./img/checkpoint_randomizer/debug_actor_marks.png)
+
+Now you can see the names (and infer the types) of all the actors around you! There's a useful "Distance Check" filter that you can get to from `Tools > Filters` in the top menu bar, so only the names of the closest actors would be shown.
+
+![](./img/checkpoint_randomizer/ctib_iris_door_21.png)
+
+So we see this is a `citb-iris-door`, which is [defined in `goal_src/jak1/levels/citadel/citadel-obs.gc`](https://github.com/open-goal/jak-project/blob/96761000397faea0480b6b9b8553bd7162187eba/goal_src/jak1/levels/citadel/citadel-obs.gc#L509-L515). Since no new fields or methods are defined for this type, the only thing this definition really tells us is that this is a child type of `eco-door`, which is [defined in `goal_src/jak1/engine/common-obs/baseplat.gc`](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/common-obs/baseplat.gc#L150-L177).
+
+This type has a field `locked` which sounds pretty suspicious - sure enough if we read through this file, we can see [`locked` is part of the check to decide if the door should go from `door-closed` to `door-opening`](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/common-obs/baseplat.gc#L216-L223). We did some tests to try to unlock the door, looking it up by name and setting the field directly:
+
+
+```lisp
+(set! (-> (the citb-iris-door (process-by-ename "citb-iris-door-21")) locked) #f)
+```
+
+But the door remained locked. Looking back to the `door-closed` state, we found there's a [call](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/common-obs/baseplat.gc#L215) to this method [`dummy-26`](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/common-obs/baseplat.gc#L321-L330) right before the `locked` field gets checked. This method will update the `locked` field if there is a `state-actor` defined for the door, based on the actor's `entity-perm-status` - which in our case is the Lava Tube warp gate:
+
+```lisp
+gc> (-> (the citb-iris-door (process-by-ename "citb-iris-door-21")) state-actor)
+44726468        #x2aa78c4              0.0000        #<entity-actor :name warp-gate-switch-12 @ #x2aa78c4>
+```
+
+In other words, if we wipe out the `state-actor` for our particular door, then we should be able to unlock it (without it being immediately re-locked). And that is the [solution](https://github.com/dallmeyer/jak-project/blob/1589034851b300b6890137be4bc27b15439f24ef/goal_src/jak1/engine/mods/mods-common.gc#L60-L72) we settled on:
+
+```lisp
+(defun unlock-citadel-door-no-cells ()
+  ;; Unlock citadel door if the randomizer is on. Invis wall is removed elsewhere (racer.gc). Softlocks bad.
+  (if (entity-by-name "citb-iris-door-21")
+    ;; we break the link between the citadel door's state and the warp gate switch, 
+    ;; and then manually open the door
+    (let ((citb-iris-door-21 (the eco-door (-> (entity-by-name "citb-iris-door-21") extra process))))
+      (set! (-> citb-iris-door-21 state-actor) #f)
+      (set! (-> citb-iris-door-21 locked) #f) 
+    )
+  ))
+```
+
+As the comment there reminds us, we still have an invisible wall to dispose of. Unfortunately the debug tools (that I've tried) don't show anything for the invisible wall itself, but we knew from playing the game that it was somehow tied to the End of Lava Tube Power Cell. If we use the `Actor Marks` tool on that, it points us in the right direction again:
+
+![](./img/checkpoint_randomizer/racer_36.png)
+
+`racer` is defined in `goal_src/jak1/levels/racer_common/racer.gc`, and [at the top of the file](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/levels/racer_common/racer.gc#L8-L9) you might notice a couple of forward-declared functions: `blocking-plane-destroy` and `blocking-plane-spawn`. Turns out these are the functions used to spawn and despawn the invisible walls, a common feature of all the Zoomer (and Flutflut) pads throughout the game. In addition to limiting on-foot movement like here in Lava Tube, they are used to keep the Zoomer/Flutflut within their intended levels. Let's take a look at this `blocking-plane-spawn` that appears in the [init method for `racer`](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/levels/racer_common/racer.gc#L441-L450):
+
+```lisp
+(blocking-plane-spawn
+  (the-as
+    curve-control
+    (if (or (and *target* (logtest? (-> *target* control root-prim prim-core action) (collide-action ca-9)))
+            (= (-> obj condition) 3)
+            )
+        (-> obj path-racer)
+        (-> obj path-target)
+        )
+    )
+```
+
+Each `racer` has 2 possible `path-controls` it will use for the invisible wall: `path-racer` and `path-target` (technically this is a `curve-control`, a child of `path-control`). When `racer` is initialized, there are a couple of conditions under which we will use `path-racer` (otherwise we will fall back to `path-target`):
+
+- `(and *target* (logtest? (-> *target* control root-prim prim-core action) (collide-action ca-9)))` 
+  - this is just the way of checking if you're already on the Zoomer 
+  - you'll see a similar condition but with `(collide-action ca-14)` for [Flutflut's invisible walls](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/levels/flut_common/flutflut.gc#L370)
+- `(= (-> obj condition) 3)`
+  - `obj` here is the `racer` itself, and its [`condition` field is populated](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/levels/racer_common/racer.gc#L423) from the `'index` [res tag](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/entity/res.gc#L8-L31_)
+  - I won't pretend to understand what [all the different `racer` `condition`s represent](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/entity/res.gc#L8-L31) (an enum sure would be nice), but the effect of `condition` 3 is that we'll [stay in `wait-for-start` state until the Power Cell has been collected](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/levels/racer_common/racer.gc#L164-L189)
+  - TL;DR - this means the Power Cell hasn't been collected yet (at the time of `racer` initialization)
+
+In the case of the `racer-36` at the end of Lava Tube, `path-target` is actually empty (it has 0 cverts compared to `path-racer` which has 2 cverts) which would result in no invisible wall being spawned:
+
+```lisp
+gc> (inspect (-> (the racer (process-by-ename "racer-36")) path-target))
+[0023b6f4] curve-control
+        ...
+        num-cverts: 0
+        ...
+2340596        #x23b6f4              0.0000        #<curve-control @ #x23b6f4>
+
+gc> (inspect (-> (the racer (process-by-ename "racer-36")) path-racer))
+[0023b724] path-control
+        ...
+        num-cverts: 2
+        ...
+2340644        #x23b724              0.0000        #<path-control @ #x23b724>
+```
+
+So in the end, our solution is just to [force `path-target` to be used during `racer` initialization](https://github.com/dallmeyer/jak-project/blob/1589034851b300b6890137be4bc27b15439f24ef/goal_src/jak1/levels/racer_common/racer.gc#L442-L457):
+
+```lisp
+  (blocking-plane-spawn
+    (the-as
+      curve-control
+      (if (enable-unlock-citadel-door-no-cells?)
+        ;; in randomizer, don't spawn the invisible wall between lavatube/citadel
+        (-> obj path-target)
+        ;; original logic
+        (if (or (and *target* (logtest? (-> *target* control root-prim prim-core action) (collide-action ca-9)))
+                (= (-> obj condition) 3)
+                )
+            (-> obj path-racer)
+            (-> obj path-target)
+            )
+      )
+    )
+  )
+```
+
+With these two changes, you are free to exit Citadel even if you've never stepped foot in Lava Tube 👍
 
 ### Misty softlock
 
-A similar issue could occur if you were warped to Misty Island several times before you completed the fishing game. Since the fisherman's boat wouldn't be available to take you back to the mainland, once you had collected everything on Misty Island, you'd have no way off the island.
+A similar issue could leave you marooned on Misty Island. The fisherman's boat might appear at Misty, but it won't give the "PRESS O TO USE" prompt unless you've collected the fishing game Power Cell. So if you collected everything on Misty Island before doing that, you'll end up with way back to the mainland!
 
-TODO: fix
+Debug menu to the rescue again - we can see that the boat on Misty Island is a [`fishermans-boat`](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/levels/village1/fishermans-boat.gc#L486-L530):
+
+![](./img/checkpoint_randomizer/fishermans_boat_2.png)
+
+There's a function `fishermans-boat-leave-dock?` in which we can see a reference to `(game-text-id press-to-use)` as well as a check `(cpad-pressed? 0 circle)`. This is where the game does some checks (e.g. is Jak close enough to the boat?) and conditionally shows the text prompt / listens for controller input to use the boat.
+
+We can see one of the other checks in here is that you've completed the fishing game (or that you're in cheat mode and holding L3). The [simplest solution](https://github.com/dallmeyer/jak-project/blob/1589034851b300b6890137be4bc27b15439f24ef/goal_src/jak1/levels/village1/fishermans-boat.gc#L835-L842) we could come up with was just to extend this condition, and also let you use the boat whenever Misty Island is loaded. Since Misty Island is not loaded when you're still in Sandover Village, this does NOT let you use the boat back on the Sandover side, unless you meet one of the other conditions.
+
+```lisp
+(or 
+  (task-complete? *game-info* (game-task jungle-fishgame)) 
+  (and *cheat-mode* (cpad-hold? 0 l3)) 
+  (or
+    (= (-> *level* level 0 name) 'misty)
+    (= (-> *level* level 1 name) 'misty)
+    )
+  )
+```
 
 ### Pelican softlock
 
