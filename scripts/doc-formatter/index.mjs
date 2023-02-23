@@ -1,5 +1,5 @@
-import { mkdirSync, readFileSync, writeFileSync } from 'fs';
-import { dirname } from 'path';
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs';
+import { dirname, sep, join } from 'path';
 
 // TODO - collapse entire file blocks
 // TODO - provide a rust-lang like search
@@ -98,42 +98,6 @@ function addComponentToPackageTree(packages, components) {
   }
   components.shift();
   addComponentToPackageTree(packages[currentComponent], components);
-}
-
-function recursivelyPrintPackageTree(gameName, output, packages, parentUrl) {
-  output.html += `<ul>`;
-  let package_names = Object.keys(packages).sort();
-  for (const package_name of package_names) {
-    let subpackages = packages[package_name];
-    let packageUrl = `${parentUrl}/${package_name}`;
-    output.html += `<li><a href="/docs/source-docs/${gameName}/packages${packageUrl}">${package_name}</a></li>`;
-    if (Object.keys(subpackages).length > 0) {
-      recursivelyPrintPackageTree(gameName, output, subpackages, packageUrl);
-    }
-  }
-  output.html += `</ul>`;
-}
-
-function generatePackageIndex(gameName, fileDocs) {
-  console.log("Generating Package Index...")
-  let packages = {}
-  let output = { html: "---\nsidebar_position: 0\nhide_table_of_contents: true\ncustom_edit_url: null\n---\n\n# Package Index\n\nBeing as in OpenGOAL everything is one huge global namespace, it is difficult to organize into digestible and related modules.\n\nTo solve this, a `package` is simply a folder in `goal_src/`. This is similar to how a language like Golang handles packages, but purely for organizational reasons.\n\nThe `unknown` package is a catch-all for anything that is not associated with a file for one reason or another (likely a bug!)\n\n" };
-  for (const [file_path, file_info] of Object.entries(fileDocs)) {
-    let path = file_path.substring(0, file_path.lastIndexOf("/"));
-    // Split the path into it's components
-    let pathComponents = path.split("/");
-    if (path === "") {
-      pathComponents = ["unknown"]
-    }
-    // Insert package into the hierarchical tree
-    addComponentToPackageTree(packages, pathComponents);
-  }
-
-  // Recursively iterate through it, building up a list
-  recursivelyPrintPackageTree(gameName, output, packages, "");
-  writeFileSync(`./documentation/source-docs/${gameName}/package-index.mdx`, output.html);
-  console.log("Generating Package Index...Done!")
-  return packages
 }
 
 // As we pass through the files, we have to lookup a reference to another symbol/method/etc
@@ -399,6 +363,56 @@ function generatePackageDocs(gameName, fileDocs) {
   console.log("Generating Package Docs...Done!")
 }
 
+function walkPackageTree(startingPath) {
+  const entries = readdirSync(startingPath, { withFileTypes: true });
+  if (entries.length === 0) {
+    return ["", false];
+  }
+
+  entries.sort((a, b) => a.name.localeCompare(b.name));
+  let dirTree = "<ul>";
+  let hasIndexFile = false;
+  for (const entry of entries) {
+    if (entry.isDirectory()) {
+      const [subTree, shouldLink] = walkPackageTree(join(startingPath, entry.name));
+      dirTree += `<li>`;
+      if (shouldLink) {
+        dirTree += `<a href="${join(startingPath, entry.name).replaceAll(sep, "/").replace("documentation", "/docs")}">${entry.name}</a>`;
+      } else {
+        dirTree += entry.name;
+      }
+      dirTree += subTree + "</li>";
+    } else if (entry.isFile() && entry.name === "index.mdx") {
+      hasIndexFile = true;
+    }
+  }
+  dirTree += "</ul>";
+  return [dirTree, hasIndexFile];
+}
+
+function generatePackageIndex(gameName, fileDocs) {
+  console.log("Generating Package Index...")
+  let packages = {}
+  let output = "---\nsidebar_position: 0\nhide_table_of_contents: true\ncustom_edit_url: null\n---\n\n# Package Index\n\nBeing as in OpenGOAL everything is one huge global namespace, it is difficult to organize into digestible and related modules.\n\nTo solve this, a `package` is simply a folder in `goal_src/`. This is similar to how a language like Golang handles packages, but purely for organizational reasons.\n\nThe `unknown` package is a catch-all for anything that is not associated with a file for one reason or another (likely a bug!)\n\n";
+  for (const [file_path, file_info] of Object.entries(fileDocs)) {
+    let path = file_path.substring(0, file_path.lastIndexOf("/"));
+    // Split the path into it's components
+    let pathComponents = path.split("/");
+    if (path === "") {
+      pathComponents = ["unknown"]
+    }
+    // Insert package into the hierarchical tree
+    addComponentToPackageTree(packages, pathComponents);
+  }
+
+  // Recursively iterate through it, building up a list
+  const [packageTree, ignore] = walkPackageTree(`./documentation/source-docs/${gameName}/packages`);
+  output += packageTree;
+  writeFileSync(`./documentation/source-docs/${gameName}/package-index.mdx`, output);
+  console.log("Generating Package Index...Done!")
+  return packages
+}
+
 function generateSourceDocsForGame(gameName) {
   console.log(`Generating Docs for ${gameName}...`);
   mkdirSync(`./documentation/source-docs/${gameName}`, { recursive: true });
@@ -412,12 +426,12 @@ function generateSourceDocsForGame(gameName) {
   // Generate the full symbol index
   generateSymbolIndex(gameName, symbolList);
 
-  // Generate the full package index
-  generatePackageIndex(gameName, fileDocs);
-
   // The big one, this generates docs for each and every package
   // which is just a collection of files
   generatePackageDocs(gameName, fileDocs);
+
+  // Generate the full package index, use the directory tree!
+  generatePackageIndex(gameName, fileDocs);
 
   // TODO - builtins (a whole separate page)
 }
