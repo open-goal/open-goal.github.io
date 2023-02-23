@@ -44,6 +44,8 @@ jobs:
       - name: Build Static Content
         run: |
           npm ci
+          unzip ./static/data/docs/opengoal-docs.zip -d ./
+          npm run gen-docs
           npm run build
           cp ./CNAME ./build
 
