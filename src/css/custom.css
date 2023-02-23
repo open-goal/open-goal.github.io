@@ -44,7 +44,6 @@
 
 html {
   font-family: 'Lato', sans-serif;
-  /* font-family: 'Roboto Mono', monospace; */
 }
 
 .monospaced {
@@ -493,4 +492,181 @@ div[class^='announcementBar_'] {
 
 .language-table td.lang-no {
   background-color: rgba(255, 32, 32, 20%);
+}
+
+.no-margin p {
+  margin: 0;
+}
+
+details.doc-toggle[open] > summary.hideme {
+  position: absolute;
+}
+
+details.doc-toggle > summary.hideme {
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+details.doc-toggle > summary {
+  list-style: none;
+  outline: none;
+}
+
+details.doc-toggle > summary::before {
+	background: url("/img/docs/toggle-plus.svg") no-repeat top left;
+	content: "";
+	cursor: pointer;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	vertical-align: middle;
+	opacity: .5;
+	filter: invert(100%);
+  position: absolute;
+  margin-top: 0.15rem;
+}
+
+details.doc-toggle {
+	contain: layout;
+	position: relative;
+	display: block;
+}
+
+details.doc-toggle[open] > summary::before {
+	background: url("/img/docs/toggle-minus.svg") no-repeat top left;
+}
+
+details.doc-toggle > summary.hideme::before {
+	position: relative;
+}
+
+details.doc-toggle[open] > summary::after {
+	content: "Collapse";
+}
+
+details.doc-toggle > summary.hideme::after {
+	content: "";
+}
+
+details.doc-toggle > summary::after {
+	content: "Expand";
+	overflow: hidden;
+	width: 0;
+	height: 0;
+	position: absolute;
+}
+
+details.doc-toggle[open] > summary.hideme > span {
+	display: none;
+}
+
+details.doc-toggle > summary.hideme > span, .more-examples-toggle summary, .more-examples-toggle .hide-more {
+	color: grey;
+}
+
+details.doc-toggle > summary > span {
+  padding-left: 40px;
+  text-indent: -1em;
+}
+
+.doc-block {
+	margin-left: 24px;
+	position: relative;
+}
+
+details.doc-toggle > summary:focus::before, details.doc-toggle > summary:hover::before {
+	opacity: 1;
+}
+
+.doc-file-header {
+  display: flex;
+  align-items: center;
+  margin-top: 2em;
+}
+
+.doc-file-header > h1, .doc-file-header > h2 {
+  flex-grow: 1;
+  margin-bottom: 0.5em;
+  color: #febb01;
+  font-size: var(--ifm-h2-font-size);
+}
+
+.doc-source-link {
+  display: flex;
+  align-items: center;
+}
+
+.doc-identifier-heading {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.doc-identifier-heading > span {
+  font-weight: 700;
+  flex-grow: 1;
+}
+
+.doc-file hr {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.doc-file h3 {
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.doc-file h4,h5 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  font-size: var(--ifm-h4-font-size);
+}
+
+.doc-file p {
+  margin-bottom: 0.75em;
+}
+
+.doc-file .theme-code-block {
+  margin-bottom: 0.50em;
+}
+
+.doc-symbol-link {
+  color: #ffa0a5;
+}
+
+.doc-symbol-link:hover {
+  color: #ffa0a5;
+  text-decoration: none;
+}
+
+.doc-identifier-link {
+  color: #fdd687;
+}
+
+.doc-identifier-link:hover {
+  color: #fdd687;
+  text-decoration: none;
+}
+
+.doc-nothing-defined {
+  color: gray;
+  font-style: italic;
+}
+
+.doc-docstring {
+  white-space: pre-wrap;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.doc-docstring a.doc-symbol-link {
+  color: #93aeff;
+  background-color: var(--ifm-code-background);
+  border: 0.1rem solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--ifm-code-border-radius);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  padding: var(--ifm-code-padding-vertical) var(--ifm-code-padding-horizontal);
+  vertical-align: middle;
 }

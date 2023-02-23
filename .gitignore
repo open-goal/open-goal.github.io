@@ -9,6 +9,10 @@ node_modules/
 .docusaurus
 .cache-loader
 
+# Generated Documentation
+documentation/source-docs/**/*.mdx
+!documentation/source-docs/source-docs/index.mdx
+
 # Misc
 .DS_Store
 .env.local
@@ -21,3 +25,6 @@ yarn-debug.log*
 yarn-error.log*
 
 jak-project/
+
+/jak1-*.json
+/jak2-*.json

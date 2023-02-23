@@ -159,6 +159,23 @@ const config = {
         additionalLanguages: ['lisp', 'clojure']
       },
     }),
+  webpack: {
+    jsLoader: (isServer) => ({
+      loader: require.resolve('swc-loader'),
+      options: {
+        jsc: {
+          parser: {
+            syntax: 'typescript',
+            tsx: true,
+          },
+          target: 'es2017',
+        },
+        module: {
+          type: isServer ? 'commonjs' : 'es6',
+        },
+      },
+    }),
+  },
 };
 
 module.exports = config;
