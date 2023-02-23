@@ -34,4 +34,6 @@ jobs:
       - name: Build Site
         run: |
           npm ci
+          unzip ./static/data/docs/opengoal-docs.zip -d ./
+          npm run gen-docs
           npm run build
