@@ -375,6 +375,14 @@ html {
   color: #f22;
 }
 
+.yellowColor {
+  color: #ee2;
+}
+
+.greenColor {
+  color: #2f2;
+}
+
 .iconRow {
   margin: 0;
 }
@@ -448,6 +456,42 @@ div[class^='announcementBar_'] {
 
 .blog-video {
   margin-bottom: 1em;
+}
+
+.language-table {
+  border-collapse: collapse;
+  display: block;
+  margin-bottom: var(--ifm-spacing-vertical);
+  overflow: auto;
+}
+
+.language-table th, .language-table td {
+  text-align: center;
+  vertical-align: middle;
+  border: var(--ifm-table-border-width) solid var(--ifm-table-border-color);
+  padding: var(--ifm-table-cell-padding);
+  border-top: var(--ifm-table-border-width) solid var(--ifm-table-border-color);
+}
+
+.language-table th {
+  padding: .5em;
+  /* background-color: lime; */
+}
+
+.language-table .footnotes {
+  font-size: 0.9em;
+}
+
+.language-table td.lang-yes {
+  background-color: rgba(32, 255, 32, 20%);
+}
+
+.language-table td.lang-maybe {
+  background-color: rgba(255, 255, 32, 20%);
+}
+
+.language-table td.lang-no {
+  background-color: rgba(255, 32, 32, 20%);
 }
 
 .no-margin p {
