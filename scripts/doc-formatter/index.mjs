@@ -17,7 +17,7 @@ import { dirname } from 'path';
 // Issues:
 // - defbehaviours not being captured?
 // - docstrings from defmethods aren't making it through?
-
+// - some functions are ending up in the unknown section (add-nav-sphere)
 
 function isSpecialCharacter(char) {
   return !(/[a-zA-Z]/).test(char)
@@ -43,7 +43,9 @@ function generateSymbolIndex(gameName, symbolList) {
   let output = "---\nsidebar_position: 1\ncustom_edit_url: null\n---\n\n# Symbol Index\n\nA complete directory of _all_ symbols. Click any symbol to be taken to it's relevant documentation.\n\n";
   for (const [symbolName, symbolInfo] of Object.entries(symbolList)) {
     // Skip art constants, TODO - separate page?
-    if (symbolName.endsWith("-ja")) {
+    if (symbolName.endsWith("-ja") ||
+      symbolName.endsWith("-jg") ||
+      symbolName.endsWith("-mg")) {
       continue;
     }
     // Figure out what bucket to put the symbol into
@@ -222,7 +224,7 @@ function prepareDocstring(docstring, gameName, fileDocs) {
   // - replace symbol references with links to the actual symbols
   // - strip out any pointless lines -- like for example @param syntax for functions is redundant
   let newString = docstring;
-  newString = newString.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+  newString = newString.replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("{", "&lcub;").replaceAll("}", "&rcub;");
   let words = newString.split(" ");
   let buffer = "";
   for (const word of words) {
@@ -261,7 +263,7 @@ function makeSignatureFromArgs(gameName, argList, fileDocs) {
     } else {
       urlTag = `<a href="${url}" class="doc-symbol-link">${arg.type}</a>`;
     }
-    signature += `${arg.isMutated ? "mut ": ""}${arg.name}${arg.isOptional ? "?": ""}: ${urlTag}`;
+    signature += `${arg.isMutated ? "mut " : ""}${arg.name}${arg.isOptional ? "?" : ""}: ${urlTag}`;
     if (i !== argList.length - 1) {
       signature += `, `;
     }
@@ -371,6 +373,13 @@ function generatePackageDocs(gameName, fileDocs) {
     if (variables.length > 0) {
       output += `\n### Variables\n---\n\n`
       for (const variable of variables) {
+        // skip art groups
+        if (variable.name.endsWith("-ja") ||
+          variable.name.endsWith("-jg") ||
+          variable.name.endsWith("-mg")
+        ) {
+          continue;
+        }
         const props = `docType={"variable"} name={"${variable.name}"} type={"${variable.type}"} typeLink={"${findCrossReference(gameName, variable.type, fileDocs)}"} sourceLink={"${makeGithubFileLink(gameName, variable.def_location)}"} isConst={${variable.is_constant}}`;
         output += `<div style={{visibility: "hidden", height: 0}}>\n\n#### \`${variable.name}\`\n</div>\n<DocCollapsibleBlock ${props}>\n`
         output += prepareDocstring(variable.description, gameName, fileDocs) + "\n";
