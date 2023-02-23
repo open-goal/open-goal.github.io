@@ -4,7 +4,7 @@ import CaptionedImage from '@site/src/mdx/CaptionedImage';
 import PRLink from '@site/src/mdx/PRLink';
 import ImageCompare from '@site/src/mdx/ImageCompare';
 import DocToggle from '@site/src/mdx/Documentation/DocToggle';
-import DocVariableBlock from '@site/src/mdx/Documentation/DocVariableBlock';
+import DocCollapsibleBlock from '@site/src/mdx/Documentation/DocCollapsibleBlock';
 import ReactPlayer from 'react-player';
 import LauncherDownloadLink from "@site/src/components/LauncherDownloadLink";
 import { MarkGithubIcon } from '@primer/octicons-react';
@@ -18,6 +18,6 @@ export default {
   "ImageCompare": ImageCompare,
   "LauncherDownloadLink": LauncherDownloadLink,
   "DocToggle": DocToggle,
-  "DocVariableBlock": DocVariableBlock,
+  "DocCollapsibleBlock": DocCollapsibleBlock,
   "MarkGithubIcon": MarkGithubIcon
 };

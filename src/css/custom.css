@@ -44,7 +44,6 @@
 
 html {
   font-family: 'Lato', sans-serif;
-  /* font-family: 'Roboto Mono', monospace; */
 }
 
 .monospaced {
@@ -522,7 +521,8 @@ details.doc-toggle > summary.hideme > span, .more-examples-toggle summary, .more
 }
 
 details.doc-toggle > summary > span {
-  padding-left: 25px;
+  padding-left: 40px;
+  text-indent: -1em;
 }
 
 .doc-block {
@@ -540,7 +540,7 @@ details.doc-toggle > summary:focus::before, details.doc-toggle > summary:hover::
   margin-top: 2em;
 }
 
-.doc-file-header > h1,h2 {
+.doc-file-header > h1, .doc-file-header > h2 {
   flex-grow: 1;
   margin-bottom: 0.5em;
   color: #febb01;
@@ -570,6 +570,7 @@ details.doc-toggle > summary:focus::before, details.doc-toggle > summary:hover::
 
 .doc-file h3 {
   margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .doc-file h4,h5 {
@@ -607,4 +608,21 @@ details.doc-toggle > summary:focus::before, details.doc-toggle > summary:hover::
 .doc-nothing-defined {
   color: gray;
   font-style: italic;
+}
+
+.doc-docstring {
+  white-space: pre-wrap;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.doc-docstring a.doc-symbol-link {
+  color: #93aeff;
+  background-color: var(--ifm-code-background);
+  border: 0.1rem solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--ifm-code-border-radius);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  padding: var(--ifm-code-padding-vertical) var(--ifm-code-padding-horizontal);
+  vertical-align: middle;
 }

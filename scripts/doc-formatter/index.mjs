@@ -1,44 +1,69 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { dirname } from 'path';
 
+// TODO - collapse entire file blocks
+// TODO - provide a rust-lang like search
+// TODO - https://github.com/facebook/docusaurus/discussions/8467
+// TODO - label forward decls
+// TODO - metadata on doc generation (commit sha, date
+// TOOD - examples for std-lib sections
+// TODO - high level docs
+// TODO - summarize docstring and auto-show that even for closed fields?
+// TODO - cleanup the doc component
+// TODO - run docstrings through a markdown generator
+// TODO - use normal h5's for field headers and such
+// TODO - better styling on collapsible headers
+
+// Issues:
+// - defbehaviours not being captured?
+// - docstrings from defmethods aren't making it through?
+
+
 function isSpecialCharacter(char) {
   return !(/[a-zA-Z]/).test(char)
 }
 
-function generateSymbolIndex(symbolList) {
+function getPackageSubPathFromFilePath(gameName, filePath) {
+  let pkg = filePath.substring(0, filePath.lastIndexOf("/"));
+  if (pkg === "") {
+    pkg = "unknown";
+  } else if (pkg.startsWith(`${gameName}/`)) {
+    pkg = pkg.slice(5);
+  }
+  return pkg;
+}
+
+function getPackageNameFromPackageSubPath(pkgSubPath) {
+  return pkgSubPath.substring(pkgSubPath.lastIndexOf("/")).replaceAll("/", "");
+}
+
+function generateSymbolIndex(gameName, symbolList) {
   console.log("Generating Symbol Index...")
   let symbols = {}; // String : Object {String : String}
   let output = "---\nsidebar_position: 1\ncustom_edit_url: null\n---\n\n# Symbol Index\n\nA complete directory of _all_ symbols. Click any symbol to be taken to it's relevant documentation.\n\n";
-
-  for (const [symbol_name, symbol_info] of Object.entries(symbolList)) {
+  for (const [symbolName, symbolInfo] of Object.entries(symbolList)) {
     // Skip art constants, TODO - separate page?
-    if (symbol_name.endsWith("-ja")) {
+    if (symbolName.endsWith("-ja")) {
       continue;
     }
     // Figure out what bucket to put the symbol into
-    let firstChar = symbol_name.at(0);
-    if (firstChar == "*" && symbol_name.length > 1) {
-      firstChar = symbol_name.at(1);
+    let firstChar = symbolName.at(0);
+    if (firstChar == "*" && symbolName.length > 1) {
+      firstChar = symbolName.at(1);
     }
-
     if (isSpecialCharacter(firstChar)) {
       firstChar = "_";
     } else {
       firstChar = firstChar.toUpperCase();
     }
-
     if (!symbols.hasOwnProperty(firstChar)) {
       symbols[firstChar] = [];
     }
-
-    // TODO - Use the location to generate a link to the package it's defined within (directly to the symbol too?)
-
     symbols[firstChar].push({
-      name: symbol_info.name,
-      link: "www.google.com"
+      name: symbolInfo.name,
+      filePath: symbolInfo.def_location
     });
   }
-
   // Get the keys and sort them
   let headings = Object.keys(symbols).sort();
   for (const key of headings) {
@@ -46,13 +71,18 @@ function generateSymbolIndex(symbolList) {
     output += `<div class="no-margin">\n\n`
     let symbol_section = symbols[key].sort((a, b) => a.name.localeCompare(b.name));
     for (const symbol of symbol_section) {
-      output += `[\`${symbol.name}\`](${symbol.link})\n\n`;
+      let docFilePath = "#";
+      if (symbol.filePath) {
+        let pkgPath = getPackageSubPathFromFilePath(gameName, symbol.filePath.filename);
+        docFilePath = `/docs/source-docs/${gameName}/packages/${pkgPath}/`;
+        output += `[\`${symbol.name}\`](${docFilePath})\n\n`;
+      } else {
+        output += `\`${symbol.name}\`\n\n`;
+      }
     }
     output += `</div>\n\n`;
   }
-
-  // TODO - jak 2 specific
-  writeFileSync("./documentation/source-docs/jak2/symbol-index.mdx", output);
+  writeFileSync(`./documentation/source-docs/${gameName}/symbol-index.mdx`, output);
   console.log("Generating Symbol Index...Done!")
 }
 
@@ -68,23 +98,24 @@ function addComponentToPackageTree(packages, components) {
   addComponentToPackageTree(packages[currentComponent], components);
 }
 
-function recursivelyPrintPackageTree(output, packages) {
+function recursivelyPrintPackageTree(gameName, output, packages, parentUrl) {
   output.html += `<ul>`;
   let package_names = Object.keys(packages).sort();
   for (const package_name of package_names) {
     let subpackages = packages[package_name];
-    output.html += `<li><a href="#">${package_name}</a></li>`;
+    let packageUrl = `${parentUrl}/${package_name}`;
+    output.html += `<li><a href="/docs/source-docs/${gameName}/packages${packageUrl}">${package_name}</a></li>`;
     if (Object.keys(subpackages).length > 0) {
-      recursivelyPrintPackageTree(output, subpackages);
+      recursivelyPrintPackageTree(gameName, output, subpackages, packageUrl);
     }
   }
   output.html += `</ul>`;
 }
 
-function generatePackageIndex(fileDocs) {
+function generatePackageIndex(gameName, fileDocs) {
   console.log("Generating Package Index...")
   let packages = {}
-  let output = {html: "---\nsidebar_position: 0\nhide_table_of_contents: true\ncustom_edit_url: null\n---\n\n# Package Index\n\nBeing as in OpenGOAL everything is one huge global namespace, it is difficult to organize into digestible and related modules.\n\nTo solve this, a `package` is simply a folder in `goal_src/`. This is similar to how a language like Golang handles packages, but purely for organizational reasons.\n\nThe `unknown` package is a catch-all for anything that is not associated with a file for one reason or another (likely a bug!)\n\n"};
+  let output = { html: "---\nsidebar_position: 0\nhide_table_of_contents: true\ncustom_edit_url: null\n---\n\n# Package Index\n\nBeing as in OpenGOAL everything is one huge global namespace, it is difficult to organize into digestible and related modules.\n\nTo solve this, a `package` is simply a folder in `goal_src/`. This is similar to how a language like Golang handles packages, but purely for organizational reasons.\n\nThe `unknown` package is a catch-all for anything that is not associated with a file for one reason or another (likely a bug!)\n\n" };
   for (const [file_path, file_info] of Object.entries(fileDocs)) {
     let path = file_path.substring(0, file_path.lastIndexOf("/"));
     // Split the path into it's components
@@ -97,100 +128,260 @@ function generatePackageIndex(fileDocs) {
   }
 
   // Recursively iterate through it, building up a list
-  recursivelyPrintPackageTree(output, packages);
-  // TODO - jak 2 specific
-  writeFileSync("./documentation/source-docs/jak2/package-index.mdx", output.html);
+  recursivelyPrintPackageTree(gameName, output, packages, "");
+  writeFileSync(`./documentation/source-docs/${gameName}/package-index.mdx`, output.html);
   console.log("Generating Package Index...Done!")
   return packages
 }
 
-function generatePackageDocs(fileDocs) {
+// As we pass through the files, we have to lookup a reference to another symbol/method/etc
+// When we find them, we cache the result in a simple flattened map so we can find it later
+//
+// describe formats
+let crossReferenceLinkCache = new Map();
+
+function findCrossReference(gameName, reference, fileDocs) {
+  // First, do the obvious, if it's in the cache return it
+  if (crossReferenceLinkCache.has(reference)) {
+    return crossReferenceLinkCache.get(reference);
+  }
+  // Otherwise, we gotta go find it
+  // references come in a few supported syntaxes
+  // - plain symbols / types / functions / macros / globals / constants / non virtual states
+  //   - [[name-of-symbol]] => #symName-<name>
+  // - methods / virtual states / enums / bitfields
+  //   - [[type::id (or val in the case of a enum/bitfield) ]] => #typeDecl-<type>-<val>
+  // So all we do is enumerate through all the packages until we find the file it will be generated in
+  // from that, we can assume what the anchor tag will be and create our link
+  const isPlain = !reference.includes("::");
+  const symName = isPlain ? reference : undefined;
+  const typeName = isPlain ? undefined : reference.split("::")[0];
+  const typeVal = isPlain ? undefined : reference.split("::")[1];
+  for (const [filePath, fileInfo] of Object.entries(fileDocs)) {
+    const pkgPath = getPackageSubPathFromFilePath(gameName, filePath);
+    const srcPath = `/docs/source-docs/${gameName}/packages/${pkgPath}`;
+    if (!isPlain) {
+      // Check the types
+      const link = `${srcPath}#typeDecl-${typeName}-${typeVal}`;
+      for (const type of fileInfo.types) {
+        if (type.name === typeName) {
+          // Then check to see if the value matches a method/state id
+          const methods = type.methods.concat(type.states.filter(state => state.is_virtual)).sort((a, b) => a.id - b.id);
+          for (const method of methods) {
+            if (`${method.id}` === typeVal) {
+              crossReferenceLinkCache.set(reference, link);
+              return link;
+            }
+          }
+        }
+      }
+    } else {
+      const link = `${srcPath}#symName-${symName}`;
+      // Check everything else
+      for (const variable of fileInfo.global_vars) {
+        if (variable.name === symName) {
+          crossReferenceLinkCache.set(reference, link);
+          return link;
+        }
+      }
+      for (const variable of fileInfo.constants) {
+        if (variable.name === symName) {
+          crossReferenceLinkCache.set(reference, link);
+          return link;
+        }
+      }
+      for (const func of fileInfo.functions) {
+        if (func.name === symName) {
+          crossReferenceLinkCache.set(reference, link);
+          return link;
+        }
+      }
+      for (const macro of fileInfo.macros) {
+        if (macro.name === symName) {
+          crossReferenceLinkCache.set(reference, link);
+          return link;
+        }
+      }
+      for (const type of fileInfo.types) {
+        if (type.name === symName) {
+          crossReferenceLinkCache.set(reference, link);
+          return link;
+        }
+      }
+    }
+  }
+  return "#";
+}
+
+function prepareDocstring(docstring, gameName, fileDocs) {
+  if (docstring === "" || docstring === undefined) {
+    return "";
+  }
+  // There are three main things that are done here:
+  // - replace any problematic fields (ie. angle brackets in html)
+  // - replace symbol references with links to the actual symbols
+  // - strip out any pointless lines -- like for example @param syntax for functions is redundant
+  let newString = docstring;
+  newString = newString.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+  let words = newString.split(" ");
+  let buffer = "";
+  for (const word of words) {
+    if (word.startsWith("[[") && (word.endsWith("]]") || word.endsWith("]]'s"))) {
+      let reference = word.substring(2, word.length - (word.endsWith("]]'s") ? 4 : 2));
+      const url = findCrossReference(gameName, reference, fileDocs);
+      if (url === "#" || url === undefined) {
+        buffer += `<span class="doc-symbol-link">${reference}</span> `;
+      } else {
+        buffer += `<a href="${url}" class="doc-symbol-link">${reference}</a> `;
+      }
+    } else {
+      buffer += `${word} `;
+    }
+  }
+  buffer = buffer.trimEnd();
+  let lines = buffer.split("\n");
+  let finalLines = [];
+  for (const line of lines) {
+    if (line.startsWith("@param") || line.startsWith("@returns")) {
+      continue;
+    }
+    finalLines.push(line.trim());
+  }
+  return `<div class="doc-docstring">\n${finalLines.join("<br/>")}\n</div>`;
+}
+
+function makeSignatureFromArgs(gameName, argList, fileDocs) {
+  let signature = `(`;
+  for (let i = 0; i < argList.length; i++) {
+    const arg = argList[i];
+    let url = findCrossReference(gameName, arg.type, fileDocs);
+    let urlTag = "";
+    if (url === "#" || url === undefined) {
+      urlTag = `<span class="doc-symbol-link">${arg.type}</span>`;
+    } else {
+      urlTag = `<a href="${url}" class="doc-symbol-link">${arg.type}</a>`;
+    }
+    signature += `${arg.isMutated ? "mut ": ""}${arg.name}${arg.isOptional ? "?": ""}: ${urlTag}`;
+    if (i !== argList.length - 1) {
+      signature += `, `;
+    }
+  }
+  signature += `)`;
+  return signature;
+}
+
+function makeGithubFileLink(gameName, def_location) {
+  if (def_location === undefined) {
+    return "null";
+  }
+  return `https://github.com/open-goal/jak-project/tree/master/goal_src/${gameName}/${def_location.filename}#L${def_location.line_idx + 1}`;
+}
+
+function findMethodInfo(methodId, typeName, fileDocs) {
+  for (const [filePath, fileInfo] of Object.entries(fileDocs)) {
+    for (const method of fileInfo.methods) {
+      if (method.type === typeName && method.id === methodId) {
+        return method;
+      }
+    }
+  }
+  return undefined;
+}
+
+function generatePackageDocs(gameName, fileDocs) {
   console.log("Generating Package Docs...")
-  // let flattened_packages = [];
-  // recursivelyFlattenPackages(flattened_packages, packages, "");
 
   let package_docs = {};
 
-  for (const [file_path, file_info] of Object.entries(fileDocs)) {
-    let pkg = file_path.substring(0, file_path.lastIndexOf("/"));
-    if (pkg === "") {
-      pkg = "unknown";
-      // TODO - jak 2 specific
-    } else if (pkg.startsWith("jak2/")) {
-      pkg = pkg.slice(5);
+  for (const [filePath, fileInfo] of Object.entries(fileDocs)) {
+    let pkgPath = getPackageSubPathFromFilePath(gameName, filePath);
+    let pkgName = getPackageNameFromPackageSubPath(pkgPath);
+    let docFilePath = `./documentation/source-docs/${gameName}/packages/${pkgPath}/index.mdx`;
+    if (!package_docs.hasOwnProperty(docFilePath)) {
+      package_docs[docFilePath] = `---\npagination_next: null\npagination_prev: null\nhide_title: true\ntitle: \"${pkgName}\"\ncustom_edit_url: null\ntoc_min_heading_level: 2\ntoc_max_heading_level: 4\n---\n\n<div class="doc-file">\n`;
     }
-
-    let filePath = `./documentation/source-docs/jak2/packages/${pkg}/index.mdx`;
-    let pkg_name = pkg.substring(pkg.lastIndexOf("/")).replaceAll("/", "");
-    if (!package_docs.hasOwnProperty(filePath)) {
-      package_docs[filePath] = `---\npagination_next: null\npagination_prev: null\nhide_title: true\ntitle: \"${pkg_name}\"\ncustom_edit_url: null\ntoc_min_heading_level: 2\ntoc_max_heading_level: 4\n---\n\n<div class="doc-file">\n`;
+    let output = package_docs[docFilePath];
+    if (pkgPath !== "unknown") {
+      let file_name = filePath.substring(filePath.lastIndexOf("/") + 1).replace(".gc", "").replace(".gs", "");
+      output += `\n<div class="doc-file-header">\n\n## ${file_name}\n<a href="https://github.com/open-goal/jak-project/tree/master/goal_src/${file_name}" class="doc-source-link" target="_blank">source</a>\n</div>\n`;
     }
-
-    let output = package_docs[filePath];
-    if (pkg !== "unknown") {
-      let file_name = file_path.substring(file_path.lastIndexOf("/") + 1).replace(".gc", "").replace(".gs", "");
-      output += `\n<div class="doc-file-header">\n\n## ${file_name}\n<a href="TODO" class="doc-source-link" target="_blank">source</a>\n</div>\n`;
+    if (fileInfo.description !== "") {
+      output += `<DocToggle>\n${prepareDocstring(fileInfo.description, gameName, fileDocs)}\n</DocToggle>`;
     }
-
-    if (file_info.description !== "") {
-      output += `<DocToggle>\n${file_info.description}\n</DocToggle>`;
-    }
-
-    if (file_info.types.length == 0 && file_info.constants.length == 0 && file_info.global_vars.length == 0) {
+    if (fileInfo.types.length === 0 && fileInfo.constants.length === 0 && fileInfo.global_vars.length === 0 && fileInfo.functions.length === 0) {
       output += `<span class="doc-nothing-defined">nothing defined</span>`;
       continue;
     }
-
-    // TODO the rest!
-    if (file_info.types.length > 0) {
+    // TYPES
+    if (fileInfo.types.length > 0) {
       output += `\n### Types\n---\n\n`;
-      for (const type of file_info.types) {
-        output += `<div style={{visibility: "hidden", height: 0}}>\n\n#### \`${type.name}\`\n</div>\n<DocVariableBlock name={"${type.name}"} type={"${type.parent_type}"} isConst={false}>\n${type.description}\n`;
+      for (const type of fileInfo.types) {
+        output += `<div style={{visibility: "hidden", height: 0}}>\n\n#### \`${type.name}\`\n</div>\n`;
+        output += `<DocCollapsibleBlock name={"${type.name}"} type={"${type.parent_type}"} sourceLink={"${makeGithubFileLink(gameName, type.def_location)}"}>\n${prepareDocstring(type.description, gameName, fileDocs)}\n`;
         // Fields
         if (type.fields.length > 0) {
           output += `\n##### *Fields*\n`;
           for (const field of type.fields) {
-            output += `<DocVariableBlock name={"${field.name}"} type={"${field.type}"} isConst={false} closed={true}>\n${field.description}\n</DocVariableBlock>\n`;
+            output += `<DocCollapsibleBlock name={"${field.name}"} type={"${field.type}"} typeLink={"${findCrossReference(gameName, field.type, fileDocs)}"} closed={true}>\n`;
+            output += prepareDocstring(field.description, gameName, fileDocs) + "\n";
+            output += `</DocCollapsibleBlock>\n`;
           }
         }
         // Methods (and virtual states)
+        // TODO - go and collect all methods for this type (not just the ones defined in the type declaration)
         let methods = type.methods.concat(type.states.filter(state => state.is_virtual)).sort((a, b) => a.id - b.id);
         if (methods.length > 0) {
-          //  TODO - correct formatting for methods / states
           output += `\n##### *Methods*\n`;
           for (const method of methods) {
-            output += `<DocVariableBlock name={"${method.name}"} type={"TODO"} isConst={false} closed={true}>\n${method.description}\n</DocVariableBlock>\n`;
+            const method_info = findMethodInfo(method.id, type.name, fileDocs);
+            if (method_info === undefined) {
+              output += `<DocCollapsibleBlock name={"${method.name}"} type={"unknown"}></DocCollapsibleBlock>\n`;
+            } else {
+              const props = `docType={"method"} typeName={"${type.name}"} methodId={"${method.id}"} methodName={"${method.name}"} signatureHtml={\`${makeSignatureFromArgs(gameName, method_info.args, fileDocs)}\`} returnType={"${method_info.return_type}"} returnTypeLink={"${findCrossReference(gameName, method_info.return_type, fileDocs)}"} sourceLink={"${makeGithubFileLink(gameName, method_info.def_location)}"}`
+              output += `<DocCollapsibleBlock ${props}>\n`;
+              output += prepareDocstring(method_info.description, gameName, fileDocs) + "\n";
+              output += `</DocCollapsibleBlock>\n`;
+            }
           }
         }
-        // States
+        // TODO - States
         let states = type.states.filter(state => !state.is_virtual)
         if (states.length > 0) {
-          //  TODO - correct formatting for methods / states
           output += `\n##### *States*\n`;
           for (const state of states) {
-            output += `<DocVariableBlock name={"${state.name}"} type={"TODO"} isConst={false} closed={true}>\n${state.description}\n</DocVariableBlock>\n`;
+            output += `<DocCollapsibleBlock name={"${state.name}"} type={"TODO"} isConst={false} closed={true}></DocCollapsibleBlock>\n`;
           }
         }
-        output += `</DocVariableBlock>\n`;
+        output += `</DocCollapsibleBlock>\n`;
       }
     }
-    // TODO - put something there if nothing is there
+    // FUNCTIONS
+    if (fileInfo.functions.length > 0) {
+      output += `\n### Functions\n---\n\n`;
+      for (const func of fileInfo.functions) {
+        const props = `docType={"function"} funcName={"${func.name}"} signatureHtml={\`${makeSignatureFromArgs(gameName, func.args, fileDocs)}\`} returnType={"${func.return_type}"} returnTypeLink={"${findCrossReference(gameName, func.return_type, fileDocs)}"} sourceLink={"${makeGithubFileLink(gameName, func.def_location)}"}`
+        output += `<div style={{visibility: "hidden", height: 0}}>\n\n#### \`${func.name}\`\n</div>\n<DocCollapsibleBlock ${props}>\n`
+        output += prepareDocstring(func.description, gameName, fileDocs) + "\n";
+        output += `</DocCollapsibleBlock>\n`;
+      }
+    }
 
     // Variables and Constants
-    let variables = file_info.constants.concat(file_info.global_vars).sort((a, b) => a.name.localeCompare(b.name));
+    let variables = fileInfo.constants.concat(fileInfo.global_vars).sort((a, b) => a.name.localeCompare(b.name));
     if (variables.length > 0) {
       output += `\n### Variables\n---\n\n`
       for (const variable of variables) {
-        // TODO - go get link for the type
-        output += `<div style={{visibility: "hidden", height: 0}}>\n\n#### \`${variable.name}\`\n</div>\n<DocVariableBlock name={"${variable.name}"} type={"${variable.type}"} isConst={${variable.is_constant}}>\n`
-        output += variable.description + "\n";
-        output += `</DocVariableBlock>\n`;
+        const props = `docType={"variable"} name={"${variable.name}"} type={"${variable.type}"} typeLink={"${findCrossReference(gameName, variable.type, fileDocs)}"} sourceLink={"${makeGithubFileLink(gameName, variable.def_location)}"} isConst={${variable.is_constant}}`;
+        output += `<div style={{visibility: "hidden", height: 0}}>\n\n#### \`${variable.name}\`\n</div>\n<DocCollapsibleBlock ${props}>\n`
+        output += prepareDocstring(variable.description, gameName, fileDocs) + "\n";
+        output += `</DocCollapsibleBlock>\n`;
       }
     }
 
-    package_docs[filePath] = output;
-  }
+    // TODO - bitfields/enums
 
+    package_docs[docFilePath] = output;
+  }
   // Write out all package files
   for (const [package_path, docs] of Object.entries(package_docs)) {
     mkdirSync(dirname(package_path), { recursive: true });
@@ -199,30 +390,28 @@ function generatePackageDocs(fileDocs) {
   console.log("Generating Package Docs...Done!")
 }
 
-// TODO - take an argument from CLI
-let symbol_rawdata = readFileSync("./scripts/doc-formatter/symbol-map.json");
-let symbolList = JSON.parse(symbol_rawdata);
-generateSymbolIndex(symbolList)
+function generateSourceDocsForGame(gameName) {
+  console.log(`Generating Docs for ${gameName}...`);
+  mkdirSync(`./documentation/source-docs/${gameName}`, { recursive: true });
+  crossReferenceLinkCache.clear();
+  // Pull in the information generated by the REPL
+  let symbolRawData = readFileSync(`./${gameName}-symbol-map.json`);
+  let symbolList = JSON.parse(symbolRawData);
+  let fileDocsRawData = readFileSync(`./${gameName}-file-docs.json`);
+  let fileDocs = JSON.parse(fileDocsRawData);
 
-let file_docs_data = readFileSync("./scripts/doc-formatter/file-docs.json");
-let file_docs = JSON.parse(file_docs_data);
-generatePackageIndex(file_docs);
-generatePackageDocs(file_docs);
+  // Generate the full symbol index
+  generateSymbolIndex(gameName, symbolList);
 
-// package page:
-// - go-to definition source (the file)
+  // Generate the full package index
+  generatePackageIndex(gameName, fileDocs);
 
-// LONG TERM
-// TODO - provide a rust-lang like search
-// TODO - https://github.com/facebook/docusaurus/discussions/8467
-// TODO - label forward decls
-// TODO - any decent template library to clean this up with?
+  // The big one, this generates docs for each and every package
+  // which is just a collection of files
+  generatePackageDocs(gameName, fileDocs);
 
-// TODO - builtin docs should go into the `reference page`
-// TODO - metadata on doc generation (commit sha, date
-// TOOD - examples for std-lib sections
-// TODO - collapse entire file blocks
-// TODO - do i account for files in the root folder of a package? probably not! ie. `jak2/engine/yar.gc`
-// TODO - function and method args
-// TODO - state args
-// TODO - summarize docstring and auto-show that even for closed fields?
+  // TODO - builtins (a whole separate page)
+}
+
+generateSourceDocsForGame("jak1");
+generateSourceDocsForGame("jak2");
