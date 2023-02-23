@@ -32,6 +32,8 @@ jobs:
           python ./scripts/gallery-updater/update-gallery.py
 
       - name: Build Site
+        env:
+          process.env.DOCUSAURUS_SSR_CONCURRENCY: 2
         run: |
           npm ci
           unzip ./static/data/docs/opengoal-docs.zip -d ./
