@@ -9,7 +9,7 @@ node_modules/
 .docusaurus
 .cache-loader
 
-# Generate Documentation
+# Generated Documentation
 documentation/source-docs/**/*.mdx
 !documentation/source-docs/source-docs/index.mdx
 
@@ -25,3 +25,6 @@ yarn-debug.log*
 yarn-error.log*
 
 jak-project/
+
+/jak1-*.json
+/jak2-*.json
