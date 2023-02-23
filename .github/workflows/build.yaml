@@ -15,7 +15,7 @@ jobs:
     name: Build Site
     runs-on: ubuntu-latest
     # Set some sort of timeout in the event of run-away builds.  We are limited on concurrent jobs so, get rid of them.
-    timeout-minutes: 10
+    timeout-minutes: 60
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
