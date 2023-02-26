@@ -1,0 +1,178 @@
+---
+title: Progress Report - Jan. 2023
+date: 2023-01-31T10:00
+description: January 2023's progress report
+slug: progress-report-jan-2023
+authors:
+  - vaser
+tags: [progress-report]
+image: ./img/poster.png
+hide_table_of_contents: false
+draft: false
+---
+
+<head>
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+
+Jak 2 is beginning to really take shape.  Decompilation is finally nearly completion with bug fixing and feature additions starting to ramp up.
+
+<!--truncate-->
+
+## Project Level News
+
+This month's release is:
+- `0.1.33` OpenGOAL Tooling (jak-project repo)
+- distributed via the `1.9.0` Launcher release
+
+<div className="row markdownMarginBottom">
+  <div className="col col--6">
+    <LauncherDownloadLink />
+  </div>
+</div>
+
+## Jak 1 and General Fixes
+
+### Rock Village IL Speedrun Fixed <PRLink href="https://github.com/open-goal/jak-project/pull/2187"/>
+
+Minor fix for this IL where the `Rock Village` hud text was not marked as seen in advance.
+
+### Hungarian Text Translation <PRLink href="https://github.com/open-goal/jak-project/pull/2141"/>
+
+Hungarian translations for the text have been added
+
+### Speedrun Autosplitter - Scout Fly / Orb Counts <PRLink href="https://github.com/open-goal/jak-project/pull/2192"/>
+
+This month the speedrun autosplitter should now have a bunch of new options for splitting when you collect all the orbs in a particular area.
+
+### Easier Speedrun Menu Button Combo <PRLink href="https://github.com/open-goal/jak-project/pull/2196"/>
+
+There is an alternative button combo for bringing up the menu added last month - `L1 + R1 + X` while pressing `SELECT`
+
+### Better Setting Documentation <PRLink href="https://github.com/open-goal/open-goal.github.io/pull/119"/>
+
+The documentation for the game's settings has been improved [here](https://opengoal.dev/docs/usage/settings/)
+
+### Credits to use the Audio Language <PRLink href="https://github.com/open-goal/jak-project/pull/2220"/>
+
+The credits in Jak 1 will now use the configured Audio Language instead of the text language.
+
+## Jak 2
+
+### BLERC Support <PRLink href="https://github.com/open-goal/jak-project/pull/2179"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2163"/>
+
+This adds support for blend-shapes to Jak 2 -- which makes all the cutscenes much less stiff and awkward.
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=92hJcVdlrVs"} className="blog-video"/>
+
+### Hovering Enemies <PRLink href="https://github.com/open-goal/jak-project/pull/2028"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2198"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2209"/>
+
+As mentioned last month, there was still more `nav` related code to work on.  This month, we finished the code involved with allowing enemies to hover and fly around.  This was blocking a few select missions, which now work!
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=YAKFPESqgLo"} className="blog-video"/>
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=599PUg8wq78"} className="blog-video"/>
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=5RXJO06Fazs"} className="blog-video"/>
+
+### Onin Minigame <PRLink href="https://github.com/open-goal/jak-project/pull/2188"/>
+
+The best minigame is now working!  This had been waiting to best tested for a long time due to some issues that needed to be solved in the decompiler, once those were fixed, no issues.
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=_pQvWXoDF_8"} className="blog-video"/>
+
+### Functioning Traffic <PRLink href="https://github.com/open-goal/jak-project/pull/2191"/>
+
+The traffic and vehicle code has sucked to get decompiled fully.  Too many custom types had to be invented to hack around things for the time being but in any case traffic and vehicles are now finally functional.  If you've played Jak 2 before, this also opens the doors for working on a ton of missions which were previously blocked.
+
+### Citizens <PRLink href="https://github.com/open-goal/jak-project/pull/2194"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2230"/>
+
+The citizens in the city now also function in addition to the traffic.  This same PR also finished up some remaining metalhead and guard code.
+
+### Seal at Water Slums <PRLink href="https://github.com/open-goal/jak-project/pull/2199"/>
+
+Everyone's favourite missions now works.
+
+<ReactPlayer controls url={require("./video/seal.mp4").default} className="blog-video"/>
+
+### Lightning Renderer <PRLink href="https://github.com/open-goal/jak-project/pull/2203"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2204"/>
+
+The renderer to handle the lightning was spiked out this month.  It still has some issues, namely that all lightning is red when most times it should be blue.
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=sP9tM1tcQP4"} className="blog-video"/>
+
+### Krew Fight <PRLink href="https://github.com/open-goal/jak-project/pull/2208"/>
+
+In addition to the castle level mostly working, so too does the final fight.
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=R-LGevaAQKk"} className="blog-video"/>
+
+### Kor Fight <PRLink href="https://www.youtube.com/watch?v=tPM7W8N01VM"/>
+
+Likewise, so too does the final boss fight.
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=tPM7W8N01VM"} className="blog-video"/>
+
+### Per-Prototype Visibility <PRLink href="https://github.com/open-goal/jak-project/pull/2212"/>
+
+Jak 2 adds a feature to disable protos in TIE. It's used to hide things like steps for a future mission in ruins, and also to hide the static version of the tower when it switches to the merc version for the cutscene:
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=l41m5DQ8SXk"} className="blog-video"/>
+
+### Meet Brutter <PRLink href="https://github.com/open-goal/jak-project/pull/2218"/>
+
+As mentioned, with the vehicles now working we can start to work on missions that needed them.  First of which to share is the `meet-brutter` mission
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=WGigcHS_koc"} className="blog-video"/>
+
+### Protect Kor and Kid & Intercept Tanker <PRLink href="https://github.com/open-goal/jak-project/pull/2219"/>
+
+These mission is now working, with the decompilation of the kid / croca-dog / ashelin related files.
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=ounjWwHucek"} className="blog-video"/>
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=ipgaWitQlwk"} className="blog-video"/>
+
+### Stadium Races <PRLink href="https://github.com/open-goal/jak-project/pull/2224"/>
+
+All the stadium races are now functioning
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=Sk2mwNoQaho"} className="blog-video"/>
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=YRZorFDzwhY"} className="blog-video"/>
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=riDUtHbKRD4"} className="blog-video"/>
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=XjrowIJQa94"} className="blog-video"/>
+
+### Fog <PRLink href="https://github.com/open-goal/jak-project/pull/2223"/>
+
+Jak 2 has been lacking fog for a while, there are still some spots where we think it's off, but this is a lot better.
+
+![](./img/fog.png)
+
+### Palace Cable <PRLink href="https://github.com/open-goal/jak-project/pull/2222"/>
+
+The palace cable mission is now working, it's got the annoying elevator bug (elevators always leave Jak behind) which makes the beginning of the mission a bit awkward though.
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=H2smmdynHVI"} className="blog-video"/>
+
+### Sprite Glow Renderer <PRLink href="https://github.com/open-goal/jak-project/pull/2232"/>
+
+Another new renderer for Jak 2 -- this one handles all of the glowing light effects.
+
+<ReactPlayer controls url={"https://www.youtube.com/watch?v=iznKhvzevAI"} className="blog-video"/>
+
+## General Tooling
+
+### Automatic Documentation Generation <PRLink href="https://github.com/open-goal/jak-project/pull/2214"/> <PRLink href="https://github.com/open-goal/open-goal.github.io/pull/120"/>
+
+No good codebase is complete without decent documentation to go along with it.  If you are familiar with other languages you may have heard of JavaDocs, Doxygen, etc.
+
+We now generate documentation from the docstrings in the OpenGOAL source files that gets bundled with the website which you can find [here](https://opengoal.dev/docs/source-docs/).
+
+There are still many issues and areas that lack support end-to-end, but this is a good start that can be interated on.  It also has made other features much easier to implement in the LSP.
+
+### Memory Footprint of goalc Reduced <PRLink href="https://github.com/open-goal/jak-project/pull/2247"/>
+
+Some recent changes significantly reduce the amount of memory `goalc` consumes.
