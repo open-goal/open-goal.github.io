@@ -6,6 +6,7 @@ import PRLink from '@site/src/mdx/PRLink';
 import ImageCompare from '@site/src/mdx/ImageCompare';
 import ReactPlayer from 'react-player'
 import LauncherDownloadLink from "@site/src/components/LauncherDownloadLink"
+import PostAuthors from '../mdx/PostAuthors/Header/Authors';
 
 export default {
   // Re-use the default mapping
@@ -14,5 +15,6 @@ export default {
   "PRLink": PRLink,
   "ReactPlayer": ReactPlayer,
   "ImageCompare": ImageCompare,
-  "LauncherDownloadLink": LauncherDownloadLink
+  "LauncherDownloadLink": LauncherDownloadLink,
+  "PostAuthors": PostAuthors,
 };
