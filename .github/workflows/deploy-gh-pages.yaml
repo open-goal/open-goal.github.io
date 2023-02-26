@@ -23,6 +23,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -42,8 +43,12 @@ jobs:
           python ./scripts/gallery-updater/update-gallery.py
 
       - name: Build Static Content
+        env:
+          process.env.DOCUSAURUS_SSR_CONCURRENCY: 2
         run: |
           npm ci
+          unzip ./static/data/docs/opengoal-docs.zip -d ./
+          npm run gen-docs
           npm run build
           cp ./CNAME ./build
 

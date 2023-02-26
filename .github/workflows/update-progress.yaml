@@ -3,20 +3,14 @@ name: Update Progress
 on:
   repository_dispatch:
     types: [updateProgress]
-  workflow_dispatch:
-    inputs:
-      bump:
-        description: "Dummy Value"
-        required: false
-        default: ""
-        type: string
+  workflow_dispatch: {}
 
 jobs:
   update:
     name: Update Documentation Site
     runs-on: ubuntu-latest
     # Set some sort of timeout in the event of run-away builds.  We are limited on concurrent jobs so, get rid of them.
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -42,6 +36,14 @@ jobs:
           npm ci
           popd
           node scripts/progress-tracker/index.js
+
+      - name: Download Generated Documentation Bundle
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_PAT }}
+          WORKFLOW_RUN_ID: ${{ github.event.client_payload.docGenRunId }}
+        run: |
+          npm ci
+          npm run download-docs
 
       - name: Add & Commit
         uses: EndBug/add-and-commit@v9
