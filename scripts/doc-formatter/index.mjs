@@ -61,10 +61,19 @@ function generateSymbolIndex(gameName, symbolList) {
     if (!symbols.hasOwnProperty(firstChar)) {
       symbols[firstChar] = [];
     }
-    symbols[firstChar].push({
-      name: symbolInfo.name,
-      filePath: symbolInfo.def_location
-    });
+    // TODO - a temporary hack to work-around files being shared across game directories not being a
+    // properly thought out solution yet
+    //
+    // The generation in `jak-project` does not handle this well, leading to issues here where the path is not as expected
+    //
+    // They should instead be in a `common` folder, and there should be a `common` source-docs folder
+    // Doing so properly, will require some thought.
+    if (symbolInfo.def_location === undefined || !symbolInfo.def_location.filename.startsWith("work/jak-project")) {
+      symbols[firstChar].push({
+        name: symbolInfo.name,
+        filePath: symbolInfo.def_location
+      });
+    }
   }
   // Get the keys and sort them
   let headings = Object.keys(symbols).sort();
