@@ -6,7 +6,7 @@ description: A deep dive into the code changes for the Checkpoint Randomizer Mod
 
 # Checkpoint Randomizer Mod - Code Review
 
-<PostAuthors authors={["dallmeyer"]}/>
+<PostAuthors authors={["dallmeyer"]} authorNames={["barg034"]}/>
 
 ## Background
 
@@ -196,7 +196,7 @@ It may be worth noting that if you use cheat/debug mode to give yourself Power C
 
 This was an interesting and important edge case we stumbled across: if you collected the Green Sage Power Cell and just so happened to warp back to the top of Citadel checkpoint, the elevator door would open but no elevator would appear (unless you died or de/respawned the elevator). What we realized was that the `(start 'play ...)` method of warping to a checkpoint would not reload any currently loaded levels or entities.
 
-The [solution](https://github.com/dallmeyer/jak-project/blob/f3bdd9273531ea03e47c588862649fd9d7726a83/goal_src/jak1/engine/mods/checkpoint-randomizer.gc#L334-L343) we settled on was to instead warp by manually setting the checkpoint and then killing Jak 😬 which ensures the level is reloaded properly after the Power Cell has been collected. Our previous checkpoint warp call would end up [setting the checkpoint here in `init-target`](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/target/logic-target.gc#L1932). If we look at the [definition for `set-continue!`](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/game/game-info.gc#L113), we see it should accept a `continue-point` or a string as an argument. Now we just need a proper way to kill Jak, and we again borrowed from the debug menu - this time looking at `Game > New Life` and copying the underlying [`(initialize! *game-info* 'die ...)` call](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/debug/default-menu.gc#L3391-L3395).
+The [solution](https://github.com/dallmeyer/jak-project/blob/f3bdd9273531ea03e47c588862649fd9d7726a83/goal_src/jak1/engine/mods/checkpoint-randomizer.gc#L334-L343) we settled on was to instead warp by manually setting the checkpoint and then killing Jak 😬 which ensures the level is reloaded properly after the Power Cell has been collected. Our previous checkpoint warp approach would end up [setting the checkpoint here in `init-target`](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/target/logic-target.gc#L1932). If we look at the [definition for `set-continue!`](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/game/game-info.gc#L113), we see it should accept a `continue-point` or a string as an argument. Now we just need a proper way to kill Jak, and we again borrowed from the debug menu - this time looking at `Game > New Life` and copying the underlying [`(initialize! *game-info* 'die ...)` call](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/debug/default-menu.gc#L3391-L3395).
 
 ```lisp
 (defun warpToCheckpoint ((checkpointName string))
@@ -213,7 +213,10 @@ The [solution](https://github.com/dallmeyer/jak-project/blob/f3bdd9273531ea03e47
 
 ### Citadel softlock
 
-One of the first softlocks we ran into was with Gol & Maia's Citadel, and the 2 things that initially prevent you from entering (or more important in this case, exiting). Until you've collected the End of Lava Tube Power Cell from the Zoomer pad, there will be a large invisible wall in front of the Citadel entrance. Additionally, the Citadel door won't open until you've pressed the Lava Tube warp gate button and gotten past Keira's cutscene.
+One of the first softlocks we ran into was around Gol & Maia's Citadel, and the 2 things that initially prevent you from entering (or more important in this case, exiting):
+
+1. There will be a large invisible wall in front of the Citadel entrance until you've collected the End of Lava Tube Power Cell from the Zoomer pad
+2. The Citadel door won't open until you've pressed the Lava Tube warp gate button
 
 With the checkpoint randomizer, it's entirely possible to collect all the Citadel Power Cells before unlocking these two things in Lava Tube. If you end up in this scenario and happen to get warped to Citadel again, there's no way to get out! To address this issue, we decided to automatically unlock the Citadel door and remove the invisible wall whenever you are in Lava Tube or Citadel.
 
@@ -241,7 +244,7 @@ gc> (-> (the citb-iris-door (process-by-ename "citb-iris-door-21")) state-actor)
 44726468        #x2aa78c4              0.0000        #<entity-actor :name warp-gate-switch-12 @ #x2aa78c4>
 ```
 
-In other words, if we wipe out the `state-actor` for our particular door, then we should be able to unlock it (without it being immediately re-locked). And that is the [solution](https://github.com/dallmeyer/jak-project/blob/1589034851b300b6890137be4bc27b15439f24ef/goal_src/jak1/engine/mods/mods-common.gc#L60-L72) we settled on:
+Our attempt to unlock the Citadel door was reversed by the door re-locking itself immediately after, because the warp gate switch was not pressed. The [solution](https://github.com/dallmeyer/jak-project/blob/1589034851b300b6890137be4bc27b15439f24ef/goal_src/jak1/engine/mods/mods-common.gc#L60-L72) we settled on was to break the `state-actor` connection between the door and the switch:
 
 ```lisp
 (defun unlock-citadel-door-no-cells ()
@@ -349,21 +352,118 @@ We can see one of the other checks in here is that you've completed the fishing 
   )
 ```
 
-### Pelican softlock
-
-### Resuming run if gk is closed
-
-TODO: part of motivation behind seeding
-
 ## RNG Seeding
 
 ### Pre-generating checkpoint list
 
-### Restoring state after gk is closed
+After ironing out these initial issues, we started thinking about speedruns of the checkpoint randomizer. One of the points that came up was around the integrity of runs and the checkpoints that were randomly chosen - how could we detect spliced runs or if the code was modified to give optimal checkpoints?
+
+Our solution was to choose the checkpoints based on a particular seed for the RNG system, which would be displayed at the start of the run similar to the Speedrunner Mode display in vanilla OpenGOAL. This would ensure that anyone could replay a run using the same seed, and they ought to get the exact same checkpoints every time.
+
+Unfortunately with our existing code, the checkpoints we got were still inconsistent even once we [set a specific seed for the `rand-vu` RNG system](https://github.com/open-goal/jak-project/blob/fb20bf34df7419f3279bd9170d06048625f2a1bb/goal_src/jak1/engine/math/math.gc#L172-L180) at the beginning of the run. We figured out this was because many other parts of the game were utilizing `rand-vu`, and cycling through a different number of random values depending on how you played. Since we were not calling `rand-vu` to choose the next checkpoint until the moment you picked up a Power Cell, this meant we'd end up hitting a different random value each time.
+
+To get consistent values from a given seed, we needed to avoid any `rand-vu` calls in between the ones used for the checkpoint warps. We obviously couldn't just get rid of RNG throughout the game, so instead we chose to generate the entire checkpoint list at once - up front at the beginning of the run.
+
+```lisp
+(deftype rando-state (structure)
+  (
+    (next-idx int)
+    (checkpoint-list (array string))
+    )
+  ...
+  )
+
+(define *rando-list-length* 1000)
+(define *rando-state* (new 'global 'rando-state *rando-list-length*))
+
+(defun generateCheckpointList ((seed float) (length int))
+  ;; set the seed which will be used for generating checkpoint list
+  (rand-vu-init seed)
+
+  (dotimes (idx length)
+    ;; append checkpoint
+    (set! (-> *rando-state* checkpoint-list idx) (-> *checkpoint-list* (rand-vu-int-range 0 (-> *checkpoint-list* length))))
+    )
+
+  ;; reset initial index
+  (set! (-> *rando-state* next-idx) 0)
+  (none)
+)
+```
+
+The original version stored the checkpoints in a linked list (like `*level-load-list*`) rather than an array, but otherwise the concept was the same. We initalize the RNG engine with the seed, and immediately generate the checkpoint list in a tight loop, thus guaranteeing we get a consistent list from any seed.
+
+When the player collects a Power Cell, we just use the checkpoint at index `(-> *rando-state* next-idx)` for the warp, and then increment the `next-idx` field in preparation for the next warp. Just in case we somehow reach the end of the array, we can use the `mod` function to adjust the index and wrap back around to the beginning:
+
+```lisp
+(defun orchestrateCheckpointWarp ()
+  (let ((checkpointName (-> *rando-state* checkpoint-list (-> *rando-state* next-idx))))
+    ;; increment checkpoint list index for next time
+    (set! 
+        (-> *rando-state* next-idx)
+        (mod (+ (-> *rando-state* next-idx) n) *rando-list-length*)
+        )
+    (warpToCheckpoint checkpointName)
+    )
+  )
+```
+
+### Restoring state after `gk` is closed
+
+In the early versions of the randomizer, crashes were not uncommon. The game itself would auto-save when picking up the Power Cell, but the `rando-state` wasn't persisted. Since our code was only generating the checkpoint list when starting a new game, any crash meant you couldn't really continue your randomizer run (aside from manual intervention via the REPL).
+
+With the new seeded approach we only needed to save two values in order to recreate the `rando-state`: the seed we used, and the latest `next-idx`. I'll go into more details about writing to/reading from files in [a later section](#randomizer-settings-file), but let's assume for now that we just need to update `*randomizer-settings*`. If we run into the case where the checkpoint list is not initialized (e.g. after a crash and reboot), we can regenerate the checkpoint list and advance through it to restore the previous state:
+
+```lisp
+(defun advanceCheckpointList ((n int))
+  (set! 
+    (-> *rando-state* next-idx)
+    (mod (+ (-> *rando-state* next-idx) n) *rando-list-length*)
+    )
+  )
+
+(defun orchestrateCheckpointWarp ((amount int))
+  ;; in case of crash/closed window/etc, generate from last seed and advance checkpoints
+  (when (null? (-> *rando-state* checkpoint-list 0))
+    ;; generate checkpoint list from seed and advance idx
+    (generateCheckpointList (-> *randomizer-settings* current-seed) *rando-list-length*)
+    (advanceCheckpointList (-> *randomizer-settings* backup-next-idx))
+    )
+  ;; do checkpoint warp
+  (let ((checkpointName (-> *rando-state* checkpoint-list (-> *rando-state* next-idx))))
+    ;; increment checkpoint list index for next time
+    (advanceCheckpointList 1)
+    (set! (-> *randomizer-settings* backup-next-idx) (-> *rando-state* next-idx))
+    (warpToCheckpoint checkpointName)
+    )
+  )
+```
 
 ### Checkpoint predictability
 
-TODO: talk about ported rand-vu limitation, why it surfaced only now
+After the refactoring to generate the checkpoint list up front, something interesting happened - speedrunner [Bintendo42](https://www.twitch.tv/bintendo42) started noticing patterns in the checkpoints she was getting, and eventually could often correctly predict what her next checkpoint would be!
+
+Reviewing the code, I couldn't see any immediate issue with what we had added... until I recalled reading something in Discord about OpenGOAL not replicating the PS2 RNG exactly. On the PS2, there is a `Q` register which holds the quotient value from the most recent division operation, and this value is used as a source of randomness within the rand-vu engine.
+
+![](./img/checkpoint_randomizer/water_q.png)
+
+As water explains above (also mentioned in [this comment in `goal_src/jak1/engine/math/math.gc`](https://github.com/open-goal/jak-project/blob/fb20bf34df7419f3279bd9170d06048625f2a1bb/goal_src/jak1/engine/math/math.gc#L190-L194)), OpenGOAL omits this adjustment involving `Q`. So what's the impact of this on randomly generated values? Well I ran a test - I generated a random int between 0 and 99 (inclusive) 100,000 times and... the results were pretty evenly distributed across the 100 possible values 🤔
+
+I ran another test, inspired by Bin's ability to predict her checkpoint based on the previous one. This time I kept track of the most recent 2 random values chosen, so that I could review the distribution across the 100x100 possible pairs of subsequent values. The results were pretty clear - there is a definite relationship between one randomly generated value and the next, even though all individual values are approximately equally likely to be chosen.
+
+![](./img/checkpoint_randomizer/randvu_distribution.png)
+
+Remember when we refactored the code to generate a consistent checkpoint list up front from the seed, and we wanted to avoid the miscellaneous `rand-vu` calls throughout the game? Well it turns out those calls were helping improve the randomness between checkpoint warps, and sidestepping them caused us to highlight this limitation in the OpenGOAL version of `rand-vu`.
+
+This difference in `rand-vu` doesn't really cause any issues in casual gameplay, though speedrunners will know a couple of RNG manipulation tricks that can be performed on PS2 won't work the same way in OpenGOAL. However for the checkpoint randomizer, this was going to be a problem - we needed a way to consistently generate a list from a given seed, and to have the list feel truly random, without any patterns. 
+
+I did some research into RNG and eventually found the [`java.util.Random` docs](https://docs.oracle.com/javase/8/docs/api/java/util/Random.html), which clearly explain their implementation of "a linear congruential pseudorandom number generator as defined by D. H. Lehmer and described by Donald E. Knuth in The Art of Computer Programming, Volume 3: Seminumerical Algorithms, section 3.2.1".
+
+Don't worry, no math lesson today - I went ahead and [ported this RNG engine over to OpenGOAL](https://github.com/open-goal/jak-project/blob/master/goal_src/jak1/pc/util/knuth-rand.gc) based on the Java docs. Once I had it working correctly, I ran the same sequential number test as I had previously run against the `rand-vu` engine, and the results were quite different:
+
+![](./img/checkpoint_randomizer/knuth_distribution.png)
+
+Happy with these results, I switched the checkpoint randomizer over to using this new `knuth-rand` engine instead of `rand-vu`.
 
 ## RNG Options
 

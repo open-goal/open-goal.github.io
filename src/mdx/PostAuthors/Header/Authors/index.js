@@ -3,7 +3,8 @@ import clsx from 'clsx';
 import BlogPostItemHeaderAuthor from '@theme/BlogPostItem/Header/Author';
 import styles from './styles.module.css';
 // Component responsible for the authors layout
-export default function PostAuthors({className, authors}) {
+// authorNames is optional
+export default function PostAuthors({className, authors, authorNames}) {
   const authorsCount = authors.length;
   if (authorsCount === 0) {
     return null;
@@ -24,7 +25,7 @@ export default function PostAuthors({className, authors}) {
           <BlogPostItemHeaderAuthor
             author={{
               ...author,
-              name: author,
+              name: (authorNames && idx < authorNames.length && authorNames[idx]) ? authorNames[idx] : author,
               url: `https://github.com/${author}`,
               imageURL: `https://github.com/${author}.png`,
             }}
