@@ -108,7 +108,7 @@ Long-awaited, this setting determines whether you can use the skip cutscene butt
 For those of you looking to speedrun the game, there's a dedicated speedrunner mode that takes care of some of the default settings, and makes sure that your run is compliant with the [OpenGOAL Jak 1 speedrun categories](https://www.speedrun.com/jak1og). This includes settings like disabling hints and skipping the opening cutscene. Default value is off.
 
 Effects of speedrunner mode:
-- When starting a new game, **PLAY HINTS** is set to off.
+- When starting a new game, **PLAY HINTS** is set to off (except for the "All Cutscenes" category extension).
 - Frame rate is set to and locked at 60.
 - Additional text is displayed at the beginning of speedruns.
 
