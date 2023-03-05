@@ -901,7 +901,7 @@ For the vents, we do the checkpoint warp in the equivalent `vent-pickup` state:
 
 ### Death
 
-One last option we added was to warp whenever Jak dies. Similar to the Power Cell cutscenes, we wanted this warp to happen before any Daxter death cutscene played. Those cutscenes occur around [here in `target`'s `target-death` state](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/target/target-death.gc#L1340), so that's where we'll insert our checkpoint warp:
+One last option we added was to warp whenever Jak dies. Similar to the Power Cell cutscenes, we wanted this warp to happen before any Daxter death cutscene played. Those cutscenes occur around [here in `target`'s `target-death` state](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/target/target-death.gc#L1340), so just before that we'll insert our checkpoint warp:
 
 ```lisp
 (defstate target-death (target)
@@ -915,9 +915,211 @@ One last option we added was to warp whenever Jak dies. Similar to the Power Cel
 
 ## Randomizer settings file
 
-TODO: mirror pc-settings
+Alright so let's talk about writing to/reading from files. First off, there's a `pc-settings.gc` file and [associated type](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/pc/pckernel-h.gc#L211) where the vanilla game stores all your settings like aspect ratio, MSAA, inverted controls, etc. Every time you close the start menu it writes `*pc-settings*` to this file (note: the actual game saves are not stored in this file).
 
-## Pause menu randomizer options
+Unless we change the path to this file, we will share the file with vanilla versions of the game - so it's best not to make any changes that would be written to `pc-settings.gc` and possibly break other OpenGOAL installations. Instead, we created a `randomizer-settings` type that mirrored everything `pc-settings` did, except it had the fields we needed and wrote to a different filename.
+
+```lisp
+(deftype randomizer-settings (basic)
+  (
+    (version uint64) ;; version of this settings
+    (checkpoint-randomizer? symbol) ;; enable Zed's checkpoint randomizer
+    (use-random-seed? symbol) ;; boolean (#t = random seed / #f = set seed)
+    (current-seed uint) ;; seed used to generate random checkpoint.
+    (backup-next-idx int) ;; backup in case of game crash
+    (warp-on-cell? symbol) ;; warp on cell
+    (warp-on-orb? symbol) ;; warp on orb
+    (warp-on-buzzer? symbol) ;; Warp on scoutfly
+    (warp-on-green-eco? symbol) ;; Warp on green eco
+    (warp-on-blue-eco? symbol) ;; Warp on blue eco
+    (warp-on-red-eco? symbol) ;; Warp on red eco
+    (warp-on-yellow-eco? symbol) ;; Warp on yellow eco
+    (warp-on-eco-vents? symbol) ;; Controls whether eco vents count towards above eco warps
+    (warp-on-death? symbol) ;; Warp on death
+    (collectables-needed-to-warp float);; number of cells/orbs/flies needed to trigger a random checkpoint warp
+    (show-warp-counter? symbol) ;; boolean controlling if warp collectable count displayed
+    (rng-lib symbol) ;; the RNG library to use in main game (randomizer itself always uses knuth)
+    (checkpoint-logic symbol) ;; the logic used when generating checkpoint lists
+  )
+
+  (:methods
+    (new (symbol type) _type_)
+    (reset (_type_) none)
+    (read-from-file (_type_ string) symbol)
+    (commit-to-file (_type_) none)
+    (write-to-file (_type_ string) symbol)
+    (load-settings (_type_) int)
+    )
+  )
+```
+
+There are a handful of methods that needed to be implemented, but they're all pretty straightforward and just needed to be tailored to the `randomizer-settings` fields:
+
+```lisp
+(defmethod new randomizer-settings ((allocation symbol) (type-to-make type))
+  "make a new randomizer-settings"
+  (let ((obj (object-new allocation type-to-make (the-as int (-> type-to-make size)))))
+    (reset obj)
+    ;; auto load settings if available
+    ;; if saved settings are corrupted or not found, use defaults
+    (load-settings obj)
+    obj))
+
+(defmethod reset randomizer-settings ((obj randomizer-settings))
+  "Set the default settings for non-vanilla randomizer settings"
+
+  (format 0 "resetting randomizer settings~%")
+
+  (set! (-> obj version) RANDO_SETTINGS_VERSION)
+  (set! (-> obj checkpoint-randomizer?) #f)
+  (set! (-> obj collectables-needed-to-warp) 1.0)
+  (set! (-> obj show-warp-counter?) #f)
+  (set! (-> obj use-random-seed?) #t)
+  (set! (-> obj current-seed) 42069)
+  (set! (-> obj backup-next-idx) 0)
+  (set! (-> obj warp-on-cell?) #t)
+  (set! (-> obj warp-on-orb?) #f)
+  (set! (-> obj warp-on-buzzer?) #f)
+  (set! (-> obj warp-on-green-eco?) #f)
+  (set! (-> obj warp-on-blue-eco?) #f)
+  (set! (-> obj warp-on-red-eco?) #f)
+  (set! (-> obj warp-on-yellow-eco?) #f)
+  (set! (-> obj warp-on-eco-vents?) #f)
+  (set! (-> obj warp-on-death?) #f)
+  (set! (-> obj rng-lib) 'rand-vu)
+  (set! (-> obj checkpoint-logic) 'logic-random-checkpoint)
+
+  (none))
+
+(defmethod read-from-file randomizer-settings ((obj randomizer-settings) (filename string))
+  "read settings from a file"
+
+  (if (not filename)
+    (return #f))
+
+  (let ((file (new 'stack 'file-stream filename 'read)))
+    (when (not (file-stream-valid? file))
+      (return #f))
+
+    ;;Check version
+    (let ((version RANDO_SETTINGS_VERSION))
+      (with-settings-scope (file)
+        (case-str (file-stream-read-word file)
+          (("settings")
+            (set! version (file-stream-read-int file))
+            (cond
+              ((= (logand version #xffffffff00000000) (logand RANDO_SETTINGS_VERSION #xffffffff00000000))
+                ;; minor difference
+                )
+              (else
+                ;; major difference
+                (format 0 "Randomizer settings version mismatch! Got ~D.~D vs ~D.~D~%" RANDO_SETTINGS_VERSION_MAJOR RANDO_SETTINGS_VERSION_MINOR (bit-field int version 32 16) (bit-field int version 48 16))
+                (file-stream-close file)
+                (return #f)
+                )
+              )
+            ;;read through the file and set fields
+            (dosettings (file)
+              (case-str *pc-temp-string*
+                (("Randomizer?") (set! (-> obj checkpoint-randomizer?) (file-stream-read-symbol file)))
+                ;; left as "cells-needed-to-warp" in settings for backwards compatibility
+                (("cells-needed-to-warp") (set! (-> obj collectables-needed-to-warp) (file-stream-read-float file)))
+                (("show-warp-counter?") (set! (-> obj show-warp-counter?) (file-stream-read-symbol file)))
+                (("use-random-seed?") (set! (-> obj use-random-seed?) (file-stream-read-symbol file)))
+                (("Seed") (set! (-> obj current-seed) (file-stream-read-uint file)))
+                (("backup-next-idx") (set! (-> obj backup-next-idx) (file-stream-read-int file)))
+                (("WarpOnCell?") (set! (-> obj warp-on-cell?) (file-stream-read-symbol file)))
+                (("WarpOnOrb?") (set! (-> obj warp-on-orb?) (file-stream-read-symbol file)))
+                (("WarpOnBuzzer?") (set! (-> obj warp-on-buzzer?) (file-stream-read-symbol file)))
+                (("WarpOnGreenEco?") (set! (-> obj warp-on-green-eco?) (file-stream-read-symbol file)))
+                (("WarpOnBlueEco?") (set! (-> obj warp-on-blue-eco?) (file-stream-read-symbol file)))
+                (("WarpOnRedEco?") (set! (-> obj warp-on-red-eco?) (file-stream-read-symbol file)))
+                (("WarpOnYellowEco?") (set! (-> obj warp-on-yellow-eco?) (file-stream-read-symbol file)))
+                (("WarpOnEcoVents?") (set! (-> obj warp-on-eco-vents?) (file-stream-read-symbol file)))
+                (("WarpOnDeath?") (set! (-> obj warp-on-death?) (file-stream-read-symbol file)))
+                (("rng-lib") (set! (-> obj rng-lib) (file-stream-read-symbol file)))
+                (("checkpoint-logic") (set! (-> obj checkpoint-logic) (file-stream-read-symbol file)))
+
+                )
+              )
+            )
+          )
+        )
+
+      )
+      (inspect file)
+    (file-stream-close file)
+    )
+
+  (format 0 "pc settings file read: ~A~%" filename)
+
+  #t
+  )
+
+(defmethod commit-to-file randomizer-settings ((obj randomizer-settings))
+  "commits the current settings to the file"
+  ;; auto load settings if available
+  (format (clear *pc-temp-string-1*) "~S/Mods/randomizer-settings.gc" *pc-settings-folder*)
+  (pc-mkdir-file-path *pc-temp-string-1*)
+  (write-to-file obj *pc-temp-string-1*)
+  (none))
+
+(defmethod write-to-file randomizer-settings ((obj randomizer-settings) (filename string))
+  "write settings to a file"
+
+  (if (not filename)
+    (return #f))
+
+    (let ((file (new 'stack 'file-stream filename 'write)))
+    (if (not (file-stream-valid? file))
+      (return #f))
+
+    (format file "(settings #x~X~%" (-> obj version))
+    ;; left as "cells-needed-to-warp" in settings for backwards compatibility
+    (format file "  (cells-needed-to-warp ~F)~%" (the-as float(-> obj collectables-needed-to-warp)))
+    (format file "  (show-warp-counter? ~A)~%" (-> obj show-warp-counter?))
+    (format file "  (Randomizer? ~A)~%" (-> obj checkpoint-randomizer?))
+    (format file "  (use-random-seed? ~A)~%" (-> obj use-random-seed?))
+    (format file "  (Seed ~D)~%" (-> obj current-seed))
+    (format file "  (backup-next-idx ~D)~%" (-> obj backup-next-idx))
+    (format file "  (WarpOnCell? ~A)~%" (-> obj warp-on-cell?))
+    (format file "  (WarpOnOrb? ~A)~%" (-> obj warp-on-orb?))
+    (format file "  (WarpOnBuzzer? ~A)~%" (-> obj warp-on-buzzer?))
+    (format file "  (WarpOnGreenEco? ~A)~%" (-> obj warp-on-green-eco?))
+    (format file "  (WarpOnBlueEco? ~A)~%" (-> obj warp-on-blue-eco?))
+    (format file "  (WarpOnRedEco? ~A)~%" (-> obj warp-on-red-eco?))
+    (format file "  (WarpOnYellowEco? ~A)~%" (-> obj warp-on-yellow-eco?))
+    (format file "  (WarpOnEcoVents? ~A)~%" (-> obj warp-on-eco-vents?))
+    (format file "  (WarpOnDeath? ~A)~%" (-> obj warp-on-death?))
+    (format file "  (rng-lib ~A)~%" (-> obj rng-lib))
+    (format file "  (checkpoint-logic ~A)~%" (-> obj checkpoint-logic))
+
+    (format file "  )~%")
+    (file-stream-close file)
+    )
+
+  (format 0 "randomizer settings file write: ~A~%" filename)
+
+  #t
+  )
+
+(defmethod load-settings randomizer-settings ((obj randomizer-settings))
+  "load"
+
+  (format (clear *pc-temp-string-1*) "~S/Mods/randomizer-settings.gc" *pc-settings-folder*)
+  (if (pc-filepath-exists? *pc-temp-string-1*)
+    (begin
+      (format 0 "[Randomizer] Randomizer Settings found at '~S'...loading!~%" *pc-temp-string-1*)
+      (unless (read-from-file obj *pc-temp-string-1*)
+        (format 0 "[Randomizer] Randomizer Settings found at '~S' but could not be loaded, using defaults!~%" *pc-temp-string-1*)
+        (reset obj)))
+    (format 0 "[Randomizer] Randomizer Settings not found at '~S'...initializing with defaults!~%" *pc-temp-string-1*))
+  0)
+```
+
+## Randomizer options in pause menu
+
+
 
 TODO: on/off, slider
 
