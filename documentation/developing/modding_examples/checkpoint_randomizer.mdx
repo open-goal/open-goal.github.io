@@ -414,7 +414,20 @@ When the player collects a Power Cell, we just use the checkpoint at index `(-> 
 
 In the early versions of the randomizer, crashes were not uncommon. The game itself would auto-save when picking up the Power Cell, but the `rando-state` wasn't persisted. Since our code was only generating the checkpoint list when starting a new game, any crash meant you couldn't really continue your randomizer run (aside from manual intervention via the REPL).
 
-With the new seeded approach we only needed to save two values in order to recreate the `rando-state`: the seed we used, and the latest `next-idx`. I'll go into more details about writing to/reading from files in [a later section](#randomizer-settings-file), but let's assume for now that we just need to update `*randomizer-settings*`. If we run into the case where the checkpoint list is not initialized (e.g. after a crash and reboot), we can regenerate the checkpoint list and advance through it to restore the previous state:
+With the new seeded approach we only needed to save two values in order to recreate the `rando-state`: the seed we used, and the latest `next-idx`. I'll go into more details about writing to/reading from files in [a later section](#randomizer-settings-file), but let's assume for now that we just need to update `*randomizer-settings*`, which looks like this:
+
+```lisp
+(deftype randomizer-settings (basic)
+    (
+      (checkpoint-randomizer? symbol) ;; enable Zed's checkpoint randomizer
+      (current-seed uint) ;; seed used to generate random checkpoint.
+      (backup-next-idx int) ;; backup in case of game crash
+      )
+    ...
+    )
+```
+
+If we run into the case where the checkpoint list is not initialized (e.g. after a crash and reboot), we can regenerate the checkpoint list and advance through it to restore the previous state:
 
 ```lisp
 (defun advanceCheckpointList ((n int))
@@ -484,6 +497,18 @@ At first, I followed what `rand-vu` does, and initialized our `knuth-rand` engin
 
 We did two things to break away from this and better support random seeds. First, we [changed the initial seed for the `knuth-rand` engine, based on the computer's current system time](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/pc/util/knuth-rand.gc#L86). Second, on every frame we [advanced the `knuth-rand` state](https://github.com/dallmeyer/jak-project/blob/dac983b5ab1944a3a6969b731947a9ba57b4b815/goal_src/jak1/engine/mods/checkpoint-randomizer.gc#L289-L290), so in effect the seed chosen for the checkpoint list would change depending on how long you waited before starting a new game. These two sources of randomness worked like a charm, and now we just needed to support both random and set seed modes.
 
+```lisp
+(deftype randomizer-settings (basic)
+    (
+      (checkpoint-randomizer? symbol) ;; enable Zed's checkpoint randomizer
+      (use-random-seed? symbol) ;; boolean (#t = random seed / #f = set seed)
+      (current-seed uint) ;; seed used to generate random checkpoint.
+      (backup-next-idx int) ;; backup in case of game crash
+      )
+    ...
+    )
+```
+
 We extended our randomizer settings file - which was already storing the current seed - to also store whether the player was playings random or set seed mode. Since the seed is a `uint64` it can be up to 20 digits long, this settings file was a nice way to let users input their set seed (as opposed to some sort of pause menu screen - though now that we have some keyboard support, maybe we could revisit this...)
 
 Anyways, once we had the new setting defined, we just needed to tweak a couple behaviors based on its value. On each frame, we only need to advance the `knuth-rand` state if we're in random seed mode:
@@ -526,7 +551,20 @@ Depending on the number of Power Cells in a level, this could be a bit frustrati
   ...
 ```
 
-Later on, we added an alternate option which would first choose a level randomly, and then choose a checkpoint within that level randomly. This has its pros and cons - you will probably see less Snowy Mountain, but you'll also see a lot more Fire Canyon, which only has 2 Power Cells.
+Later on, we added a `checkpoint-logic` setting with a `'logic-random-level` option to first choose a level randomly, and then choose a checkpoint within that level randomly. This has its pros and cons - you will probably see less Snowy Mountain, but you'll also see a lot more Fire Canyon, which only has 2 Power Cells.
+
+```lisp
+(deftype randomizer-settings (basic)
+    (
+      (checkpoint-randomizer? symbol) ;; enable Zed's checkpoint randomizer
+      (use-random-seed? symbol) ;; boolean (#t = random seed / #f = set seed)
+      (current-seed uint) ;; seed used to generate random checkpoint.
+      (backup-next-idx int) ;; backup in case of game crash
+      (checkpoint-logic symbol) ;; the logic used when generating checkpoint lists
+      )
+    ...
+    )
+```
 
 ```lisp
 (define *checkpoint-list-by-level-idx* 
@@ -681,19 +719,199 @@ Here are [all the custom checkpoints](https://github.com/dallmeyer/jak-project/c
 
 ### Every X Power Cells
 
+Once we had the core gameplay ironed out, we started thinking about different variations. One of the first variations we added was to let you control how many Power Cells you collect before the checkpoint warp kicks in - for example you could warp on every 5th Power Cell you collect.
 
+```lisp
+(deftype rando-state (structure)
+  (
+    (next-idx int)
+    (checkpoint-list (array string))
+    (collectable-interval int) ;; serves as a counter, counts up until it reaches collectables-needed-to-warp, then resets back to 0
+    )
+  ...
+  )
+```
+
+To do this, we added an internal counter `collectable-interval` to our randomizer state, and when collecting a Power Cell we would increment this counter rather than immediately doing the checkpoint warp. After incrementing, we just check if the counter has reached our target `collectables-needed-to-warp`, and if so we do the checkpoint warp and reset the counter:
+
+```lisp
+(defun orchestrateCheckpointWarp ()
+  ...
+  (+! (-> *rando-state* collectable-interval) 1)
+
+  ;; if we're above the collectable threshold, then warp
+  (when (>= (-> *rando-state* collectable-interval) (-> *randomizer-settings* collectables-needed-to-warp))
+    (format 0 "RANDOMIZER: warping from ~A...~%" (-> *level* level 0 name))
+    (warpToCheckpoint (the-as string (getNextCheckpoint)))
+    (set! (-> *rando-state* collectable-interval) 0)
+    )
+  ...
+  )
+```
 
 ### Scout Flies
 
+Supporting checkpoint warps when picking up a Scout Fly was one of the next things we tackled. Internally, Scout Flies are represented by a [type named `buzzer`](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/common-obs/collectables.gc#L2123). In the randomizer settings, we added an on/off toggle for both Power Cells and for Scout Flies:
+
+```lisp
+(deftype randomizer-settings (basic)
+    (
+      (checkpoint-randomizer? symbol) ;; enable Zed's checkpoint randomizer
+      (use-random-seed? symbol) ;; boolean (#t = random seed / #f = set seed)
+      (current-seed uint) ;; seed used to generate random checkpoint.
+      (backup-next-idx int) ;; backup in case of game crash
+      (warp-on-cell? symbol) ;; warp on cell
+      (warp-on-buzzer? symbol) ;; warp on scoutfly
+      (collectables-needed-to-warp float);; number of cells/flies needed to trigger a random checkpoint warp
+      (checkpoint-logic symbol) ;; the logic used when generating checkpoint lists
+      )
+    ...
+    )
+```
+
+And then we checked these conditions before calling our `orchestrateCheckpointWarp` function:
+
+```lisp
+(defstate pickup (fuel-cell)
+  ...
+  :code (behavior ((arg0 object) (arg1 handle))
+  ...
+  ;; warp to random checkpoint if randomizer enabled
+  (when (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-cell?))
+    (orchestrateCheckpointWarp)
+    )
+...
+
+(defstate pickup (buzzer)
+  ...
+  :code (behavior ((arg0 object) (arg1 handle))
+  ...
+  ;; warp to random checkpoint if randomizer enabled
+  (when (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-buzzer?))
+    (orchestrateCheckpointWarp)
+    )
+...
+```
+
 ### Precursor Orbs
 
-TODO: issues with crates, vents
+At first, warping when picking up Precursor Orbs (internally called [`money`](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/common-obs/collectables.gc#L1083)) sounds like it should be straightforward, just make a similar change as what we did for Power Cells or Scout Flies. However we ran into some complications with Precursor Orb vents (internally called [`orb-cache-top`](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/common-obs/orb-cache.gc#L12)).
+
+We noticed that after collecting Precursor Orbs from a vent and getting warped to another checkpoint, if you returned to the vent the number of remaining Precursor Orbs was not always updated properly. Since collecting the Orb and warping happens before the `orb-cache-top` updates the number of Orbs it has remaining, Orbs were effectively getting duplicated!
+
+The way we decided to work around this was to wait until you collected the final Orb from a vent before triggering any checkpoint warp. With our new approach we'd only be calling `orchestrateCheckpointWarp` once per vent, which if you're warping on every 1 collectable, doesn't really matter. 
+
+But if for example you're warping on every 25 collectables, the counter ought to increment by the number of Precursor Orbs it held. To correct this, we added an `amount` parameter to the `orchestrateCheckpointWarp`, so that we could increment our counter by an accurate amount.
+
+```lisp
+(defun orchestrateCheckpointWarp ((amount int))
+  ...
+  (+! (-> *rando-state* collectable-interval) amount)
+
+  ;; if we're above the collectable threshold, then warp
+  (when (>= (-> *rando-state* collectable-interval) (-> *randomizer-settings* collectables-needed-to-warp))
+    (format 0 "RANDOMIZER: warping from ~A...~%" (-> *level* level 0 name))
+    (warpToCheckpoint (the-as string (getNextCheckpoint)))
+    (set! (-> *rando-state* collectable-interval) 0)
+    )
+  ...
+  )
+```
+
+For Power Cells, Scout Flies, and individual Precursor Orbs, we just pass 1 for the amount to increment. For Precursor Orb vents, once the remaining count has reached 0 we can call `orchestrateCheckpointWarp` with the original count of Orbs. The remaining Orb count update happens in this `pos-logic` method:
+
+```lisp
+(defmethod pos-logic orb-cache-top ((obj orb-cache-top) (arg0 symbol))
+  ...
+  ;; if we collected orbs and now there are no more, give credit for the total orbs in this cache
+  (when (and
+        orbs-collected?
+        (zero? (-> obj money))
+        (-> *randomizer-settings* checkpoint-randomizer?)
+        (-> *randomizer-settings* warp-on-orb?)
+      )
+      (format 0 "RANDOMIZER: got ~D orbs from cache, checking warp~%" (-> obj initial-money))
+      (orchestrateCheckpointWarp (-> obj initial-money))
+    )
+...
+```
+
+We also need to make sure that individual Precursor Orbs picked up from these vents don't trigger calling `orchestrateCheckpointWarp`. The `orb-cache-top` will be the parent of the `money` process, so we can check this to decide if the Orb pickup should count or not:
+
+```lisp
+(defstate pickup (money)
+  :code (behavior ((arg0 object) (arg1 handle))
+    (let ((money-parent (ppointer->process (-> self parent))))
+      ...
+      ;; if the randomizer is on AND set to warp on orbs AND this isn't from an orb cache, warp the target.
+      ;; see orb-cache.gc for how those warps are handled
+      (when (and 
+          (-> *randomizer-settings* checkpoint-randomizer?) 
+          (-> *randomizer-settings* warp-on-orb?)
+          (!= (-> money-parent type) orb-cache-top)
+        )
+        (orchestrateCheckpointWarp 1)
+      )
+...
+```
 
 ### Eco
 
-TODO: single vs vents
+Supporting checkpoints on eco (internally called [`eco-collectable`](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/common-obs/collectables.gc#L104)) pickup was fairly straightforward, with eco vents (internally called [`vent`](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/common-obs/collectables.gc#L2769)) being the main additional piece to solve for. We have a slight tweak on the usual `pickup` code to account for the different eco variants:
+
+```lisp
+(defstate pickup (eco-collectable)
+  ...
+  :code (behavior ((arg0 object) (arg1 handle))
+    ...
+    (when (and 
+        (-> *randomizer-settings* checkpoint-randomizer?)
+        (or 
+          (and (-> *randomizer-settings* warp-on-green-eco?) (= (-> self fact pickup-type) (pickup-type eco-green)))
+          (and (-> *randomizer-settings* warp-on-green-eco?) (= (-> self fact pickup-type) (pickup-type eco-pill)))
+          (and (-> *randomizer-settings* warp-on-blue-eco?) (= (-> self fact pickup-type) (pickup-type eco-blue)))
+          (and (-> *randomizer-settings* warp-on-red-eco?) (= (-> self fact pickup-type) (pickup-type eco-red)))
+          (and (-> *randomizer-settings* warp-on-yellow-eco?) (= (-> self fact pickup-type) (pickup-type eco-yellow)))
+        )
+      )
+      (orchestrateCheckpointWarp 1)
+      )
+...
+```
+
+For the vents, we do the checkpoint warp in the equivalent `vent-pickup` state:
+
+```lisp
+(defstate vent-pickup (vent)
+  :code (behavior ((arg0 handle))
+    (when (and
+        (-> *randomizer-settings* checkpoint-randomizer?)
+        (-> *randomizer-settings* warp-on-eco-vents?)
+        (or
+          (and (-> *randomizer-settings* warp-on-green-eco?) (= (-> self fact pickup-type) (pickup-type eco-green)))
+          (and (-> *randomizer-settings* warp-on-blue-eco?) (= (-> self fact pickup-type) (pickup-type eco-blue)))
+          (and (-> *randomizer-settings* warp-on-red-eco?) (= (-> self fact pickup-type) (pickup-type eco-red)))
+          (and (-> *randomizer-settings* warp-on-yellow-eco?) (= (-> self fact pickup-type) (pickup-type eco-yellow)))
+        )
+        )
+      (orchestrateCheckpointWarp 1)
+      )
+...
+```
 
 ### Death
+
+One last option we added was to warp whenever Jak dies. Similar to the Power Cell cutscenes, we wanted this warp to happen before any Daxter death cutscene played. Those cutscenes occur around [here in `target`'s `target-death` state](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/target/target-death.gc#L1340), so that's where we'll insert our checkpoint warp:
+
+```lisp
+(defstate target-death (target)
+  :code (behavior ((arg0 symbol))
+  ...
+  (when (and (-> *randomizer-settings* checkpoint-randomizer?) (-> *randomizer-settings* warp-on-death?))
+    (orchestrateCheckpointWarp 1)
+    )
+...
+```
 
 ## Randomizer settings file
 
