@@ -1119,7 +1119,71 @@ There are a handful of methods that needed to be implemented, but they're all pr
 
 ## Randomizer options in pause menu
 
+### How does the pause menu work?
 
+Now that we can programmatically change the randomizer settings and read from/write to the randomizer file, we need to give users a way to change these settings in-game. We can again follow what was done for `*pc-settings*`, and expose our randomizer settings through the pause menu (internally called the [`progress`](https://github.com/open-goal/jak-project/tree/master/goal_src/jak1/engine/ui/progress) menu).
+
+Most of what I'll cover will only relate to the Options menus, but the Power Cell, Scout Fly, and Precursor Orb screens are also handled within the `progress` code. Here's a breakdown of how the files are organized:
+
+- [`progress-draw.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-draw.gc)
+  - this is where the Power Cell, Scout Fly, and Precursor Orb menus are drawn
+  - the *original* Options menu would be drawn here as well
+- [`progress-h.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-h.gc)
+  - many of the main types, enums, and a few globals used across the `progress` codebase are defined here
+- [`progress-part.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-part.gc)gametextenprogre
+  - Power Cell, Scout Fly, Precursor Orb, Memory Card, etc icons are defined here
+- [`progress-static.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-static.gc)
+  - the *original* Options menu is defined here
+  - the 16 levels (as shown in the game/menus) are defined here, as well as a mapping from these to the 21 physical levels
+  - the mapping from Power Cell `game-task`s to their corresponding levels and display text happens here
+- [`progress.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress.gc)
+  - the *original* logic for transitioning through the menus, responding to controller inputs, etc is here
+- [`progress-pc.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc)
+  - thanks to [Dass](https://github.com/ManDude), this is where a lot of the code for the Options menu is overridden and simplified
+  - this is where additional OpenGOAL-exclusive menus (MSAA, inverted controls, etc) are added
+
+Let's take a look at the root Options menu as a starting point:
+
+```lisp
+(define *main-options-pc* (new 'static 'boxed-array :type game-option
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id game-options) :scale #t :param3 (game-option-menu game-settings))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id graphic-options) :scale #t :param3 (game-option-menu graphic-settings))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id sound-options) :scale #t :param3 (game-option-menu sound-settings))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id load-game) :scale #t :param3 (game-option-menu load-game))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id save-game) :scale #t :param3 (game-option-menu save-game))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id disable-auto-save) :scale #t :param3 (game-option-menu memcard-disable-auto-save))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id quit-game) :scale #t :param3 (game-option-menu quit))
+    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
+    )
+  )
+```
+
+This menu has 8 options - the first 7 are submenus `(game-option-type menu)` that we can proceed further into, and the last is just a clickable text label `(game-option-type button)`, in this case to return back to the previous menu.
+
+The `name` field of each option is a `game-text-id`, which is a reference to a specific block of text, that can then possibly be translated into the user's language. The enum is defined here in [`goal_src/jak1/engine/ui/text-h.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/text-h.gc#L14), and the hex value corresponds to a string found in [`game/assets/jak1/text/game_text_en.gs`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/game/assets/jak1/text/game_text_en.gs) (or e.g. for Japanese, in the adjacent [`game_text_ja.gs`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/game/assets/jak1/text/game_text_ja.gs) file).
+
+The `param3` field of each option dictates which submenu should be loaded in if the option is selected, based on the mappings in `*options-remap*`. For instance, the first option `game-settings` is mapped to a submenu `*game-options-pc*` [here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L739). Note that the `game-option-menu` enum is just a [copy](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-h.gc#L168C10-L170) of `progress-screen`.
+
+```lisp
+(define *game-options-pc* (new 'static 'boxed-array :type game-option
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id vibrations) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id play-hints) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id subtitles) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id hinttitles) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type language) :name (game-text-id language) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type language-subtitles) :name (game-text-id subtitles-language) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type language-text) :name (game-text-id text-language) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type speaker) :name (game-text-id subtitles-speaker) :scale #t)
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id camera-options) :scale #t :param3 (game-option-menu camera-options))
+    (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id misc-options) :scale #t :param3 (game-option-menu misc-options))
+    (new 'static 'game-option :option-type (game-option-type button) :name (game-text-id back) :scale #t)
+    )
+  )
+```
+
+Going one layer deeper into `*game-options-pc*`, we start to see some modifiable settings, which will need to be saved to the `*pc-settings*` object and related file. 
+
+### Adding custom menu and options
 
 TODO: on/off, slider
 
