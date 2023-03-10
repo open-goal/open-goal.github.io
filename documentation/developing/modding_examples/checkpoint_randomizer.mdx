@@ -1181,7 +1181,31 @@ The `param3` field of each option dictates which submenu should be loaded in if 
   )
 ```
 
-Going one layer deeper into `*game-options-pc*`, we start to see some modifiable settings, which will need to be saved to the `*pc-settings*` object and related file. 
+Going one layer deeper into `*game-options-pc*`, we start to see some modifiable settings, some of which will need to be saved to the `*pc-settings*` object and related file. For certain `game-option-type`s, such as `on-off` and `language`, the `value-to-modify` can be [mapped directly to the field in our settings object](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L821-L828), which happens as part of the `init-game-options` function:
+
+```lisp
+(defun init-game-options ((obj progress))
+  "Set the options for all of the menus."
+  ...
+  (set! (-> *game-options-pc* 0 value-to-modify) (&-> *setting-control* default vibration))
+  (set! (-> *game-options-pc* 1 value-to-modify) (&-> *setting-control* default play-hints))
+  (set! (-> *game-options-pc* 2 value-to-modify) (&-> *pc-settings* subtitles?))
+  (set! (-> *game-options-pc* 3 value-to-modify) (&-> *pc-settings* hinttitles?))
+  (set! (-> *game-options-pc* 4 value-to-modify) (&-> *setting-control* default language))
+  (set! (-> *game-options-pc* 5 value-to-modify) (&-> *progress-carousell* int-backup))
+  (set! (-> *game-options-pc* 6 value-to-modify) (&-> *progress-carousell* int-backup))
+  (set! (-> *game-options-pc* 7 value-to-modify) (&-> *progress-carousell* int-backup))
+  ...
+  )
+```
+
+As an example here, the 3rd option (index 2) will be used to toggle subtitles either on `#t` or off `#f`. While `*pc-settings*` is saved to a single shared file, the `*setting-control*` fields are saved into the individual save files. We ended up using the single shared file pattern for `*randomizer-settings*`.
+
+`*progress-carousell*` refers to the type of menu option where you cycle left/right between various options, often used when there are 3+ choices. The way this style of menu option operates is a bit strange, but in short the `int-backup` field is used to [store or reset to your last selection in the `respond-common` method](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1492-L1695).
+
+
+
+draw-notice-screen - (draw-options self
 
 ### Adding custom menu and options
 
