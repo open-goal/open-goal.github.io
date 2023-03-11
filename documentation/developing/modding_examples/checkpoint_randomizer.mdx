@@ -953,7 +953,7 @@ Unless we change the path to this file, we will share the file with vanilla vers
   )
 ```
 
-There are a handful of methods that needed to be implemented, but they're all pretty straightforward and just needed to be tailored to the `randomizer-settings` fields:
+There are a handful of methods that needed to be implemented, but they're all pretty straightforward and just needed to be tailored to the `randomizer-settings` fields. For the `write-to-file` method, you may want to refer to the [`format` documentation](../../reference/lib/#format) to understand the string escape sequences.
 
 ```lisp
 (defmethod new randomizer-settings ((allocation symbol) (type-to-make type))
@@ -1130,7 +1130,7 @@ Most of what I'll cover will only relate to the Options menus, but the Power Cel
   - the *original* Options menu would be drawn here as well
 - [`progress-h.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-h.gc)
   - many of the main types, enums, and a few globals used across the `progress` codebase are defined here
-- [`progress-part.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-part.gc)gametextenprogre
+- [`progress-part.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-part.gc)
   - Power Cell, Scout Fly, Precursor Orb, Memory Card, etc icons are defined here
 - [`progress-static.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-static.gc)
   - the *original* Options menu is defined here
@@ -1201,11 +1201,16 @@ Going one layer deeper into `*game-options-pc*`, we start to see some modifiable
 
 As an example here, the 3rd option (index 2) will be used to toggle subtitles either on `#t` or off `#f`. While `*pc-settings*` is saved to a single shared file, the `*setting-control*` fields are saved into the individual save files. We ended up using the single shared file pattern for `*randomizer-settings*`.
 
-`*progress-carousell*` refers to the type of menu option where you cycle left/right between various options, often used when there are 3+ choices. The way this style of menu option operates is a bit strange, but in short the `int-backup` field is used to [store or reset to your last selection in the `respond-common` method](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1492-L1695).
+`*progress-carousell*` refers to the type of menu option where you cycle left/right between various (usually 3+) options. The way this style of menu option operates is a bit strange, but in short the `int-backup` field is just used temporarily to [store or reset to your last selection in the `respond-common` method](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1492-L1695). The initial value for the carousell is [read from the appropriate settings fields here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1512C33-L1569), and is [written back to the respective settings field around here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1628-L1686). 
 
+One other section of code I'll point out is the overridden `post` handler for `progress-normal`, where the PC screens are ultimately drawn, with special positioning and scaling as needed. For example, these particular screens have quite a bit of text and need to be scaled to 65%:
 
-
-draw-notice-screen - (draw-options self
+```lisp
+  (((progress-screen camera-options) (progress-screen checkpoint-select) (progress-screen speedrun-il-options) (progress-screen speedrun-cat-ext-options))
+    (hide-progress-icons)
+    (draw-options self 115 25 0.65)
+    )
+```
 
 ### Adding custom menu and options
 
