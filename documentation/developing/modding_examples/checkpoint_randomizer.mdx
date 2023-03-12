@@ -462,7 +462,7 @@ Reviewing the code, I couldn't see any immediate issue with what we had added...
 
 ![](./img/checkpoint_randomizer/water_q.png)
 
-As water explains above (also mentioned in [this comment in `goal_src/jak1/engine/math/math.gc`](https://github.com/open-goal/jak-project/blob/fb20bf34df7419f3279bd9170d06048625f2a1bb/goal_src/jak1/engine/math/math.gc#L190-L194)), OpenGOAL omits this adjustment involving `Q`. So what's the impact of this on randomly generated values? Well I ran a test - I generated a random int between 0 and 99 (inclusive) 100,000 times and... the results were pretty evenly distributed across the 100 possible values 🤔
+As water explains above (also mentioned in [this comment in `goal_src/jak1/engine/math/math.gc`](https://github.com/open-goal/jak-project/blob/fb20bf34df7419f3279bd9170d06048625f2a1bb/goal_src/jak1/engine/math/math.gc#L190-L194)), OpenGOAL omits this adjustment involving `Q`. So what's the impact of this on randomly generated values? Well I ran a test - I generated a random integer between 0 and 99 (inclusive) 100,000 times and... the results were pretty evenly distributed across the 100 possible values 🤔
 
 I ran another test, inspired by Bin's ability to predict her checkpoint based on the previous one. This time I kept track of the most recent 2 random values chosen, so that I could review the distribution across the 100x100 possible pairs of subsequent values. The heatmap below plots these subsequent values (X and Y) from my test, and the results were pretty clear. There is a definite relationship between one randomly generated value and the next, even though all individual values are approximately equally likely to be chosen.
 
@@ -474,7 +474,7 @@ This difference in `rand-vu` doesn't really cause any issues in most gameplay...
 
 I did some research into RNG and eventually found the [`java.util.Random` documentation](https://docs.oracle.com/javase/8/docs/api/java/util/Random.html), which explains in detail their implementation of "a linear congruential pseudorandom number generator as defined by D. H. Lehmer and described by Donald E. Knuth in The Art of Computer Programming, Volume 3: Seminumerical Algorithms, section 3.2.1". 
 
-It might sound a little scary but you don't need to  I went ahead and [ported this RNG engine over to OpenGOAL](https://github.com/open-goal/jak-project/blob/master/goal_src/jak1/pc/util/knuth-rand.gc) based on the Java docs. Once I had it working correctly, I ran the same sequential number test as I had previously run against the `rand-vu` engine, and the results were quite different:
+The implementation really isn't too complicated, but we don't really need to get into the details here - as long as it results in more random values. I went ahead and [ported this RNG engine over to OpenGOAL](https://github.com/open-goal/jak-project/blob/master/goal_src/jak1/pc/util/knuth-rand.gc) based on the Java docs. Once I had it working correctly, I ran the same sequential number test as I had previously run against the `rand-vu` engine, and the results were quite different:
 
 ![](./img/checkpoint_randomizer/knuth_distribution.png)
 
@@ -749,6 +749,27 @@ To do this, we added an internal counter `collectable-interval` to our randomize
   )
 ```
 
+We also decided to add a display on screen showing this collectable counter/threshold. Looking at how the [HUD's Orb counter is drawn to screen](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/engine/ui/hud-classes.gc#L741-L801) as an example, we can see we need to use `with-dma-buffer-add-bucket` and call `draw-string-xy` on every frame.
+
+```lisp
+(defun update-collectable-hud-counters ()
+  (when (and (-> *randomizer-settings* show-warp-counter?)
+             (> (-> *rando-state* collectable-count) 0)
+             (= *master-mode* 'game)
+             (not (or (movie?) (< (-> *display* base-frame-counter) (-> *game-info* letterbox-time)))))
+    (let ((str-x (the int (* 0.01 512)))
+          (str-y (the int 60)))
+      (with-dma-buffer-add-bucket ((buf (-> (current-frame) global-buf)) (bucket-id debug))
+        (draw-string-xy (string-format "~D/~D" (the int (-> *rando-state* collectable-interval)) (the int (-> *randomizer-settings* collectables-needed-to-warp)))
+          buf str-x str-y (font-color white) (font-flags shadow kerning large left))
+        )
+      )
+    )
+  )
+```
+
+![](./img/checkpoint_randomizer/collectable_counter.png)
+
 ### Scout Flies
 
 Supporting checkpoint warps when picking up a Scout Fly was one of the next things we tackled. Internally, Scout Flies are represented by a [type named `buzzer`](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/common-obs/collectables.gc#L2123). In the randomizer settings, we added an on/off toggle for both Power Cells and for Scout Flies:
@@ -792,6 +813,8 @@ And then we checked these conditions before calling our `orchestrateCheckpointWa
     )
 ...
 ```
+
+Since they share the same counter, "warp every X Power Cells" is now "warp every X Power Cells or Scout Flies", assuming you have both warp options enabled.
 
 ### Precursor Orbs
 
@@ -1142,7 +1165,7 @@ Most of what I'll cover will only relate to the Options menus, but the Power Cel
   - thanks to [Dass](https://github.com/ManDude), this is where a lot of the code for the Options menu is overridden and simplified
   - this is where additional OpenGOAL-exclusive menus (MSAA, inverted controls, etc) are added
 
-Let's take a look at the root Options menu as a starting point:
+Let's take a look at the [root `*main-options-pc*` menu in `progress-pc.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L108-L118) as a starting point below. Note that `*main-options-secrets*` and `*options-pc*` are very similar menus, and are used in place of `*main-options-pc*` once secrets are unlocked or if you are at the title screen.
 
 ```lisp
 (define *main-options-pc* (new 'static 'boxed-array :type game-option
@@ -1201,9 +1224,23 @@ Going one layer deeper into `*game-options-pc*`, we start to see some modifiable
 
 As an example here, the 3rd option (index 2) will be used to toggle subtitles either on `#t` or off `#f`. While `*pc-settings*` is saved to a single shared file, the `*setting-control*` fields are saved into the individual save files. We ended up using the single shared file pattern for `*randomizer-settings*`.
 
-`*progress-carousell*` refers to the type of menu option where you cycle left/right between various (usually 3+) options. The way this style of menu option operates is a bit strange, but in short the `int-backup` field is just used temporarily to [store or reset to your last selection in the `respond-common` method](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1492-L1695). The initial value for the carousell is [read from the appropriate settings fields here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1512C33-L1569), and is [written back to the respective settings field around here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1628-L1686). 
+`*progress-carousell*` refers to the type of menu option where you cycle left/right between various (usually 3+) options. The way this style of menu option operates is a bit strange, but in short the `int-backup` field is just used temporarily to [store or reset to your last selection in the `respond-common` method](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1492-L1695). The initial value for the carousell is [read from the appropriate settings fields here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1512C33-L1569), and is [written back to the respective settings field around here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1628-L1686). Each type of carousell must also be added to a handful of allowlists for carousell-specific behavior, such as handling [left](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/pc/progress-pc.gc#L996-L1015) and [right](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/pc/progress-pc.gc#L1099-L1117) inputs.
 
-One other section of code I'll point out is the overridden `post` handler for `progress-normal`, where the PC screens are ultimately drawn, with special positioning and scaling as needed. For example, these particular screens have quite a bit of text and need to be scaled to 65%:
+![](./img/checkpoint_randomizer/progress_carousell.png)
+
+There are also options that use numerical sliders, such as the game volume settings. The minimum and maximum values are configured using `param1` and `param2` in the `game-option` definitions:
+
+```lisp
+(define *sound-options-pc* (new 'static 'boxed-array :type game-option
+    (new 'static 'game-option :name (game-text-id sfx-volume) :scale #t :param1 0.0 :param2 100.0)
+    (new 'static 'game-option :name (game-text-id music-volume) :scale #t :param1 0.0 :param2 100.0)
+    (new 'static 'game-option :name (game-text-id speech-volume) :scale #t :param1 0.0 :param2 100.0)
+...
+```
+
+![](./img/checkpoint_randomizer/progress_slider.png)
+
+Another section of code I'll point out is the overridden `post` handler for `progress-normal`, where the PC screens are ultimately drawn. Without the `(draw-options self ...)` line, the menu won't be accessible. This is also where positioning and scaling are applied as needed. For example, these particular screens have quite a bit of text and need to be scaled down to 65%:
 
 ```lisp
   (((progress-screen camera-options) (progress-screen checkpoint-select) (progress-screen speedrun-il-options) (progress-screen speedrun-cat-ext-options))
@@ -1212,9 +1249,36 @@ One other section of code I'll point out is the overridden `post` handler for `p
     )
 ```
 
+The last thing to make note of is this [method `can-go-back?`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress.gc#L806-L857), which as the name suggests is used to determine if the player can go back given the `progress` menu state and current screen. Any new `progress-screen` that needs to support going back will have to be added to the [PC port allowlist here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress.gc#L829-L851).
+
 ### Adding custom menu and options
 
-TODO: on/off, slider
+With this knowledge, we can implement the various pieces for all the new randomizer options menus we desire:
+
+- [`game/assets/jak1/text/game_text_en.gs`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/game/assets/jak1/text/game_text_en.gs#L449-L535) - text entries for menus
+- [`goal_src/jak1/engine/ui/text-h.gc`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/engine/ui/text-h.gc#L809-L856) - `game-text-id` entries for menu text
+- [`goal_src/jak1/engine/ui/progress/progress-h.gc`](https://github.com/dallmeyer/jak-project/blob/57897557abcb60b379dea0144f0df961bf712a1a/goal_src/jak1/engine/ui/progress/progress-h.gc)
+  - [`progress-screen`](https://github.com/dallmeyer/jak-project/blob/57897557abcb60b379dea0144f0df961bf712a1a/goal_src/jak1/engine/ui/progress/progress-h.gc#L123-L127) entries for submenus
+  - [`game-option-type`](https://github.com/dallmeyer/jak-project/blob/57897557abcb60b379dea0144f0df961bf712a1a/goal_src/jak1/engine/ui/progress/progress-h.gc#L170-L172) entries for carousells and new yes/no style options 
+- [`goal_src/jak1/pc/progress-pc.gc`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#) - `progress` menu configuration
+  - option in root Options menus [`*main-options-pc*`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L111), [`*main-options-secrets*`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L124), [`*options-pc*`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L139)
+  - [submenu definitions](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L206-L262)
+  - [`*options-remap*`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L874-L884) and [`value-to-modify`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L932-L968) mappings
+  - [`(draw-options self ...)`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L2708-L2727) calls
+  - on-off style options
+    - [left](https://github.com/dallmeyer/jak-project/blob/5f4567d3bbf3e050efb445e09f233aaec773ff97/goal_src/jak1/pc/progress-pc.gc#L1095) and [right](https://github.com/dallmeyer/jak-project/blob/5f4567d3bbf3e050efb445e09f233aaec773ff97/goal_src/jak1/pc/progress-pc.gc#L1208) input allowlists
+    - [storing `on-off-backup` value](https://github.com/dallmeyer/jak-project/blob/5f4567d3bbf3e050efb445e09f233aaec773ff97/goal_src/jak1/pc/progress-pc.gc#L1638)
+    - [restoring `on-off-backup` value](https://github.com/dallmeyer/jak-project/blob/5f4567d3bbf3e050efb445e09f233aaec773ff97/goal_src/jak1/pc/progress-pc.gc#L1313)
+    - [mapping on/off selection to value](https://github.com/dallmeyer/jak-project/blob/5f4567d3bbf3e050efb445e09f233aaec773ff97/goal_src/jak1/pc/progress-pc.gc#L2240-L2257)
+    - drawing [selected](https://github.com/dallmeyer/jak-project/blob/5f4567d3bbf3e050efb445e09f233aaec773ff97/goal_src/jak1/pc/progress-pc.gc#L2238) and [unselected](https://github.com/dallmeyer/jak-project/blob/5f4567d3bbf3e050efb445e09f233aaec773ff97/goal_src/jak1/pc/progress-pc.gc#L2372) options
+  - carousells
+    - [definitions](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L100-L101)
+    - [left](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L1133-L1134) and [right](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L1239-L1240) input allowlists
+    - [menu option to carousell mapping](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L1742-L1743)
+    - [settings to `int-backup` mapping](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L1704-L1716)
+    - [`int-backup` to settings mapping](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L1834-L1846)
+    -  drawing [selected](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L2279-L2280) and [unselected](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L2373-L2374) carousell options
+- [`goal_src/jak1/engine/ui/progress/progress.gc`](https://github.com/dallmeyer/jak-project/blob/f46d4549ca3dca265b2bf2e51c01fceaa50edd4a/goal_src/jak1/engine/ui/progress/progress.gc#L836-L840) - allowlist entries for `can-go-back?`
 
 ---
 
