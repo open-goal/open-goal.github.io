@@ -4,7 +4,7 @@ title: Checkpoint Randomizer
 description: A deep dive into the code changes for the Checkpoint Randomizer Mod
 ---
 
-# Checkpoint Randomizer Mod - Code Review
+# Checkpoint Randomizer Mod
 
 <PostAuthors authors={["dallmeyer"]} authorNames={["barg034"]}/>
 
@@ -16,7 +16,7 @@ description: A deep dive into the code changes for the Checkpoint Randomizer Mod
 
 A little backstory to this mod - before OpenGOAL, there was actually a [predecessor that ran alongside the PCSX2 emulator](https://www.youtube.com/watch?v=jpYPk8eoDts), which would read from/write to PCSX2 memory, developed by [Ruh](https://www.youtube.com/@PunishedRuh). Around mid-2022 as OpenGOAL Jak 1 development was wrapping up, [Zed](https://github.com/Zedb0T) then ported the concept over to OpenGOAL. This is actually what sparked my interest in OpenGOAL modding, and how I met Zed 😅 he popped into my stream while I was trying out his original randomizer, we started talking about enhancements, and the rest is history. If you'd like to play this mod yourself, you can find it in the [Unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io/).
 
-Initially, the intent of the mod was pretty straightforward - whenever you collect a Power Cell, it should warp you to a randomly selected checkpoint in the game. If you want to see what that looks like, check out this speedrun of that randomizer category from OutrageousJosh:
+Initially, the intent of the mod was pretty straightforward - whenever you collect a Power Cell, it should warp you to a randomly selected checkpoint in the game. If you want to see what that looks like, check out this speedrun of that randomizer category from [OutrageousJosh](https://www.twitch.tv/outrageousjosh):
 
 <iframe width="640" height="360" src="https://www.youtube.com/embed/MPPQ-9oYs3c?start=1013" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
@@ -877,6 +877,10 @@ We also need to make sure that individual Precursor Orbs picked up from these ve
       )
 ...
 ```
+
+Here's poor Josh trying out a buggy early version and making use of all three - warping on any Power Cell, Precursor Orb, or Scout Fly 🙃
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/B5mEhVt0v68" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ### Eco
 
