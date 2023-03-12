@@ -1224,9 +1224,11 @@ Going one layer deeper into `*game-options-pc*`, we start to see some modifiable
 
 As an example here, the 3rd option (index 2) will be used to toggle subtitles either on `#t` or off `#f`. While `*pc-settings*` is saved to a single shared file, the `*setting-control*` fields are saved into the individual save files. We ended up using the single shared file pattern for `*randomizer-settings*`.
 
-`*progress-carousell*` refers to the type of menu option where you cycle left/right between various (usually 3+) options. The way this style of menu option operates is a bit strange, but in short the `int-backup` field is just used temporarily to [store or reset to your last selection in the `respond-common` method](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1492-L1695). The initial value for the carousell is [read from the appropriate settings fields here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1512C33-L1569), and is [written back to the respective settings field around here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1628-L1686). Each type of carousell must also be added to a handful of allowlists for carousell-specific behavior, such as handling [left](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/pc/progress-pc.gc#L996-L1015) and [right](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/pc/progress-pc.gc#L1099-L1117) inputs.
+`*progress-carousell*` refers to the type of menu option where you cycle left/right between various (usually 3+) options. The way this style of menu option operates is a bit strange, but in short the `int-backup` field is just used temporarily to [store or reset to your last selection in the `respond-common` method](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1492-L1695). The initial value for the carousell is [read from the appropriate settings fields here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1512C33-L1569), and is [written back to the respective settings field around here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1628-L1686).
 
 ![](./img/checkpoint_randomizer/progress_carousell.png)
+
+Each type of carousell must also be added to a handful of allowlists for carousell-specific behavior, such as handling [left](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/pc/progress-pc.gc#L996-L1015) and [right](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/pc/progress-pc.gc#L1099-L1117) inputs. The same goes for the [on/off style options](https://github.com/dallmeyer/jak-project/blob/ef66d16865ea4b5ab78a7628d60f1f28b4c84ecc/goal_src/jak1/pc/progress-pc.gc#L956-L980).
 
 There are also options that use numerical sliders, such as the game volume settings. The minimum and maximum values are configured using `param1` and `param2` in the `game-option` definitions:
 
@@ -1240,7 +1242,7 @@ There are also options that use numerical sliders, such as the game volume setti
 
 ![](./img/checkpoint_randomizer/progress_slider.png)
 
-Another section of code I'll point out is the overridden `post` handler for `progress-normal`, where the PC screens are ultimately drawn. Without the `(draw-options self ...)` line, the menu won't be accessible. This is also where positioning and scaling are applied as needed. For example, these particular screens have quite a bit of text and need to be scaled down to 65%:
+Another section of code I'll point out is the [overridden `post` handler for `progress-normal`](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/pc/progress-pc.gc#L2462-L2464), where the PC screens are ultimately drawn. Without the `(draw-options self ...)` line, the menu won't be accessible. This is also where positioning and scaling are applied as needed. For example, these particular screens have quite a bit of text and need to be scaled down to 65%:
 
 ```lisp
   (((progress-screen camera-options) (progress-screen checkpoint-select) (progress-screen speedrun-il-options) (progress-screen speedrun-cat-ext-options))
@@ -1280,6 +1282,10 @@ With this knowledge, we can implement the various pieces for all the new randomi
     -  drawing [selected](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L2279-L2280) and [unselected](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L2373-L2374) carousell options
 - [`goal_src/jak1/engine/ui/progress/progress.gc`](https://github.com/dallmeyer/jak-project/blob/f46d4549ca3dca265b2bf2e51c01fceaa50edd4a/goal_src/jak1/engine/ui/progress/progress.gc#L836-L840) - allowlist entries for `can-go-back?`
 
+![](./img/checkpoint_randomizer/progress_randomizer_main.png)
+
+![](./img/checkpoint_randomizer/progress_randomizer_warp.png)
+
 ---
 
 ## Appendix
@@ -1288,16 +1294,27 @@ With this knowledge, we can implement the various pieces for all the new randomi
 - [OpenGOAL unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io)
 - [OpenGOAL Mod Base - Github](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base)
 - [OpenGOAL Randomizer Mod Pack - Github](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-randomizer-mod-pack)
+  - [Full Diff](https://github.com/dallmeyer/jak-project/compare/master...dallmeyer:jak-project:rando?w=1#files_bucket)
 - [OpenGOAL Language Reference](../../reference)
+  - [`inspect`](../../reference/method_system/#inspect)
+  - [`format` and string escape sequences](../../reference/lib/#format)
+  - [`pair`](../../reference/reader/#pair)
+  - [`list`](../../reference/reader/#list)
+  - [`car` and `cdr`](../../reference/lib/#car-and-cdr)
+  - [`logtest?`](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/goal-lib.gc#L634-L637)
+  - [`dotimes`](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/goal-lib.gc#L331-L341)
+  - [`case`](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/goal-lib.gc#L457-L494)
+  - [`none`](../../reference/syntax/#the-special-none-type)
+  - [`draw-string-xy`](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/engine/gfx/font.gc#L1822-L1827)
+  - [`draw-options`](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/pc/progress-pc.gc#L1933)
   - [`if`](../../reference/lib/#if)
+  - [`when`](../../reference/lib/#when)
   - [`and`](../../reference/goos/#and)
   - [`cond`](../../reference/lib/#cond)
   - [`let`](../../reference/lib/#let)
   - [`let*`](../../reference/lib/#let-1)
   - [`+`](../../reference/lib/#-2)
-  - [`-`](../../reference/lib/#-)
-  - [`/`](../../reference/lib/#-4)
   - [`set!`](../../reference/goos/#set)
-  - [`the-as`](../../reference/lib/#the-as)
+  - [Static Objects](../../reference/syntax/#static-objects)
   - [Processes and States](../../reference/process_and_state)
   - [Comments](../../reference/syntax/#comments)
