@@ -8,6 +8,7 @@ import DocCollapsibleBlock from '@site/src/mdx/Documentation/DocCollapsibleBlock
 import ReactPlayer from 'react-player';
 import LauncherDownloadLink from "@site/src/components/LauncherDownloadLink";
 import { MarkGithubIcon } from '@primer/octicons-react';
+import PostAuthors from '../mdx/PostAuthors/Header/Authors';
 
 export default {
   // Re-use the default mapping
@@ -19,5 +20,6 @@ export default {
   "LauncherDownloadLink": LauncherDownloadLink,
   "DocToggle": DocToggle,
   "DocCollapsibleBlock": DocCollapsibleBlock,
-  "MarkGithubIcon": MarkGithubIcon
+  "MarkGithubIcon": MarkGithubIcon,
+  "PostAuthors": PostAuthors,
 };
