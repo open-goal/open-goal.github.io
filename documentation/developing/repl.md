@@ -85,6 +85,12 @@ Got version 0.2 OK!
 gc >
 ```
 
+### `(mi)`
+
+Does a full game build, stands for Make ISO.
+
+This will attempt to do an incremental build, which is based off the last-modified timestamps of the files involved in the build.
+
 ### `r`
 
 Reset the target.
