@@ -21,8 +21,8 @@
     "@docusaurus/preset-classic": "^2.3.1",
     "@material-ui/core": "^4.12.4",
     "@mdx-js/react": "^1.6.22",
-    "@primer/octicons-react": "^17.10.0",
-    "@swc/core": "^1.3.36",
+    "@primer/octicons-react": "^18.2.0",
+    "@swc/core": "^1.3.37",
     "clsx": "^1.1.1",
     "html-react-parser": "^3.0.9",
     "material-table": "^2.0.3",
@@ -30,8 +30,8 @@
     "prism-react-renderer": "^1.3.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-player": "^2.11.0",
-    "recharts": "^2.2.0",
+    "react-player": "^2.11.2",
+    "recharts": "^2.4.3",
     "swc-loader": "^0.2.3"
   },
   "devDependencies": {

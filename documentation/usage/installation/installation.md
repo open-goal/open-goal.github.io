@@ -84,17 +84,13 @@ The launcher is the preferred way of getting and using OpenGOAL:
 - Designed for non-technical users
 - More useful features in the future
 
-:::info
-Linux support via the launcher is relatively new and there may be issues, please reach out to us so we can correct them!
-:::
-
 ### Launcher Pre-requisites
 
 There are a few requirements depending on your platform that you may need to handle.
 
 #### Windows
 
-The Launcher depends on Webview2, which has been shipping on Windows 10+ since April 2018.  If for some reason you still don't have it and have been keeping your PC up to date, you can get it here https://developer.microsoft.com/en-us/microsoft-edge/webview2/
+The Launcher depends on WebView2, which has been shipping on Windows 10+ since April 2018.  If for some reason you still don't have it and have been keeping your PC up to date, you can explicitly download it here https://developer.microsoft.com/en-us/microsoft-edge/webview2/
 
 #### Linux
 
@@ -110,7 +106,7 @@ sudo apt install libfuse2
 
 ### Downloading and Installing
 
-We provide a pre-packaged OpenGOAL installation that you can use to get started right away. The latest download can be found below:
+The latest release of the Launcher can be found using the link below.
 
 <div className="row markdownMarginBottom">
     <div className="col col--4">
@@ -120,7 +116,7 @@ We provide a pre-packaged OpenGOAL installation that you can use to get started 
 
 #### Windows Defender Warnings
 
-This installer however is not signed, which may lead to warnings from Microsoft Defender or your antivirus of choice, as installing unsigned applications can be a security risk. This is unfortunately something we can not fix, as signing an application is both expensive and time consuming, and this project is being developed free of charge by a community of volunteers.
+The installer however is not signed, which may lead to warnings from Microsoft Defender or your antivirus of choice, as installing unsigned applications can be a security risk. This is unfortunately something we can not fix, as signing an application is both expensive and time consuming, and this project is being developed free of charge by a community of volunteers.
 
 If you trust this application even without the signature, some screenshots of how to pass through the most common warnings can be found below. If you have some technical experience, and would prefer to build this application from the source yourself to avoid these errors, then take a look at the [project README instructions](https://github.com/open-goal/jak-project#setting-up-a-development-environment) instead. Support for this however is outside the scope of this document.
 
@@ -154,39 +150,50 @@ If you choose to launch OpenGOAL once the install is completed, you'll skip righ
 
 If this opens successfully, you've reached the final stage! Up next we'll be setting up the launcher, including extracting the assets from your `.iso` file.
 
-### Setting up the launcher
+### Using the Launcher
 
-If you would prefer a video, see the following (made using Windows but the process should be very similar on Linux):
+In recent versions of the Launcher there is no longer a set `jak-project` release.  You are free to download or roll-back to any official or unofficial release.
 
-<ReactPlayer url={"https://www.youtube.com/watch?v=p8I9NfuZOgE"} style={{marginBottom: "1em"}}/>
+If it is your first time using the launcher, you will be prompted to select an installation directory.  This is the folder where all of the following will go:
+- `jak-project` version releases you download
+- extracted ISO contents
+- the built game files
 
-This step is very straightforward, but as this project is still in active development you may come across issues along the way. If you hit issues please remember that this is a community led project, and we can't guarantee support. Please first visit the [FAQs](/docs/faq) and if you can't find an answer there, you might be able to find help in the OpenGOAL [discord](https://discord.gg/VZbXMHXzWv), but we do not guarantee support.
+![Picking an installation directory](./img/launcher-install-dir.png)
 
-If you haven't already, you'll first need to navigate to the location you chose for OpenGOAL to install:
-- For **Windows** - by default this location is `C:\Program Files\OpenGOAL-Launcher`), and run `OpenGOAL-Launcher.exe`.
-- For **Linux** - this is wherever you placed the downloaded AppImage
+When the launcher loads, you will not have a tooling version downloaded.  In regards to official versions, these correspond to the releases that can be found [here](https://github.com/open-goal/jak-project/releases)
+
+To select one (likely the latest) follow the prompt.
+
+![No tooling version found](./img/launcher-no-version.png)
+
+Click the download button on the latest version, then select it, and save your changes.  This is where you could rollback to a previous version, if for example, we release a breaking bug.
+
+![Downloading a version](./img/launcher-version-list-a.png)
+
+![Saving the version change](./img/launcher-version-list-b.png)
+
+With this you can now go back to the respective game menu and install it.
 
 :::danger
-If you see an error when you first open your launcher about your device not meeting requirements, you unfortunately **WILL NOT** be able to continue with the installation. OpenGOAL requires a minimum OpenGL version from your GPU as well as AVX support from your CPU, and if either of those requirements aren't met you **WILL NOT** be able to run OpenGOAL.
+Before the installation takes place, the Launcher will check that you meet the minimum requirements.
 
-![Missing minimum requirements](./img/opengoal_launcher_jd1_opengl_not_supported.png)
+If you don't, you unfortunately **WILL NOT** be able to continue with the installation. OpenGOAL requires a minimum OpenGL version from your GPU as well as AVX support from your CPU, and if either of those requirements aren't met you **WILL NOT** be able to run OpenGOAL.
 :::
 
-If you don't see this above error though, you're ready to continue! For this step we'll first give OpenGOAL the location of the `.iso` file we created earlier. Click the `SETUP` button in the launcher window to begin with.
+![Installing the game](./img/launcher-install-a.png)
 
-![Setup OpenGOAL with your .iso file](./img/opengoal_launcher_jd1_setup.png)
+:::tip
+If at any point during the installation something goes wrong and you are going to ask for help or report an issue.  Download the **Support Package** in order to easily give the person helping you everything they could ask for all at once.
 
-This will open a window, and you'll need to navigate to the `.iso` file you created earlier in the setup here to continue. Once you've chosen the `.iso` file, the launcher will begin extracting the assets for the game.
+There is a button to download this in the help page, as well as one should appear on the installation page if it fails.
 
-![Launcher extracting assets and completing compilation](./img/opengoal_launcher_jd1_compiling.png)
+![Support package](./img/launcher-support-package.png)
+:::
 
-This can take some time, but if you find it taking more than a few minutes try opening the `INSTALLATION LOGS` view below the progress bar, and see if there is still progress being made. If you don't see any changes here after a minute or two more, try closing and re-running the launcher.
+![Installing the game](./img/launcher-install-b.png)
 
-This process will complete loading the assets from your `.iso` file, and once it's done you'll be ready to run the game!
-
-![Starting Jak and Daxter in OpenGOAL](./img/opengoal_launcher_jd1_ready_to_start.png)
-
-Once you've reached this screen, you're all set up and ready to go! Just hit `PLAY` to start the game. The other controls are not something you'll need to play the game, as most of them are tools for developers, but do take note of the `SETTINGS AND SAVES` button if you want a link to your saves to move them or back them up, and of course the `UNINSTALL` button if you choose to do so down the line. The OpenGOAL launcher can also be uninstalled from the OpenGOAL installer used earlier in the instructions.
+Once you've reached this screen, you're all set up and ready to go! Just hit `PLAY` to start the game. The other controls are not something you'll need to play the game, as most of them are tools for developers, or helpful links to folders such as your save files.
 
 That's everything! At this point you should have a working copy of the game to play. Join us in the [discord](https://discord.gg/VZbXMHXzWv) or finding streams/streaming yourself on [Twitch](https://www.twitch.tv/directory/game/Jak%20and%20Daxter:%20The%20Precursor%20Legacy) to get involved in the community.
 
