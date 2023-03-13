@@ -45,7 +45,7 @@ Under `Game > Continue` you'll find the list of all checkpoints - your current c
 
 If we search for the `"Continue"` string in `goal_src/jak1/engine/debug/default-menu.gc`, we'll see that [here](https://github.com/open-goal/jak-project/blob/65f2146d736cf6cb4d8e0c09f12aceda18835e05/goal_src/jak1/engine/debug/default-menu.gc#L3536-L3538) it calls a `build-continue-menu` function, which looks like this:
 
-```lisp
+```opengoal
 (defun build-continue-menu ((arg0 debug-menu) (arg1 game-info))
   (let ((s5-0 *level-load-list*))
     (while (not (null? s5-0))
@@ -72,7 +72,7 @@ So for a list like this, what `s5-0` really represents is a reference to the fir
 
 Within the level loop, we can see we have a new local variable `s4-0`, which is initially set to `(-> (car s5-0) value continues)` (type conversions removed for readability). [`car`](../../reference/lib/#car-and-cdr) extracts the first element of the `pair`, whose `value` in this case is the actual `level-load-info` object. Similar to how `*level-load-list*` is a list of `level-load-info` objects, each `level-load-info` object's [`continues`](https://github.com/open-goal/jak-project/blob/b130b2eac27966c43f6816ee604a3a93a67e82fa/goal_src/jak1/engine/level/level-h.gc#L110) field is a list of the `continue-point`s within that level. For example, we can see the `finalboss` level has 2 `continue-point`s:
 
-```lisp
+```opengoal
 (define finalboss
   (new 'static 'level-load-info
     ...
@@ -120,7 +120,7 @@ Alright so now we know how to warp to a particular `continue-point`, let's work 
 
 If you search the codebase for "fishgame" you should eventually find yourself in `goal_src/jak1/levels/jungle/fisher.gc`, which contains the code for the fisherman and his fishing game. With some luck, you'll come across [the code where the fish are spawned](https://github.com/open-goal/jak-project/blob/65f2146d736cf6cb4d8e0c09f12aceda18835e05/goal_src/jak1/levels/jungle/fisher.gc#L1461-L1491), and in particular let's look at this `cond` branch:
 
-```lisp
+```opengoal
 (cond
   ((rand-vu-percent? (-> self params powerup-percent))
     (if (and (>= (- (-> *display* base-frame-counter) (-> self ambient-big-one)) (seconds 30))
@@ -148,7 +148,7 @@ As you might guess from the name, `rand-vu-percent?` is one of the ways RNG can 
 
 Unfortunately with the nested linked list design of `*level-load-info*` and the inner `continues` lists, it's tough to apply something like this directly. There are also a few test checkpoints that we'd want to exclude in the randomizer. So instead we can build a custom flat array of the checkpoints we want to use:
 
-```lisp
+```opengoal
 (define *checkpoint-list* 
   (the-as (array string) 
     (new 'static 'boxed-array :type string :length 77 :allocated-length 77
@@ -166,7 +166,7 @@ Unfortunately with the nested linked list design of `*level-load-info*` and the 
 
 And then we're free to combine our checkpoint warp command with `rand-vu-int-count` to randomize where we warp to:
 
-```lisp
+```opengoal
 (let ((checkpoint-name (-> *checkpoint-list* (rand-vu-int-count 77))))
   (start 'play (get-continue-by-name *game-info* checkpoint-name))
   )
@@ -200,7 +200,7 @@ This was an interesting and important edge case we stumbled across: if you colle
 
 The [solution](https://github.com/dallmeyer/jak-project/blob/f3bdd9273531ea03e47c588862649fd9d7726a83/goal_src/jak1/engine/mods/checkpoint-randomizer.gc#L334-L343) we settled on was to instead warp by manually setting the checkpoint and then killing Jak 😬 which ensures the level is reloaded properly after the Power Cell has been collected. Our previous checkpoint warp approach would end up [setting the checkpoint here in `init-target`](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/target/logic-target.gc#L1932). If we look at the [definition for `set-continue!`](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/game/game-info.gc#L113), we see it should accept a `continue-point` or a string as an argument. Now we just need a proper way to kill Jak, and we again borrowed from the debug menu - this time looking at `Game > New Life` and copying the underlying [`(initialize! *game-info* 'die ...)` call](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/debug/default-menu.gc#L3391-L3395).
 
-```lisp
+```opengoal
 (defun warpToCheckpoint ((checkpointName string))
   ;; warps to checkpoint, assuming it is already safe to use
   (format 0 "RANDOMIZER: ...warping to ~A~%" checkpointName)
@@ -235,20 +235,20 @@ So we see this is a `citb-iris-door`, which is [defined in `goal_src/jak1/levels
 This type has a field `locked` which sounds pretty suspicious - sure enough if we read through this file, we can see [`locked` is part of the check to decide if the door should go from `door-closed` to `door-opening`](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/common-obs/baseplat.gc#L216-L223). We did some tests to try to unlock the door, looking it up by name and setting the field directly:
 
 
-```lisp
+```opengoal
 (set! (-> (the citb-iris-door (process-by-ename "citb-iris-door-21")) locked) #f)
 ```
 
 But the door remained locked. Looking back to the `door-closed` state, we found there's a [call](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/common-obs/baseplat.gc#L215) to this method [`dummy-26`](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/common-obs/baseplat.gc#L321-L330) right before the `locked` field gets checked. This method will update the `locked` field if there is a `state-actor` defined for the door, based on the actor's `entity-perm-status` - which in our case is the Lava Tube warp gate:
 
-```lisp
+```opengoal
 gc> (-> (the citb-iris-door (process-by-ename "citb-iris-door-21")) state-actor)
 44726468        #x2aa78c4              0.0000        #<entity-actor :name warp-gate-switch-12 @ #x2aa78c4>
 ```
 
 Our attempt to unlock the Citadel door was reversed by the door re-locking itself immediately after, because the warp gate switch was not pressed. The [solution](https://github.com/dallmeyer/jak-project/blob/1589034851b300b6890137be4bc27b15439f24ef/goal_src/jak1/engine/mods/mods-common.gc#L60-L72) we settled on was to break the `state-actor` connection between the door and the switch:
 
-```lisp
+```opengoal
 (defun unlock-citadel-door-no-cells ()
   ;; Unlock citadel door if the randomizer is on. Invis wall is removed elsewhere (racer.gc). Softlocks bad.
   (if (entity-by-name "citb-iris-door-21")
@@ -267,7 +267,7 @@ As the comment there reminds us, we still have an invisible wall to dispose of. 
 
 `racer` is defined in `goal_src/jak1/levels/racer_common/racer.gc`, and [at the top of the file](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/levels/racer_common/racer.gc#L8-L9) you might notice a couple of forward-declared functions: `blocking-plane-destroy` and `blocking-plane-spawn`. Turns out these are the functions used to spawn and despawn the invisible walls, a common feature of all the Zoomer (and Flutflut) pads throughout the game. In addition to limiting on-foot movement like here in Lava Tube, they are used to keep the Zoomer/Flutflut within their intended levels. Let's take a look at this `blocking-plane-spawn` that appears in the [init method for `racer`](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/levels/racer_common/racer.gc#L441-L450):
 
-```lisp
+```opengoal
 (blocking-plane-spawn
   (the-as
     curve-control
@@ -292,7 +292,7 @@ Each `racer` has 2 possible `path-controls` it will use for the invisible wall: 
 
 In the case of the `racer-36` at the end of Lava Tube, `path-target` is actually empty (it has 0 cverts compared to `path-racer` which has 2 cverts) which would result in no invisible wall being spawned:
 
-```lisp
+```opengoal
 gc> (inspect (-> (the racer (process-by-ename "racer-36")) path-target))
 [0023b6f4] curve-control
         ...
@@ -310,7 +310,7 @@ gc> (inspect (-> (the racer (process-by-ename "racer-36")) path-racer))
 
 So in the end, our solution is just to [force `path-target` to be used during `racer` initialization](https://github.com/dallmeyer/jak-project/blob/1589034851b300b6890137be4bc27b15439f24ef/goal_src/jak1/levels/racer_common/racer.gc#L442-L457):
 
-```lisp
+```opengoal
   (blocking-plane-spawn
     (the-as
       curve-control
@@ -343,7 +343,7 @@ There's a function `fishermans-boat-leave-dock?` in which we can see a reference
 
 We can see one of the other checks in here is that you've completed the fishing game (or that you're in cheat mode and holding L3). The [simplest solution](https://github.com/dallmeyer/jak-project/blob/1589034851b300b6890137be4bc27b15439f24ef/goal_src/jak1/levels/village1/fishermans-boat.gc#L835-L842) we could come up with was just to extend this condition, and also let you use the boat whenever Misty Island is loaded. Since Misty Island is not loaded when you're still in Sandover Village, this does NOT let you use the boat back on the Sandover side, unless you meet one of the other conditions.
 
-```lisp
+```opengoal
 (or 
   (task-complete? *game-info* (game-task jungle-fishgame)) 
   (and *cheat-mode* (cpad-hold? 0 l3)) 
@@ -366,7 +366,7 @@ Unfortunately with our existing code, the checkpoints we got were still inconsis
 
 To get consistent values from a given seed, we needed to avoid any `rand-vu` calls in between the ones used for the checkpoint warps. We obviously couldn't just get rid of RNG throughout the game, so instead we chose to generate the entire checkpoint list at once - up front at the beginning of the run.
 
-```lisp
+```opengoal
 (deftype rando-state (structure)
   (
     (next-idx int)
@@ -397,7 +397,7 @@ The original version stored the checkpoints in a linked list (like `*level-load-
 
 When the player collects a Power Cell, we just use the checkpoint at index `(-> *rando-state* next-idx)` for the warp, and then increment the `next-idx` field in preparation for the next warp. Just in case we somehow reach the end of the array, we can use the `mod` function to adjust the index and wrap back around to the beginning:
 
-```lisp
+```opengoal
 (defun orchestrateCheckpointWarp ()
   (let ((checkpointName (-> *rando-state* checkpoint-list (-> *rando-state* next-idx))))
     ;; increment checkpoint list index for next time
@@ -416,7 +416,7 @@ In the early versions of the randomizer, crashes were not uncommon. The game its
 
 With the new seeded approach we only needed to save two values in order to recreate the `rando-state`: the seed we used, and the latest `next-idx`. I'll go into more details about writing to/reading from files in [a later section](#randomizer-settings-file), but let's assume for now that we just need to update `*randomizer-settings*`, which looks like this:
 
-```lisp
+```opengoal
 (deftype randomizer-settings (basic)
     (
       (checkpoint-randomizer? symbol) ;; enable Zed's checkpoint randomizer
@@ -429,7 +429,7 @@ With the new seeded approach we only needed to save two values in order to recre
 
 If we run into the case where the checkpoint list is not initialized (e.g. after a crash and reboot), we can regenerate the checkpoint list and advance through it to restore the previous state:
 
-```lisp
+```opengoal
 (defun advanceCheckpointList ((n int))
   (set! 
     (-> *rando-state* next-idx)
@@ -497,7 +497,7 @@ At first, I followed what `rand-vu` does, and initialized our `knuth-rand` engin
 
 We did two things to break away from this and better support random seeds. First, we [changed the initial seed for the `knuth-rand` engine, based on the computer's current system time](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/pc/util/knuth-rand.gc#L86). Second, on every frame we [advanced the `knuth-rand` state](https://github.com/dallmeyer/jak-project/blob/dac983b5ab1944a3a6969b731947a9ba57b4b815/goal_src/jak1/engine/mods/checkpoint-randomizer.gc#L289-L290), so in effect the seed chosen for the checkpoint list would change depending on how long you waited before starting a new game. These two sources of randomness worked like a charm, and now we just needed to support both random and set seed modes.
 
-```lisp
+```opengoal
 (deftype randomizer-settings (basic)
     (
       (checkpoint-randomizer? symbol) ;; enable Zed's checkpoint randomizer
@@ -513,7 +513,7 @@ We extended our randomizer settings file - which was already storing the current
 
 Anyways, once we had the new setting defined, we just needed to tweak a couple behaviors based on its value. On each frame, we only need to advance the `knuth-rand` state if we're in random seed mode:
 
-```lisp
+```opengoal
 (when (-> *randomizer-settings* use-random-seed?)
   ;; burn through a random number every frame for improved randomness
   (knuth-rand-advance-seed)
@@ -522,7 +522,7 @@ Anyways, once we had the new setting defined, we just needed to tweak a couple b
 
 And when we start a new game and need to generate the checkpoint list, if we're in set seed mode we just want to restart from the seed that's already in our file. In other words, we only overwrite the current seed if we're in random seed mode:
 
-```lisp
+```opengoal
 (when (-> *randomizer-settings* use-random-seed?)
   (set! (-> *randomizer-settings* current-seed) (knuth-rand-next-int))
   )
@@ -534,7 +534,7 @@ Early on while playing, we noticed that you get warped to some levels (Snowy Mou
 
 Depending on the number of Power Cells in a level, this could be a bit frustrating. And boy, that gondola ride down from Snowy Mountain feels longer and longer each time. So the quick and dirty fix we came up with was to simply repeat checkpoints in our array for the levels that are under-represented, in order to balance things out. 
 
-```lisp
+```opengoal
 (define *checkpoint-list* (the-as (array string) (new
                                              'static
                                              'boxed-array
@@ -553,7 +553,7 @@ Depending on the number of Power Cells in a level, this could be a bit frustrati
 
 Later on, we added a `checkpoint-logic` setting with a `'logic-random-level` option to first choose a level randomly, and then choose a checkpoint within that level randomly. This has its pros and cons - you will probably see less Snowy Mountain, but you'll also see a lot more Fire Canyon, which only has 2 Power Cells.
 
-```lisp
+```opengoal
 (deftype randomizer-settings (basic)
     (
       (checkpoint-randomizer? symbol) ;; enable Zed's checkpoint randomizer
@@ -566,7 +566,7 @@ Later on, we added a `checkpoint-logic` setting with a `'logic-random-level` opt
     )
 ```
 
-```lisp
+```opengoal
 (define *checkpoint-list-by-level-idx* 
   (new 'static 'boxed-array :type (array string) :length 16 :allocated-length 16
     ;; Geyser Rock
@@ -630,7 +630,7 @@ Later on, we added a `checkpoint-logic` setting with a `'logic-random-level` opt
 
 Something else we did to balance out the checkpoint warps was to add in some custom checkpoint locations of our own! As we saw before, the checkpoints are all configured within the `level-load-info` definitions in [`goal_src/jak1/engine/level/level-info.gc`](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/level/level-info.gc). For example, here's the Sentinel Beach checkpoint:
 
-```lisp
+```opengoal
   :continues '((new 'static 'continue-point
       :name "beach-start"
       :level 'beach
@@ -662,7 +662,7 @@ While Jak is spawned at `beach-start` in this screenshot, these numbers look a b
 
 Unfortunately as far as I can tell the Debug Menu doesn't give us Jak's rotation, but we can always turn to the REPL:
 
-```lisp
+```opengoal
 gc> (inspect (-> *target* control trans))
 [001f0070] vector
         [-504960.1875] [   9477.5449] [-223513.8281] [      1.0000]
@@ -677,7 +677,7 @@ gc> (inspect (-> *target* control quat))
 
 When spawning at a checkpoint, the [camera position and rotation is setup here](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/target/target-death.gc#L144-L165), just after Jak's. There's a similar Debug Menu option `Display > Camera Info` that will display the camera position in meters. but for rotation the REPL is again your best option:
 
-```lisp
+```opengoal
 gc> (inspect (-> *camera-combiner* trans))
 [00201d30] vector
         [-485964.4062] [  29398.7519] [-180741.7187] [      1.0000]
@@ -694,7 +694,7 @@ gc> (inspect (-> *camera-combiner* inv-camera-rot))
 
 With these commands, we've got everything we need to setup custom checkpoints! We can start by copying an existing checkpoint in the level, then we just position Jak and the camera in-game at our desired checkpoint, and use these commands to get the new values for our new checkpoint.
 
-```lisp
+```opengoal
   (new 'static 'continue-point
     :name "beach-far"
     :level 'beach
@@ -721,7 +721,7 @@ Here are [all the custom checkpoints](https://github.com/dallmeyer/jak-project/c
 
 Once we had the core gameplay ironed out, we started thinking about different variations. One of the first variations we added was to let you control how many Power Cells you collect before the checkpoint warp kicks in - for example you could warp on every 5th Power Cell you collect.
 
-```lisp
+```opengoal
 (deftype rando-state (structure)
   (
     (next-idx int)
@@ -734,7 +734,7 @@ Once we had the core gameplay ironed out, we started thinking about different va
 
 To do this, we added an internal counter `collectable-interval` to our randomizer state, and when collecting a Power Cell we would increment this counter rather than immediately doing the checkpoint warp. After incrementing, we just check if the counter has reached our target `collectables-needed-to-warp`, and if so we do the checkpoint warp and reset the counter:
 
-```lisp
+```opengoal
 (defun orchestrateCheckpointWarp ()
   ...
   (+! (-> *rando-state* collectable-interval) 1)
@@ -751,7 +751,7 @@ To do this, we added an internal counter `collectable-interval` to our randomize
 
 We also decided to add a display on screen showing this collectable counter/threshold. Looking at how the [HUD's Orb counter is drawn to screen](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/engine/ui/hud-classes.gc#L741-L801) as an example, we can see we need to use `with-dma-buffer-add-bucket` and call `draw-string-xy` on every frame.
 
-```lisp
+```opengoal
 (defun update-collectable-hud-counters ()
   (when (and (-> *randomizer-settings* show-warp-counter?)
              (> (-> *rando-state* collectable-count) 0)
@@ -774,7 +774,7 @@ We also decided to add a display on screen showing this collectable counter/thre
 
 Supporting checkpoint warps when picking up a Scout Fly was one of the next things we tackled. Internally, Scout Flies are represented by a [type named `buzzer`](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/common-obs/collectables.gc#L2123). In the randomizer settings, we added an on/off toggle for both Power Cells and for Scout Flies:
 
-```lisp
+```opengoal
 (deftype randomizer-settings (basic)
     (
       (checkpoint-randomizer? symbol) ;; enable Zed's checkpoint randomizer
@@ -792,7 +792,7 @@ Supporting checkpoint warps when picking up a Scout Fly was one of the next thin
 
 And then we checked these conditions before calling our `orchestrateCheckpointWarp` function:
 
-```lisp
+```opengoal
 (defstate pickup (fuel-cell)
   ...
   :code (behavior ((arg0 object) (arg1 handle))
@@ -826,7 +826,7 @@ The way we decided to work around this was to wait until you collected the final
 
 But if for example you're warping on every 25 collectables, the counter ought to increment by the number of Precursor Orbs it held. To correct this, we added an `amount` parameter to the `orchestrateCheckpointWarp`, so that we could increment our counter by an accurate amount.
 
-```lisp
+```opengoal
 (defun orchestrateCheckpointWarp ((amount int))
   ...
   (+! (-> *rando-state* collectable-interval) amount)
@@ -843,7 +843,7 @@ But if for example you're warping on every 25 collectables, the counter ought to
 
 For Power Cells, Scout Flies, and individual Precursor Orbs, we just pass 1 for the amount to increment. For Precursor Orb vents, once the remaining count has reached 0 we can call `orchestrateCheckpointWarp` with the original count of Orbs. The remaining Orb count update happens in this `pos-logic` method:
 
-```lisp
+```opengoal
 (defmethod pos-logic orb-cache-top ((obj orb-cache-top) (arg0 symbol))
   ...
   ;; if we collected orbs and now there are no more, give credit for the total orbs in this cache
@@ -861,7 +861,7 @@ For Power Cells, Scout Flies, and individual Precursor Orbs, we just pass 1 for 
 
 We also need to make sure that individual Precursor Orbs picked up from these vents don't trigger calling `orchestrateCheckpointWarp`. The `orb-cache-top` will be the parent of the `money` process, so we can check this to decide if the Orb pickup should count or not:
 
-```lisp
+```opengoal
 (defstate pickup (money)
   :code (behavior ((arg0 object) (arg1 handle))
     (let ((money-parent (ppointer->process (-> self parent))))
@@ -886,7 +886,7 @@ Here's poor Josh trying out a buggy early version and making use of all three - 
 
 Supporting checkpoints on eco (internally called [`eco-collectable`](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/common-obs/collectables.gc#L104)) pickup was fairly straightforward, with eco vents (internally called [`vent`](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/common-obs/collectables.gc#L2769)) being the main additional piece to solve for. We have a slight tweak on the usual `pickup` code to account for the different eco variants:
 
-```lisp
+```opengoal
 (defstate pickup (eco-collectable)
   ...
   :code (behavior ((arg0 object) (arg1 handle))
@@ -908,7 +908,7 @@ Supporting checkpoints on eco (internally called [`eco-collectable`](https://git
 
 For the vents, we do the checkpoint warp in the equivalent `vent-pickup` state:
 
-```lisp
+```opengoal
 (defstate vent-pickup (vent)
   :code (behavior ((arg0 handle))
     (when (and
@@ -930,7 +930,7 @@ For the vents, we do the checkpoint warp in the equivalent `vent-pickup` state:
 
 One last option we added was to warp whenever Jak dies. Similar to the Power Cell cutscenes, we wanted this warp to happen before any Daxter death cutscene played. Those cutscenes occur around [here in `target`'s `target-death` state](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/engine/target/target-death.gc#L1340), so just before that we'll insert our checkpoint warp:
 
-```lisp
+```opengoal
 (defstate target-death (target)
   :code (behavior ((arg0 symbol))
   ...
@@ -946,7 +946,7 @@ Alright so let's talk about writing to/reading from files. First off, there's a 
 
 Unless we change the path to this file, we will share the file with vanilla versions of the game - so it's best not to make any changes that would be written to `pc-settings.gc` and possibly break other OpenGOAL installations. Instead, we created a `randomizer-settings` type that mirrored everything `pc-settings` did, except it had the fields we needed and wrote to a different filename.
 
-```lisp
+```opengoal
 (deftype randomizer-settings (basic)
   (
     (version uint64) ;; version of this settings
@@ -982,7 +982,7 @@ Unless we change the path to this file, we will share the file with vanilla vers
 
 There are a handful of methods that needed to be implemented, but they're all pretty straightforward and just needed to be tailored to the `randomizer-settings` fields. For the `write-to-file` method, you may want to refer to the [`format` documentation](../../reference/lib/#format) to understand the string escape sequences.
 
-```lisp
+```opengoal
 (defmethod new randomizer-settings ((allocation symbol) (type-to-make type))
   "make a new randomizer-settings"
   (let ((obj (object-new allocation type-to-make (the-as int (-> type-to-make size)))))
@@ -1171,7 +1171,7 @@ Most of what I'll cover will only relate to the Options menus, but the Power Cel
 
 Let's take a look at the [root `*main-options-pc*` menu in `progress-pc.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L108-L118) as a starting point below. Note that `*main-options-secrets*` and `*options-pc*` are very similar menus, and are used in place of `*main-options-pc*` once secrets are unlocked or if you are at the title screen.
 
-```lisp
+```opengoal
 (define *main-options-pc* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id game-options) :scale #t :param3 (game-option-menu game-settings))
     (new 'static 'game-option :option-type (game-option-type menu) :name (game-text-id graphic-options) :scale #t :param3 (game-option-menu graphic-settings))
@@ -1191,7 +1191,7 @@ The `name` field of each option is a `game-text-id`, which is a reference to a s
 
 The `param3` field of each option dictates which submenu should be loaded in if the option is selected, based on the mappings in `*options-remap*`. For instance, the first option `game-settings` is mapped to a submenu `*game-options-pc*` [here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L739). Note that the `game-option-menu` enum is just a [copy](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-h.gc#L168C10-L170) of `progress-screen`.
 
-```lisp
+```opengoal
 (define *game-options-pc* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id vibrations) :scale #t)
     (new 'static 'game-option :option-type (game-option-type on-off) :name (game-text-id play-hints) :scale #t)
@@ -1210,7 +1210,7 @@ The `param3` field of each option dictates which submenu should be loaded in if 
 
 Going one layer deeper into `*game-options-pc*`, we start to see some modifiable settings, some of which will need to be saved to the `*pc-settings*` object and related file. For certain `game-option-type`s, such as `on-off` and `language`, the `value-to-modify` can be [mapped directly to the field in our settings object](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L821-L828), which happens as part of the `init-game-options` function:
 
-```lisp
+```opengoal
 (defun init-game-options ((obj progress))
   "Set the options for all of the menus."
   ...
@@ -1236,7 +1236,7 @@ Each type of carousell must also be added to a handful of allowlists for carouse
 
 There are also options that use numerical sliders, such as the game volume settings. The minimum and maximum values are configured using `param1` and `param2` in the `game-option` definitions:
 
-```lisp
+```opengoal
 (define *sound-options-pc* (new 'static 'boxed-array :type game-option
     (new 'static 'game-option :name (game-text-id sfx-volume) :scale #t :param1 0.0 :param2 100.0)
     (new 'static 'game-option :name (game-text-id music-volume) :scale #t :param1 0.0 :param2 100.0)
@@ -1248,7 +1248,7 @@ There are also options that use numerical sliders, such as the game volume setti
 
 Another section of code I'll point out is the [overridden `post` handler for `progress-normal`](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/pc/progress-pc.gc#L2462-L2464), where the PC screens are ultimately drawn. Without the `(draw-options self ...)` line, the menu won't be accessible. This is also where positioning and scaling are applied as needed. For example, these particular screens have quite a bit of text and need to be scaled down to 65%:
 
-```lisp
+```opengoal
   (((progress-screen camera-options) (progress-screen checkpoint-select) (progress-screen speedrun-il-options) (progress-screen speedrun-cat-ext-options))
     (hide-progress-icons)
     (draw-options self 115 25 0.65)

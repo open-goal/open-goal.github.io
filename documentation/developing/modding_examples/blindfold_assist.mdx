@@ -33,7 +33,7 @@ I'll go through things in more detail below, but you can [click here to see the 
 
 On the OpenGOAL side, the controller input is represented by the [`cpad-info` type](https://github.com/open-goal/jak-project/blob/ee3bc182e13a440f90e20a6f7be7d3b294a7e56a/goal_src/jak1/engine/ps2/pad.gc#L49-L100). In particular, the below fields (some from the parent `hw-cpad` type) relate to the analog stick inputs:
 
-```lisp
+```opengoal
 ;; data that comes directly from hardware. it's 32 bytes + type tag (ignored in C kernel).
 (deftype hw-cpad (basic)
   (
@@ -67,7 +67,7 @@ Ok so we know about `cpad-info`, now what? Reading through `service-cpads`, you 
 
 This next part gets a little math-heavy, but the basic idea for limiting to 8 directions is to compute the angle from the X and Y coordinates, and use that to figure out which of the 8 directions has the closest angle. First I subtract 128 from both X and Y values to shift the range from [0,255] to [-128, 127]. From here I compute the slope, and take the arctan of the absolute value of the slope to get the angle from the X-axis.
 
-```lisp
+```opengoal
 (let* ((leftx (- (the int (-> pad leftx)) 128))
        (lefty (- (the int (-> pad lefty)) 128))
        (leftslope (/ (the float lefty) (the float leftx)))
@@ -81,7 +81,7 @@ Since we took the absolute value of the slope, `leftrad` will always be between 
 
 ![](./img/blindfold_assist/trig2.png)
 
-```lisp
+```opengoal
 (cond 
   ((< leftrad (/ PI 8))
     ;; closest to x axis, set y to "zero" (pink)
@@ -135,12 +135,12 @@ So how do we actually trigger the Bike camera mode? Let's see what the debug men
 
 For this mod, we only really care about being able to send that first event to change the camera mode. If we `(lt)` and connect our REPL to the running game, we can send the event manually to confirm that it works as intended: 
 
-```lisp
+```opengoal
 (send-event *camera* 'change-state cam-bike 0)
 ```
 
 Oh but wait - now we're stuck in Bike camera mode, when really we just wanted to rotate the camera while staying in the "normal" camera mode. Lucky for us, the game stores the current "normal" camera mode in `*camera-base-mode*`, so it's easy to flip back using a similar event:
-```lisp
+```opengoal
 (send-event *camera* 'change-state *camera-base-mode* 0)
 ```
 
@@ -154,7 +154,7 @@ For centering the camera behind Jak, we will also need to run some code every fr
 
 The easiest way to check if a specific button was pressed or held on the current frame is to use `cpad-pressed?` or `cpad-hold?`, respectively. The first parameter it takes is the controller number (0 being the first controller), and the second parameter is the button we want to check. I decided to use R2 as the button for centering the camera behind Jak, and I also wanted to ensure Jak was actually spawned. If both of these conditions are met, I change the camera mode to Bike, otherwise I revert back to the default camera:
 
-```lisp
+```opengoal
 (if (and *target* (cpad-hold? 0 r2))
   (send-event *camera* 'change-state cam-bike 0) ;; set camera to behind jak
   (send-event *camera* 'change-state *camera-base-mode* 0)
