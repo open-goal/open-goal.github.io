@@ -14,7 +14,7 @@ description: A deep dive into the code changes for the Checkpoint Randomizer Mod
 
 ![](./img/checkpoint_randomizer/gambler.png)
 
-A little backstory to this mod - before OpenGOAL, there was actually a [predecessor that ran alongside the PCSX2 emulator](https://www.youtube.com/watch?v=jpYPk8eoDts), which would read from/write to PCSX2 memory, developed by [Ruh](https://www.youtube.com/@PunishedRuh). Around mid-2022 as OpenGOAL Jak 1 development was wrapping up, [Zed](https://github.com/Zedb0T) then ported the concept over to OpenGOAL. This is actually what sparked my interest in OpenGOAL modding, and how I met Zed 😅 he popped into my stream while I was trying out his original randomizer, we started talking about enhancements, and the rest is history. If you'd like to play this mod yourself, you can find it in the [Unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io/).
+A little backstory to this mod - before OpenGOAL, there was actually a [predecessor that ran alongside the PCSX2 emulator](https://www.youtube.com/watch?v=jpYPk8eoDts), which would read from/write to PCSX2 memory, developed by [Ruh](https://www.youtube.com/@PunishedRuh). Around mid-2022 as OpenGOAL Jak 1 development was wrapping up, [MikeGamePro](https://github.com/MikeGamePro) and [Zed](https://github.com/Zedb0T) then ported the concept over to OpenGOAL. This is actually what sparked my interest in OpenGOAL modding, and how I met these guys 😅 Zed popped into my stream while I was trying out their original randomizer, we started talking about enhancements, and the rest is history. If you'd like to play this mod yourself, you can find it in the [Unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io/).
 
 Initially, the intent of the mod was pretty straightforward - whenever you collect a Power Cell, it should warp you to a randomly selected checkpoint in the game. If you want to see what that looks like, check out this speedrun of that randomizer category from [OutrageousJosh](https://www.twitch.tv/outrageousjosh):
 
@@ -220,7 +220,7 @@ One of the first softlocks we ran into was around Gol & Maia's Citadel, and the 
 1. There will be a large invisible wall in front of the Citadel entrance until you've collected the End of Lava Tube Power Cell from the Zoomer pad
 2. The Citadel door won't open until you've pressed the Lava Tube warp gate button
 
-With the checkpoint randomizer, it's entirely possible to collect all the Citadel Power Cells before unlocking these two things in Lava Tube. If you end up in this scenario and happen to get warped to Citadel again, there's no way to get out! To address this issue, we decided to automatically unlock the Citadel door and remove the invisible wall whenever you are in Lava Tube or Citadel.
+With the checkpoint randomizer, it's entirely possible to collect all the Citadel Power Cells before unlocking these two things in Lava Tube. If you end up in this scenario and happen to get warped to Citadel again, there's no way to get out (at least without some level deloading shenanigans, which we don't expect players to perform)! To address this issue, we decided to automatically unlock the Citadel door and remove the invisible wall whenever you are in Lava Tube or Citadel.
 
 To unlock the Citadel door, first we need to figure out its type so that we can identify the code that's involved. In the debug menu, there's a useful setting we can toggle to help with this: `Actor > Actor Mark > On`.
 
