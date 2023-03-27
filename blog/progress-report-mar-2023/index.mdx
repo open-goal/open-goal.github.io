@@ -1,0 +1,258 @@
+---
+title: Progress Report - Mar. 2023
+date: 2023-03-31T10:00
+description: March 2023's progress report
+slug: progress-report-mar-2023
+authors:
+  - vaser
+tags: [progress-report]
+image: ./img/poster.png
+hide_table_of_contents: false
+draft: false
+---
+
+<head>
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+
+The theme of this month was definitely _bug fixes_ and it will probably remain that way for some time.
+
+<!--truncate-->
+
+## Release Info
+
+This month's OpenGOAL Tooling (jak-project repo) release is `0.1.34`
+
+<div className="row markdownMarginBottom">
+  <div className="col col--6">
+    <LauncherDownloadLink />
+  </div>
+</div>
+
+## Launcher Changes
+
+<!-- TODO - link to main PR and bug fixes -->
+<!-- file:///open-goal/jak-project/pull/2320 -->
+
+You may notice that I did not call out _which_ launcher release is tied to this months tooling release and that is because some major changes to the launcher have landed recently, hopefully for the better.  Let's talk about the major ones and how it effects usage.
+
+### Won't launch at all on Windows?
+
+First off, there was unfortunately a somewhat recent breaking release of WebView2 (which the launcher uses) that seems to be kicking around on some people's machines.  There are two options to fix this:
+1. I pin the version that the launcher installer comes with, which would increase the download size by 150MB or so
+2. Users that are affected have to manually update the release on their machine.
+
+I've choosen to gone with the latter as this is a temporary and localized issue, it isn't worth bloating the install size for everyone, all you have to do is download the `x64 Standalone Installer` from [https://developer.microsoft.com/en-us/microsoft-edge/webview2/#download-section](here). **If the installation fails, you may have to run it as administrator.**
+
+:::info
+If this doesn't resolve your issue, feel free to reach out in either the Discord or the GitHub page.
+:::
+
+<!-- TODO - webview underlying issues -->
+
+### Basic Usage
+
+The new launcher is not tightly coupled to a particular `jak-project` release any longer.  This means you can rollback to a previous version if we break something, or even run a custom version (ie. mods).  The [installation instructions](/docs/usage/installation/) have been updated, but I'll make a video walkthrough soon to replace the old one.
+
+### Asking for help
+
+:::info
+If you are asking for help, please follow the [instructions here](https://github.com/open-goal/launcher#asking-for-help) to download and attach the `zip` file it produces wherever you are asking for help (Discord / GitHub)
+:::
+
+You can inspect the contents of the `zip` before sending it if you so choose, but it contains things like:
+- your save files
+- your logs
+- your settings
+- some general hardware information (CPU/GPU/etc)
+
+For the most part, the launcher seems to work well for most people, and a good amount of early bugs have already been caught and fixed.  Bear with us as we iron out the problems.  You can always fallback to using the `jak-project` release directly if something isn't working for you.
+
+## General Changes
+
+### Empty log file crash <PRLink href="https://github.com/open-goal/jak-project/pull/2299"/>
+
+It doesn't seem like anyone ran into this problem, but if you somehow ended up with an empty log file, the game would crash on startup.  This has been fixed.
+
+### Fix Dull Envmaps <PRLink href="https://github.com/open-goal/jak-project/pull/2303"/>
+
+The effect that envmaps had were half as much as they should have been, this has been fixed and is quite noticable.
+
+<!-- TODO - before/after of better env-maps (water in jungle) -->
+
+### Re-organize decompiler configuration <PRLink href="https://github.com/open-goal/jak-project/pull/2185"/>
+
+A common mistake users have found themselves in when trying to manually decompile the games is not adjusting the correct config file.  For example, they have a PAL ISO but modify the configurations intended for the NTSC releases.
+
+This change attempts to simplify that story, there is a central config file for each game with the ability to override for a particular version or region.  This not only makes it easier for normal users, but it reduced a few thousand lines of redundant configuration.
+
+:::info
+This should have no effect on the ability to extract the game with any ISO.  But if we missed something and your particular ISO no longer works to install the game as you would expect, please reach out.  Reminder that you must provide your own legitimate ISO sourced from a legitimate copy.
+:::
+
+### Eyes drawn via MERC <PRLink href="https://github.com/open-goal/jak-project/pull/2300"/>
+
+This change does effect Jak 2 as well, but this now means that Jak will be fully drawn using MERC!
+
+### Add documentation to the `gk` binary <PRLink href="https://github.com/open-goal/jak-project/pull/2310"/>
+
+You can finally run a `gk --help` to get a listing of all the available flags and what they do.  This was the final, and arguably most important, binary that did not have a self-documenting help flag.
+
+Important to note about this change, is it also changed the entire syntax of calling `gk`.  An important thing to keep in mind is that arguments are consumed in two locations:
+1. within the initial C++ runtime of `gk`, often to set things like the project path or the game version (jak1 / jak2)
+  - These flags follow a typical CLI convention, single hyphen for short forms, and a double hyphen for long-form args
+2. passed through to the actual OpenGOAL kernel to be used by the game.
+  - These flags all use a single hyphen and is a left over from the original game kernel.  This could be changed, but there isn't a huge incentive to do so.
+
+For most users, you won't care about any of this as you either run it with no arguments (double-clicking it) or the launchers handle it for you.
+
+:::warn
+Attention (mod-)launcher developers. This change added a temporary shim to convert the old argument format into the new argument format.  This will go away in the next months release and the new format will be assumed.  But I will include a way to obtain the version so you can handle the old and new formats accordingly.
+:::
+
+### Disable autosave check in Jak 1 <PRLink href="https://github.com/open-goal/jak-project/pull/2312"/>
+
+A fairly significant performance issue was found involving File I/O and memory card file saving.  If you are using a weaker PC or slower hardware (HDD instead of an SSD) you may notice a difference.
+
+### Use ETIE in Jak 1 <PRLink href="https://github.com/open-goal/jak-project/pull/2329"/>
+
+Another example of backporting an improved renderer from Jak 2 to Jak 1.  ETIE is now used for rendering shiny surfaces, hopefully the only differences that are noticed are the performance gains.
+
+<!-- TODO - video of etie in jak 1 -->
+
+### Fix OpenGOAL subtraction bug <PRLink href="https://github.com/open-goal/jak-project/pull/2399"/>
+
+It's been quite a while since we've had a compiler bug.  A bug in the subtraction function was found where the first argument would be evaluated twice.  In most cases this was not a problem, for example take the following code:
+
+```opengoal
+(- 2 2)
+```
+> It doesn't matter that `2` is evaluated twice, it's still `2`!  So the answer is still `0`
+
+But take another more sinister example:
+
+```opengoal
+(let ((x 0))
+  (- (1+! x) 2))
+```
+> With the bug, the answer here would also be `0`.
+
+It's kind of surprising that this has gone so long without being noticed, but it ended up being the root cause of some issues in Jak 2 (turrets always looking down in the fortress missions for example).
+
+## Jak 2 Fixes
+
+### Bombbots Crash <PRLink href="https://github.com/open-goal/jak-project/pull/2296"/>
+
+When the bombbots exploded, the game would crash.  This has now been fixed as well, which means the bombbots story mission now works, as well as the side mission that reuses the logic.
+
+<!-- TODO - bombbots missions -->
+
+### Texture Scrolling <PRLink href="https://github.com/open-goal/jak-project/pull/2303"/>
+
+This feature is also used in Jak 1 now, but it is more impactful in Jak 2 where a decent amount of assets were dependent on it, namely the conveyor belts found throughout the game.  In Jak 1 this means a reduced dependence on `generic` which translates to more performance.
+
+<!-- TODO - video of conveyor belts -->
+
+### Elevators! <PRLink href="https://github.com/open-goal/jak-project/pull/2304"/>
+
+Elevators are finally functioning properly.  They go down when you expect them to, and even go up when you expect them to.  As with most bugs, this ended up being a small mistake related to function arg types.
+
+<!-- TODO - elevator compilation -->
+
+### Cleanup script evaluation output <PRLink href="https://github.com/open-goal/jak-project/pull/2315"/>
+
+They use the newly added script system in Jak 2 quite heavily.  So improving the output of the script related code is a very nice change.
+
+### Finish off the stadium code <PRLink href="https://github.com/open-goal/jak-project/pull/2294"/>
+
+The `stadium-obs` file was finished off, which most importantly allowed the `Protect Stadium` mission to function.  This was one of the very few last remaining files, by next month there will likely be none left that relate to actual gameplay.
+
+<!-- TODO - protect stadium mission -->
+
+### Fix `focus-test?` macro <PRLink href="https://github.com/open-goal/jak-project/pull/2321"/>
+
+Some of the decompiler output around `focus-test?` `(zero? (logand ...))` and `(not (logtest? ...))` has been improved.
+
+### ETIE <PRLink href="https://github.com/open-goal/jak-project/pull/2326"/>
+
+ETIE is one of the new renderers in Jak 2 in the same vain as emerc.  It is used for rendering environment mapped background elements, such the precursor metal in mountain temple.
+
+<!-- TODO - video about etie -->
+
+### Fix a bunch of texture lookup issues <PRLink href="https://github.com/open-goal/jak-project/pull/2373"/>
+
+There were a ton of texture related problems, most notably related to the lasers being red instead of blue.  Textures have been adjusted so that they no longer overlap.
+
+<!-- TODO - pictures -->
+
+### Fix partially invisible TFrags <PRLink href="https://github.com/open-goal/jak-project/pull/2381"/>
+
+There were some gaps in some new tfrag features added in Jak 2 that were not supported yet.
+
+### Support STR files <PRLink href="https://github.com/open-goal/jak-project/pull/2390"/>
+
+Support has been added for Jak 2's `STR` files, aka the cutscene files.
+
+### Support STR files <PRLink href="https://github.com/open-goal/jak-project/pull/2393"/>
+
+Fix some DMA related bugs causing elements to appear solid black.  Notably the turrets in the palace or certain airlocks.
+
+### Fix some city elements that were too dark <PRLink href="https://github.com/open-goal/jak-project/pull/2396"/>
+
+There were some elements in the city, what look like stains or weathering, that were too dark.
+
+<!-- TODO pics -->
+
+### Resolve flickering and some depth issues <PRLink href="https://github.com/open-goal/jak-project/pull/2406"/>
+
+This resolves the intermittent flicker that could be seen between loads, as well as some mistakes related to the glass in the palace and the eyes in the final cutscene.
+
+<!-- TODO pics -->
+
+### Glow sprite double draw with black outlines <PRLink href="https://github.com/open-goal/jak-project/pull/2415"/>
+
+Glow sprites were being drawn twice, sometimes with a black outline.
+
+<!-- TODO pics -->
+
+### Fix particle definitions <PRLink href="https://github.com/open-goal/jak-project/pull/2423"/>
+
+38 particle groups had the wrong definitions due to a bug in the decompiler.
+
+<!-- TODO pics -->
+
+### Fog fixes <PRLink href="https://github.com/open-goal/jak-project/pull/2423"/>
+
+`disable-fog` is handled better now, for example the searchlights on the fortress now appear much better than before.
+
+<!-- TODO pics -->
+
+### `enter-state` and HUD related sprite crash <PRLink href="https://github.com/open-goal/jak-project/pull/2423"/>
+
+`HUD` related sprite assert issues have been fixed, which were causing some crashes in some cutscenes.  Also, the underlying issue for why Sig could never jump up the first pipe in his escort mission has been fixed.  It was due to a missed condition added between Jak 1 and Jak 2.
+
+## Other Changes
+
+### Remove deprecated CLI args in `goalc` <PRLink href="https://github.com/open-goal/jak-project/pull/2301"/>
+
+The `--auto-lt` and `--auto-dbg` flags have been removed from `goalc`.  These have been deprecated for a few months, so if you depended on them, it's time to change to the `startup[-jak1|jak2].gc` file instead which allows for the same sort of behaviour and more!
+
+## Upcoming Work
+
+### Replacing GLFW with SDL2 <!-- TODO - link to PR -->
+
+This has turned into a massive project because it essentially means redoing all the code that does fundamental things like drawing the video and handling the user input.
+
+However it feels worth it for multiple reasons, firstly it has long been a problem that users have trouble getting their controller properly detected.  There are still no guarantees here, but it should hopefully be a lot better.  Secondly, it presents an opportunity to revamp and cleanup our code around these things -- a lot of tech debt and complexity has built up over the last 2-3 years making it a pain to add new features or fix bugs at times.
+
+So in the spirit of making it easier to add new features, it felt appropriate to not just ship with better controller support, but to make the entire input system more useful and comprehensive.  Once this PR merges (hopefully next month) there will be features like:
+- Remapping controller / keyboard / mouse binds via the normal start menu
+- Customize mouse sensitivity and direction
+- Movement of Jak via the mouse
+- Ability to disable keyboard input
+- Ability to disable mouse input
+- Controller selection with per-controller binds
+  - Will react gracefully if controllers are plugged-in or unplugged, and remember which controller should be Port 1
+- Likely a few other minor things
+
+
