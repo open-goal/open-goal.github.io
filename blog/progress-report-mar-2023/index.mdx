@@ -227,19 +227,19 @@ Glow sprites were being drawn twice, sometimes with a black square.
 
 <!-- TODO pics -->
 
-### Fix particle definitions <PRLink href="https://github.com/open-goal/jak-project/pull/2423"/>
+### Fix particle definitions <PRLink href="https://github.com/open-goal/jak-project/pull/2412"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2413"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2423"/>
 
 Many particle groups (effects) had the wrong parameters for scale and rotation due to a bug in the decompiler, including but not limited to: the flame pots in Mar's Tomb, panels in the Fortress leading up to the prison cells, the dark eco pickup, signs scattered all over the city, fruit from baskets and stands, the warp gate and the Rift Ring. These now render as they should.
 
 <!-- TODO pics -->
 
-### Fog fixes <PRLink href="https://github.com/open-goal/jak-project/pull/2423"/>
+### Fog fixes <PRLink href="https://github.com/open-goal/jak-project/pull/2424"/>
 
-`disable-fog` is handled better now, for example the searchlights on the fortress now appear much better than before.
+`disable-fog` is handled better now, for example the searchlights on the fortress now appear much better than before, though some other things are temporarily broken for now.
 
 <!-- TODO pics -->
 
-### `enter-state` and HUD related sprite crash <PRLink href="https://github.com/open-goal/jak-project/pull/2423"/>
+### `enter-state` and HUD related sprite crash <PRLink href="https://github.com/open-goal/jak-project/pull/2428"/>
 
 `HUD` related sprite assert issues have been fixed, which were causing some crashes in some cutscenes and during rain. Also, the underlying issue for why Sig could never jump up the first pipe in his escort mission has been fixed. It was due to a missed condition added between Jak 1 and Jak 2.
 
