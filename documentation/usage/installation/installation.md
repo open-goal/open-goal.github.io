@@ -93,7 +93,7 @@ There are a few requirements depending on your platform that you may need to han
 The Launcher depends on WebView2, which has been shipping on Windows 10+ since April 2018.  If for some reason you still don't have it and have been keeping your PC up to date, you can explicitly download it here https://developer.microsoft.com/en-us/microsoft-edge/webview2/
 
 :::warn
-Unfortunately, due to the following issues in a recent WebView2 release (since been fixed) you may experience issues getting the Launcher to open.
+Unfortunately, due to the following issues in a recent WebView2 release (which have since been fixed) you may experience issues getting the Launcher to open.
 
 If you have this problem, please attempt to install the latest version yourself from [https://developer.microsoft.com/en-us/microsoft-edge/webview2/#download-section](here).  You will likely require the `x64 Standalone Installer` download. **If the installation fails, you may have to run it as administrator.**
 :::
