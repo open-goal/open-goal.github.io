@@ -69,7 +69,7 @@ const config = {
     ({
       announcementBar: {
         id: 'announcementBar-1', // Increment on change
-        content: `<a href="/blog/progress-report-mar-2023">Check out the Latest Progress Report Here!</a>`,
+        content: `<a href="/blog/progress-report-mar-2023">Check out the March's Progress Report Here!</a>`,
       },
       algolia: {
         // The application ID provided by Algolia
