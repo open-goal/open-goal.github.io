@@ -1,7 +1,4 @@
 import React from 'react';
-import Layout from '@theme/Layout';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import ReactPlayer from 'react-player';
 
 const languageStatus = {
 	'jak1': {
@@ -33,7 +30,7 @@ const languageStatus = {
 			{
 				'name': "Italian",
 				'nativeName': "Italiano",
-				'audio?': true, 'text?': 'partial', 'subs?': false
+				'audio?': true, 'text?': true, 'subs?': true
 			},
 			{
 				'name': "Japanese",
