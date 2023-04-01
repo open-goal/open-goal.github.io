@@ -162,9 +162,9 @@ function scanCasts(gameName) {
     labelCasts: {},
     typeCasts: {}
   }
-  let decompFolder = "jak1_ntsc_black_label";
+  let decompFolder = "jak1/ntsc_v1";
   if (gameName === "jak2") {
-    decompFolder = "jak2";
+    decompFolder = "jak2/ntsc_v1";
   }
   let stackCasts = parse(fs.readFileSync(`./jak-project/decompiler/config/${decompFolder}/stack_structures.jsonc`, 'utf-8'), null, true);
   for (const [funcName, casts] of Object.entries(stackCasts)) {
