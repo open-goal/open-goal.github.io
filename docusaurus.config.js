@@ -11,7 +11,7 @@ const config = {
   url: 'https://open-goal.github.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownLinks: 'throw',
   favicon: 'img/favicon.png',
 
   // GitHub pages deployment config.
@@ -68,8 +68,8 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       announcementBar: {
-        id: 'announcementBar-0', // Increment on change
-        content: `<a href="/blog/progress-report-jan-2023">Check out the Latest Progress Report Here!</a>`,
+        id: 'announcementBar-1', // Increment on change
+        content: `<a href="/blog/progress-report-mar-2023">Check out the March's Progress Report Here!</a>`,
       },
       algolia: {
         // The application ID provided by Algolia

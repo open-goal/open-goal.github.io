@@ -2,6 +2,16 @@ import React from 'react';
 
 const BlogList = [
   {
+    title: 'Progress Report - Mar. 2023',
+    image: require('@site/blog/progress-report-mar-2023/img/poster.png').default,
+    description: (
+      <>
+        The theme for this month was definitely fixing bugs and that will likely continue for awhile.
+      </>
+    ),
+    link: "/blog/progress-report-mar-2023"
+  },
+  {
     title: 'Progress Report - Feb. 2023',
     image: require('@site/blog/progress-report-feb-2023/img/poster.png').default,
     description: (
@@ -20,16 +30,6 @@ const BlogList = [
       </>
     ),
     link: "/blog/progress-report-jan-2023"
-  },
-  {
-    title: 'Progress Report - Dec. 2022',
-    image: require('@site/blog/progress-report-dec-2022/img/winter.png').default,
-    description: (
-      <>
-        As one would expect many of us took a bit of a break this month so it isn't as earth-shattering as last month's report, but there is still plenty to talk about.
-      </>
-    ),
-    link: "/blog/progress-report-dec-2022"
   }
 ];
 
