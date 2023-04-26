@@ -48,6 +48,16 @@ This fixed some graphical regressions:
 
 If you used the `Reboot in Debug` imgui menu option in the last release, it may have required multiple attempts to work properly.  This has been fixed.
 
+## Jak 1
+
+### Codebase Cleanup <PRLink href="https://github.com/open-goal/jak-project/pull/2457"/>
+
+One of the caveats of decompilation in our case is that method names are unfortunately lost during compilation, so we have to resort to using placeholder names for them until we can figure out their behavior and give them proper names. In the early days of Jak 1, we named our placeholder methods `dummy-[method-id]` or `TODO-RENAME-[method-id]`. In hindsight, this was not a good naming scheme for every single type in the game as it made it incredibly difficult to tell at a glance what type a method call belongs to.
+
+For Jak 2, we rectified this by naming our placeholders after the type, i.e. `type-method-[method-id]`, so we went ahead and a did a full pass through the Jak 1 codebase to either give methods proper names where possible or to apply the same naming scheme, making it a lot easier to tell at a glance what type is being used.
+
+A nice bonus of this cleanup work was that a lot of the decompiler improvements that we've added over time also got in, making a good portion of the codebase easier to read and understand.
+
 ## Jak 2 Fixes
 
 ### Bigmap <PRLink href="https://github.com/open-goal/jak-project/pull/2460"/>
@@ -86,9 +96,17 @@ Some various rendering issues were fixed.  The infamous green ring is finally fi
 
 ### Generic and Warp Renderers <PRLink href="https://github.com/open-goal/jak-project/pull/2495"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2515"/>
 
-This resolved many feature gaps in Jak 2 graphics-wise.  Generic was needed for a variety of things, while warp is used for distortions such as the warpgates or the mirror in the hiphog.
+This resolved many feature gaps in Jak 2 graphics-wise. Generic was needed for a variety of things, while warp is used for distortions such as the warpgates or the mirror in the Hip Hog.
 
-<!-- TODO videos -->
+This video showcases a small chunk of uses of this effect throughout the game:
+
+<ReactPlayer controls url="https://www.youtube.com/watch?v=-zwhSq-Id4M" className="blog-video"/>
+
+### Shadow Renderer <PRLink href="https://github.com/open-goal/jak-project/pull/2507"/>
+
+Still a work in progress, the shadow renderer is slowly starting to take shape, albeit with its fair share of bugs.
+
+<ReactPlayer controls url="https://www.youtube.com/watch?v=wUB9YsEe5xM" className="blog-video"/>
 
 ### Version Diffs <PRLink href="https://github.com/open-goal/jak-project/pull/2528"/>
 
@@ -96,13 +114,28 @@ Jak 2's various versions have been compared and initial support has been added t
 
 ### Memory Card Support <PRLink href="https://github.com/open-goal/jak-project/pull/2482"/>
 
-Memory card support has been added for Jak 2
+Memory card support has been added for Jak 2.
 
 ### Faster Elevators and Airlocks <PRLink href="https://github.com/open-goal/jak-project/pull/2478"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2537"/>
 
 Airlocks and elevators will move / open 50% faster.
 
-<!-- TODO - overlord stuff -->
+### Drawing of 3D HUD Elements <PRLink href="https://github.com/open-goal/jak-project/pull/2527"/>
+
+With the generic renderer being added, the orb and skullgem in the HUD can now be drawn properly. The skullgem is currently not moving because it still requires texture animations which we have not started work on yet.
+
+![](./img/foreground-hud.png)
+
+### Overlord <PRLink href="https://github.com/open-goal/jak-project/pull/2544"/>
+
+The PlayStation 2's IOP (Input Output Processor), which was just the PS1's main processor, was cleverly reused on the console to handle most I/O operations.
+
+"Overlord" was Naughty Dog's C library for the IOP and communicated with the Jak games via remote procedure calls in order to load and play audio files such as voice lines and cutscene audio, as well as animation data for cutscenes and other special animations streamed via DVD.
+
+For the longest time, we have been missing this functionality which has been the cause of dozens of bugs, but thanks to Ziemas' and water111's hard work at reverse engineering Overlord, we finally have full cutscene audio and voice lines in
+OpenGOAL!
+
+<ReactPlayer controls url="https://www.youtube.com/watch?v=r9wqzN5Ut94" className="blog-video"/>
 
 ## Other Changes
 
