@@ -54,7 +54,7 @@ If you used the `Reboot in Debug` imgui menu option in the last release, it may 
 
 One of the caveats of decompilation in our case is that method names are unfortunately lost during compilation, so we have to resort to using placeholder names for them until we can figure out their behavior and give them proper names. In the early days of Jak 1, we named our placeholder methods `dummy-[method-id]` or `TODO-RENAME-[method-id]`. In hindsight, this was not a good naming scheme for every single type in the game as it made it incredibly difficult to tell at a glance what type a method call belongs to.
 
-For Jak 2, we rectified this by naming our placeholders after the type, i.e. `type-method-[method-id]`, so we went ahead and a did a full pass through the Jak 1 codebase to either give methods proper names where possible or to apply the same naming scheme, making it a lot easier to tell at a glance what type is being used.
+For Jak 2, we rectified this by naming our placeholders after the type, i.e. `type-method-[method-id]`, so we went ahead and did a full pass through the Jak 1 codebase to either give methods proper names where possible or to apply the same naming scheme, making it a lot easier to tell at a glance what type is being used.
 
 A nice bonus of this cleanup work was that a lot of the decompiler improvements that we've added over time also got in, making a good portion of the codebase easier to read and understand.
 
