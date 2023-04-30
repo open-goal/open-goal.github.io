@@ -16,7 +16,7 @@ draft: false
   <meta name="twitter:card" content="summary_large_image" />
 </head>
 
-Bug fixing for Jak 2 continues and several people are working away at improving their area of interest.
+Bug fixing for Jak 2 continues and several people are working to improve their areas of interest.
 
 <!--truncate-->
 
@@ -46,7 +46,7 @@ This fixed some graphical regressions:
 
 ### Fix Debug Booting <PRLink href="https://github.com/open-goal/jak-project/pull/2469"/>
 
-If you used the `Reboot in Debug` imgui menu option in the last release, it may have required multiple attempts to work properly.  This has been fixed.
+If you used the `Reboot in Debug` imgui menu option on the last release, it may have required multiple attempts to work properly.  This has been fixed.
 
 ## Jak 1
 
@@ -72,7 +72,7 @@ One of the last significant features that wasn't working was the map in the prog
 
 ### Disappearing Guards <PRLink href="https://github.com/open-goal/jak-project/pull/2470"/>
 
-See the github description for a more comprehensive write-up.  This was one of those annoying and intermittent bugs, and it would cause guards to flicker/disappear as you travelled through the city.  This has hopefully been solved, but by the nature of these bugs it's hard to know for sure this early on.
+See the github description for a more comprehensive write-up.  This was one of those annoying and intermittent bugs, and it would cause guards to flicker/disappear as you travelled throughout the city.  This has hopefully been solved, but by the nature of these kind of bugs it's hard to know for sure this early on.
 
 ### Permamently Disappearing Citizens <PRLink href="https://github.com/open-goal/jak-project/pull/2472"/>
 
@@ -84,7 +84,7 @@ For the longest time, it was possible to continue to hit enemies after they died
 
 ### Some Text Fixes <PRLink href="https://github.com/open-goal/jak-project/pull/2476"/>
 
-Fixed some issues around the text handling for every language except korean.
+Fixed some issues around the text handling for every language except Korean.
 
 ### Miscellaneous Renderer Fixes <PRLink href="https://github.com/open-goal/jak-project/pull/2488"/>
 
@@ -96,7 +96,7 @@ Some various rendering issues were fixed.  The infamous green ring is finally fi
 
 ### Generic and Warp Renderers <PRLink href="https://github.com/open-goal/jak-project/pull/2495"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2515"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2574"/>
 
-This resolved many feature gaps in Jak 2 graphics-wise. Generic was needed for a variety of things, while warp is used for distortions such as the warpgates or the mirror in the Hip Hog.
+This resolved many feature gaps in Jak 2 graphics-wise. Generic was needed for a variety of things, while warp is used for distortions such as the warp-gates or the mirror in the Hip Hog.
 
 This video showcases a small chunk of uses of this effect throughout the game:
 
@@ -111,6 +111,8 @@ Still a work in progress, the shadow renderer is slowly starting to take shape, 
 ### Version Diffs <PRLink href="https://github.com/open-goal/jak-project/pull/2528"/>
 
 Jak 2's various versions have been compared and initial support has been added to the tooling.  Unlike with Jak 1, Jak 2's versions hardly have any practical difference between them with the only significant bug fix being related to the `Defend Stadium` mission.
+
+The Japanese release does have a bunch of regional changes though, such as removing Jak's goatee and not allowing you to kill civilans in the city.
 
 ### Memory Card Support <PRLink href="https://github.com/open-goal/jak-project/pull/2482"/>
 
@@ -128,13 +130,13 @@ With the generic renderer being added, the orb and skullgem in the HUD can now b
 
 ### HUD Related Side-mission Crash <PRLink href="https://github.com/open-goal/jak-project/pull/2540"/>
 
-Fixes a crash that occurred on the PS3 release.  It happens because when you have access to the `city-krew-collection-introduction` mission, it loads the `lsack` level no matter where you are in the city.  This causes the `lbush` level to be removed too fast when you complete the side mission, causing the crash.
+Fixes a crash that also occurred on the PS3 release.  It happens because when you have access to the `city-krew-collection-introduction` mission, it loads the `lsack` level no matter where you are in the city.  This causes the `lbush` level to be removed too fast when you complete the side mission, causing the crash.
 
 TLDR - OpenGOAL and the PS3 releases are too fast!
 
 ### Bad Bone Data Issues <PRLink href="https://github.com/open-goal/jak-project/pull/2580"/>
 
-This may not be fixed in the optimal way yet, but there was an issue in Drill Platform where the `excitement` would always be maxed.  This was traced back to the `ginsu`'s bones being `NaN`
+This may not be fixed in the most optimal way yet, but there was an issue in Drill Platform where the `excitement` would always be maxed.  This was traced back to the `ginsu`'s bones being `NaN`
 
 ### Overlord <PRLink href="https://github.com/open-goal/jak-project/pull/2544"/>
 
@@ -143,7 +145,7 @@ The PlayStation 2's IOP (Input Output Processor), which was just the PS1's main 
 "Overlord" was Naughty Dog's C library for the IOP and communicated with the Jak games via remote procedure calls in order to load and play audio files such as voice lines and cutscene audio, as well as animation data for cutscenes and other special animations streamed via DVD.
 
 For the longest time, we have been missing this functionality which has been the cause of dozens of bugs, but thanks to Ziemas' and water111's hard work at reverse engineering Overlord, we finally have full cutscene audio and voice lines in
-OpenGOAL!
+OpenGOAL!  This change along resolved between 30-40 issues we've been tracking.
 
 <ReactPlayer controls url="https://www.youtube.com/watch?v=r9wqzN5Ut94" className="blog-video"/>
 

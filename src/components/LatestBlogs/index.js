@@ -6,7 +6,7 @@ const BlogList = [
     image: require('@site/blog/progress-report-apr-2023/img/poster.png').default,
     description: (
       <>
-        Bug fixing for Jak 2 continues and several people are working away at improving their area of interest.
+        Bug fixing for Jak 2 continues and several people are working to improve their areas of interest.
       </>
     ),
     link: "/blog/progress-report-apr-2023"
