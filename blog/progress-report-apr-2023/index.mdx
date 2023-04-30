@@ -16,7 +16,7 @@ draft: false
   <meta name="twitter:card" content="summary_large_image" />
 </head>
 
-Bug fixing for Jak 2 continues, along with various people working on improving their areas of interests in the project.
+Bug fixing for Jak 2 continues and several people are working away at improving their area of interest.
 
 <!--truncate-->
 
@@ -72,7 +72,7 @@ One of the last significant features that wasn't working was the map in the prog
 
 ### Disappearing Guards <PRLink href="https://github.com/open-goal/jak-project/pull/2470"/>
 
-See the github description for a more comprehensive write-up.  This was one of those annoying and intermittent bugs, and it would cause guards to flicker/disappear as you travelled through the city.  This has hopefully been solved, but by the nature of these bugs it's hard to know this early on.
+See the github description for a more comprehensive write-up.  This was one of those annoying and intermittent bugs, and it would cause guards to flicker/disappear as you travelled through the city.  This has hopefully been solved, but by the nature of these bugs it's hard to know for sure this early on.
 
 ### Permamently Disappearing Citizens <PRLink href="https://github.com/open-goal/jak-project/pull/2472"/>
 
@@ -94,7 +94,7 @@ Some various rendering issues were fixed.  The infamous green ring is finally fi
 
 ![](./img/misc-2.png)
 
-### Generic and Warp Renderers <PRLink href="https://github.com/open-goal/jak-project/pull/2495"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2515"/>
+### Generic and Warp Renderers <PRLink href="https://github.com/open-goal/jak-project/pull/2495"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2515"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2574"/>
 
 This resolved many feature gaps in Jak 2 graphics-wise. Generic was needed for a variety of things, while warp is used for distortions such as the warpgates or the mirror in the Hip Hog.
 
@@ -126,6 +126,16 @@ With the generic renderer being added, the orb and skullgem in the HUD can now b
 
 ![](./img/foreground-hud.png)
 
+### HUD Related Side-mission Crash <PRLink href="https://github.com/open-goal/jak-project/pull/2540"/>
+
+Fixes a crash that occurred on the PS3 release.  It happens because when you have access to the `city-krew-collection-introduction` mission, it loads the `lsack` level no matter where you are in the city.  This causes the `lbush` level to be removed too fast when you complete the side mission, causing the crash.
+
+TLDR - OpenGOAL and the PS3 releases are too fast!
+
+### Bad Bone Data Issues <PRLink href="https://github.com/open-goal/jak-project/pull/2580"/>
+
+This may not be fixed in the optimal way yet, but there was an issue in Drill Platform where the `excitement` would always be maxed.  This was traced back to the `ginsu`'s bones being `NaN`
+
 ### Overlord <PRLink href="https://github.com/open-goal/jak-project/pull/2544"/>
 
 The PlayStation 2's IOP (Input Output Processor), which was just the PS1's main processor, was cleverly reused on the console to handle most I/O operations.
@@ -136,6 +146,10 @@ For the longest time, we have been missing this functionality which has been the
 OpenGOAL!
 
 <ReactPlayer controls url="https://www.youtube.com/watch?v=r9wqzN5Ut94" className="blog-video"/>
+
+### Aspect Ratio Related Minimap Stretch <PRLink href="https://github.com/open-goal/jak-project/pull/2593"/>
+
+The minimap would be inappropriately stretched based on the aspect ratio.
 
 ## Other Changes
 
@@ -150,3 +164,15 @@ The second is that using relative `project-path` overrides, typically via the `-
 ### CLI shim has been removed from `gk` <PRLink href="https://github.com/open-goal/jak-project/pull/2532"/>
 
 `gk` must now be called with the new CLI format.  This is not a concern for anyone other than launcher developers.
+
+### New `defpart` syntax <PRLink href="https://github.com/open-goal/jak-project/pull/2572"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2587"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2596"/>
+
+This still has some issues that need to be worked out, namely:
+- The compilation speed is quite slow in comparison, but trying to be improved.
+- Documentation for the new format needs to be written
+
+But this should hopefully lead to a better understanding of the particle definitions and make them easy to use.
+
+### More efficient divisions <PRLink href="https://github.com/open-goal/jak-project/pull/2585"/>
+
+Some slight modifications to division were done to make them more efficient.
