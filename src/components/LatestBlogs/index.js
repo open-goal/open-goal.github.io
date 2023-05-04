@@ -2,6 +2,16 @@ import React from 'react';
 
 const BlogList = [
   {
+    title: 'Crowdin Announcement',
+    image: require('@site/blog/announce-crowdin-text/img/poster.png').default,
+    description: (
+      <>
+        Hopefully an easier way to contribute and keep track of what needs translating
+      </>
+    ),
+    link: "/blog/announce-crowdin-text"
+  },
+  {
     title: 'Progress Report - Apr. 2023',
     image: require('@site/blog/progress-report-apr-2023/img/poster.png').default,
     description: (
@@ -20,16 +30,6 @@ const BlogList = [
       </>
     ),
     link: "/blog/progress-report-mar-2023"
-  },
-  {
-    title: 'Progress Report - Feb. 2023',
-    image: require('@site/blog/progress-report-feb-2023/img/poster.png').default,
-    description: (
-      <>
-        Jak 2 is beginning to really take shape.  Decompilation is finally nearly completion with bug fixing and feature additions starting to ramp up.
-      </>
-    ),
-    link: "/blog/progress-report-feb-2023"
   }
 ];
 
