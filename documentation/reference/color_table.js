@@ -97,18 +97,16 @@ function jakRgbaToCssRgba(val) {
 }
 
 export default function ColorTable({game}) {
-  var index = -1;
   return(<div class="language-table container">
   <tr><th>Index</th><th>Name</th><th>Color</th></tr>
-  { colorTables[game].map( lang => {
-    ++index;
+  { colorTables[game].map( (color, index) => {
     return(<tr><td>{index}</td>
-               <td><code>{lang.name}</code></td>
-               <td class="fill font-color" style={{"--color1": jakRgbaToCssRgba(lang.colors[0]),
-                                                   "--color2": jakRgbaToCssRgba(lang.colors[1]),
-                                                   "--color3": jakRgbaToCssRgba(lang.colors[2]),
-                                                   "--color4": jakRgbaToCssRgba(lang.colors[3])
-                                                   }}></td>
+               <td><code>{color.name}</code></td>
+               <td class="no-pad jak-4vert-font-color" style={{"--color1": jakRgbaToCssRgba(color.colors[0]),
+                                                               "--color2": jakRgbaToCssRgba(color.colors[1]),
+                                                               "--color3": jakRgbaToCssRgba(color.colors[2]),
+                                                               "--color4": jakRgbaToCssRgba(color.colors[3])
+                                                               }}></td>
                </tr>)
     }) }
   </div>)

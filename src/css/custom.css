@@ -476,7 +476,6 @@ div[class^='announcementBar_'] {
 .language-table th {
   padding: .5em;
   background-color: rgba(255, 255, 255, 5%);
-  /* background-color: lime; */
 }
 
 .language-table .footnotes {
@@ -495,16 +494,15 @@ div[class^='announcementBar_'] {
   background-color: rgba(255, 32, 32, 20%);
 }
 
-.language-table td.fill {
+.language-table td.no-pad {
   padding: 0;
-  text-align: left;
 }
 
-.font-color {
+.jak-4vert-font-color {
   background: linear-gradient(90deg, var(--color1), var(--color2));
   position: relative;
 }
-.font-color::before {
+.jak-4vert-font-color::before {
   content: '';
   position: absolute;
   top: 0;
