@@ -498,11 +498,11 @@ div[class^='announcementBar_'] {
   padding: 0;
 }
 
-.jak-4vert-font-color {
+td.jak-4vert-font-color {
   background: linear-gradient(90deg, var(--color1), var(--color2));
   position: relative;
 }
-.jak-4vert-font-color::before {
+td.jak-4vert-font-color::before {
   content: '';
   position: absolute;
   top: 0;
