@@ -475,7 +475,7 @@ div[class^='announcementBar_'] {
 
 .language-table th {
   padding: .5em;
-  /* background-color: lime; */
+  background-color: rgba(255, 255, 255, 5%);
 }
 
 .language-table .footnotes {
@@ -492,6 +492,25 @@ div[class^='announcementBar_'] {
 
 .language-table td.lang-no {
   background-color: rgba(255, 32, 32, 20%);
+}
+
+.language-table td.no-pad {
+  padding: 0;
+}
+
+td.jak-4vert-font-color {
+  background: linear-gradient(90deg, var(--color1), var(--color2));
+  position: relative;
+}
+td.jak-4vert-font-color::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  mask-image: linear-gradient(to bottom, transparent, black);
+  background: linear-gradient(90deg, var(--color3), var(--color4));
 }
 
 .no-margin p {
