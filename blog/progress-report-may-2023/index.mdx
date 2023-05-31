@@ -51,17 +51,12 @@ Many people have already submitted translations for a variety of languages, most
 If you are someone who is going to translate the subtitles via Crowdin, and you use a YouTube video to watch the cutscenes. It would be a huge help to organize and collect timestamps for each cutscene name. If you do this, reach out and we can put the list (even a partial one) on the website so others can use it!
 :::
 
-### `Press O to Talk` Bug Fixed <PRLink href="https://github.com/open-goal/jak-project/pull/2642"/>
+### Regressions fixed
 
-An old Jak 1 fix was accidentally removed when cleaning some code up that allowed you to talk to NPCs when you were definitely not supposed to.
-
-### Fix Jak 1 Racer HUD <PRLink href="https://github.com/open-goal/jak-project/pull/2648"/>
-
-The racer hud was mis-aligned, similar to the previous issue. Fixed
-
-### Add back Orb Glow <PRLink href="https://github.com/open-goal/jak-project/pull/2650"/>
-
-Was accidentally removed.
+There were a few major re-writes to large swathes of code and a few manual changes were accidentally undone, leading to a few bugs to re-appear. The following have been fixed:
+- "Press Circle to talk" appearing when it shouldn't and letting you talk from NPCs you shouldn't. <PRLink href="https://github.com/open-goal/jak-project/pull/2642"/>
+- Racer HUD being misaligned. <PRLink href="https://github.com/open-goal/jak-project/pull/2648"/>
+- Orb glow not existing. <PRLink href="https://github.com/open-goal/jak-project/pull/2650"/>
 
 ### Compile on GCC13 <PRLink href="https://github.com/open-goal/jak-project/pull/2640"/>
 
@@ -73,7 +68,7 @@ Jak 1 now has Swedish subtitles!
 
 ### Regressions <PRLink href="https://github.com/open-goal/jak-project/pull/2676"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2680"/>
 
-During some codebase cleanup and improvements, we accidentally introduced a few regressions, such as crashes during the Forest Scouts mission or after winning a race, these have been fixed.
+During some codebase cleanup and improvements, we accidentally introduced a few regressions, such as crashes during the Forest Scouts mission or after winning a race, which have been fixed.
 
 ### Decomp `ctywide-speech` <PRLink href="https://github.com/open-goal/jak-project/pull/2612"/>
 
@@ -83,7 +78,11 @@ One of the last files that was blocked (and still technically is, just was fixed
 
 ### `blit-displays`, `sprite-distort` <PRLink href="https://github.com/open-goal/jak-project/pull/2616"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2620"/>
 
-Adds sprite distort, fixes buggy sprite rendering in progress, adds scissoring support (used in various scrolling menus) and a very basic implementation of `blit-displays`. This is enough to make the fade effect in the progress menu work, along with all the menus working properly without needing to use the REPL. This does not make screen flipping and the filter when failing a mission work.
+Fixes some sprites rendering in the progress menu in both Jak 1 and 2 crashing the game when the sprite renderer was disabled, which is used in Jak 1 as the progress menu is no longer made of sprites there.
+
+Adds the `sprite-distort` renderer, which acts the exact same way as it did in Jak 1. This is used for heat haze-like effects throughout the game, distinct from the warp renderer. They're used for the JET-Board trail, various fire jets and effects, the Blaster, some underwater effects, etc.
+
+Adds part of the `blit-displays` system. This is used to copy and modify the screen framebuffer and apply screen-wide effects, such as screen flipping. However, right now all it can do is copy an entire framebuffer at once, which is used for the fade-to-orange effect when the progress menu is opened. Screen flipping and the filter when failing a mission still do not work. This system is also used to make the progress menu load all of its icons, so the menus are now fully functional without needing to use the REPL.
 
 ![](./img/blit.png)
 
@@ -91,9 +90,9 @@ Adds sprite distort, fixes buggy sprite rendering in progress, adds scissoring s
 
 ### Shadows <PRLink href="https://github.com/open-goal/jak-project/pull/2632"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2647"/>
 
-Shadows are now properly rendering! The shadow renderer has been completely rewritten in OpenGL instead of directly running the original game's VU code for it, improving performance by quite a bit (although it was never really a very heavy renderer in the first place).
+Shadows are now properly rendering! The shadow renderer has been completely rewritten in OpenGL instead of directly running the original game's VU code for it, improving performance by quite a bit (although it was never really a very heavy renderer in the first place). There are still a few bugs with shadows flickering occasionally.
 
-The system is overall very similar to Jak 1, but there are some new special cases like the KG logo for the Fortress tank and the lasers in Underport that use a colored shadow.
+The system is overall very similar to Jak 1, but there are some new special cases like the KG logo for the Fortress tank and the lasers in Underport that use a colored light volume instead of a dark shadow.
 
 ![](./img/shadow-fort-turret.png)
 
@@ -107,29 +106,31 @@ Full screen effects like in the fortress turret cam, or underport were rough at 
 
 ### Improve decompilation of subtask macros <PRLink href="https://github.com/open-goal/jak-project/pull/2654"/>
 
+This makes the code related to the missions in the game much easier to understand.
+
 ### Fillout text entry names <PRLink href="https://github.com/open-goal/jak-project/pull/2640"/>
 
 ### Add `current-time` macro to cleanup code <PRLink href="https://github.com/open-goal/jak-project/pull/2662"/>
 
 ### VAG Player <PRLink href="https://github.com/open-goal/jak-project/pull/2664"/>
 
-A new debug menu entry that allows for quick playback of any audio file in the game, which is mainly going to be used for the transcription and translation of hint subtitles for the new subtitle system.
+A new debug menu that allows for quick playback of any audio file in the game, which is mainly going to be used for the transcription and translation of subtitles for the new subtitle system.
 
 <ReactPlayer controls url="https://youtu.be/og3uIeO6O-I" className="blog-video"/>
 
 ## Upcoming Work
 
-### Hint Subtitle Support in Jak 2 <PRLink href="https://github.com/open-goal/jak-project/pull/2672"/>
+### Non-cutscene Subtitle Support in Jak 2 <PRLink href="https://github.com/open-goal/jak-project/pull/2672"/>
 
-Unlike Jak 1, Jak 2 has subtitles by default, but only for cutscenes. We added a new and improved subtitle system and editor to handle all audio present throughout the game.
+Unlike Jak 1, Jak 2 has subtitles by default, but only for cutscenes. We created a new and improved subtitle system and editor to handle all audio present throughout the game.
 
 In addition to handling audio outside of cutscenes, the new system offers the following improvements over both Jak 1's custom subtitle system we added a while back and the original Jak 2 subtitles:
 
-- Option for displaying color-coded speaker name
-- Handles playing multiple lines intelligently (even from the same source), moving older subs up as new ones show up or other text messages appear (e.g. "Press X to jump" prompt)
-- Doesn't hide the bottom HUD while subs are active
+- Option for displaying color-coded speaker name.
+- Handles playing multiple lines intelligently (even from the same source), moving newer subtitles up as they show up with a subtitle already present or when other text messages or prompts appear (e.g. "Press X to jump").
+- Doesn't hide the bottom HUD while subtitles are active.
 
-As of right now, we only have a small portion of hints transcribed (there's thousands of voicelines!) and while the new system also supports cutscenes, this has not been tested yet and we still have to look at how to merge the original subtitles into the new system in order to avoid having to rewrite the script.
+As of right now, we only have a small portion of lines transcribed (there's thousands of voicelines!) and while the new system also supports cutscenes, this has not been tested yet and we still have to look at how to merge the original subtitles into the new system in order to avoid having to rewrite the script.
 
 <ReactPlayer controls url="https://www.youtube.com/watch?v=cLIwkdJm8BQ" className="blog-video"/>
 
