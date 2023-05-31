@@ -71,23 +71,33 @@ Jak 1 now has Swedish subtitles!
 
 ## Jak 2 Fixes
 
+### Regressions <PRLink href="https://github.com/open-goal/jak-project/pull/2676"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2680"/>
+
+During some codebase cleanup and improvements, we accidentally introduced a few regressions, such as crashes during the Forest Scouts mission or after winning a race, these have been fixed.
+
 ### Decomp `ctywide-speech` <PRLink href="https://github.com/open-goal/jak-project/pull/2612"/>
 
 One of the last files that was blocked (and still technically is, just was fixed manually). Fixes missing dialogue (guards / citizens) when wandering through the city.
 
-<!-- TODO - video? -->
+<ReactPlayer controls url="https://www.youtube.com/watch?v=6oDq1bPxKSE" className="blog-video"/>
 
-### `blit-displays` <PRLink href="https://github.com/open-goal/jak-project/pull/2616"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2620"/>
+### `blit-displays`, `sprite-distort` <PRLink href="https://github.com/open-goal/jak-project/pull/2616"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2620"/>
 
 Adds sprite distort, fixes buggy sprite rendering in progress, adds scissoring support (used in various scrolling menus) and a very basic implementation of `blit-displays`. This is enough to make the fade effect in the progress menu work, along with all the menus working properly without needing to use the REPL. This does not make screen flipping and the filter when failing a mission work.
 
 ![](./img/blit.png)
 
+<ReactPlayer controls url="https://youtu.be/0Tws1FSt2ys" className="blog-video"/>
+
 ### Shadows <PRLink href="https://github.com/open-goal/jak-project/pull/2632"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2647"/>
 
-Shadows are now properly rendering
+Shadows are now properly rendering! The shadow renderer has been completely rewritten in OpenGL instead of directly running the original game's VU code for it, improving performance by quite a bit (although it was never really a very heavy renderer in the first place).
 
-<!-- TODO video -->
+The system is overall very similar to Jak 1, but there are some new special cases like the KG logo for the Fortress tank and the lasers in Underport that use a colored shadow.
+
+![](./img/shadow-fort-turret.png)
+
+![](./img/shadow-under-laser.png)
 
 ### Non-nauseating full-screen warp effects at higher aspect ratios <PRLink href="https://github.com/open-goal/jak-project/pull/2603"/>
 
@@ -103,12 +113,24 @@ Full screen effects like in the fortress turret cam, or underport were rough at 
 
 ### VAG Player <PRLink href="https://github.com/open-goal/jak-project/pull/2664"/>
 
-New debug menu to easily play sounds
+A new debug menu entry that allows for quick playback of any audio file in the game, which is mainly going to be used for the transcription and translation of hint subtitles for the new subtitle system.
+
+<ReactPlayer controls url="https://youtu.be/og3uIeO6O-I" className="blog-video"/>
 
 ## Upcoming Work
 
 ### Hint Subtitle Support in Jak 2 <PRLink href="https://github.com/open-goal/jak-project/pull/2672"/>
 
-Hint subtitles will be a thing in Jak 2.
+Unlike Jak 1, Jak 2 has subtitles by default, but only for cutscenes. We added a new and improved subtitle system and editor to handle all audio present throughout the game.
+
+In addition to handling audio outside of cutscenes, the new system offers the following improvements over both Jak 1's custom subtitle system we added a while back and the original Jak 2 subtitles:
+
+- Option for displaying color-coded speaker name
+- Handles playing multiple lines intelligently (even from the same source), moving older subs up as new ones show up or other text messages appear (e.g. "Press X to jump" prompt)
+- Doesn't hide the bottom HUD while subs are active
+
+As of right now, we only have a small portion of hints transcribed (there's thousands of voicelines!) and while the new system also supports cutscenes, this has not been tested yet and we still have to look at how to merge the original subtitles into the new system in order to avoid having to rewrite the script.
+
+<ReactPlayer controls url="https://www.youtube.com/watch?v=cLIwkdJm8BQ" className="blog-video"/>
 
 ![](./img/subtitles.png)
