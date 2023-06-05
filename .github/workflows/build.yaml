@@ -33,7 +33,7 @@ jobs:
 
       - name: Install NPM Dependencies
         run: |
-          yarn install --frozen-lockfile
+          yarn install --immutable
 
       - name: Build Site
         env:

@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pushd scripts/progress-tracker
-          yarn install
+          yarn install --immutable
           popd
           node scripts/progress-tracker/index.js
 
