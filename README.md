@@ -2,16 +2,20 @@
 
 This website (https://opengoal.dev) is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
 
+For a package manager, Yarn is preferred - https://yarnpkg.com/getting-started/install
+
 ### Installation
 
 ```bash
-npm install
+corepack enable
+corepack prepare yarn@stable --activate
+yarn install
 ```
 
 ### Local Development
 
 ```bash
-npm run start
+yarn start
 ```
 
 And browse to http://localhost:3000

@@ -28,3 +28,5 @@ jak-project/
 
 /jak1-*.json
 /jak2-*.json
+.pnp*
+.yarn/
