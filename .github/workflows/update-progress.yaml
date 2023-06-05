@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: npm
+          cache: yarn
           cache-dependency-path: scripts/progress-tracker/package.json
 
       - name: Update Statistics
@@ -33,17 +33,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pushd scripts/progress-tracker
-          npm ci
+          yarn install --immutable
           popd
           node scripts/progress-tracker/index.js
-
-      - name: Download Generated Documentation Bundle
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_PAT }}
-          WORKFLOW_RUN_ID: ${{ github.event.client_payload.docGenRunId }}
-        run: |
-          npm ci
-          npm run download-docs
 
       - name: Add & Commit
         uses: EndBug/add-and-commit@v9
