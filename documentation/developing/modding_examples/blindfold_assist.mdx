@@ -1,5 +1,5 @@
 ---
-sidebar_position: 0
+sidebar_position: 1
 title: Blindfold Assist
 description: A deep dive into the code changes for the Blindfold Assist Mod
 ---
@@ -56,14 +56,18 @@ On the OpenGOAL side, the controller input is represented by the [`cpad-info` ty
     )
   )
   ```
-  
+
+But let's take a step back - what if you didn't know where the controller inputs were handled? Well one way would be to look at the code for moving Jak (who is known as `target` in the code) and work backwards to find the controller input that affects Jak's movement. With some digging and some luck, you'll find yourself in `goal_src/jak1/engine/target/logic-target.gc`, and towards the end of the file are [a few functions](https://github.com/open-goal/jak-project/blob/ee3bc182e13a440f90e20a6f7be7d3b294a7e56a/goal_src/jak1/engine/target/logic-target.gc#L1522-L1895) that update Jak's position differently, depending on if he's swimming, sliding, etc. In most of these there's a `read-pad` call, which populates a vector that is then used in the logic for updating Jak's position.
+
+[Looking at `read-pad` itself](https://github.com/open-goal/jak-project/blob/ee3bc182e13a440f90e20a6f7be7d3b294a7e56a/goal_src/jak1/engine/target/logic-target.gc#L488-L501), we can see that the vector is populated by taking the sine/cosine of `(-> self control unknown-cpad-info00 stick0-dir)`. And if we [hunt down the `unknown-cpad-info00` field](https://github.com/open-goal/jak-project/blob/ee3bc182e13a440f90e20a6f7be7d3b294a7e56a/goal_src/jak1/engine/collide/collide-target-h.gc#L51), we find it's a `cpad-info`!
+
+### Reading & adjusting controller input
+
 You can sort of think of `rightx` and `righty` as the X and Y "coordinates" for the position of the right analog stick, read directly from the hardware. Since they are `uint8`s they range in value from 0 (left/up) to 255 (right/down) - so both would be 128 while neutral (assuming no stick drift). The same applies for `leftx` and `lefty` for the left analog stick, however there is an extra step where `stick0-dir` and `stick0-speed` are computed from the values of `leftx` and `lefty`, happening once per frame [within `service-cpads`](https://github.com/open-goal/jak-project/blob/ee3bc182e13a440f90e20a6f7be7d3b294a7e56a/goal_src/jak1/engine/ps2/pad.gc#L344-L349).
 
-But let's take a step back - what if you didn't know where the controller inputs were handled? Well one way would be to look at the code for moving Jak (who is known as `target` in the code) and work backwards to find the controller input that affects Jak's movement. With some digging and some luck, you'll find yourself in `goal_src/jak1/engine/target/logic-target.gc`, and towards the end of the file are [a few functions](https://github.com/open-goal/jak-project/blob/ee3bc182e13a440f90e20a6f7be7d3b294a7e56a/goal_src/jak1/engine/target/logic-target.gc#L1522-L1895) that update Jak's position differently, depending on if he's swimming, sliding, etc. In most of these there's a `read-pad` call, which populates a vector that is then used in the logic for updating Jak's position. [Looking at `read-pad` itself](https://github.com/open-goal/jak-project/blob/ee3bc182e13a440f90e20a6f7be7d3b294a7e56a/goal_src/jak1/engine/target/logic-target.gc#L488-L501), we can see that the vector is populated by taking the sine/cosine of `(-> self control unknown-cpad-info00 stick0-dir)`. And if we [hunt down the `unknown-cpad-info00` field](https://github.com/open-goal/jak-project/blob/ee3bc182e13a440f90e20a6f7be7d3b294a7e56a/goal_src/jak1/engine/collide/collide-target-h.gc#L51), we find it's a `cpad-info`!
+Ok so we know about `cpad-info`, now what? Reading through `service-cpads`, you can see that there is already a [tweak to the analog stick inputs to account for mirror mode](https://github.com/open-goal/jak-project/blob/ee3bc182e13a440f90e20a6f7be7d3b294a7e56a/goal_src/jak1/engine/ps2/pad.gc#L337-L342). Further, this happens after the [call to read inputs from hardware](https://github.com/open-goal/jak-project/blob/ee3bc182e13a440f90e20a6f7be7d3b294a7e56a/goal_src/jak1/engine/ps2/pad.gc#L283-L284) and before `stick0-dir` and `stick0-speed` are computed, so it feels like a logical place to [further adjust the inputs](https://github.com/OpenGOAL-Unofficial-Mods/blindfold-assist/blob/1cd217498b5efa501c4980241d253a6b09e8c330/data/goal_src/jak1/engine/ps2/pad.gc#L344-L406).
 
 ### Trigonometry time
-
-Ok so we know about `cpad-info`, now what? Reading through `service-cpads`, you can see that there is already a [tweak to the analog stick inputs to account for mirror mode](https://github.com/open-goal/jak-project/blob/ee3bc182e13a440f90e20a6f7be7d3b294a7e56a/goal_src/jak1/engine/ps2/pad.gc#L337-L342). Further, this happens after the [call to read inputs from hardware](https://github.com/open-goal/jak-project/blob/ee3bc182e13a440f90e20a6f7be7d3b294a7e56a/goal_src/jak1/engine/ps2/pad.gc#L283-L284) and before `stick0-dir` and `stick0-speed` are computed, so it feels like a logical place to [further adjust the inputs](https://github.com/OpenGOAL-Unofficial-Mods/blindfold-assist/blob/1cd217498b5efa501c4980241d253a6b09e8c330/data/goal_src/jak1/engine/ps2/pad.gc#L344-L406).
 
 This next part gets a little math-heavy, but the basic idea for limiting to 8 directions is to compute the angle from the X and Y coordinates, and use that to figure out which of the 8 directions has the closest angle. First I subtract 128 from both X and Y values to shift the range from [0,255] to [-128, 127]. From here I compute the slope, and take the arctan of the absolute value of the slope to get the angle from the X-axis.
 
@@ -148,9 +152,13 @@ Oh but wait - now we're stuck in Bike camera mode, when really we just wanted to
 
 Alright so we know how to jump between camera modes, which gives us a hacky but workable method of centering the camera behind Jak. Now we need to give players a button combo to do this on-demand.
 
+#### Reading inputs every frame
+
 In the previous section we looked at the code where controller inputs are read from hardware every frame in `service-cpads`, but we sort of glossed over how the `logic-target` code is called to read and utilize the button inputs for that frame held in `cpad-info`. The game needs to read inputs every frame or, well, it will drop inputs 🙃. In the case of the `logic-target` code, the `target` process runs this code every frame as part of the `post` hook - see the [documentation on processes and states](../../reference/process_and_state/#how-do-i-make-a-process-do-something) for more details on this.
 
 For centering the camera behind Jak, we will also need to run some code every frame in order to check if the user has pressed our desired button combo. Lucky for you, we've already created a helper function `runs-every-frame` [in the opengoal-mod-base](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base/blob/336eb824403c0c38d1445e5156fc510f692ca4c2/data/goal_src/jak1/engine/mods/put-custom-code-here.gc#L24-L28) that gets executed on every frame of the [main display loop](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base/blob/336eb824403c0c38d1445e5156fc510f692ca4c2/data/goal_src/jak1/engine/game/main.gc#L633)!
+
+#### Checking for buttons pressed/held
 
 The easiest way to check if a specific button was pressed or held on the current frame is to use `cpad-pressed?` or `cpad-hold?`, respectively. The first parameter it takes is the controller number (0 being the first controller), and the second parameter is the button we want to check. I decided to use R2 as the button for centering the camera behind Jak, and I also wanted to ensure Jak was actually spawned. If both of these conditions are met, I change the camera mode to Bike, otherwise I revert back to the default camera:
 
