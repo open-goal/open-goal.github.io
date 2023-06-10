@@ -30,3 +30,4 @@ jak-project/
 /jak2-*.json
 .pnp*
 .yarn/
+package-lock.json
