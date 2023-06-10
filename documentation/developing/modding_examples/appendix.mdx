@@ -1,0 +1,145 @@
+---
+sidebar_position: 0
+title: Appendix
+description: Appendix to help find examples on how to mod various parts of the OpenGOAL engine
+---
+
+# Modding Appendix
+
+<PostAuthors authors={["dallmeyer"]} authorNames={["barg034"]}/>
+
+## Background
+
+While the modding example pages (e.g. [Blindfold Assist](./blindfold_assist), [Checkpoint Randomzier](./checkpoint_randomizer.mdx)) give you a deep-dive into specific mods that have been built, you might just want to quickly find examples of how to approach various mods to OpenGOAL - if so, this page is for you!
+
+Not sure where to look? Each section has tags to help find what you're looking for - try using `ctrl+F`!
+
+<hr/>
+
+### Pause Menu (`progress`) 
+<small><small><small>Tags: progress, pause, start, setting, carousel, menu, option, on, off, slider, triangle, back</small></small></small>
+
+#### Jak 1
+- [Overview / codebase breakdown](./checkpoint_randomizer#codebase-breakdown)
+- [Menus & submenus](./checkpoint_randomizer#menus--submenus)
+- [On/Off options (for boolean settings)](./checkpoint_randomizer#boolean-options)
+- [Carousel options (for settings with >2 choices)](./checkpoint_randomizer#carousel-options)
+- [Slider options (for settings within some numerical range)](./checkpoint_randomizer#slider-options)
+- [Drawing, positioning, scaling](./checkpoint_randomizer#menu-drawing)
+- [Going back (e.g. on triangle press)](./checkpoint_randomizer#going-back)
+
+#### Jak 2
+- 
+
+<hr/>
+
+### Manipulating Game State
+<small><small><small>Tags: game-info, task, cell, collected, give, take, checkpoint, time of day, weather, gameplay, speed, complete, counts</small></small></small>
+
+#### Jak 1
+- Marking tasks complete (e.g. cell collected)
+- Changing collected cell/orb/fly counts
+- Changing the current checkpoint (without warping)
+- Changing time of day/weather
+
+#### Jak 2
+- Changing gameplay speed
+
+<hr/>
+
+### Manipulating Jak (`target`)
+<small><small><small>Tags: jak, target, player, jump, color, size, scale, movement, boosted, rolljump, death, flutflut, racer, zoomer, jetboard, board, daxter</small></small></small>
+
+#### Jak 1
+- Changing Jak's color
+- Changing Jak's size/scaling
+- Hiding Daxter
+- Changing rolljump behavior
+- Changing jump behavior
+- Changing boosted uppercut behavior
+- Putting `target` into FlutFlut/Zoomer mode
+- Supporting Jak on FlutFlut/Zoomer interacting with warp gates, buttons, etc
+- [FlutFlut/Zoomer invisible walls (`blocking-plane`)](./checkpoint_randomizer#removing-invisible-wall-blocking-plane)
+- [Sending Jak to a specific checkpoint](./checkpoint_randomizer#checkpoint-warping)
+
+#### Jak 2
+- Putting `target` into Jetboard/Daxter/Titan Suit/Zoomer mode
+- Hiding Jak's model (e.g. Daxter-only on Jetboard)
+- Changing Jetboard properties (speed, jump, etc)
+
+<hr/>
+
+### Manipulating Camera
+<small><small><small>Tags: camera, view, perspective, cutscene, animation</small></small></small>
+
+#### Jak 1
+- [Overview / debug menu](./blindfold_assist#wherehow-is-the-camera-defined)
+- [Changing/resetting camera mode](./blindfold_assist#manipulating-the-camera)
+- [Skipping Power Cell cutscenes](./checkpoint_randomizer#disabling-power-cell-cutscenes)
+
+#### Jak 2
+- Changing/resetting camera mode (different than Jak 1!)
+
+<hr/>
+
+### Manipulating Collectables
+<small><small><small>Tags: collectable, spawn, birth, eco, power cell, fuel-cell, buzzer, scout fly, money, skill, precursor orb, health, crate, box, gem, skull gem, pickup</small></small></small>
+
+#### Jak 1
+- [Overview of collecting a Power Cell](./checkpoint_randomizer#what-happens-when-you-touch-a-power-cell)
+- [Skipping Power Cell cutscenes](./checkpoint_randomizer#disabling-power-cell-cutscenes)
+- Spawning a collectable
+- "Freezing" Orbs (no bob/spin animation)
+
+#### Jak 2
+- Adding a new `pickup-type` (Light Eco)
+
+<hr/>
+
+### Controller Inputs
+<small><small><small>Tags: controller, hardware, keyboard, mouse, input, pad, dualshock, vibration, pressed, held</small></small></small>
+
+#### Jak 1
+- [Reading & Adjusting Controller inputs](./blindfold_assist#reading--adjusting-controller-input)
+- [Checking controller inputs every frame](./blindfold_assist#reading-inputs-every-frame)
+- [Checking for buttons pressed/held](./blindfold_assist#checking-for-buttons-pressedheld)
+
+#### Jak 2
+-
+
+<hr/>
+
+### Level Customization
+<small><small><small>Tags: custom, level, checkpoint, override, blender, actor, entity</small></small></small>
+
+#### Jak 1
+- [Full Custom Level Guide](../../category/custom-levels)
+- [Custom checkpoints](./checkpoint_randomizer#additional-custom-checkpoints)
+- Overriding original-game-actor positioning (e.g. Orb Hunt)
+
+#### Jak 2
+- 
+
+<hr/>
+
+### Misc
+<small><small><small>Tags: text, display, random, rng</small></small></small>
+
+#### Jak 1
+- [Printing text on-screen](./checkpoint_randomizer#displaying-collectablewarp-counter)
+- [`rand-vu` PS2 RNG library](./checkpoint_randomizer#making-it-random)
+- [`rand-vu` limitations and `knuth` RNG library (Java port)](./checkpoint_randomizer#checkpoint-predictability)
+
+#### Jak 2
+-
+
+<hr/>
+
+### Debug Menu Tips
+<small><small><small>Tags: debug, default, menu, r3, actor, marks, target, camera, dev, alt</small></small></small>
+
+#### Jak 1
+- [Determining actor type (Actor Marks)](./checkpoint_randomizer#debug-menu---actor-marks)
+
+#### Jak 2
+- 

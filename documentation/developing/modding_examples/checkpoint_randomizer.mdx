@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 title: Checkpoint Randomizer
 description: A deep dive into the code changes for the Checkpoint Randomizer Mod
 ---
@@ -176,6 +176,8 @@ And then we're free to combine our checkpoint warp command with `rand-vu-int-cou
 
 The last piece of the puzzle for the original mod is to trigger this randomized checkpoint warp whenever the player picks up a Power Cell. Internally these are known as `fuel-cell`s, and are [defined in `goal_src/jak1/engine/common-obs/collectables.gc`](https://github.com/open-goal/jak-project/blob/08ce65fd9bafa56f0d0017a9670112acc1019bb7/goal_src/jak1/engine/common-obs/collectables.gc#L1305-L1317). 
 
+#### What happens when you touch a Power Cell?
+
 There are a few core steps in the process of collecting a Power Cell:
 
 - [`fuel-cell` enters `pickup` state](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/common-obs/collectables.gc#L1525-L1965)
@@ -187,6 +189,8 @@ There are a few core steps in the process of collecting a Power Cell:
           - related `entity-perm-status` and `game-task` is marked complete
   - [game auto-saves](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/common-obs/collectables.gc#L1667)
   - [Power Cell victory cutscene plays](https://github.com/open-goal/jak-project/blob/a76f55853779118efe98a3115c7d78546ae40b6c/goal_src/jak1/engine/common-obs/collectables.gc#L1668-L1673)
+
+#### Disabling Power Cell cutscenes
 
 For this mod, we decided to [disable the victory cutscene](https://github.com/dallmeyer/jak-project/blob/76a46a233cad22c5d84f001329836d6a752f5aa4/goal_src/jak1/engine/common-obs/collectables.gc#L1700-L1707) and [execute the checkpoint warp here](https://github.com/dallmeyer/jak-project/blob/76a46a233cad22c5d84f001329836d6a752f5aa4/goal_src/jak1/engine/common-obs/collectables.gc#L1723-L1726), after the internal counter and related `entity-perm-status` and `game-task` are updated. In effect, the moment the victory cutscene would normally appear is when Jak is warped away.
 
@@ -222,7 +226,9 @@ One of the first softlocks we ran into was around Gol & Maia's Citadel, and the 
 
 With the checkpoint randomizer, it's entirely possible to collect all the Citadel Power Cells before unlocking these two things in Lava Tube. If you end up in this scenario and happen to get warped to Citadel again, there's no way to get out (at least without some level deloading shenanigans, which we don't expect players to perform)! To address this issue, we decided to automatically unlock the Citadel door and remove the invisible wall whenever you are in Lava Tube or Citadel.
 
-To unlock the Citadel door, first we need to figure out its type so that we can identify the code that's involved. In the debug menu, there's a useful setting we can toggle to help with this: `Actor > Actor Mark > On`.
+#### Debug menu - Actor Marks
+
+To unlock the Citadel door, first we need to figure out its type so that we can identify the code that's involved. In the debug menu, there's a useful setting we can toggle to help with this: `Actor > Actor Marks > On`.
 
 ![](./img/checkpoint_randomizer/debug_actor_marks.png)
 
@@ -231,6 +237,8 @@ Now you can see the names (and infer the types) of all the actors around you! Th
 ![](./img/checkpoint_randomizer/ctib_iris_door_21.png)
 
 So we see this is a `citb-iris-door`, which is [defined in `goal_src/jak1/levels/citadel/citadel-obs.gc`](https://github.com/open-goal/jak-project/blob/96761000397faea0480b6b9b8553bd7162187eba/goal_src/jak1/levels/citadel/citadel-obs.gc#L509-L515). Since no new fields or methods are defined for this type, the only thing this definition really tells us is that this is a child type of `eco-door`, which is [defined in `goal_src/jak1/engine/common-obs/baseplat.gc`](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/common-obs/baseplat.gc#L150-L177).
+
+#### Unlocking `eco-door`
 
 This type has a field `locked` which sounds pretty suspicious - sure enough if we read through this file, we can see [`locked` is part of the check to decide if the door should go from `door-closed` to `door-opening`](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/common-obs/baseplat.gc#L216-L223). We did some tests to try to unlock the door, looking it up by name and setting the field directly:
 
@@ -260,6 +268,8 @@ Our attempt to unlock the Citadel door was reversed by the door re-locking itsel
     )
   ))
 ```
+
+#### Removing invisible wall (`blocking-plane`)
 
 As the comment there reminds us, we still have an invisible wall to dispose of. Unfortunately the debug tools (that I've tried) don't show anything for the invisible wall itself, but we knew from playing the game that it was somehow tied to the End of Lava Tube Power Cell. If we use the `Actor Marks` tool on that, it points us in the right direction again:
 
@@ -749,6 +759,8 @@ To do this, we added an internal counter `collectable-interval` to our randomize
   )
 ```
 
+#### Displaying collectable/warp counter
+
 We also decided to add a display on screen showing this collectable counter/threshold. Looking at how the [HUD's Orb counter is drawn to screen](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/engine/ui/hud-classes.gc#L741-L801) as an example, we can see we need to use `with-dma-buffer-add-bucket` and call `draw-string-xy` on every frame.
 
 ```opengoal
@@ -1150,6 +1162,8 @@ There are a handful of methods that needed to be implemented, but they're all pr
 
 Now that we can programmatically change the randomizer settings and read from/write to the randomizer file, we need to give users a way to change these settings in-game. We can again follow what was done for `*pc-settings*`, and expose our randomizer settings through the pause menu (internally called the [`progress`](https://github.com/open-goal/jak-project/tree/master/goal_src/jak1/engine/ui/progress) menu).
 
+#### Codebase breakdown
+
 Most of what I'll cover will only relate to the Options menus, but the Power Cell, Scout Fly, and Precursor Orb screens are also handled within the `progress` code. Here's a breakdown of how the files are organized:
 
 - [`progress-draw.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-draw.gc)
@@ -1168,6 +1182,8 @@ Most of what I'll cover will only relate to the Options menus, but the Power Cel
 - [`progress-pc.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc)
   - thanks to [Dass](https://github.com/ManDude), this is where a lot of the code for the Options menu is overridden and simplified
   - this is where additional OpenGOAL-exclusive menus (MSAA, inverted controls, etc) are added
+
+#### Menus & Submenus
 
 Let's take a look at the [root `*main-options-pc*` menu in `progress-pc.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L108-L118) as a starting point below. Note that `*main-options-secrets*` and `*options-pc*` are very similar menus, and are used in place of `*main-options-pc*` once secrets are unlocked or if you are at the title screen.
 
@@ -1208,6 +1224,8 @@ The `param3` field of each option dictates which submenu should be loaded in if 
   )
 ```
 
+#### Boolean Options
+
 Going one layer deeper into `*game-options-pc*`, we start to see some modifiable settings, some of which will need to be saved to the `*pc-settings*` object and related file. For certain `game-option-type`s, such as `on-off` and `language`, the `value-to-modify` can be [mapped directly to the field in our settings object](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L821-L828), which happens as part of the `init-game-options` function:
 
 ```opengoal
@@ -1228,11 +1246,15 @@ Going one layer deeper into `*game-options-pc*`, we start to see some modifiable
 
 As an example here, the 3rd option (index 2) will be used to toggle subtitles either on `#t` or off `#f`. While `*pc-settings*` is saved to a single shared file, the `*setting-control*` fields are saved into the individual save files. We ended up using the single shared file pattern for `*randomizer-settings*`.
 
+#### Carousel Options
+
 `*progress-carousell*` refers to the type of menu option where you cycle left/right between various (usually 3+) options. The way this style of menu option operates is a bit strange, but in short the `int-backup` field is just used temporarily to [store or reset to your last selection in the `respond-common` method](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1492-L1695). The initial value for the carousell is [read from the appropriate settings fields here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1512C33-L1569), and is [written back to the respective settings field around here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc#L1628-L1686).
 
 ![](./img/checkpoint_randomizer/progress_carousell.png)
 
 Each type of carousell must also be added to a handful of allowlists for carousell-specific behavior, such as handling [left](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/pc/progress-pc.gc#L996-L1015) and [right](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/pc/progress-pc.gc#L1099-L1117) inputs. The same goes for the [on/off style options](https://github.com/dallmeyer/jak-project/blob/ef66d16865ea4b5ab78a7628d60f1f28b4c84ecc/goal_src/jak1/pc/progress-pc.gc#L956-L980).
+
+#### Slider Options
 
 There are also options that use numerical sliders, such as the game volume settings. The minimum and maximum values are configured using `param1` and `param2` in the `game-option` definitions:
 
@@ -1246,6 +1268,8 @@ There are also options that use numerical sliders, such as the game volume setti
 
 ![](./img/checkpoint_randomizer/progress_slider.png)
 
+#### Menu Drawing
+
 Another section of code I'll point out is the [overridden `post` handler for `progress-normal`](https://github.com/open-goal/jak-project/blob/0cf285ef994e16a7d50a52d5fc56d171fb6ec45d/goal_src/jak1/pc/progress-pc.gc#L2462-L2464), where the PC screens are ultimately drawn. Without the `(draw-options self ...)` line, the menu won't be accessible. This is also where positioning and scaling are applied as needed. For example, these particular screens have quite a bit of text and need to be scaled down to 65%:
 
 ```opengoal
@@ -1254,6 +1278,8 @@ Another section of code I'll point out is the [overridden `post` handler for `pr
     (draw-options self 115 25 0.65)
     )
 ```
+
+#### Going Back
 
 The last thing to make note of is this [method `can-go-back?`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress.gc#L806-L857), which as the name suggests is used to determine if the player can go back given the `progress` menu state and current screen. Any new `progress-screen` that needs to support going back will have to be added to the [PC port allowlist here](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress.gc#L829-L851).
 
