@@ -1,0 +1,101 @@
+---
+title: Progress Report - June 2023
+date: 2023-06-31T10:00
+description: June 2023's OpenGOAL progress report
+slug: progress-report-june-2023
+authors:
+  - vaser
+tags: [progress-report]
+image: ./img/poster.png
+hide_table_of_contents: false
+draft: false
+---
+
+<head>
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+
+TODO
+
+<!--truncate-->
+
+## Release Info
+
+This month's OpenGOAL Tooling (jak-project repo) release is `0.1.37`
+
+<div className="row markdownMarginBottom">
+  <div className="col col--6">
+    <LauncherDownloadLink />
+  </div>
+</div>
+
+:::danger
+NOTE - You must be on the latest version of the launcher (`2.0.10` or above) to be able to successfully launch version `0.1.35` or above.
+:::
+
+## General Changes
+
+### Remove IOP Left-Over <PRLink href="https://github.com/open-goal/jak-project/pull/2681"/>
+
+Some code was accidentally left in last release that caused the IOP thread to run way more often than it should. This may fix performance issues if you are running on lower tier hardware.
+
+### Replacing GLFW with SDL <PRLink href="https://github.com/open-goal/jak-project/pull/2397"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2691"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2694"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2697"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2730"/>
+
+This is a huge change to all of the code that handles the game's graphics output and input handling (controllers, keyboards, mice).
+
+SDL was choosen because it has better native support for DualShock / DualSense controllers, so this should hopefully put an end to all of the workarounds people have been employing to get their controllers to work for a long time (ie. running Steam alongside the game).
+
+Additionally, it's a huge cleanup to all of the related code which should make it easier to add more features and fix issues as they are found.
+
+From a user's perspective, essentially nothing should have changed in terms of functionality.  There are a bunch of new features, including being able to re-map your bindings via the pause menu.
+
+:::tip
+Existing controller keybindings will not automatically be converted, you will need to reset them up yourself via the new menus
+:::
+
+You can find documentation for all these newly added features [here](/docs/usage/settings/input.md)
+
+:::warning
+Note, if you are on linux and you get an error like `SDL Error: gl_make_display failed - Could not create display window - Cause: SDL not configured with OpenGL/GLX support` in the game's log files. It means you probably don't have `mesa` installed in your environment properly. Instructions for how to do so is going to differ from distro to distro, so seek out information on how to do that.
+:::
+
+### Screenshots (F2) Copy to Clipboard <PRLink href="https://github.com/open-goal/jak-project/pull/2739"/>
+
+Windows only, when pressing the screenshot keybind, the contents will also override your current clipboard so you can paste them somewhere like Discord.
+
+## Jak 2 Fixes
+
+### Patch floats on Bogus Collide Frags <PRLink href="https://github.com/open-goal/jak-project/pull/2686"/>
+
+Bad collision hashes were causing floating point related crashes. This fixed a crash around the hover guards in rescue friends.
+
+### Fix Crane Drawing in Drill Platform <PRLink href="https://github.com/open-goal/jak-project/pull/2692"/>
+
+Part of the crane in the Drill Platform was not drawing correctly due to using the wrong LOD.
+
+### Joint to Bone NaN <PRLink href="https://github.com/open-goal/jak-project/pull/2698"/>
+
+Addresses problems like where the krew hologram's effect was stretched towards the `0,0,0` origin.
+
+### Subtitle Support <PRLink href="https://github.com/open-goal/jak-project/pull/2672"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2708"/>
+
+Jak 2 thankfully already has subtitle support, but there is still some functionality that we'd like to add (like speaker text) as well as allowing other audio sources outside of cutscenes to be subtitled.
+
+### `battle` bugs <PRLink href="https://github.com/open-goal/jak-project/pull/2707"/>
+
+<!-- TODO - no screenshots for spyder envmap fix -->
+
+Fixes problems around ambush/battle sections. For example all of the `monster-frog`s in Mar's Tomb would immediately spawn at one location in the lobby area.
+
+### Floating Point BLERC <PRLink href="https://github.com/open-goal/jak-project/pull/2715"/>
+
+<!-- TODO - fact check this -->
+
+This will eventually be added to Jak 1 as well, but aside from better performance this should create smoother animations as well.  In the process, there were some fixes to bones that fixed a weird flickering light problem in atoll.
+
+### Discord RPC <PRLink href="https://github.com/open-goal/jak-project/pull/2714"/>
+
+Now that most of the levels are rendering properly in Jak 2, we can take all the screenshots for the Discord RPC support. That was done, along with some work to update the status based on your mission status.
+
+<!-- TODO - https://github.com/open-goal/jak-project/pull/2740 -->
+
