@@ -53,11 +53,15 @@ From a user's perspective, essentially nothing should have changed in terms of f
 Existing controller keybindings will not automatically be converted, you will need to reset them up yourself via the new menus
 :::
 
-You can find documentation for all these newly added features [here](/docs/usage/settings/input.md)
+:::info
+Note, if you are on linux and you get an error like: `SDL Error: gl_make_display failed - Could not create display window - Cause: SDL not configured with OpenGL/GLX support` in the game's log files. It means you probably don't have `mesa` installed in your environment properly.
 
-:::warning
-Note, if you are on linux and you get an error like `SDL Error: gl_make_display failed - Could not create display window - Cause: SDL not configured with OpenGL/GLX support` in the game's log files. It means you probably don't have `mesa` installed in your environment properly. Instructions for how to do so is going to differ from distro to distro, so seek out information on how to do that.
+Instructions for how to do so is going to differ from distro to distro, so seek out information on how to do that.
 :::
+
+You can find updated documentation on all the new settings [here](/docs/usage/settings/#input-options)
+
+This was a very big change, but did go through a lot of testing so hopefully no major issues are found. If you do find any major issues, report them as per usual!
 
 ### Screenshots (F2) Copy to Clipboard <PRLink href="https://github.com/open-goal/jak-project/pull/2739"/>
 
