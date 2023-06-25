@@ -45,10 +45,10 @@ Jak 1's font supports the following characters from a translation string:
 - 0-9
 - Space
 - The following ASCII special characters
-  - `' ! ( ) + - , . / : = < > *`
+  - `' ! ( ) + - , . / : = < > * % ? "`
   - `<TIL>` Represents `~`
 - Other Special Characters
-  - ``ˇ ` ¨ º ¡ ¿ Æ Ç ß ™ 、``
+  - ``ˇ ` ¨ º ¡ ¿ Æ Ç ß ™ 、Å Ø``
 - Accents
   - Tildes
     - `Ñ Ã Õ`
