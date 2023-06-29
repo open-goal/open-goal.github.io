@@ -99,7 +99,24 @@ This will eventually be added to Jak 1 as well, but aside from better performanc
 
 ### Discord RPC <PRLink href="https://github.com/open-goal/jak-project/pull/2714"/>
 
-Now that most of the levels are rendering properly in Jak 2, we can take all the screenshots for the Discord RPC support. That was done, along with some work to update the status based on your mission status.
+[A little over a year ago](https://github.com/open-goal/jak-project/pull/1137), we added Discord Rich Presence support to Jak 1, displaying your progress and images for the current level at different times of day and various other stuff. Now, as Jak 2 is slowly becoming more presentable with only a few renderers missing, we have added Rich Presence support to it as well.
+
+Jak 2's Rich Presence will display various statistics about your progress/game state:
+
+![](./img/discord-rpc.png)
+
+- The currently active mission
+- Completion percentage
+- Orb and skull gem counters
+- Time of day
+- Various states the player may be in (using a gun, riding the jetboard, playing as Daxter, watching a cutscene, etc.)
+
+You can also hover over the images to display level name and player state tooltips:
+
+![](./img/discord-rpc-level-tooltip.png)
+![](./img/discord-rpc-focus-tooltip.png)
+
+For Jak 2, we took over 200 pictures for not only every single level at day and at night, but also images specific to every mission and side mission in the game. While you're in a mission, the mission specific image will display, otherwise it will revert to the current level image.
 
 <!-- TODO - https://github.com/open-goal/jak-project/pull/2740 -->
 
