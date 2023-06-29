@@ -93,9 +93,13 @@ Fixes problems around ambush/battle sections. For example all of the `monster-fr
 
 ### Floating Point BLERC <PRLink href="https://github.com/open-goal/jak-project/pull/2715"/>
 
-<!-- TODO - fact check this -->
+BLERC (short for "Blend Shape MERC", MERC being the main foreground renderer) is used to modify MERC models by updating vertex positions in order to display facial animations.
 
-This will eventually be added to Jak 1 as well, but aside from better performance this should create smoother animations as well.  In the process, there were some fixes to bones that fixed a weird flickering light problem in atoll.
+Because the original BLERC used integers, it made the animations look a bit choppy in some places, but we have rewritten BLERC to use floats instead (we call it BLERF), smoothing the animations out a lot as a result. BLERF has been backported to Jak 1 as well.
+
+There is still a small issue for now where BLERF doesn't work on the Hip Hog mirror, visible in some cutscenes.
+
+In the process, there were also some fixes to bones that fixed a weird flickering light problem in Atoll.
 
 ### Discord RPC <PRLink href="https://github.com/open-goal/jak-project/pull/2714"/>
 
