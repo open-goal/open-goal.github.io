@@ -122,5 +122,22 @@ You can also hover over the images to display level name and player state toolti
 
 For Jak 2, we took over 200 pictures for not only every single level at day and at night, but also images specific to every mission and side mission in the game. While you're in a mission, the mission specific image will display, otherwise it will revert to the current level image.
 
-<!-- TODO - https://github.com/open-goal/jak-project/pull/2740 -->
+### Fog Color Messes With Warp Effect <PRLink href="https://github.com/open-goal/jak-project/pull/2740"/>
 
+Fixes an issue where fog color would also affect warp, particularly noticable in the Nest area.
+
+### Orb Softlocks <PRLink href="https://github.com/open-goal/jak-project/pull/2753"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2757"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2767"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2781"/>
+
+The original game had quite a few situations that could completely lock you out of some Precursor Orbs on that save file. The ones that were fixed in these PRs include:
+
+- Allowing you to return to the Metal Head Nest after beating the game to pick up any potential missed orbs.
+- An orb in Sewers that becomes unobtainable after starting the Sewer Escort mission.
+- After winning a race and beating a record time, the orbs are awarded immediately instead of spawning a golden orb that starts hovering towards Jak and can be missed if you exit out of the race too quickly.
+
+The latter fix means that all side missions will now immediately award orbs instead of spawning a pickup that can be missed under certain conditions. While this behavior is a bit of a deviation from the original game, it ended up saving us a lot of headaches as more and more issues were discovered with the original behavior and it is also consistent with how Jak 3 awards side mission orbs.
+
+### Stadium Particles <PRLink href="https://github.com/open-goal/jak-project/pull/2783"/>
+
+We were missing the file containing particle definitions for the Stadium level, this file has now been decompiled and the particles show up correctly.
+
+![](img/stadium-lap-counter.png)
