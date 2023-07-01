@@ -6,7 +6,7 @@ const BlogList = [
     image: require('@site/blog/progress-report-june-2023/img/poster.png').default,
     description: (
       <>
-        TODO
+        One of the biggest rewrites we've done in a while has been released, and as usual, work continues on bug fixing and quality-of-life improving Jak 2.
       </>
     ),
     link: "/blog/progress-report-june-2023"

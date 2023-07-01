@@ -5,6 +5,7 @@ description: June 2023's OpenGOAL progress report
 slug: progress-report-june-2023
 authors:
   - vaser
+  - hatkid
 tags: [progress-report]
 image: ./img/poster.png
 hide_table_of_contents: false
@@ -15,7 +16,7 @@ draft: false
   <meta name="twitter:card" content="summary_large_image" />
 </head>
 
-TODO
+One of the biggest rewrites we've done in a while has been released, and as usual, work continues on bug fixing and quality-of-life improving Jak 2.
 
 <!--truncate-->
 
@@ -37,7 +38,7 @@ NOTE - You must be on the latest version of the launcher (`2.0.10` or above) to 
 
 ### Remove IOP Left-Over <PRLink href="https://github.com/open-goal/jak-project/pull/2681"/>
 
-Some code was accidentally left in last release that caused the IOP thread to run way more often than it should. This may fix performance issues if you are running on lower tier hardware.
+Some code was accidentally left-in last release that caused the IOP thread to run way more often than it should. This may fix performance issues if you are running on lower tier hardware.
 
 ### Replacing GLFW with SDL <PRLink href="https://github.com/open-goal/jak-project/pull/2397"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2691"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2694"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2697"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2730"/>
 
@@ -47,10 +48,10 @@ SDL was choosen because it has better native support for DualShock / DualSense c
 
 Additionally, it's a huge cleanup to all of the related code which should make it easier to add more features and fix issues as they are found.
 
-From a user's perspective, essentially nothing should have changed in terms of functionality.  There are a bunch of new features, including being able to re-map your bindings via the pause menu.
+From a user's perspective, essentially nothing should have changed in terms of functionality.  There are a bunch of new features though, including being able to re-map your bindings via the pause menu.
 
 :::tip
-Existing controller keybindings will not automatically be converted, you will need to reset them up yourself via the new menus
+Existing controller keybindings will not automatically be converted, you will need to set them up yourself via the new menus
 :::
 
 :::info
@@ -61,11 +62,21 @@ Instructions for how to do so is going to differ from distro to distro, so seek 
 
 You can find updated documentation on all the new settings [here](/docs/usage/settings/#input-options)
 
-This was a very big change, but did go through a lot of testing so hopefully no major issues are found. If you do find any major issues, report them as per usual!
+This was a very big change but it did go through a lot of testing so hopefully no major issues are found. However if you do find any major issues, report them as per usual!
 
-### Screenshots (F2) Copy to Clipboard <PRLink href="https://github.com/open-goal/jak-project/pull/2739"/>
+### Screenshots (F2) Copy to Clipboard <PRLink href="https://github.com/open-goal/jak-project/pull/2739"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2746"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2750"/>
 
-Windows only, when pressing the screenshot keybind, the contents will also override your current clipboard so you can paste them somewhere like Discord.
+This is a Windows only change.  When pressing the screenshot keybind the image will also be placed on your clipboard so you can paste them somewhere like Discord.
+
+Some other improvements around screenshots were mergeed as well.
+
+### Translation Updates <PRLink href="https://github.com/open-goal/jak-project/pull/2770"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2774"/>
+
+There has been a quite a bit of translation progress this month.
+
+Swedish translations were further improved; also Finnish, Dutch and Danish subtitles are actively being translated with Danish already at 60%! With that being the case, we've added those 3 languages to the in-game option menu.
+
+A quick reminder for translators: keep in mind that Jak 1 has a very limited character set.  This is mostly an issue for Japanese but we've recently added an automatic check that will detect any bad characters when we go to add the translations to the game.  The entire supported character set is detailed [here](https://opengoal.dev/docs/contributing/text-translations#supported-characters)
 
 ## Jak 2 Fixes
 
@@ -79,7 +90,7 @@ Part of the crane in the Drill Platform was not drawing correctly due to using t
 
 ### Joint to Bone NaN <PRLink href="https://github.com/open-goal/jak-project/pull/2698"/>
 
-Addresses problems like where the krew hologram's effect was stretched towards the `0,0,0` origin.
+Addresses problems like Krew's hologram's effect being stretched towards the `0,0,0` origin.
 
 ### Subtitle Support <PRLink href="https://github.com/open-goal/jak-project/pull/2672"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2708"/>
 
@@ -87,9 +98,7 @@ Jak 2 thankfully already has subtitle support, but there is still some functiona
 
 ### `battle` bugs <PRLink href="https://github.com/open-goal/jak-project/pull/2707"/>
 
-<!-- TODO - no screenshots for spyder envmap fix -->
-
-Fixes problems around ambush/battle sections. For example all of the `monster-frog`s in Mar's Tomb would immediately spawn at one location in the lobby area.
+Fixes problems around ambush and battle sections. For example all of the `monster-frog`s in Mar's Tomb would immediately spawn at one location in the lobby area.
 
 ### Floating Point BLERC <PRLink href="https://github.com/open-goal/jak-project/pull/2715"/>
 
@@ -120,7 +129,7 @@ You can also hover over the images to display level name and player state toolti
 ![](./img/discord-rpc-level-tooltip.png)
 ![](./img/discord-rpc-focus-tooltip.png)
 
-For Jak 2, we took over 200 pictures for not only every single level at day and at night, but also images specific to every mission and side mission in the game. While you're in a mission, the mission specific image will display, otherwise it will revert to the current level image.
+For Jak 2, we took over 200 pictures for not only every single level at day and at night, but also images specific to every mission and side mission in the game. While you're in a mission, the mission specific image will display, otherwise it will default to the current level image.
 
 ### Fog Color Messes With Warp Effect <PRLink href="https://github.com/open-goal/jak-project/pull/2740"/>
 
@@ -130,14 +139,30 @@ Fixes an issue where fog color would also affect warp, particularly noticable in
 
 The original game had quite a few situations that could completely lock you out of some Precursor Orbs on that save file. The ones that were fixed in these PRs include:
 
-- Allowing you to return to the Metal Head Nest after beating the game to pick up any potential missed orbs.
+- Allowing you to return to the Metal Head Nest after beating the game to pick up any potentially missed orbs.
 - An orb in Sewers that becomes unobtainable after starting the Sewer Escort mission.
 - After winning a race and beating a record time, the orbs are awarded immediately instead of spawning a golden orb that starts hovering towards Jak and can be missed if you exit out of the race too quickly.
 
 The latter fix means that all side missions will now immediately award orbs instead of spawning a pickup that can be missed under certain conditions. While this behavior is a bit of a deviation from the original game, it ended up saving us a lot of headaches as more and more issues were discovered with the original behavior and it is also consistent with how Jak 3 awards side mission orbs.
+
+### More In-Game Editor Work <PRLink href="https://github.com/open-goal/jak-project/pull/2771"/>
+
+Some additional work was done on the remaining code for the in-game editors. The next main task will be seeding the database with all of the game's data so the editor's actually have something to edit.
+
+The following is a screenshot of the `nav-graph-editor` with some placeholder data.
+
+![](./img/nav-graph-editor.png)
 
 ### Stadium Particles <PRLink href="https://github.com/open-goal/jak-project/pull/2783"/>
 
 We were missing the file containing particle definitions for the Stadium level, this file has now been decompiled and the particles show up correctly.
 
 ![](img/stadium-lap-counter.png)
+
+## Tooling Improvements
+
+### Newlines and the REPL <PRLink href="https://github.com/open-goal/jak-project/pull/2784"/>
+
+The REPL will now support multi-line pasting via terminals that properly support bracketed paste mode.  This does **not** include [powershell](https://github.com/PowerShell/PSReadLine/issues/1471) or command prompt!
+
+It also supports new-lines while typing normally (`Ctrl+J` or `Ctrl+Enter`); this should work in any terminal.
