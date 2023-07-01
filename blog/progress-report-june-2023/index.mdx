@@ -6,6 +6,7 @@ slug: progress-report-june-2023
 authors:
   - vaser
   - hatkid
+  - mandude
 tags: [progress-report]
 image: ./img/poster.png
 hide_table_of_contents: false
@@ -44,31 +45,31 @@ Some code was accidentally left-in last release that caused the IOP thread to ru
 
 This is a huge change to all of the code that handles the game's graphics output and input handling (controllers, keyboards, mice).
 
-SDL was choosen because it has better native support for DualShock / DualSense controllers, so this should hopefully put an end to all of the workarounds people have been employing to get their controllers to work for a long time (ie. running Steam alongside the game).
+SDL was choosen because it has more up-to-date support for DualShock / DualSense controllers, so this should hopefully put an end to most (if not all) of the workarounds people have been employing to get their controllers to work for a long time (i.e. running Steam alongside the game).
 
 Additionally, it's a huge cleanup to all of the related code which should make it easier to add more features and fix issues as they are found.
 
 From a user's perspective, essentially nothing should have changed in terms of functionality.  There are a bunch of new features though, including being able to re-map your bindings via the pause menu.
 
 :::tip
-Existing controller keybindings will not automatically be converted, you will need to set them up yourself via the new menus
+Existing controller keybindings will not automatically be converted, you will need to set them up yourself via the new menus.
 :::
 
 :::info
-Note, if you are on linux and you get an error like: `SDL Error: gl_make_display failed - Could not create display window - Cause: SDL not configured with OpenGL/GLX support` in the game's log files. It means you probably don't have `mesa` installed in your environment properly.
+Note, if you are on Linux and you get an error like: `SDL Error: gl_make_display failed - Could not create display window - Cause: SDL not configured with OpenGL/GLX support` in the game's log files, you probably don't have `mesa` installed in your environment properly.
 
-Instructions for how to do so is going to differ from distro to distro, so seek out information on how to do that.
+Instructions for how to do so is going to differ from distro to distro, so seek out information online on how to do that.
 :::
 
-You can find updated documentation on all the new settings [here](/docs/usage/settings/#input-options)
+You can find updated documentation on all the new settings [here](/docs/usage/settings/#input-options).
 
-This was a very big change but it did go through a lot of testing so hopefully no major issues are found. However if you do find any major issues, report them as per usual!
+This was a very big change but it did go through a lot of testing so hopefully no major issues are found. However, if you do find any major issues please report them as per usual!
 
 ### Screenshots (F2) Copy to Clipboard <PRLink href="https://github.com/open-goal/jak-project/pull/2739"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2746"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2750"/>
 
-This is a Windows only change.  When pressing the screenshot keybind the image will also be placed on your clipboard so you can paste them somewhere like Discord.
+This is a Windows only change. When pressing the screenshot keybind (F2), the image will also be placed on your clipboard so you can paste them somewhere like Discord.
 
-Some other improvements around screenshots were mergeed as well.
+Screenshots will also come out at the correct scaling now too.
 
 ### Translation Updates <PRLink href="https://github.com/open-goal/jak-project/pull/2770"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2774"/>
 
@@ -76,17 +77,17 @@ There has been a quite a bit of translation progress this month.
 
 Swedish translations were further improved; also Finnish, Dutch and Danish subtitles are actively being translated with Danish already at 60%! With that being the case, we've added those 3 languages to the in-game option menu.
 
-A quick reminder for translators: keep in mind that Jak 1 has a very limited character set.  This is mostly an issue for Japanese but we've recently added an automatic check that will detect any bad characters when we go to add the translations to the game.  The entire supported character set is detailed [here](https://opengoal.dev/docs/contributing/text-translations#supported-characters)
+A quick reminder for translators: keep in mind that Jak 1 has a very limited character set.  This is mostly an issue for Japanese but we've recently added an automatic check that will detect any bad characters when we go to add the translations to the game.  The entire supported character set is detailed [here](https://opengoal.dev/docs/contributing/text-translations#supported-characters).
 
 ## Jak 2 Fixes
 
 ### Patch floats on Bogus Collide Frags <PRLink href="https://github.com/open-goal/jak-project/pull/2686"/>
 
-Bad collision hashes were causing floating point related crashes. This fixed a crash around the hover guards in rescue friends.
+Bad collision hashes were causing floating point related crashes, such as around the hover guards in the Fortress rescue portion.
 
-### Fix Crane Drawing in Drill Platform <PRLink href="https://github.com/open-goal/jak-project/pull/2692"/>
+### Fix Crane in Drill Platform and Ruins Walls <PRLink href="https://github.com/open-goal/jak-project/pull/2692"/>
 
-Part of the crane in the Drill Platform was not drawing correctly due to using the wrong LOD.
+Part of the crane in the Drill Platform, and the breakable portions of the walls in Dead Town were not drawing correctly due to using the wrong LOD.
 
 ### Joint to Bone NaN <PRLink href="https://github.com/open-goal/jak-project/pull/2698"/>
 
@@ -98,17 +99,17 @@ Jak 2 thankfully already has subtitle support, but there is still some functiona
 
 ### `battle` bugs <PRLink href="https://github.com/open-goal/jak-project/pull/2707"/>
 
-Fixes problems around ambush and battle sections. For example all of the `monster-frog`s in Mar's Tomb would immediately spawn at one location in the lobby area.
+Fixes problems around ambush and battle sections. For example all of the `monster-frog`s in Mar's Tomb would spawn with an extremely short cooldown.
 
 ### Floating Point BLERC <PRLink href="https://github.com/open-goal/jak-project/pull/2715"/>
 
 BLERC (short for "Blend Shape MERC", MERC being the main foreground renderer) is used to modify MERC models by updating vertex positions in order to display facial animations.
 
-Because the original BLERC used integers, it made the animations look a bit choppy in some places, but we have rewritten BLERC to use floats instead (we call it BLERF), smoothing the animations out a lot as a result. BLERF has been backported to Jak 1 as well.
+The original implementation of "blerc" used integers, which made the animations look a bit choppy in some places due to the low precision, but we have rewritten it to use floats instead (we call it BLERF sometimes), which smooths the facial animations of characters out since they can now be interpolated with a much higher precision. BLERF has been backported to Jak 1 as well.
 
 There is still a small issue for now where BLERF doesn't work on the Hip Hog mirror, visible in some cutscenes.
 
-In the process, there were also some fixes to bones that fixed a weird flickering light problem in Atoll.
+In the process, there were also some fixes to bones that fixed a weird occasional flickering light problem in the Pumping Station.
 
 ### Discord RPC <PRLink href="https://github.com/open-goal/jak-project/pull/2714"/>
 
@@ -133,7 +134,7 @@ For Jak 2, we took over 200 pictures for not only every single level at day and 
 
 ### Fog Color Messes With Warp Effect <PRLink href="https://github.com/open-goal/jak-project/pull/2740"/>
 
-Fixes an issue where fog color would also affect warp, particularly noticable in the Nest area.
+Fixes an issue where fog color would also affect warp, particularly noticeable in the Nest area.
 
 ### Orb Softlocks <PRLink href="https://github.com/open-goal/jak-project/pull/2753"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2757"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2767"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2781"/>
 
@@ -142,12 +143,11 @@ The original game had quite a few situations that could completely lock you out 
 - Allowing you to return to the Metal Head Nest after beating the game to pick up any potentially missed orbs.
 - An orb in Sewers that becomes unobtainable after starting the Sewer Escort mission.
 - After winning a race and beating a record time, the orbs are awarded immediately instead of spawning a golden orb that starts hovering towards Jak and can be missed if you exit out of the race too quickly.
-
-The latter fix means that all side missions will now immediately award orbs instead of spawning a pickup that can be missed under certain conditions. While this behavior is a bit of a deviation from the original game, it ended up saving us a lot of headaches as more and more issues were discovered with the original behavior and it is also consistent with how Jak 3 awards side mission orbs.
+- All side missions will now immediately award orbs instead of spawning a pickup that can be missed under certain conditions. While this behavior is a bit of a deviation from the original game, it ended up saving us a lot of headaches as more and more issues were discovered with the original behavior and it is also consistent with how Jak 3 awards side mission orbs.
 
 ### More In-Game Editor Work <PRLink href="https://github.com/open-goal/jak-project/pull/2771"/>
 
-Some additional work was done on the remaining code for the in-game editors. The next main task will be seeding the database with all of the game's data so the editor's actually have something to edit.
+Some additional work was done on the remaining code for the in-game editors. The next main task will be seeding the database with all of the game's data so the editors actually have something to edit.
 
 The following is a screenshot of the `nav-graph-editor` with some placeholder data.
 
@@ -155,7 +155,7 @@ The following is a screenshot of the `nav-graph-editor` with some placeholder da
 
 ### Stadium Particles <PRLink href="https://github.com/open-goal/jak-project/pull/2783"/>
 
-We were missing the file containing particle definitions for the Stadium level, this file has now been decompiled and the particles show up correctly.
+We were missing the file containing particle definitions for the inside of the Stadium level, this file has now been decompiled and the particles show up correctly.
 
 ![](img/stadium-lap-counter.png)
 
