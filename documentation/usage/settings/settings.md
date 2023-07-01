@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+toc_max_heading_level: 4
 ---
 
 # In-game Settings
@@ -9,10 +10,6 @@ Compared to the original game, OpenGOAL provides a different set of settings tha
 ## Game Options
 
 Under the **GAME OPTIONS** sub-menu is a variety of settings related to the gameplay experience that is not necessarily tied to audio or visuals. These include settings such as accessibility controls, localization and control adjustment.
-
-### VIBRATIONS
-
-When enabled, controller rumbling will occur as additional feedback for various actions and events in the game. Default value is on. This setting only affects controllers and will not make your keyboard vibrate.
 
 ### PLAY HINTS
 
@@ -55,26 +52,6 @@ Determines whether the name of the speaker will be displayed at the start of eac
         </div>
     </div>
 </div>
-
-### CAMERA OPTIONS
-
-Settings to modify the orientation of the camera movement controls. The **RESTORE DEFAULTS** option does what you'd expect and restores these options to their default value.
-
-#### 1ST-PERSON HORIZONTAL CAMERA
-
-Affects the horizontal movement of the first-person cameras: google view, Billy mini-game, jungle periscope, cannon, etc. Default value is **NORMAL**.
-
-#### 1ST-PERSON VERTICAL CAMERA
-
-Affects the horizontal movement of the first-person cameras: google view, Billy mini-game, jungle periscope, cannon, etc. Default value is **INVERTED**.
-
-#### 3RD-PERSON HORIZONTAL CAMERA
-
-Affects the horizontal movement of the third-person cameras. Default value is **INVERTED**.
-
-#### 3RD-PERSON VERTICAL CAMERA
-
-Affects the horizontal movement of the third-person cameras. Default value is **INVERTED**.
 
 ### MISCELLANEOUS
 
@@ -258,9 +235,126 @@ Controls the environment mapping effect on foreground objects, such as Precursor
     </div>
 </div>
 
+## Input Options
+
+Input options can be found in the `Game Options` menu:
+
+![](./img/input-options-menu.png)
+
+### CAMERA OPTIONS
+
+Settings to modify the orientation of the camera movement controls. The **RESTORE DEFAULTS** option does what you'd expect and restores these options to their default value.
+
+#### 1ST-PERSON HORIZONTAL CAMERA
+
+Affects the horizontal movement of the first-person cameras: google view, Billy mini-game, jungle periscope, cannon, etc. Default value is **NORMAL**.
+
+#### 1ST-PERSON VERTICAL CAMERA
+
+Affects the horizontal movement of the first-person cameras: google view, Billy mini-game, jungle periscope, cannon, etc. Default value is **INVERTED**.
+
+#### 3RD-PERSON HORIZONTAL CAMERA
+
+Affects the horizontal movement of the third-person cameras. Default value is **INVERTED**.
+
+#### 3RD-PERSON VERTICAL CAMERA
+
+Affects the horizontal movement of the third-person cameras. Default value is **INVERTED**.
+
+### CONTROLLER OPTIONS
+
+#### SELECT CONTROLLER
+
+Here you can select which controller you want to be used for Port 1.  If possible, it will display the actual name of your controller and otherwise it will use a vague number (ie. Controller 5).
+
+This is useful for when you have multiple controllers plugged in.  The game will try it's best to remember which controller you selected last time and use that when you restart the game _or_ disconnect and reconnect the controller.
+
+#### VIBRATIONS
+
+When enabled, controller rumbling will occur as additional feedback for various actions and events in the game. Default value is on. This setting only affects controllers and will not make your keyboard vibrate.
+
+#### ANALOG DEADZONE
+
+Exposes the percentage for the analog deadzone, might be helpful if you have stick-drift issues.  Note that their deadzone calculation is not that great and changing this value to either extremes will result in unexpected / incorrect behaviour.
+
+#### IGNORE IF WINDOW UNFOCUSED
+
+Enable this option if you want the game to ignore controller inputs unless the window is focused.  Otherwise the game will receive and process events no matter the window's state.
+
+#### CONTROLLER LED FOR `X`
+
+Controls whether or not you want the controller's LED (assuming your controller has a controllable LED) to reflect various information from the game.
+
+### ENABLE KEYBOARD
+
+Controls whether or not you want keyboard inputs to be processed.
+
+#### Default Keyboard Binds
+
+These are the default keyboard bindings.
+
+| Controller           | Keyboard       |
+|----------------------|----------------|
+| Left Analog - Left   | A              |
+| Left Analog - Right  | D              |
+| Left Analog - Up     | W              |
+| Left Analog - Down   | S              |
+| Right Analog - Left  | J              |
+| Right Analog - Right | L              |
+| Right Analog - Up    | I              |
+| Right Analog - Down  | K              |
+| Cross                | Space          |
+| Circle               | E              |
+| Square               | F              |
+| Triangle             | R              |
+| L3                   | ,              |
+| R3                   | .              |
+| Select               | "              |
+| Start                | Enter / Return |
+| L1                   | Q              |
+| R1                   | O              |
+| L2                   | 1              |
+| R2                   | P              |
+| D-Pad Up             | Up Arrow       |
+| D-Pad Down           | Down Arrow     |
+| D-Pad Left           | Left Arrow     |
+| D-Pad Right          | Right Arrow    |
+
+### ENABLE MOUSE
+
+Controls whether or not you want mouse events to be processed.
+
+### MOUSE OPTIONS
+
+Only enabled if the mouse is also enabled.
+
+#### TRACK CAMERA
+
+Whether or not your mouse movements should influence the camera (mapped to the right analog stick).
+
+#### HORIZONTAL SENSITIVITY
+
+Amount of influence a relative mouse movement should change the right analog stick in the horizontal direction.  This can be set to a negative value to essentially invert the direction.
+
+#### VERTICAL SENSITIVITY
+
+Amount of influence a relative mouse movement should change the right analog stick in the vertical direction.  This can be set to a negative value to essentially invert the direction.
+
+#### PLAYER MOVEMENT
+
+Whether or not you'd like Jak to move forward when pressing both mouse buttons (left and right click).  This allows for moving and steering Jak with only the mouse.
+
+### AUTO HIDE CURSOR
+
+Whether or not you'd like the mouse cursor to be hidden when a controller input is detected.
+
+### REASSIGN BINDS
+
+Allows you to customize and swap bindings independently for each device type (controller, keyboard and mice).  For controllers, these bindings should be independent for each device, so you can have different bindings for a 360 controller and for a DualSense controller.
+
 ## Sound Options
 
-This menu remains unaltered from the original game and its settings are self explanatory. Huh!
+This menu remains unaltered from the original game and its settings are self explanatory.
 
 ## Secrets
 
