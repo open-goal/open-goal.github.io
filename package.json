@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^2.4.0",
-    "@octokit/rest": "^19.0.11"
+    "@octokit/rest": "^19.0.13"
   },
   "browserslist": {
     "production": [
