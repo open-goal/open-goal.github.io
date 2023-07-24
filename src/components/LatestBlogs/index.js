@@ -2,6 +2,16 @@ import React from 'react';
 
 const BlogList = [
   {
+    title: 'Progress Report - July 2023',
+    image: require('@site/blog/progress-report-july-2023/img/poster.png').default,
+    description: (
+      <>
+        TODO
+      </>
+    ),
+    link: "/blog/progress-report-july-2023"
+  },
+  {
     title: 'Progress Report - June 2023',
     image: require('@site/blog/progress-report-june-2023/img/poster.png').default,
     description: (
@@ -20,16 +30,6 @@ const BlogList = [
       </>
     ),
     link: "/blog/progress-report-may-2023"
-  },
-  {
-    title: 'Crowdin Announcement',
-    image: require('@site/blog/announce-crowdin-text/img/poster.png').default,
-    description: (
-      <>
-        Hopefully an easier way to contribute and keep track of what needs translating
-      </>
-    ),
-    link: "/blog/announce-crowdin-text"
   },
 ];
 

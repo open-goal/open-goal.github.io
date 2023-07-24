@@ -1,0 +1,123 @@
+---
+title: Progress Report - July 2023
+date: 2023-07-31T10:00
+description: July 2023's OpenGOAL progress report
+slug: progress-report-july-2023
+authors:
+  - vaser
+tags: [progress-report]
+image: ./img/poster.png
+hide_table_of_contents: false
+draft: false
+---
+
+<head>
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+
+TODO
+
+<!--truncate-->
+
+## Release Info
+
+This month's OpenGOAL Tooling (jak-project repo) release is `0.1.39`
+
+<div className="row markdownMarginBottom">
+  <div className="col col--6">
+    <LauncherDownloadLink />
+  </div>
+</div>
+
+:::danger
+NOTE - You must be on the latest version of the launcher (`2.0.10` or above) to be able to successfully launch version `0.1.35` or above.
+:::
+
+## General Changes
+
+### Intel macOS Support <PRLink href="https://github.com/open-goal/jak-project/pull/2780"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2798"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2811"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2817"/>
+
+Huge shoutout to fabjan who contributed a handful of changes to make OpenGOAL run on Intel macOS. The key things that had to change was:
+- Updating the C++ project and assembly code to work in this environment
+- Changing the OpenGL shader code to support OpenGL 4.1
+
+:::danger
+This does not extend to native Apple Silicon (and therefore ARM64) support
+:::
+
+There may be some issues as this is the first release supporting it, but you should be able to install the game via the launcher just like any other currently supported platform.
+
+![](./img/mac.p
+
+### Hide ImGUI (top bar) keybind changed to `F12` <PRLink href="https://github.com/open-goal/jak-project/pull/2794"/>
+
+It uses to be Left Alt, it's now `F12`
+
+### Opening animation lacked Daxter facial ons <PRLink href="https://github.com/open-goal/jak-project/pull/2801"/>
+
+There was a missing edge-case after floating-point BLERC was added where Daxter's face was not animation during the opening Naughty Dog animation.
+
+### Improve keyboard and mouse code <PRLink href="https://github.com/open-goal/jak-project/pull/2807"/>
+
+The initial keyboard and mouse code on SDL had some issues, it should hopefully be better now.
+
+## Jak 2
+
+### Decompiler Improvements <PRLink href="https://github.com/open-goal/jak-project/pull/2796"/>
+
+Fixes a few remaining issues in the decompiler that required a few files to be done manually up until this point.
+- Fixes empty boxed arrays of strings breaking some decomp (`ctywide-speech` and `race-info`).
+- Adds a `decomp-as` tag to decompiler types so that the static data decompiler can use macros like `meters` and `seconds` on fields that aren't of type `meters` or `time-frame`.
+- Adds an `override` tag to decompiler types which overrides the type of field with that name.
+
+### Fix missing eyes and animations <PRLink href="https://github.com/open-goal/jak-project/pull/2799"/>
+
+Some cutscenes had missing eyes or animations, particularly `fortress-save-friends-res`.
+
+![](./img/eyes.png)
+
+### Adjust Jak 2's file tree <PRLink href="https://github.com/open-goal/jak-project/pull/2806"/>
+
+The original file structure was made more than a year ago without a ton of context for what each file was.  As a result, some things ended up in the wrong spot.
+
+### Race crash regression <PRLink href="https://github.com/open-goal/jak-project/pull/2816"/>
+
+There was a regression causing the races to crash during a previous cleanup.
+
+### Fix mouse positioning <PRLink href="https://github.com/open-goal/jak-project/pull/2818"/>
+
+Better mouse cursor positioning.
+
+### Prepare Jak 2 translation files for Crowdin <PRLink href="https://github.com/open-goal/jak-project/pull/2802"/>
+
+The subtitle files for Jak 2 have been adjusted to support Crowdin in the future.  As soon as they are fully transcribed in english, they will be made available for translation there.
+
+### Fix subtitle font shadow offset <PRLink href="https://github.com/open-goal/jak-project/pull/2822"/>
+
+Fixes the subtitle font shadow offset
+
+### Bump minimap icon limit to 256 from 64 <PRLink href="https://github.com/open-goal/jak-project/pull/2826"/>
+
+Bump minimap icon limit to 256 from 64
+
+### Improve `send-event` decompilation <PRLink href="https://github.com/open-goal/jak-project/pull/2828"/>
+
+Improves `send-event` decompilation
+
+### Texture animation work <PRLink href="https://github.com/open-goal/jak-project/pull/2819"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2829"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2831"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2835"/>
+
+A bunch of work has happened this month around getting texture animations working and being more efficient.  There are still some texture related areas that are left to do, but quite a lot is already working.
+
+<!-- TODO images / videos probably (its an animation) -->
+
+### Support static textures in progress menu <PRLink href="https://github.com/open-goal/jak-project/pull/2838"/>
+
+The static textures for the progress menu are now properly loaded and used.
+
+![](./img/static.png)
+
+## Tooling Improvements
+
+### Per-game REPL history <PRLink href="https://github.com/open-goal/jak-project/pull/2805"/>
+
+By default, the REPL will now save it's history separately depending on the game (jak1 or jak2).
