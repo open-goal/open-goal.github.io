@@ -5,6 +5,7 @@ description: July 2023's OpenGOAL progress report
 slug: progress-report-july-2023
 authors:
   - vaser
+  - hatkid
 tags: [progress-report]
 image: ./img/poster.png
 hide_table_of_contents: false
@@ -47,28 +48,40 @@ This does not extend to native Apple Silicon (and therefore ARM64) support
 
 There may be some issues as this is the first release supporting it, but you should be able to install the game via the launcher just like any other currently supported platform.
 
-![](./img/mac.p
+![](./img/mac.png)
 
-### Hide ImGUI (top bar) keybind changed to `F12` <PRLink href="https://github.com/open-goal/jak-project/pull/2794"/>
-
-It uses to be Left Alt, it's now `F12`
-
-### Opening animation lacked Daxter facial ons <PRLink href="https://github.com/open-goal/jak-project/pull/2801"/>
-
-There was a missing edge-case after floating-point BLERC was added where Daxter's face was not animation during the opening Naughty Dog animation.
-
-### Improve keyboard and mouse code <PRLink href="https://github.com/open-goal/jak-project/pull/2807"/>
+### Improve Keyboard and Mouse Code <PRLink href="https://github.com/open-goal/jak-project/pull/2807"/>
 
 The initial keyboard and mouse code on SDL had some issues, it should hopefully be better now.
 
+## Jak 1
+
+### Missing Facial Animations on Daxter in Title Screen <PRLink href="https://github.com/open-goal/jak-project/pull/2801"/>
+
+There was a missing edge-case after floating-point BLERC was added where Daxter lacked facial animations during the opening screen.
+
+### NaN bug in Ice Sliding Animation <PRLink href="https://github.com/open-goal/jak-project/pull/2851"/>
+
+There was a bug in Jak's ice sliding animation, causing it to get stuck on a specific frame. When getting damaged in this state, the game would try to play an eye animation for Daxter and crash due to reading bogus memory.
+
+### Fix Vibration for Small Buzz Motor <PRLink href="https://github.com/open-goal/jak-project/pull/2846"/>
+
+### Fix Potential Crash When Loading Files <PRLink href="https://github.com/open-goal/jak-project/pull/2851"/>
+
+### Actor Culling Option No Longer Flipped <PRLink href="https://github.com/open-goal/jak-project/pull/2852"/>
+
+The "Actor Culling" option in the menu was inverted, force drawing all actors when enabled and vice versa. This has now been fixed.
+
 ## Jak 2
 
-### Decompiler Improvements <PRLink href="https://github.com/open-goal/jak-project/pull/2796"/>
+### Decompiler Improvements <PRLink href="https://github.com/open-goal/jak-project/pull/2796"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2808"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2810"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2828"/>
 
-Fixes a few remaining issues in the decompiler that required a few files to be done manually up until this point.
-- Fixes empty boxed arrays of strings breaking some decomp (`ctywide-speech` and `race-info`).
-- Adds a `decomp-as` tag to decompiler types so that the static data decompiler can use macros like `meters` and `seconds` on fields that aren't of type `meters` or `time-frame`.
-- Adds an `override` tag to decompiler types which overrides the type of field with that name.
+- Fixed empty boxed arrays of strings breaking some decomp (`ctywide-speech` and `race-info`).
+- Added a `decomp-as` tag to decompiler types so that the static data decompiler can use macros like `meters` and `seconds` on fields that aren't of type `meters` or `time-frame`.
+- Added an `override` tag to decompiler types which overrides the type of field with that name.
+- Fixed enum detection breaking in rare cases.
+- Fixed in-place op detection.
+- Improved `send-event` decompilation.
 
 ### Fix missing eyes and animations <PRLink href="https://github.com/open-goal/jak-project/pull/2799"/>
 
@@ -76,45 +89,65 @@ Some cutscenes had missing eyes or animations, particularly `fortress-save-frien
 
 ![](./img/eyes.png)
 
-### Adjust Jak 2's file tree <PRLink href="https://github.com/open-goal/jak-project/pull/2806"/>
+### Adjust Jak 2's File Tree <PRLink href="https://github.com/open-goal/jak-project/pull/2806"/>
 
 The original file structure was made more than a year ago without a ton of context for what each file was.  As a result, some things ended up in the wrong spot.
 
-### Race crash regression <PRLink href="https://github.com/open-goal/jak-project/pull/2816"/>
+### Race and Defend Stadium Regressions <PRLink href="https://github.com/open-goal/jak-project/pull/2816"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2848"/>
 
-There was a regression causing the races to crash during a previous cleanup.
+There were some regressions from a previous cleanup causing the races and the Defend Stadium mission to crash.
 
-### Fix mouse positioning <PRLink href="https://github.com/open-goal/jak-project/pull/2818"/>
+### Fix Mouse Positioning <PRLink href="https://github.com/open-goal/jak-project/pull/2818"/>
 
 Better mouse cursor positioning.
 
-### Prepare Jak 2 translation files for Crowdin <PRLink href="https://github.com/open-goal/jak-project/pull/2802"/>
+### Prepare Jak 2 Translation Files for Crowdin <PRLink href="https://github.com/open-goal/jak-project/pull/2802"/>
 
-The subtitle files for Jak 2 have been adjusted to support Crowdin in the future.  As soon as they are fully transcribed in english, they will be made available for translation there.
+The subtitle files for Jak 2 have been adjusted to support Crowdin in the future.  As soon as they are fully transcribed in English, they will be made available for translation there.
 
-### Fix subtitle font shadow offset <PRLink href="https://github.com/open-goal/jak-project/pull/2822"/>
+### Bump Minimap Icon Limit to 256 from 64 <PRLink href="https://github.com/open-goal/jak-project/pull/2826"/>
 
-Fixes the subtitle font shadow offset
+### Fix Subtitle Font Shadow Offset <PRLink href="https://github.com/open-goal/jak-project/pull/2822"/>
 
-### Bump minimap icon limit to 256 from 64 <PRLink href="https://github.com/open-goal/jak-project/pull/2826"/>
+### Fix Overlord Related Crash <PRLink href="https://github.com/open-goal/jak-project/pull/2834"/>
 
-Bump minimap icon limit to 256 from 64
+### Fix Shrub Alpha Blending <PRLink href="https://github.com/open-goal/jak-project/pull/2853"/>
 
-### Improve `send-event` decompilation <PRLink href="https://github.com/open-goal/jak-project/pull/2828"/>
+Transparency on shrub decals has been fixed.
 
-Improves `send-event` decompilation
+![](img/shrub-alpha.png)
 
-### Texture animation work <PRLink href="https://github.com/open-goal/jak-project/pull/2819"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2829"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2831"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2835"/>
+### Texture Animations <PRLink href="https://github.com/open-goal/jak-project/pull/2819"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2829"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2831"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2835"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2842"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2847"/>
 
-A bunch of work has happened this month around getting texture animations working and being more efficient.  There are still some texture related areas that are left to do, but quite a lot is already working.
+A bunch of work has happened this month around getting texture animations working and being more efficient. There are still some texture related areas that are left to do, but quite a lot is already working.
+
+![](img/hud-skullgem.gif)
 
 <!-- TODO images / videos probably (its an animation) -->
 
-### Support static textures in progress menu <PRLink href="https://github.com/open-goal/jak-project/pull/2838"/>
+### Support Static Textures in Progress Menu <PRLink href="https://github.com/open-goal/jak-project/pull/2838"/>
 
 The static textures for the progress menu are now properly loaded and used.
 
 ![](./img/static.png)
+
+### Widescreen Fixes for Progress Menu and Proof of Concept Custom Menu <PRLink href="https://github.com/open-goal/jak-project/pull/2843"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2849"/>
+
+A bunch of fixes have been added to make the UI elements fit within the progress menu view in widescreen.
+
+And, as a proof of concept, there is now a new graphics options menu for PC-specific settings.
+
+![](img/progress-widescreen.png)
+
+![](img/progress-graphics-pc.png)
+
+### Missing Yakow Texture Workaround <PRLink href="https://github.com/open-goal/jak-project/pull/2849"/>
+
+One of the textures for the Yakow is missing in the original game and would show up completely black. In OpenGOAL, it happened to use the world map texture as a "placeholder".
+
+The missing texture has been replaced with a similar enough fur texture that doesn't look too out of place.
+
+![](img/yakow-texture.png)
 
 ## Tooling Improvements
 
