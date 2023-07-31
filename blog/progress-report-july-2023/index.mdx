@@ -6,6 +6,7 @@ slug: progress-report-july-2023
 authors:
   - vaser
   - hatkid
+  - mandude
 tags: [progress-report]
 image: ./img/poster.png
 hide_table_of_contents: false
@@ -52,25 +53,29 @@ There may be some issues as this is the first release supporting it, but you sho
 
 ### Improve Keyboard and Mouse Code <PRLink href="https://github.com/open-goal/jak-project/pull/2807"/>
 
-The initial keyboard and mouse code on SDL had some issues, it should hopefully be better now.
+The initial keyboard and mouse code on SDL had some issues, such as when clicking outside the window leaving ghost inputs, which should hopefully be fixed now.
+
+### Fix Vibration for Small Buzz Motor <PRLink href="https://github.com/open-goal/jak-project/pull/2846"/>
+
+Vibration on the "small" motor was only using 1/255th of the force that it should, making it practically unusable. This has now been fixed.
 
 ## Jak 1
 
-### Missing Facial Animations on Daxter in Title Screen <PRLink href="https://github.com/open-goal/jak-project/pull/2801"/>
+### Missing Facial Animations in Title Screen <PRLink href="https://github.com/open-goal/jak-project/pull/2801"/>
 
-There was a missing edge-case after floating-point BLERC was added where Daxter lacked facial animations during the opening screen.
+There was a missing edge-case after floating-point BLERC was added where Jak and Daxter lacked facial animations during the opening logos.
 
 ### NaN bug in Ice Sliding Animation <PRLink href="https://github.com/open-goal/jak-project/pull/2851"/>
 
 There was a bug in Jak's ice sliding animation, causing it to get stuck on a specific frame. When getting damaged in this state, the game would try to play an eye animation for Daxter and crash due to reading bogus memory.
 
-### Fix Vibration for Small Buzz Motor <PRLink href="https://github.com/open-goal/jak-project/pull/2846"/>
+### Fix Potential Crash When Loading Files <PRLink href="https://github.com/open-goal/jak-project/pull/2850"/>
 
-### Fix Potential Crash When Loading Files <PRLink href="https://github.com/open-goal/jak-project/pull/2851"/>
+Sometimes when a level started to load it would pick the wrong filename and crash immediately. This is now fixed.
 
 ### Actor Culling Option No Longer Flipped <PRLink href="https://github.com/open-goal/jak-project/pull/2852"/>
 
-The "Actor Culling" option in the menu was inverted, force drawing all actors when enabled and vice versa. This has now been fixed.
+The text for the "Actor Culling" option in the menu was inverted, which lead to confusing behavior. This has now been fixed.
 
 ## Jak 2
 
@@ -80,7 +85,7 @@ The "Actor Culling" option in the menu was inverted, force drawing all actors wh
 - Added a `decomp-as` tag to decompiler types so that the static data decompiler can use macros like `meters` and `seconds` on fields that aren't of type `meters` or `time-frame`.
 - Added an `override` tag to decompiler types which overrides the type of field with that name.
 - Fixed enum detection breaking in rare cases.
-- Fixed in-place op detection.
+- Fixed in-place op detection for some operations.
 - Improved `send-event` decompilation.
 
 ### Fix missing eyes and animations <PRLink href="https://github.com/open-goal/jak-project/pull/2799"/>
@@ -91,15 +96,19 @@ Some cutscenes had missing eyes or animations, particularly `fortress-save-frien
 
 ### Adjust Jak 2's File Tree <PRLink href="https://github.com/open-goal/jak-project/pull/2806"/>
 
-The original file structure was made more than a year ago without a ton of context for what each file was.  As a result, some things ended up in the wrong spot.
+The original file structure was made more than a year ago without a ton of context for what each file was.  As a result, some things ended up in the wrong spot or had confusing names.
 
 ### Race and Defend Stadium Regressions <PRLink href="https://github.com/open-goal/jak-project/pull/2816"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2848"/>
 
-There were some regressions from a previous cleanup causing the races and the Defend Stadium mission to crash.
+There were some regressions from a previous cleanup causing the races and the Defend Stadium mission to crash. Somehow it's always these missions.
+
+### Fix Original Game Stadium Crash <PRLink href="https://github.com/open-goal/jak-project/pull/2843"/>
+
+In the origianl game, if you selected a specific stadium race, went into the Stadium, ran back immediately to the Stadium computer and loaded a different race that does not change the layout (e.g. selecting the reverse variation, or simply looping over the menu back to the same race) the game would crash upon entering the Stadium or dying in the vicinity. This happened because the particular race data levels (stored separately from the Stadium layout levels) might own a type that is only defined in the Stadium layout levels if the race data gets loaded first. If that race data level were to be unloaded then, such as when scrolling through the Stadium computer menu, that type becomes undefined and unusable until a new Stadium layout level is loaded again, which is easy not to do. This has been fixed by making sure the layout level is always loaded first.
 
 ### Fix Mouse Positioning <PRLink href="https://github.com/open-goal/jak-project/pull/2818"/>
 
-Better mouse cursor positioning.
+Better mouse cursor positioning when the game is letterboxed.
 
 ### Prepare Jak 2 Translation Files for Crowdin <PRLink href="https://github.com/open-goal/jak-project/pull/2802"/>
 
@@ -107,9 +116,15 @@ The subtitle files for Jak 2 have been adjusted to support Crowdin in the future
 
 ### Bump Minimap Icon Limit to 256 from 64 <PRLink href="https://github.com/open-goal/jak-project/pull/2826"/>
 
-### Fix Subtitle Font Shadow Offset <PRLink href="https://github.com/open-goal/jak-project/pull/2822"/>
+Some missions add a lot more icons to the minimap than the original game permitted, so raising the limit fixes that.
+
+### Fix Font Shadow Offset <PRLink href="https://github.com/open-goal/jak-project/pull/2822"/>
+
+Same hack as in Jak 1, the font shadow is no longer affected by the aspect ratio of the game.
 
 ### Fix Overlord Related Crash <PRLink href="https://github.com/open-goal/jak-project/pull/2834"/>
+
+A rare crash when loading certain levels has been fixed.
 
 ### Fix Shrub Alpha Blending <PRLink href="https://github.com/open-goal/jak-project/pull/2853"/>
 
@@ -117,17 +132,23 @@ Transparency on shrub decals has been fixed.
 
 ![](img/shrub-alpha.png)
 
+### Fix City Billboards <PRLink href="https://github.com/open-goal/jak-project/pull/2853"/>
+
+The billboards all over the city now render properly.
+
+![](img/city-billboard-2.png)
+
 ### Texture Animations <PRLink href="https://github.com/open-goal/jak-project/pull/2819"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2829"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2831"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2835"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2842"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2847"/>
 
-A bunch of work has happened this month around getting texture animations working and being more efficient. There are still some texture related areas that are left to do, but quite a lot is already working.
+A bunch of work has happened this month around getting texture animations working and being more efficient. There are still some texture related areas that are left to do, but quite a lot is already working, such as skull gems and security gates.
 
 ![](img/hud-skullgem.gif)
 
 <ReactPlayer controls url={"https://www.youtube.com/watch?v=Cgs3o4apXTE"} className="blog-video"/>
 
-### Support Static Textures in Progress Menu <PRLink href="https://github.com/open-goal/jak-project/pull/2838"/>
+### Support Textures in Progress Menu <PRLink href="https://github.com/open-goal/jak-project/pull/2838"/>
 
-The static textures for the progress menu are now properly loaded and used.
+The textures used as part of the progress menu are now properly loaded and rendered.
 
 ![](./img/static.png)
 
@@ -143,7 +164,7 @@ And, as a proof of concept, there is now a new graphics options menu for PC-spec
 
 ### Missing Yakow Texture Workaround <PRLink href="https://github.com/open-goal/jak-project/pull/2849"/>
 
-One of the textures for the Yakow is missing in the original game and would show up completely black. In OpenGOAL, it happened to use the world map texture as a "placeholder".
+One of the textures for the Yakow is missing in the original game and would show up completely black. In OpenGOAL, it happened to use a minimap texture as a "placeholder".
 
 The missing texture has been replaced with a similar enough fur texture that doesn't look too out of place.
 
