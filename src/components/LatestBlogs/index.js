@@ -6,7 +6,7 @@ const BlogList = [
     image: require('@site/blog/progress-report-july-2023/img/poster.png').default,
     description: (
       <>
-        TODO
+        Intel macOS support and texture pack management has landed as well as a ton of progress on texture animations in Jak 2.
       </>
     ),
     link: "/blog/progress-report-july-2023"
