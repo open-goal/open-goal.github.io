@@ -35,6 +35,11 @@ This month's OpenGOAL Tooling (jak-project repo) release is `0.1.39`
 NOTE - You must be on the latest version of the launcher (`2.0.10` or above) to be able to successfully launch version `0.1.35` or above.
 :::
 
+## Known Issues
+
+- Speedrunner mode is no longer skipping the intro cutscene when starting a new game
+  - https://github.com/open-goal/jak-project/issues/2871
+
 ## General Changes
 
 ### Intel macOS Support <PRLink href="https://github.com/open-goal/jak-project/pull/2780"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2798"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2811"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2817"/>
@@ -47,9 +52,22 @@ Huge shoutout to fabjan who contributed a handful of changes to make OpenGOAL ru
 This does not extend to native Apple Silicon (and therefore ARM64) support
 :::
 
-There may be some issues as this is the first release supporting it, but you should be able to install the game via the launcher just like any other currently supported platform.
+There may be some issues as this is the first macOS release, but you *should* be able to install the game via the launcher just like any other supported platform.
 
 ![](./img/mac.png)
+
+<!-- TODO link to macOS installation instructions -->
+
+### Texture Pack Support in the Launcher <PRLink href="https://github.com/open-goal/launcher/pull/271"/>
+
+The launcher can now be used to manage texture packs.  You can add multiple packs at the same time.
+
+As with most initial implementations of features, you should expect some potential bugs or rough edges.  However the most likely bug you will run into is the texture pack being in an unsupported format.
+
+- Information on how to use this feature as an end-user can be found [here](/docs/usage/texture_replacement)
+- Information on how to use this feature as a texture pack author can be found [here](/docs/developing/texture_packs)
+
+![](./img/texture-packs.png)
 
 ### Improve Keyboard and Mouse Code <PRLink href="https://github.com/open-goal/jak-project/pull/2807"/>
 
