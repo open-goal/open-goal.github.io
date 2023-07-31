@@ -10,6 +10,7 @@ export default function LauncherDownloadLink() {
   const [downloadUrl, setDownloadUrl] = useState("#");
   const [forPlatform, setForPlatform] = useState("");
   const [launcherVersion, setLauncherVersion] = useState("");
+  const [detectedPlatform, setDetectedPlatform] = useState("");
 
   useEffect(async () => {
     const response = await fetch(
@@ -22,7 +23,8 @@ export default function LauncherDownloadLink() {
     }
     const data = await response.json();
     console.log(`[OG]: Platform - ${platform.os}`);
-    const platformLower = platform.os.family.toLowerCase()
+    const platformLower = platform.os.family.toLowerCase();
+    setDetectedPlatform(platformLower);
     const isWindows = platformLower.includes("win");
     const isLinux = platformLower.includes("linux") || platformLower.includes("ubuntu") || platformLower.includes("debian") || platformLower.includes("fedora") || platformLower.includes("red hat") || platformLower.includes("suse");
     if (isWindows) {
@@ -75,7 +77,7 @@ export default function LauncherDownloadLink() {
         <div className="text">
           <h3 className="title">Download</h3>
           <p className="description">Everything you need to start playing with a copy of your original game</p>
-          <span className="more">Coming Soon, Launcher only supports Windows and Linux!&nbsp;&nbsp;<svg width="14" height="12" xmlns="http://www.w3.org/2000/svg"><path d="M7.844 12.016c.199 0 .375-.07.527-.211l5.203-5.01a.728.728 0 00.246-.554.728.728 0 00-.246-.553L8.406.694a.84.84 0 00-.562-.21c-.211 0-.39.078-.536.237a.79.79 0 00-.22.553c0 .211.082.393.246.545l3.797 3.657H1.04a.765.765 0 00-.571.246.748.748 0 00-.22.58c.012.199.094.369.246.51.152.14.328.21.527.21h10.073L7.299 10.68a.776.776 0 00-.237.545.714.714 0 00.22.545c.152.164.34.246.562.246z" fill="#febb01" fillRule="nonzero"></path></svg></span>
+          <span className="more">Launcher only supports Windows, Linux and Intel MacOS. Detected platform: {detectedPlatform}&nbsp;&nbsp;<svg width="14" height="12" xmlns="http://www.w3.org/2000/svg"><path d="M7.844 12.016c.199 0 .375-.07.527-.211l5.203-5.01a.728.728 0 00.246-.554.728.728 0 00-.246-.553L8.406.694a.84.84 0 00-.562-.21c-.211 0-.39.078-.536.237a.79.79 0 00-.22.553c0 .211.082.393.246.545l3.797 3.657H1.04a.765.765 0 00-.571.246.748.748 0 00-.22.58c.012.199.094.369.246.51.152.14.328.21.527.21h10.073L7.299 10.68a.776.776 0 00-.237.545.714.714 0 00.22.545c.152.164.34.246.562.246z" fill="#febb01" fillRule="nonzero"></path></svg></span>
         </div>
       );
     } else {
