@@ -44,7 +44,7 @@ NOTE - You must be on the latest version of the launcher (`2.0.10` or above) to 
 
 ### Intel macOS Support <PRLink href="https://github.com/open-goal/jak-project/pull/2780"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2798"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2811"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2817"/>
 
-Huge shoutout to fabjan who contributed a handful of changes to make OpenGOAL run on Intel macOS. The key things that had to change was:
+Huge shoutout to [fabjan](https://github.com/fabjan) who contributed a handful of changes to make OpenGOAL run on Intel macOS. The key things that had to change were:
 - Updating the C++ project and assembly code to work in this environment
 - Changing the OpenGL shader code to support OpenGL 4.1
 
@@ -52,30 +52,30 @@ Huge shoutout to fabjan who contributed a handful of changes to make OpenGOAL ru
 This does not extend to native Apple Silicon (and therefore ARM64) support
 :::
 
-There may be some issues as this is the first macOS release, but you *should* be able to install the game via the launcher just like any other supported platform.
+There may be some issues as this is the first macOS release, but you *should* be able to install the game via the launcher just like any other supported platform. The [installation instructions](/docs/usage/installation/) have been updated, however there isn't a whole lot to say -- the launcher installs like any other common MacOS application.  Download the `.dmg` and drag-and-drop it into your `Applications` folder.
 
 ![](./img/mac.png)
 
-The [installation instructions](/docs/usage/installation/) have been updated, however there isn't a whole lot to say -- the launcher installs like any other common MacOS application.  Download the `.dmg` and drag-and-drop it into your `Applications` folder.
-
 ### Texture Pack Support in the Launcher <PRLink href="https://github.com/open-goal/launcher/pull/271"/>
 
-The launcher can now be used to manage texture packs.  You can add multiple packs at the same time.
+The launcher can now be used to manage texture packs. You can even add multiple packs at the same time.
 
-As with most initial implementations of features, you should expect some potential bugs or rough edges.  However the most likely bug you will run into is the texture pack being in an unsupported format.
+:::caution
+As with most initial implementations, you should expect some potential bugs or rough edges.  However the most likely bug you will run into is the texture pack being in an unsupported format. Texture pack authors will have to update their packs accordingly.
+:::
 
-- Information on how to use this feature as an end-user can be found [here](/docs/usage/texture_replacement)
-- Information on how to use this feature as a texture pack author can be found [here](/docs/developing/texture_packs)
+- Information for end-users can be found [here](/docs/usage/texture_replacement)
+- Information for texture pack authors can be found [here](/docs/developing/texture_packs)
 
 ![](./img/texture-packs.png)
 
 ### Improve Keyboard and Mouse Code <PRLink href="https://github.com/open-goal/jak-project/pull/2807"/>
 
-The initial keyboard and mouse code on SDL had some issues, such as when clicking outside the window leaving ghost inputs, which should hopefully be fixed now.
+The initial SDL keyboard and mouse code had some issues, for example, inputs remaining stuck for a variety of potential causes. These problems should hopefully be addressed.
 
 ### Fix Vibration for Small Buzz Motor <PRLink href="https://github.com/open-goal/jak-project/pull/2846"/>
 
-Vibration on the "small" motor was only using 1/255th of the force that it should, making it practically unusable. This has now been fixed.
+Vibration on the "small" motor was only using 1/255th of the force that it should, making it practically unnoticable.
 
 ## Jak 1
 
@@ -89,11 +89,11 @@ There was a bug in Jak's ice sliding animation, causing it to get stuck on a spe
 
 ### Fix Potential Crash When Loading Files <PRLink href="https://github.com/open-goal/jak-project/pull/2850"/>
 
-Sometimes when a level started to load it would pick the wrong filename and crash immediately. This is now fixed.
+Sometimes when a level started to load it would pick the wrong filename and crash immediately.
 
 ### Actor Culling Option No Longer Flipped <PRLink href="https://github.com/open-goal/jak-project/pull/2852"/>
 
-The text for the "Actor Culling" option in the menu was inverted, which lead to confusing behavior. This has now been fixed.
+The text for the "Actor Culling" option in the menu was inverted, which lead to confusing behavior.
 
 ## Jak 2
 
@@ -114,7 +114,7 @@ Some cutscenes had missing eyes or animations, particularly `fortress-save-frien
 
 ### Adjust Jak 2's File Tree <PRLink href="https://github.com/open-goal/jak-project/pull/2806"/>
 
-The original file structure was made more than a year ago without a ton of context for what each file was.  As a result, some things ended up in the wrong spot or had confusing names.
+The original file structure was made more than a year ago without a ton of context around each file.  As a result, some things ended up in the wrong spot or had confusing names.
 
 ### Race and Defend Stadium Regressions <PRLink href="https://github.com/open-goal/jak-project/pull/2816"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2848"/>
 
@@ -122,7 +122,11 @@ There were some regressions from a previous cleanup causing the races and the De
 
 ### Fix Original Game Stadium Crash <PRLink href="https://github.com/open-goal/jak-project/pull/2843"/>
 
-In the original game, if you selected a specific stadium race, went into the Stadium, ran back immediately to the Stadium computer and loaded a different race that does not change the layout (e.g. selecting the reverse variation, or simply looping over the menu back to the same race), the game would crash upon entering the Stadium or dying in the vicinity. This happened because the particular race data levels (stored separately from the Stadium layout levels) might own a type that is only defined in the Stadium layout levels if the race data gets loaded first. If that race data level were to be unloaded then, such as when scrolling through the Stadium computer menu, that type becomes undefined and unusable until a new Stadium layout level is loaded again, which is easy not to do. This has been fixed by making sure the layout level is always loaded first.
+In the original game, if you selected a specific stadium race, went into the Stadium, ran back immediately to the Stadium computer and loaded a different race that does not change the layout (e.g. selecting the reverse variation, or simply looping over the menu back to the same race), the game would crash upon entering the Stadium or dying in the vicinity.
+
+This happened because the particular race data levels (stored separately from the Stadium layout levels) might own a type that is only defined in the Stadium layout levels if the race data gets loaded first. If that race data level were to be unloaded then, such as when scrolling through the Stadium computer menu, that type becomes undefined and unusable until a new Stadium layout level is loaded again, which is easy not to do.
+
+This has been fixed by making sure the layout level is always loaded first.
 
 ### Fix Mouse Positioning <PRLink href="https://github.com/open-goal/jak-project/pull/2818"/>
 
@@ -142,11 +146,11 @@ Same hack as in Jak 1, the font shadow is no longer affected by the aspect ratio
 
 ### Fix Overlord Related Crash <PRLink href="https://github.com/open-goal/jak-project/pull/2834"/>
 
-A rare crash when loading certain levels has been fixed.
+A rare crash when loading certain levels have been fixed.
 
 ### Fix Shrub Alpha Blending <PRLink href="https://github.com/open-goal/jak-project/pull/2853"/>
 
-Transparency on shrub decals has been fixed.
+Transparency on shrub decals have been fixed.
 
 ![](img/shrub-alpha.png)
 
@@ -158,7 +162,7 @@ The billboards all over the city now render properly.
 
 ### Texture Animations <PRLink href="https://github.com/open-goal/jak-project/pull/2819"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2829"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2831"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2835"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2842"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2847"/>
 
-A bunch of work has happened this month around getting texture animations working and being more efficient. There are still some texture related areas that are left to do, but quite a lot is already working, such as skull gems and security gates.
+A bunch of work has occurred this month around getting texture animations working and being more efficient. There is still some work left to do, but quite a lot is already working, such as skull gems and security gates.
 
 ![](img/hud-skullgem.gif)
 
