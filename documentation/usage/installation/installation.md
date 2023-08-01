@@ -115,6 +115,14 @@ If so, install the following package
 sudo apt install libfuse2
 ```
 
+#### MacOS
+
+:::danger
+We do not support Apple Silicon (M1/M2) macOS at this time.
+:::
+
+The Launcher is distributed as a `.dmg` and can be installed like any other common MacOS Application.
+
 ### Downloading and Installing
 
 The latest release of the Launcher can be found using the link below.
@@ -240,6 +248,14 @@ If you're continuing with the builds from the latest releases, extract the conte
 
 Once you have these files extracted, there are two main steps required. The first is to extract all of the assets from the `.iso` file you created earlier, using the `extractor` from the install above (eg `./extractor <path-to-iso>`). Once this extraction completes, you should be able to run `gk` from the same folder to start the game.
 
+### MacOS
+
+:::danger
+We do not support Apple Silicon (M1/M2) macOS at this time.
+:::
+
+The process of using a `jak-project` release on an Intel based Mac is very similar to the above mentioned Linux steps.  Ensure you download the appropriate `macos`, `tar.gz` file however.
+
 ### Linux (Steam Deck)
 
 If you are here looking to set up OpenGOAL on your Steam Deck there is a video guide for Steam Deck users that covers the process of installing and running OpenGOAL very thoroughly. The only change in this video is that we do now support other non black label versions of Jak and Daxter, so any disc should work!
@@ -250,12 +266,6 @@ If you are here looking to set up OpenGOAL on your Steam Deck there is a video g
 >
 > ![Add gk to add OpenGOAL to your Steam Library, filter by All Files](./img/steam_deck_add_to_library.png)
 
-
-## MacOS
-
-:::danger
-We do not support macOS at this time. Unfortunately macOS does not currently support the version of OpenGL we use for this project, and we additionally do not support any ARM processors, meaning significant changes would be required.
-:::
 
 ## Conclusion
 
