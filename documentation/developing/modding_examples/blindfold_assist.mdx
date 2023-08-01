@@ -125,7 +125,7 @@ And that's it! We repeat this code for the right stick, and everything downstrea
 
 ### Where/how is the camera defined?
 
-On the OpenGOAL side, the camera is represented by a few different types, but perhaps the most important one is the [`camera-master` type](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base/blob/a775793814ad424bf9ba919aa5f5c39834a3101f/data/goal_src/jak1/engine/camera/camera-h.gc#L445-L508), and the commonly-used global variable `*camera*` of that type.
+On the OpenGOAL side, the camera is represented by a few different types, but perhaps the most important one is the [`camera-master` type](https://github.com/open-goal/jak-project/blob/master/goal_src/jak1/engine/camera/camera-h.gc#L442-L508), and the commonly-used global variable `*camera*` of that type.
 
 Assuming you've played your fair share of Jak & Daxter, you are likely aware that Naughty Dog's camera system is quite sophisticated (even if it does get stuck occasionally). When I first started looking into this I was a little overwhelmed - even though we've identified the `camera-master` process, how do we get it to do what we want? There are so many fields to make sense of and conditions to think about (e.g. what if there's a wall right behind Jak?), it's hard to know where to start!
 
@@ -139,9 +139,9 @@ If you head into `Camera > Mode`, you can see the current camera mode, and switc
 
 Well, after playing around with these camera modes, I noticed that switching to the Bike mode (used for the Zoomer) will rotate the camera around behind Jak, so that it faces the same direction he's facing - pretty much exactly what I was hoping to do in this mod! There are some limitations to this, such as when Jak is backed up against a wall, but there's no real way around that without potentially clipping the camera into Jak or the wall. I decided this was sufficient for the purposes of this mod, and piggy-backed on this Bike camera mode rather than trying to reinvent my own logic for centering the camera behind Jak.
 
-So how do we actually trigger the Bike camera mode? Let's see what the debug menu does! The debug menu code mostly lives in `goal_src/jak1/engine/debug/default-menu.gc`, and the [Bike camera option is configured here](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base/blob/a775793814ad424bf9ba919aa5f5c39834a3101f/data/goal_src/jak1/engine/debug/default-menu.gc#L815-L817). You can see what happens in detail when creating a new `debug-menu-item-flag` [here](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base/blob/a775793814ad424bf9ba919aa5f5c39834a3101f/data/goal_src/jak1/engine/debug/menu.gc#L174-L186), but what you really need to know is that selecting it will call `dm-cam-mode-func` and pass `cam-bike` as an argument.
+So how do we actually trigger the Bike camera mode? Let's see what the debug menu does! The debug menu code mostly lives in `goal_src/jak1/engine/debug/default-menu.gc`, and the [Bike camera option is configured here](https://github.com/open-goal/jak-project/blob/master/goal_src/jak1/engine/debug/default-menu.gc#L815-L817). You can see what happens in detail when creating a new `debug-menu-item-flag` [here](https://github.com/open-goal/jak-project/blob/master/goal_src/jak1/engine/debug/menu.gc#L174-L186), but what you really need to know is that selecting it will call `dm-cam-mode-func` and pass `cam-bike` as an argument.
 
-[Looking at `dm-cam-mode-func`](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base/blob/a775793814ad424bf9ba919aa5f5c39834a3101f/data/goal_src/jak1/engine/debug/default-menu.gc#L22-L30), we see it sends 2 events to `*camera*`: `'change-state` and `'query-state`. The first event will tell the camera to change the camera mode to whatever is in `arg0` (`cam-bike` in our case). The second event is querying the camera to find out what camera mode it ended up in at the end of the frame, and is used for updating the selected mode in the debug menu - although we may have requested that it switch to Bike mode, other triggers in-game could force it back to String, Fixed, etc.
+[Looking at `dm-cam-mode-func`](https://github.com/open-goal/jak-project/blob/master/goal_src/jak1/engine/debug/default-menu.gc#L22-L30), we see it sends 2 events to `*camera*`: `'change-state` and `'query-state`. The first event will tell the camera to change the camera mode to whatever is in `arg0` (`cam-bike` in our case). The second event is querying the camera to find out what camera mode it ended up in at the end of the frame, and is used for updating the selected mode in the debug menu - although we may have requested that it switch to Bike mode, other triggers in-game could force it back to String, Fixed, etc.
 
 For this mod, we only really care about being able to send that first event to change the camera mode. If we `(lt)` and connect our REPL to the running game, we can send the event manually to confirm that it works as intended:
 
@@ -163,7 +163,7 @@ Alright so we know how to jump between camera modes, which gives us a hacky but 
 
 In the previous section we looked at the code where controller inputs are read from hardware every frame in `service-cpads`, but we sort of glossed over how the `logic-target` code is called to read and utilize the button inputs for that frame held in `cpad-info`. The game needs to read inputs every frame or, well, it will drop inputs 🙃. In the case of the `logic-target` code, the `target` process runs this code every frame as part of the `post` hook - see the [documentation on processes and states](../../reference/process_and_state/#how-do-i-make-a-process-do-something) for more details on this.
 
-For centering the camera behind Jak, we will also need to run some code every frame in order to check if the user has pressed our desired button combo. Lucky for you, we've already created a helper function `runs-every-frame` [in the opengoal-mod-base](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base/blob/336eb824403c0c38d1445e5156fc510f692ca4c2/data/goal_src/jak1/engine/mods/put-custom-code-here.gc#L24-L28) that gets executed on every frame of the [main display loop](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base/blob/336eb824403c0c38d1445e5156fc510f692ca4c2/data/goal_src/jak1/engine/game/main.gc#L633)!
+For centering the camera behind Jak, we will also need to run some code every frame in order to check if the user has pressed our desired button combo. Lucky for you, we've already created a helper function `runs-every-frame` [in the opengoal-mod-base](https://github.com/OpenGOAL-Mods/OG-Mod-Base/blob/main/goal_src/jak1/engine/mods/mod-custom-code.gc#L24-L28) that gets executed on every frame of the [main display loop](https://github.com/OpenGOAL-Mods/OG-Mod-Base/blob/main/goal_src/jak1/engine/game/main.gc#595)!
 
 #### Checking for buttons pressed/held
 
@@ -184,7 +184,7 @@ The last change I made was just to disable R2 from bringing up the HUD (since we
 
 - [Using the OpenGOAL REPL](../repl)
 - [OpenGOAL unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io)
-- [OpenGOAL Mod Base - Github](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base)
+- [OpenGOAL Mod Base - Github](https://opengoal-unofficial-mods.github.io/modbaseRedirect.html)
 - [OpenGOAL Blindfold Assist Mod - Github](https://github.com/OpenGOAL-Unofficial-Mods/blindfold-assist)
   - [Full Diff](https://github.com/OpenGOAL-Unofficial-Mods/blindfold-assist/commit/1cd217498b5efa501c4980241d253a6b09e8c330)
 - [OpenGOAL Language Reference](../../reference)
