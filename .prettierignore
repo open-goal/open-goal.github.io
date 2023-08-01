@@ -1,0 +1,7 @@
+node_modules/
+build/
+.docusaurus/
+.yarn/
+documentation/source-docs/
+static/
+scripts/progress-tracker/history/

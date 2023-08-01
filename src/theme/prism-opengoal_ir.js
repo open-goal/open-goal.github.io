@@ -3,59 +3,59 @@
 // TODO - op numbers
 // TODO - mnemonic styling
 Prism.languages.opengoal_ir = {
-  'string': {
-		pattern: /"(?:[^"\\]|\\.)*"/,
-		greedy: true
-	},
-  'function': [
+  string: {
+    pattern: /"(?:[^"\\]|\\.)*"/,
+    greedy: true,
+  },
+  function: [
     // function names
     {
-      pattern: /;\s\.function\s(.*)/
+      pattern: /;\s\.function\s(.*)/,
     },
     // mnemonics
     {
       pattern: /^\s+\b([\w\.]+)\b/,
-      greedy: true
-    }
+      greedy: true,
+    },
   ],
-  'comment': [
-		{
-			pattern: /;+.*/,
-		}
-	],
-  'property': [
+  comment: [
+    {
+      pattern: /;+.*/,
+    },
+  ],
+  property: [
     // function calls
     {
       pattern: /s7,\s[\w-!\*]+/,
-      greedy: true
+      greedy: true,
     },
     {
       pattern: /([\w-!\*]+)(?:\(s7\))/,
-      greedy: true
+      greedy: true,
     },
     {
-      pattern: /\bt9/
-    }
+      pattern: /\bt9/,
+    },
   ],
-  'builtin': [
+  builtin: [
     {
-      pattern: /[BL]\d+:?/
-    }
+      pattern: /[BL]\d+:?/,
+    },
   ],
-  'keyword': {
-		pattern: /[astv][0-3](?:-\d+)?/,
-		lookbehind: true
-	},
-  'number': [
+  keyword: {
+    pattern: /[astv][0-3](?:-\d+)?/,
+    lookbehind: true,
+  },
+  number: [
     // op number
     {
       pattern: /(?:;; )\[([\s\d]+)\]/,
-      greedy: true
+      greedy: true,
     },
     // immediates
     {
       pattern: /\b(\d+)|r0/,
-      greedy: true
-    }
+      greedy: true,
+    },
   ],
 };

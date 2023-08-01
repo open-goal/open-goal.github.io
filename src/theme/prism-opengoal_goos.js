@@ -1,81 +1,82 @@
 // TODO - quoted expressions
 Prism.languages.opengoal_goos = {
-	'comment': [
-		{
-			pattern: /#\|[\s\S]*?(?:\|#|$)/,
-			lookbehind: true,
-			greedy: true
-		},
-		{
-			pattern: /(^|[^\\:]);+.*/,
-			lookbehind: true,
-			greedy: true
-		}
-	],
-  'string': {
-		pattern: /"(?:[^"\\]|\\.)*"/,
-		greedy: true
-	},
-  'keyword': {
-		pattern: /de[sf][\w\d._:+=><!?*-]*/,
-		lookbehind: true
-	},
-  'function': {
-		pattern: /((?:^|[^'])\()[\w*+!?'<>=/.-]+(?=[\s)]|$)/,
-		lookbehind: true
-	},
-  'constant': [
+  comment: [
+    {
+      pattern: /#\|[\s\S]*?(?:\|#|$)/,
+      lookbehind: true,
+      greedy: true,
+    },
+    {
+      pattern: /(^|[^\\:]);+.*/,
+      lookbehind: true,
+      greedy: true,
+    },
+  ],
+  string: {
+    pattern: /"(?:[^"\\]|\\.)*"/,
+    greedy: true,
+  },
+  keyword: {
+    pattern: /de[sf][\w\d._:+=><!?*-]*/,
+    lookbehind: true,
+  },
+  function: {
+    pattern: /((?:^|[^'])\()[\w*+!?'<>=/.-]+(?=[\s)]|$)/,
+    lookbehind: true,
+  },
+  constant: [
     // nil
     {
       pattern: /(none)(?=\s|\)|\]|\})/,
-      greedy: true
-    }
+      greedy: true,
+    },
   ],
-  'boolean': [
+  boolean: [
     // true/false,
     {
       pattern: /(#t|#f)/,
-      greedy: true
-    }
+      greedy: true,
+    },
   ],
-  'number': [
+  number: [
     // ratio
     {
       pattern: /([-+]?\d+\/\d+)/,
-      greedy: true
+      greedy: true,
     },
     // hex
     {
       pattern: /([-+]?#[0-9a-fA-F]+N?)/,
-      greedy: true
+      greedy: true,
     },
     // binary
     {
       pattern: /([-+]?#b[0-9a-fA-F]+N?)/,
-      greedy: true
+      greedy: true,
     },
     // floats
     {
       pattern: /([-+]?[0-9]+(?:(\.|(?=[eEM]))[0-9]*([eE][-+]?[0-9]+)?)M?)/,
-      greedy: true
+      greedy: true,
     },
     // integers
     {
       pattern: /\s([-+]?\d+N?)/,
-      greedy: true
-    }
+      greedy: true,
+    },
   ],
-  'property': [
+  property: [
     // keyword
     {
-      pattern: /(\s|\(|\[|\{):[\w\#\.\-\_\:\+\=\>\<\/\!\?\*]+(?=(\s|\)|\]|\}|\,))/,
-      lookbehind: true
-    }
+      pattern:
+        /(\s|\(|\[|\{):[\w\#\.\-\_\:\+\=\>\<\/\!\?\*]+(?=(\s|\)|\]|\}|\,))/,
+      lookbehind: true,
+    },
   ],
-  'operator': [
+  operator: [
     // reader macros
     {
-      pattern: /('|,@|`|,|&->)/
-    }
-  ]
+      pattern: /('|,@|`|,|&->)/,
+    },
+  ],
 };

@@ -62,11 +62,11 @@ If you'd rather trigger decompilations manually, this is an option as well
 
 ## Jump to Definition
 
-Wondered what that LSP binary was that we started adding to our `jak-project` releases?  This is what it is primarily for, as long as the LSP is active (shown at the bottom of the editor), you can Ctrl+Click any symbol and the LSP will try to jump you back to the right spot in `all-types.gc`
+Wondered what that LSP binary was that we started adding to our `jak-project` releases? This is what it is primarily for, as long as the LSP is active (shown at the bottom of the editor), you can Ctrl+Click any symbol and the LSP will try to jump you back to the right spot in `all-types.gc`
 
 ## Show Register Casts as Inlay Hints
 
-You can press `Ctrl+Alt` at anytime to see what casts are applied to the registers.  This is helpful for debugging a cast mistake.
+You can press `Ctrl+Alt` at anytime to see what casts are applied to the registers. This is helpful for debugging a cast mistake.
 
 ![](/docs/developing/decompiling/editor_tools/inlay-hints.png)
 
@@ -81,4 +81,3 @@ These are a little experimental and a lot to describe initially so, experiment w
 :::tip
 The most interesting of these is the `Repeat Last`, the editor will remember relevant information about what you casted last and if you are often applying the same cast over and over -- this might be a very useful thing to give a key bind.
 :::
-

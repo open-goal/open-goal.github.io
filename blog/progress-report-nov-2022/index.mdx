@@ -24,18 +24,20 @@ Quite a lot of developments near the end of this month to share!
 ### Monthly Release Cadence
 
 Along with every progress report we will be doing a release alongside it. This is for two main reasons
+
 1. So we don't have a gigantic release in a few months from now and can fix bugs closer to when they are created
 2. So the small amount of Jak 1 improvements can be released and used (ie. translations)
 
 This month's release is:
+
 - `0.1.30` OpenGOAL Tooling (jak-project repo)
 - distributed via the `1.6.1` Launcher release
 
 ### Linux Launcher
 
-If you're on Linux, we now distribute the Launcher via an AppImage.  You can find instructions on how to use it [here](/docs/usage/installation/)
+If you're on Linux, we now distribute the Launcher via an AppImage. You can find instructions on how to use it [here](/docs/usage/installation/)
 
-Let us know if you encounter any issues as it's still fairly fresh, and thanks to [qurious-pixel](https://github.com/open-goal/launcher/pull/61) for finding and helping to fix some early issues.  This isn't the first open-source project's AppImage they've helped with! ;)
+Let us know if you encounter any issues as it's still fairly fresh, and thanks to [qurious-pixel](https://github.com/open-goal/launcher/pull/61) for finding and helping to fix some early issues. This isn't the first open-source project's AppImage they've helped with! ;)
 
 ## Jak 1
 
@@ -62,6 +64,7 @@ If you havn't gathered from the previous reports, collision is one of the bigges
 ### Cleanup of Files to get Target Working
 
 `target` is the internal name for Jak, and a decent amount of time went into:
+
 - cleaning up files we already had done
 - completing a few files we skipped
 - patching around bugs we've yet to solve
@@ -86,7 +89,7 @@ After a lot of work, we've succeeded and Jak is working pretty well already. Her
 
 ### In-game Editor Progress <PRLink href="https://github.com/open-goal/jak-project/pull/2029"/>
 
-Jak 2 actually had a built-in editor that originally communicated with a MySQL database.  This seems to have been used to allow the artists to move around various objects and lights within the levels, potentially collaboratively, and is one of the reasons why the game has some rudimentary mouse support.
+Jak 2 actually had a built-in editor that originally communicated with a MySQL database. This seems to have been used to allow the artists to move around various objects and lights within the levels, potentially collaboratively, and is one of the reasons why the game has some rudimentary mouse support.
 
 It's still very much a work-in-progress and it doesn't do much yet, but we've finally gotten to the point where opening the editor no longer crashes the game, and some of the mouse code has started to be implemented.
 
@@ -111,7 +114,7 @@ Soon the game will not be completely silent with audio work continuing and alrea
 And we also don't have to be stuck looking at Jak's skeleton for much longer with MERC already starting to work:
 
 <ReactPlayer controls url="https://www.youtube.com/watch?v=P55uBaoWXfA" />
-<br/>
+<br />
 
 ## Jak 2 - Decompilation Tooling
 
@@ -119,7 +122,7 @@ And we also don't have to be stuck looking at Jak's skeleton for much longer wit
 
 While we don't recommend using a non-NTSC black label if you plan on developing, it isn't impossible and some better documentation was added to address this.
 
-The reason we stick to one version is so everyone is all on the same page and working against the same target.  Later versions obviously contain changes which can conflict with the manual type casts and such that we are forced to do.
+The reason we stick to one version is so everyone is all on the same page and working against the same target. Later versions obviously contain changes which can conflict with the manual type casts and such that we are forced to do.
 
 > This of course can be worked around, but someone has to be the first to add these version-specific manual casts (potentially among other work)!
 
@@ -130,6 +133,7 @@ The reason we stick to one version is so everyone is all on the same page and wo
 As the REPL starts to be used more to test the actual game and debug problems, it's rough edges present themselves once again.
 
 For example, you can find yourself running the same commands over and over to do things like:
+
 - connect to the game
 - attach a debugger (and continue from the initial break)
 - open the backtrace when a crash occurs
@@ -145,7 +149,7 @@ These key-bindings can be found [here](https://github.com/open-goal/jak-project/
 
 #### Simplfy Reloading of an Object File <PRLink href="https://github.com/open-goal/jak-project/pull/2036"/>
 
-One of the reasons why GOAL was so cool is they could edit source code, re-compile it, and reload it while the game was still running.  Imagine doing something like tweaking Jak's speed without having to close and re-open the game every iteration.
+One of the reasons why GOAL was so cool is they could edit source code, re-compile it, and reload it while the game was still running. Imagine doing something like tweaking Jak's speed without having to close and re-open the game every iteration.
 
 This is done via the following function:
 
@@ -155,7 +159,7 @@ This is done via the following function:
 
 However this can be a pain at times, especially since we've organized Jak 2's code in a much more nested-folder structure and we don't provide decent editor tooling to just say, for example, _reload this file when I save it_.
 
-So this provides a decent workaround where you can just provide the name of the object file you want to reload and the REPL will go looking for it, if it finds it, it'll provide the full path on your behalf.  For example
+So this provides a decent workaround where you can just provide the name of the object file you want to reload and the REPL will go looking for it, if it finds it, it'll provide the full path on your behalf. For example
 
 ```opengoal
 (ml "target")

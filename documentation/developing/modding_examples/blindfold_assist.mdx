@@ -6,26 +6,32 @@ description: A deep dive into the code changes for the Blindfold Assist Mod
 
 # Blindfold Assist Mod
 
-<PostAuthors authors={["dallmeyer"]} authorNames={["barg034"]}/>
+<PostAuthors authors={["dallmeyer"]} authorNames={["barg034"]} />
 
 ## Background
 
-Today I'm going to run through the process of building a mod to assist with blindfolded runs. I chose to kick things off with this mod because it only required a few simple changes, so I think reviewing the code should be easy enough. If you'd like to play this mod yourself, you can find it in the  [Unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io/).
+Today I'm going to run through the process of building a mod to assist with blindfolded runs. I chose to kick things off with this mod because it only required a few simple changes, so I think reviewing the code should be easy enough. If you'd like to play this mod yourself, you can find it in the [Unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io/).
 
 ![](./img/blindfold_assist/mod_image.png)
 
 If you're unfamiliar with [blindfolded video gaming](https://www.denofgeek.com/games/blindgolded-gaming-speedruns-history-explained/), one of the key steps is finding setups for progressing through levels that can be consistently repeated. In 3D games, you'll often see strategies like:
+
 - aligning the character against walls or other level geometry
 - being able to move in straight lines and/or consistent distances
 - manipulating the camera in consistent patterns
 
 When it comes to Jak, the game's responsive engine provides maybe too much flexibility in controlling Jak's movement and the camera 😅. This ends up hindering the consistency of blindfolded setups - so for this mod we'll actually be limiting some functionality! Here are the two changes I set out to tackle (thanks Borrdi for the suggestions):
+
 - limit analog stick input to 8 directions ↑ ↗ → ↘ ↓ ↙ ← ↖ (every 45 degrees)
 - add a button combo to (attempt to) center the camera behind Jak
 
 I'll go through things in more detail below, but you can [click here to see the full diff](https://github.com/OpenGOAL-Unofficial-Mods/blindfold-assist/commit/1cd217498b5efa501c4980241d253a6b09e8c330) of changes for this mod. It's only 69 lines across 3 files, and most of that is duplicated code for the left vs right analog sticks.
 
-<ReactPlayer controls url={require("./video/blindfold-assist.mp4").default} className="blog-video"/>
+<ReactPlayer
+  controls
+  url={require("./video/blindfold-assist.mp4").default}
+  className="blog-video"
+/>
 
 ## Limiting analog stick input to 8 directions
 
@@ -55,7 +61,7 @@ On the OpenGOAL side, the controller input is represented by the [`cpad-info` ty
     ...
     )
   )
-  ```
+```
 
 But let's take a step back - what if you didn't know where the controller inputs were handled? Well one way would be to look at the code for moving Jak (who is known as `target` in the code) and work backwards to find the controller input that affects Jak's movement. With some digging and some luck, you'll find yourself in `goal_src/jak1/engine/target/logic-target.gc`, and towards the end of the file are [a few functions](https://github.com/open-goal/jak-project/blob/ee3bc182e13a440f90e20a6f7be7d3b294a7e56a/goal_src/jak1/engine/target/logic-target.gc#L1522-L1895) that update Jak's position differently, depending on if he's swimming, sliding, etc. In most of these there's a `read-pad` call, which populates a vector that is then used in the logic for updating Jak's position.
 
@@ -86,7 +92,7 @@ Since we took the absolute value of the slope, `leftrad` will always be between 
 ![](./img/blindfold_assist/trig2.png)
 
 ```opengoal
-(cond 
+(cond
   ((< leftrad (/ PI 8))
     ;; closest to x axis, set y to "zero" (pink)
     (set! (-> pad lefty) (the-as uint 128))
@@ -119,7 +125,7 @@ And that's it! We repeat this code for the right stick, and everything downstrea
 
 ### Where/how is the camera defined?
 
-On the OpenGOAL side, the camera is represented by a few different types, but perhaps the most important one is the [`camera-master` type](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base/blob/a775793814ad424bf9ba919aa5f5c39834a3101f/data/goal_src/jak1/engine/camera/camera-h.gc#L445-L508), and the commonly-used global variable `*camera*` of that type. 
+On the OpenGOAL side, the camera is represented by a few different types, but perhaps the most important one is the [`camera-master` type](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base/blob/a775793814ad424bf9ba919aa5f5c39834a3101f/data/goal_src/jak1/engine/camera/camera-h.gc#L445-L508), and the commonly-used global variable `*camera*` of that type.
 
 Assuming you've played your fair share of Jak & Daxter, you are likely aware that Naughty Dog's camera system is quite sophisticated (even if it does get stuck occasionally). When I first started looking into this I was a little overwhelmed - even though we've identified the `camera-master` process, how do we get it to do what we want? There are so many fields to make sense of and conditions to think about (e.g. what if there's a wall right behind Jak?), it's hard to know where to start!
 
@@ -137,13 +143,14 @@ So how do we actually trigger the Bike camera mode? Let's see what the debug men
 
 [Looking at `dm-cam-mode-func`](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-mod-base/blob/a775793814ad424bf9ba919aa5f5c39834a3101f/data/goal_src/jak1/engine/debug/default-menu.gc#L22-L30), we see it sends 2 events to `*camera*`: `'change-state` and `'query-state`. The first event will tell the camera to change the camera mode to whatever is in `arg0` (`cam-bike` in our case). The second event is querying the camera to find out what camera mode it ended up in at the end of the frame, and is used for updating the selected mode in the debug menu - although we may have requested that it switch to Bike mode, other triggers in-game could force it back to String, Fixed, etc.
 
-For this mod, we only really care about being able to send that first event to change the camera mode. If we `(lt)` and connect our REPL to the running game, we can send the event manually to confirm that it works as intended: 
+For this mod, we only really care about being able to send that first event to change the camera mode. If we `(lt)` and connect our REPL to the running game, we can send the event manually to confirm that it works as intended:
 
 ```opengoal
 (send-event *camera* 'change-state cam-bike 0)
 ```
 
 Oh but wait - now we're stuck in Bike camera mode, when really we just wanted to rotate the camera while staying in the "normal" camera mode. Lucky for us, the game stores the current "normal" camera mode in `*camera-base-mode*`, so it's easy to flip back using a similar event:
+
 ```opengoal
 (send-event *camera* 'change-state *camera-base-mode* 0)
 ```

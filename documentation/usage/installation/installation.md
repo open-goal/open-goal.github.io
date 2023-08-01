@@ -2,7 +2,7 @@
 sidebar_position: 0
 ---
 
-import Requirements from '../../partials/_requirements.mdx';
+import Requirements from '../../partials/\_requirements.mdx';
 
 # Installation
 
@@ -30,9 +30,10 @@ Once these steps are complete you'll be able to run Jak and Daxter within OpenGO
 
 :::info
 We only support Windows 10, and Windows 11.
+
 - Windows 7 has been out of support since January 2020
 - Windows 8.1 will be end of life January 2023
-:::
+  :::
 
 You may need to install the [latest 64-bit C++ redistribution](https://aka.ms/vs/17/release/vc_redist.x64.exe).
 
@@ -74,12 +75,13 @@ Once it is installed, you'll need to insert your Jak and Daxter CD into your CD 
 This process will take a few minutes, so leave it running while we continue on with the next step: installing OpenGOAL itself.
 
 :::caution
-If you are on a SteamDeck, you will likely need to use the compiled releases, instead of the Launcher.  See Step 2b below!
+If you are on a SteamDeck, you will likely need to use the compiled releases, instead of the Launcher. See Step 2b below!
 :::
 
 ## Step 2a: Installing via the Launcher
 
 The launcher is the preferred way of getting and using OpenGOAL:
+
 - You can easily update both the launcher and the game
 - Designed for non-technical users
 - More useful features in the future
@@ -90,18 +92,19 @@ There are a few requirements depending on your platform that you may need to han
 
 #### Windows
 
-The Launcher depends on WebView2, which has been shipping on Windows 10+ since April 2018.  If for some reason you still don't have it and have been keeping your PC up to date, you can explicitly download it here https://developer.microsoft.com/en-us/microsoft-edge/webview2/
+The Launcher depends on WebView2, which has been shipping on Windows 10+ since April 2018. If for some reason you still don't have it and have been keeping your PC up to date, you can explicitly download it here https://developer.microsoft.com/en-us/microsoft-edge/webview2/
 
 :::danger
 Unfortunately, due to some issues in a recent WebView2 release (which have since been fixed) you may experience issues getting the Launcher to open.
 
-If you have this problem, please attempt to install the latest version yourself from [here](https://developer.microsoft.com/en-us/microsoft-edge/webview2/#download-section).  You will likely require the `x64 Standalone Installer` download. **If the installation fails, you may have to run it as administrator.**
+If you have this problem, please attempt to install the latest version yourself from [here](https://developer.microsoft.com/en-us/microsoft-edge/webview2/#download-section). You will likely require the `x64 Standalone Installer` download. **If the installation fails, you may have to run it as administrator.**
 
 If you're interested, these are the underlying issues:
+
 - https://github.com/MicrosoftEdge/WebView2Feedback/issues/3138#issuecomment-1387432722
 - https://github.com/MicrosoftEdge/WebView2Feedback/issues/3137
 - https://github.com/MicrosoftEdge/WebView2Feedback/issues/3136
-:::
+  :::
 
 #### Linux
 
@@ -114,6 +117,14 @@ If so, install the following package
 ```bash
 sudo apt install libfuse2
 ```
+
+#### MacOS
+
+:::danger
+We do not support Apple Silicon (M1/M2) macOS at this time.
+:::
+
+The Launcher is distributed as a `.dmg` and can be installed like any other common MacOS Application.
 
 ### Downloading and Installing
 
@@ -163,22 +174,23 @@ If this opens successfully, you've reached the final stage! Up next we'll be set
 
 ### Using the Launcher
 
-In recent versions of the Launcher there is no longer a set `jak-project` release.  You are free to download or roll-back to any official or unofficial release.
+In recent versions of the Launcher there is no longer a set `jak-project` release. You are free to download or roll-back to any official or unofficial release.
 
-If it is your first time using the launcher, you will be prompted to select an installation directory.  This is the folder where all of the following will go:
+If it is your first time using the launcher, you will be prompted to select an installation directory. This is the folder where all of the following will go:
+
 - `jak-project` version releases you download
 - extracted ISO contents
 - the built game files
 
 ![Picking an installation directory](./img/launcher-install-dir.png)
 
-When the launcher loads, you will not have a tooling version downloaded.  In regards to official versions, these correspond to the releases that can be found [here](https://github.com/open-goal/jak-project/releases)
+When the launcher loads, you will not have a tooling version downloaded. In regards to official versions, these correspond to the releases that can be found [here](https://github.com/open-goal/jak-project/releases)
 
 To select one (likely the latest) follow the prompt.
 
 ![No tooling version found](./img/launcher-no-version.png)
 
-Click the download button on the latest version, then select it, and save your changes.  This is where you could rollback to a previous version, if for example, we release a breaking bug.
+Click the download button on the latest version, then select it, and save your changes. This is where you could rollback to a previous version, if for example, we release a breaking bug.
 
 ![Downloading a version](./img/launcher-version-list-a.png)
 
@@ -195,7 +207,7 @@ If you don't, you unfortunately **WILL NOT** be able to continue with the instal
 ![Installing the game](./img/launcher-install-a.png)
 
 :::tip
-If at any point during the installation something goes wrong and you are going to ask for help or report an issue.  Download the **Support Package** in order to easily give the person helping you everything they could ask for all at once.
+If at any point during the installation something goes wrong and you are going to ask for help or report an issue. Download the **Support Package** in order to easily give the person helping you everything they could ask for all at once.
 
 There is a button to download this in the help page, as well as one should appear on the installation page if it fails.
 
@@ -215,6 +227,7 @@ That's everything! At this point you should have a working copy of the game to p
 If you don't want to use the Launcher or it is not applicable for your platform, you can use the minimal base release instead.
 
 These releases can be found here - https://github.com/open-goal/jak-project/releases
+
 - For **Windows** you want to download the `opengoal-windows-vX.X.X.zip` asset
 - For **Linux** you want to download the `opengoal-linux-vX.X.X.tar.gz` asset
 
@@ -240,6 +253,14 @@ If you're continuing with the builds from the latest releases, extract the conte
 
 Once you have these files extracted, there are two main steps required. The first is to extract all of the assets from the `.iso` file you created earlier, using the `extractor` from the install above (eg `./extractor <path-to-iso>`). Once this extraction completes, you should be able to run `gk` from the same folder to start the game.
 
+### MacOS
+
+:::danger
+We do not support Apple Silicon (M1/M2) macOS at this time.
+:::
+
+The process of using a `jak-project` release on an Intel based Mac is very similar to the above mentioned Linux steps. Ensure you download the appropriate `macos`, `tar.gz` file however.
+
 ### Linux (Steam Deck)
 
 If you are here looking to set up OpenGOAL on your Steam Deck there is a video guide for Steam Deck users that covers the process of installing and running OpenGOAL very thoroughly. The only change in this video is that we do now support other non black label versions of Jak and Daxter, so any disc should work!
@@ -249,13 +270,6 @@ If you are here looking to set up OpenGOAL on your Steam Deck there is a video g
 > NOTE: For Steam Deck users, you can add OpenGOAL to your Steam library after installation by pointing to the `gk` file in this folder. You will need to change the `File type` to `All Files` in order to see it!
 >
 > ![Add gk to add OpenGOAL to your Steam Library, filter by All Files](./img/steam_deck_add_to_library.png)
-
-
-## MacOS
-
-:::danger
-We do not support macOS at this time. Unfortunately macOS does not currently support the version of OpenGL we use for this project, and we additionally do not support any ARM processors, meaning significant changes would be required.
-:::
 
 ## Conclusion
 

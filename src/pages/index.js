@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import clsx from 'clsx';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Layout from '@theme/Layout';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
-import LatestBlogs from '@site/src/components/LatestBlogs';
-import LauncherDownloadLink from '@site/src/components/LauncherDownloadLink';
+import React, { useState, useEffect, useRef } from "react";
+import clsx from "clsx";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import Layout from "@theme/Layout";
+import HomepageFeatures from "@site/src/components/HomepageFeatures";
+import LatestBlogs from "@site/src/components/LatestBlogs";
+import LauncherDownloadLink from "@site/src/components/LauncherDownloadLink";
 
 function HomepageHeader() {
   let textToType = `(format 0 "~S~%" (-> *site-config* tag-line))`;
@@ -24,7 +24,7 @@ function HomepageHeader() {
       setCurrText(colorizedText);
       setTextFinishedTyping(true);
     }
-  })
+  });
 
   useEffect(() => {
     interval = setInterval(() => {
@@ -35,7 +35,7 @@ function HomepageHeader() {
 
   const { siteConfig } = useDocusaurusContext();
   return (
-    <header className={clsx('hero hero--primary')}>
+    <header className={clsx("hero hero--primary")}>
       <div className="container">
         <div className="row center">
           <div className="col col--8 left-align">
@@ -48,10 +48,19 @@ function HomepageHeader() {
               <div className="col col--12">
                 <h2 className="hero-subtitle">
                   <span>
-                    <span id="tagline-prompt"><span className="hero-prompt-prefix">gc&gt; </span><span dangerouslySetInnerHTML={{ __html: currText }}></span></span>
+                    <span id="tagline-prompt">
+                      <span className="hero-prompt-prefix">gc&gt; </span>
+                      <span
+                        dangerouslySetInnerHTML={{ __html: currText }}
+                      ></span>
+                    </span>
                     <span className="typed-cursor typed-cursor--blink">|</span>
                   </span>
-                  {textFinishedTyping && <div className="hero-tagline"><span>=&gt; {siteConfig.tagline}</span></div>}
+                  {textFinishedTyping && (
+                    <div className="hero-tagline">
+                      <span>=&gt; {siteConfig.tagline}</span>
+                    </div>
+                  )}
                 </h2>
               </div>
             </div>
@@ -69,25 +78,38 @@ function HomepageHeader() {
 export default function Home() {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout
-      title={siteConfig.title}
-      description="The Jak and Daxter Project">
+    <Layout title={siteConfig.title} description="The Jak and Daxter Project">
       <HomepageHeader />
       <main className="sl-theme-dark">
-        <LatestBlogs/>
+        <LatestBlogs />
         <HomepageFeatures />
         <section className="home-section">
           <div className="container">
             <div className="row center">
               <div className="col col--4">
                 <h2 className="monospaced">About the Project</h2>
-                <p>The project officially started back in 2020 and has continued to grow more and more ambitious</p>
+                <p>
+                  The project officially started back in 2020 and has continued
+                  to grow more and more ambitious
+                </p>
                 <p>At a high level, our strategy is as follows:</p>
                 <ul>
-                  <li>decompile the original game code into human-readable GOAL code</li>
-                  <li>develop our own compiler for GOAL and recompile game code for x86-64</li>
-                  <li>create a tool to extract game assets into formats that can be easily viewed or modified</li>
-                  <li>create tools to repack game assets into a format that our port uses</li>
+                  <li>
+                    decompile the original game code into human-readable GOAL
+                    code
+                  </li>
+                  <li>
+                    develop our own compiler for GOAL and recompile game code
+                    for x86-64
+                  </li>
+                  <li>
+                    create a tool to extract game assets into formats that can
+                    be easily viewed or modified
+                  </li>
+                  <li>
+                    create tools to repack game assets into a format that our
+                    port uses
+                  </li>
                 </ul>
               </div>
               <div className="col col--8">
@@ -101,12 +123,20 @@ export default function Home() {
             <div className="row center">
               <div className="col col--6">
                 <h2 className="monospaced">Watch our Progress</h2>
-                <p>OpenGOAL is always improving, if you want to see the latest changes checkout the progress page</p>
+                <p>
+                  OpenGOAL is always improving, if you want to see the latest
+                  changes checkout the progress page
+                </p>
                 <a href="/progress/milestones">Check it Out</a>
               </div>
               <div className="col col--6">
                 <h2 className="monospaced">Read the Docs</h2>
-                <p>While they can always be better, something is better than nothing.  If you are interested in assisting in developing, check out the docs here, as well as the documentation in the GitHub repo itself.</p>
+                <p>
+                  While they can always be better, something is better than
+                  nothing. If you are interested in assisting in developing,
+                  check out the docs here, as well as the documentation in the
+                  GitHub repo itself.
+                </p>
                 <a href="/docs/intro">Reference Docs</a>
               </div>
             </div>

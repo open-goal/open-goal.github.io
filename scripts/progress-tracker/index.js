@@ -3,7 +3,7 @@ import { throttling } from "@octokit/plugin-throttling";
 import { retry } from "@octokit/plugin-retry";
 import * as fs from "fs";
 import { parse } from "comment-json";
-import fetch from 'node-fetch';
+import fetch from "node-fetch";
 
 Octokit.plugin(throttling);
 Octokit.plugin(retry);
@@ -11,15 +11,15 @@ const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
   userAgent: "open-goal/jak-project",
   log: {
-    debug: () => { },
-    info: () => { },
+    debug: () => {},
+    info: () => {},
     warn: console.warn,
     error: console.error,
   },
   throttle: {
     onRateLimit: (retryAfter, options) => {
       octokit.log.warn(
-        `Request quota exhausted for request ${options.method} ${options.url}`
+        `Request quota exhausted for request ${options.method} ${options.url}`,
       );
 
       // Retry twice after hitting a rate limit error, then give up
@@ -31,7 +31,7 @@ const octokit = new Octokit({
     onAbuseLimit: (retryAfter, options) => {
       // does not retry, only logs a warning
       octokit.log.warn(
-        `Abuse detected for request ${options.method} ${options.url}`
+        `Abuse detected for request ${options.method} ${options.url}`,
       );
     },
   },
@@ -109,13 +109,13 @@ function updateProgressDbEntry(fileMeta, fileLines, progressDb, gameName) {
       status: status,
       assignedTo: {
         pr: null,
-        sheet: null
+        sheet: null,
       },
       ignoreFromLoc: ignoreFromLoc,
       loc: fileLines.length,
       issues: [],
-      pullRequests: []
-    })
+      pullRequests: [],
+    });
   } else {
     progressDb[entryIdx]["loc"] = fileLines.length;
     progressDb[entryIdx]["status"] = status;
@@ -123,7 +123,7 @@ function updateProgressDbEntry(fileMeta, fileLines, progressDb, gameName) {
     if (status == "decompiled") {
       progressDb[entryIdx]["assignedTo"] = {
         pr: null,
-        sheet: null
+        sheet: null,
       };
     }
   }
@@ -133,7 +133,9 @@ function updateProgressDbEntry(fileMeta, fileLines, progressDb, gameName) {
 // - if they are done, update the LoC
 function scanFolder(fileList, gameName, progressDb) {
   // Grab the file list
-  fileList = JSON.parse(fs.readFileSync(`./jak-project/goal_src/${gameName}/build/all_objs.json`));
+  fileList = JSON.parse(
+    fs.readFileSync(`./jak-project/goal_src/${gameName}/build/all_objs.json`),
+  );
   for (const fileMeta of fileList) {
     // Skip art files
     if (fileMeta[2] == 3) {
@@ -142,7 +144,10 @@ function scanFolder(fileList, gameName, progressDb) {
       if (fs.existsSync(filePath)) {
         let fileLines = fs.readFileSync(filePath).toString().split(/\r?\n/);
         // Check if the last line is empty
-        if (fileLines.length > 0 && fileLines[fileLines.length - 1].trim().length === 0) {
+        if (
+          fileLines.length > 0 &&
+          fileLines[fileLines.length - 1].trim().length === 0
+        ) {
           fileLines.pop();
         }
         updateProgressDbEntry(fileMeta, fileLines, progressDb, gameName);
@@ -160,13 +165,20 @@ function scanCasts(gameName) {
   let castFreqMap = {
     stackCasts: {},
     labelCasts: {},
-    typeCasts: {}
-  }
+    typeCasts: {},
+  };
   let decompFolder = "jak1/ntsc_v1";
   if (gameName === "jak2") {
     decompFolder = "jak2/ntsc_v1";
   }
-  let stackCasts = parse(fs.readFileSync(`./jak-project/decompiler/config/${decompFolder}/stack_structures.jsonc`, 'utf-8'), null, true);
+  let stackCasts = parse(
+    fs.readFileSync(
+      `./jak-project/decompiler/config/${decompFolder}/stack_structures.jsonc`,
+      "utf-8",
+    ),
+    null,
+    true,
+  );
   for (const [funcName, casts] of Object.entries(stackCasts)) {
     for (const cast of casts) {
       let typeName = "";
@@ -186,7 +198,14 @@ function scanCasts(gameName) {
       }
     }
   }
-  let labelCasts = parse(fs.readFileSync(`./jak-project/decompiler/config/${decompFolder}/label_types.jsonc`, 'utf-8'), null, true);
+  let labelCasts = parse(
+    fs.readFileSync(
+      `./jak-project/decompiler/config/${decompFolder}/label_types.jsonc`,
+      "utf-8",
+    ),
+    null,
+    true,
+  );
   for (const [funcName, casts] of Object.entries(labelCasts)) {
     for (const cast of casts) {
       let typeName = "";
@@ -202,7 +221,14 @@ function scanCasts(gameName) {
       }
     }
   }
-  let typeCasts = parse(fs.readFileSync(`./jak-project/decompiler/config/${decompFolder}/type_casts.jsonc`, 'utf-8'), null, true);
+  let typeCasts = parse(
+    fs.readFileSync(
+      `./jak-project/decompiler/config/${decompFolder}/type_casts.jsonc`,
+      "utf-8",
+    ),
+    null,
+    true,
+  );
   for (const [funcName, casts] of Object.entries(typeCasts)) {
     for (const cast of casts) {
       let typeName = "";
@@ -227,23 +253,26 @@ function scanCasts(gameName) {
     typeCasts: [],
     stackCastAvgFreq: 0,
     labelCastAvgFreq: 0,
-    typeCastAvgFreq: 0
-  }
+    typeCastAvgFreq: 0,
+  };
   for (const [typeName, freq] of Object.entries(castFreqMap.stackCasts)) {
     finalData.stackCasts.push({ name: typeName, value: freq });
     finalData.stackCastAvgFreq += freq;
   }
-  finalData.stackCastAvgFreq = finalData.stackCastAvgFreq / finalData.stackCasts.length;
+  finalData.stackCastAvgFreq =
+    finalData.stackCastAvgFreq / finalData.stackCasts.length;
   for (const [typeName, freq] of Object.entries(castFreqMap.labelCasts)) {
     finalData.labelCasts.push({ name: typeName, value: freq });
     finalData.labelCastAvgFreq += freq;
   }
-  finalData.labelCastAvgFreq = finalData.labelCastAvgFreq / finalData.labelCasts.length;
+  finalData.labelCastAvgFreq =
+    finalData.labelCastAvgFreq / finalData.labelCasts.length;
   for (const [typeName, freq] of Object.entries(castFreqMap.typeCasts)) {
     finalData.typeCasts.push({ name: typeName, value: freq });
     finalData.typeCastAvgFreq += freq;
   }
-  finalData.typeCastAvgFreq = finalData.typeCastAvgFreq / finalData.typeCasts.length;
+  finalData.typeCastAvgFreq =
+    finalData.typeCastAvgFreq / finalData.typeCasts.length;
   return finalData;
 }
 
@@ -286,20 +315,22 @@ const sheetAssignmentMapping = {
   },
   francessco: {
     avatar_url: "https://avatars.githubusercontent.com/u/6609531?v=4",
-    user_name: "Francessco121"
-  }
-}
+    user_name: "Francessco121",
+  },
+};
 
 function auditProcess(gameName, pulls, issues) {
   console.log(`Auditing - ${gameName}`);
   let fileList;
   let progressDb = [];
-  let progressPath = fileList = `./static/data/progress/${gameName}/progress.json`;
+  let progressPath =
+    (fileList = `./static/data/progress/${gameName}/progress.json`);
   if (fs.existsSync(progressPath)) {
     progressDb = JSON.parse(fs.readFileSync(progressPath));
   }
   let progressHistoryDb;
-  let progressHistoryDbPath = fileList = `./static/data/progress/${gameName}/history.json`;
+  let progressHistoryDbPath =
+    (fileList = `./static/data/progress/${gameName}/history.json`);
   if (fs.existsSync(progressHistoryDbPath)) {
     progressHistoryDb = JSON.parse(fs.readFileSync(progressHistoryDbPath));
   }
@@ -317,24 +348,30 @@ function auditProcess(gameName, pulls, issues) {
     // Check to see if the file shows up in any PR
     // if `jak1`, gotta check with and without `jak1` in the path, since that's something we changed recently
     for (const [number, pull] of Object.entries(pulls)) {
-      if (pull.files_modified.includes(entry.filePath) ||
-        (gameName === "jak1" && pull.files_modified.includes(entry.filePath.replace("jak1/", "")))) {
+      if (
+        pull.files_modified.includes(entry.filePath) ||
+        (gameName === "jak1" &&
+          pull.files_modified.includes(entry.filePath.replace("jak1/", "")))
+      ) {
         entry.pullRequests.push({
           url: pull.url,
           number: pull.number,
           title: pull.title,
           avatar_url: pull.avatar_url,
           user: pull.user,
-          state: pull.state
+          state: pull.state,
         });
       }
     }
     entry.issues = [];
     // Check issues title/body
     for (const issue of issues) {
-      if (issue.title.includes(fileName) || (issue.body !== null && issue.body.includes(fileName))) {
+      if (
+        issue.title.includes(fileName) ||
+        (issue.body !== null && issue.body.includes(fileName))
+      ) {
         // Check if the issue is for this game
-        let validIssue = false
+        let validIssue = false;
         if (gameName == "jak1") {
           validIssue = true;
         } else {
@@ -350,7 +387,7 @@ function auditProcess(gameName, pulls, issues) {
             number: issue.number,
             url: issue.html_url,
             state: issue.state,
-            title: issue.title
+            title: issue.title,
           });
         }
       }
@@ -372,17 +409,18 @@ function auditProcess(gameName, pulls, issues) {
     }
 
     // Update spreadsheet assignment
-    if (gameName === "jak2") { // only jak 2 is in active development
+    if (gameName === "jak2") {
+      // only jak 2 is in active development
       const assignment = getSheetAssignmentFromName(fileName);
       if (assignment !== null) {
-        const assignmentLenient = assignment.replace(" ", "").toLowerCase()
+        const assignmentLenient = assignment.replace(" ", "").toLowerCase();
         if (assignmentLenient in sheetAssignmentMapping) {
           entry.assignedTo.sheet = sheetAssignmentMapping[assignmentLenient];
         } else {
           entry.assignedTo.sheet = {
             avatar_url: null,
-            user_name: assignment
-          }
+            user_name: assignment,
+          };
         }
       }
     }
@@ -400,53 +438,67 @@ function auditProcess(gameName, pulls, issues) {
   progressHistoryDb.excludedFromLoc = [...excludedFromLocFiles];
 
   // Update loc count if it's changed
-  if (progressHistoryDb.locHistory.length == 0 || newLocCount != progressHistoryDb.locHistory[progressHistoryDb.locHistory.length - 1].loc) {
+  if (
+    progressHistoryDb.locHistory.length == 0 ||
+    newLocCount !=
+      progressHistoryDb.locHistory[progressHistoryDb.locHistory.length - 1].loc
+  ) {
     progressHistoryDb.locHistory.push({
-      timestamp: (new Date()).toISOString(),
-      loc: newLocCount
+      timestamp: new Date().toISOString(),
+      loc: newLocCount,
     });
   }
 
   // Sort by status
-  let order = { "in-progress": 1, "started": 2, "needs-ref-tests": 3, "todo": 4, "decompiled": 5, "default": 1000 };
-  progressDb.sort((a, b) => (order[a.status] || order.default) - (order[b.status] || order.default));
+  let order = {
+    "in-progress": 1,
+    started: 2,
+    "needs-ref-tests": 3,
+    todo: 4,
+    decompiled: 5,
+    default: 1000,
+  };
+  progressDb.sort(
+    (a, b) =>
+      (order[a.status] || order.default) - (order[b.status] || order.default),
+  );
 
   // Write out progress files
-  fs.writeFileSync(`./static/data/progress/${gameName}/casts.json`, JSON.stringify(castFreqData));
+  fs.writeFileSync(
+    `./static/data/progress/${gameName}/casts.json`,
+    JSON.stringify(castFreqData),
+  );
   fs.writeFileSync(progressPath, JSON.stringify(progressDb));
   fs.writeFileSync(progressHistoryDbPath, JSON.stringify(progressHistoryDb));
   console.log(`Finished auditing - ${gameName}`);
 }
 
 async function getAllIssues() {
-  return await octokit
-    .paginate(octokit.rest.issues.listForRepo, {
-      owner: "open-goal",
-      repo: "jak-project",
-      per_page: 100,
-      state: "all",
-    });
+  return await octokit.paginate(octokit.rest.issues.listForRepo, {
+    owner: "open-goal",
+    repo: "jak-project",
+    per_page: 100,
+    state: "all",
+  });
 }
 
 async function getAllPullRequests() {
-  return await octokit
-    .paginate(octokit.rest.pulls.list, {
-      owner: "open-goal",
-      repo: "jak-project",
-      per_page: 100,
-      base: "master",
-      state: "all",
-    });
+  return await octokit.paginate(octokit.rest.pulls.list, {
+    owner: "open-goal",
+    repo: "jak-project",
+    per_page: 100,
+    base: "master",
+    state: "all",
+  });
 }
 
 async function getPullRequestFiles(pullNumber) {
-  return await octokit
-    .paginate(octokit.rest.pulls.listFiles, {
-      owner: "open-goal",
-      repo: "jak-project",
-      per_page: 100,
-      pull_number: pullNumber
-    });
+  return await octokit.paginate(octokit.rest.pulls.listFiles, {
+    owner: "open-goal",
+    repo: "jak-project",
+    per_page: 100,
+    pull_number: pullNumber,
+  });
 }
 
 await loadSheetData();
@@ -458,15 +510,19 @@ console.log("preparing PR data, updating file modification history");
 // Filter and update pull request history
 // we "cache" this information because this is a very expensive operation (1+ calls per PR)
 // and we don't want to wastefully do this, files only change when the commit sha on the head branch changes
-let pullRequestHistory = JSON.parse(fs.readFileSync("./scripts/progress-tracker/history/pulls.json"));
+let pullRequestHistory = JSON.parse(
+  fs.readFileSync("./scripts/progress-tracker/history/pulls.json"),
+);
 let prCount = 0;
 for (const pull of pullRequests) {
-  console.log(`[${prCount + 1}/${pullRequests.length}] Pull Request Files Analyzed`);
+  console.log(
+    `[${prCount + 1}/${pullRequests.length}] Pull Request Files Analyzed`,
+  );
   if (pull.number.toString() in pullRequestHistory) {
     // If something has changed, check the files again
     if (pull.head.sha !== pullRequestHistory[pull.number.toString()].sha) {
       let files = await getPullRequestFiles(pull.number);
-      let filteredFiles = []
+      let filteredFiles = [];
       for (const file of files) {
         // We only care about the files that are in goal_src/
         if (file.filename.startsWith("goal_src")) {
@@ -482,8 +538,8 @@ for (const pull of pullRequests) {
         title: pull.title,
         avatar_url: pull.user.avatar_url,
         user: pull.user.login,
-        state: pull.state
-      }
+        state: pull.state,
+      };
     } else {
       // else the files are the same, but the state/title may have changed so update that
       pullRequestHistory[pull.number.toString()].state = pull.state;
@@ -493,7 +549,7 @@ for (const pull of pullRequests) {
     // new entry, ask for the files, initialize it
     // TODO - put this in a function
     let files = await getPullRequestFiles(pull.number);
-    let filteredFiles = []
+    let filteredFiles = [];
     for (const file of files) {
       // We only care about the files that are in goal_src/
       if (file.filename.startsWith("goal_src")) {
@@ -509,13 +565,16 @@ for (const pull of pullRequests) {
       title: pull.title,
       avatar_url: pull.user.avatar_url,
       user: pull.user.login,
-      state: pull.state
-    }
+      state: pull.state,
+    };
   }
   prCount++;
 }
 // Update our history
-fs.writeFileSync("./scripts/progress-tracker/history/pulls.json", JSON.stringify(pullRequestHistory));
+fs.writeFileSync(
+  "./scripts/progress-tracker/history/pulls.json",
+  JSON.stringify(pullRequestHistory),
+);
 
 console.log("getting issues");
 // For issues we only analyze the title and body and all of that is in the initial list response, so no need

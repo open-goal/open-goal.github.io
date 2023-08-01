@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 # Using the debugger
@@ -10,7 +10,7 @@ The debugger works on Windows and Linux. All the platform specific code is in `x
 
 ### `(dbs)`
 
-Print the status of the debugger and listener.  The listener status is whether or not there is a socket connection open between the compiler and the target. The "debug context" is information that the runtime sends to the compiler so it can find the correct thread to debug. In order to debug, you need both.
+Print the status of the debugger and listener. The listener status is whether or not there is a socket connection open between the compiler and the target. The "debug context" is information that the runtime sends to the compiler so it can find the correct thread to debug. In order to debug, you need both.
 
 ### `(dbg)`
 
@@ -127,7 +127,6 @@ gc> (dw (sym-val *kernel-context*) 10)
  0x00164aa4: 0x00000000 0x00000000
 ```
 
-
 ### `(:pm)`
 
 Print memory
@@ -136,7 +135,7 @@ Print memory
 (:pm elt-size addr elt-count [:print-mode mode])
 ```
 
-The element size is the size of each word to print. It can be 1, 2, 4, 8 currently.  The address is the GOAL Address to print at. The elt-count is the number of words to print.  The print mode is option and defaults to `hex`. There is also an `unsigned-decimal`, a `signed-decimal`, and `float`. The `float` mode only works when `elt-size` is 4.
+The element size is the size of each word to print. It can be 1, 2, 4, 8 currently. The address is the GOAL Address to print at. The elt-count is the number of words to print. The print mode is option and defaults to `hex`. There is also an `unsigned-decimal`, a `signed-decimal`, and `float`. The `float` mode only works when `elt-size` is 4.
 
 There are some useful macros inspired by the original PS2 TOOL debugger (`dsedb`) for the different sizes. They are `db`, `dh`, `dw`, and `dd` for 1, 2, 4, and 8 byte hex prints which follows the naming convention of MIPS load/stores. There is also a `df` for printing floats. See the example below.
 
