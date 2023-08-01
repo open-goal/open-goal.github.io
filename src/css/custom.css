@@ -42,6 +42,23 @@
   color: var(--ifm-color-primary) !important;
 }
 
+div[class^="announcementBar_"] {
+  font-family: "Roboto Mono", monospace;
+	color: black;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  --site-announcement-bar-stripe-color1: hsl(22.3, 100%, 48.4%) !important;
+  --site-announcement-bar-stripe-color2: hsl(25.4, 100%, 50%) !important;
+}
+
+div[class^="announcementBar_"] a {
+  text-decoration: none !important;
+}
+
+div[class^="announcementBar_"] a:hover {
+  color: #242424;
+}
+
 html {
   font-family: "Lato", sans-serif;
 }
