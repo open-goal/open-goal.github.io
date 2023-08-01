@@ -8,7 +8,7 @@ This information should help you along the process of creating and distributing 
 
 ## Restrictions
 
-Do not change the resolution of the sky, clouds, or eye textures. Other textures should let you change the size.  Using extremely large textures will use more VRAM and will load slower.
+Do not change the resolution of the sky, clouds, or eye textures. Other textures should let you change the size. Using extremely large textures will use more VRAM and will load slower.
 
 The PNG file should have an alpha channel. Some textures use their alpha channels for transparency, or for indicating which parts should have environment mapping applied. It may be useful to look at how the original texture uses the alpha channel first, especially for particle effects.
 
@@ -16,7 +16,7 @@ The PNG file should have an alpha channel. Some textures use their alpha channel
 
 To make this easier to set up, you can copy the default textures from `assets`, and then modify those.
 
-For example, you can copy the `common` folder from `data/decompiler_out/jak1/textures` to `texture_replacements`.  Then you can modify the png files in `texture_replacements/common`
+For example, you can copy the `common` folder from `data/decompiler_out/jak1/textures` to `texture_replacements`. Then you can modify the png files in `texture_replacements/common`
 
 ## Rebuilding the game with modified textures
 
@@ -36,7 +36,7 @@ If you want your texture pack to be installable via the Launcher, there are some
 
 ![](./img/texture-packs.png)
 
-1. Ensure it is a `.zip` file with a top level `texture_replacements` folder.  This folder should contain all of your texture replacements in the same layout they would be while creating the pack.  For example:
+1. Ensure it is a `.zip` file with a top level `texture_replacements` folder. This folder should contain all of your texture replacements in the same layout they would be while creating the pack. For example:
 
 ![](./img/texture-dir-example1.png)
 ![](./img/texture-dir-example2.png)
@@ -54,7 +54,6 @@ If you want your texture pack to be installable via the Launcher, there are some
   "releaseDate": "2022-09-08",
   "supportedGames": ["jak1"],
   "description": "Snowy texture pack and snowy weather everywhere.",
-  "tags" : ["overhaul", "themed"]
+  "tags": ["overhaul", "themed"]
 }
 ```
-

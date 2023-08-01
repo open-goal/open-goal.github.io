@@ -85,6 +85,7 @@ Long-awaited, this setting determines whether you can use the skip cutscene butt
 For those of you looking to speedrun the game, there's a dedicated speedrunner mode that takes care of some of the default settings, and makes sure that your run is compliant with the [OpenGOAL Jak 1 speedrun categories](https://www.speedrun.com/jak1og). This includes settings like disabling hints and skipping the opening cutscene. Default value is off.
 
 Effects of speedrunner mode:
+
 - When starting a new game, **PLAY HINTS** is set to off (except for the "All Cutscenes" category extension).
 - Frame rate is set to and locked at 60.
 - Additional text is displayed at the beginning of speedruns.
@@ -97,7 +98,7 @@ Options that affect the game's visuals. Note that a few of the options present i
 
 Affects the game resolution. When playing on windowed mode, this affects the window size so that it matches the internal resolution. Note that this setting affects windowed and fullscreen modes separately.
 
-This menu brings up a list of resolutions, which will vary according to your monitor's available resolutions<sup>1</sup>. When in fullscreen mode, two additional resolution options will show up as well: 512x224, the game's original NTSC resolution for a single [field](https://en.wikipedia.org/wiki/Field_(video)) and 512x448, the game's original NTSC resolution when interlaced.
+This menu brings up a list of resolutions, which will vary according to your monitor's available resolutions<sup>1</sup>. When in fullscreen mode, two additional resolution options will show up as well: 512x224, the game's original NTSC resolution for a single [field](<https://en.wikipedia.org/wiki/Field_(video)>) and 512x448, the game's original NTSC resolution when interlaced.
 
 Default values are 640x480 for windowed mode and your monitor's resolution for fullscreen modes. Recommended value is whatever you think looks best without a performance drawback!
 
@@ -265,9 +266,9 @@ Affects the horizontal movement of the third-person cameras. Default value is **
 
 #### SELECT CONTROLLER
 
-Here you can select which controller you want to be used for Port 1.  If possible, it will display the actual name of your controller and otherwise it will use a vague number (ie. Controller 5).
+Here you can select which controller you want to be used for Port 1. If possible, it will display the actual name of your controller and otherwise it will use a vague number (ie. Controller 5).
 
-This is useful for when you have multiple controllers plugged in.  The game will try it's best to remember which controller you selected last time and use that when you restart the game _or_ disconnect and reconnect the controller.
+This is useful for when you have multiple controllers plugged in. The game will try it's best to remember which controller you selected last time and use that when you restart the game _or_ disconnect and reconnect the controller.
 
 #### VIBRATIONS
 
@@ -275,11 +276,11 @@ When enabled, controller rumbling will occur as additional feedback for various 
 
 #### ANALOG DEADZONE
 
-Exposes the percentage for the analog deadzone, might be helpful if you have stick-drift issues.  Note that their deadzone calculation is not that great and changing this value to either extremes will result in unexpected / incorrect behaviour.
+Exposes the percentage for the analog deadzone, might be helpful if you have stick-drift issues. Note that their deadzone calculation is not that great and changing this value to either extremes will result in unexpected / incorrect behaviour.
 
 #### IGNORE IF WINDOW UNFOCUSED
 
-Enable this option if you want the game to ignore controller inputs unless the window is focused.  Otherwise the game will receive and process events no matter the window's state.
+Enable this option if you want the game to ignore controller inputs unless the window is focused. Otherwise the game will receive and process events no matter the window's state.
 
 #### CONTROLLER LED FOR `X`
 
@@ -294,7 +295,7 @@ Controls whether or not you want keyboard inputs to be processed.
 These are the default keyboard bindings.
 
 | Controller           | Keyboard       |
-|----------------------|----------------|
+| -------------------- | -------------- |
 | Left Analog - Left   | A              |
 | Left Analog - Right  | D              |
 | Left Analog - Up     | W              |
@@ -334,15 +335,15 @@ Whether or not your mouse movements should influence the camera (mapped to the r
 
 #### HORIZONTAL SENSITIVITY
 
-Amount of influence a relative mouse movement should change the right analog stick in the horizontal direction.  This can be set to a negative value to essentially invert the direction.
+Amount of influence a relative mouse movement should change the right analog stick in the horizontal direction. This can be set to a negative value to essentially invert the direction.
 
 #### VERTICAL SENSITIVITY
 
-Amount of influence a relative mouse movement should change the right analog stick in the vertical direction.  This can be set to a negative value to essentially invert the direction.
+Amount of influence a relative mouse movement should change the right analog stick in the vertical direction. This can be set to a negative value to essentially invert the direction.
 
 #### PLAYER MOVEMENT
 
-Whether or not you'd like Jak to move forward when pressing both mouse buttons (left and right click).  This allows for moving and steering Jak with only the mouse.
+Whether or not you'd like Jak to move forward when pressing both mouse buttons (left and right click). This allows for moving and steering Jak with only the mouse.
 
 ### AUTO HIDE CURSOR
 
@@ -350,7 +351,7 @@ Whether or not you'd like the mouse cursor to be hidden when a controller input 
 
 ### REASSIGN BINDS
 
-Allows you to customize and swap bindings independently for each device type (controller, keyboard and mice).  For controllers, these bindings should be independent for each device, so you can have different bindings for a 360 controller and for a DualSense controller.
+Allows you to customize and swap bindings independently for each device type (controller, keyboard and mice). For controllers, these bindings should be independent for each device, so you can have different bindings for a 360 controller and for a DualSense controller.
 
 ## Sound Options
 
@@ -363,4 +364,3 @@ This menu remains unaltered from the original game and its settings are self exp
 A staple feature of Jak and Daxter games that only got introduced in Jak II, now in the first game thanks to contributions from the OpenGOAL community. We won't spoil the various cheats, but here's just a quick sneak peek...
 
 ![](./img/cheats_example.png)
-

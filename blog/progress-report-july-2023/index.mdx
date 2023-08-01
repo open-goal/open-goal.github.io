@@ -45,6 +45,7 @@ NOTE - You must be on the latest version of the launcher (`2.0.10` or above) to 
 ### Intel macOS Support <PRLink href="https://github.com/open-goal/jak-project/pull/2780"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2798"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2811"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2817"/>
 
 Huge shoutout to [fabjan](https://github.com/fabjan) who contributed a handful of changes to make OpenGOAL run on Intel macOS. The key things that had to change were:
+
 - Updating the C++ project and assembly code to work in this environment
 - Changing the OpenGL shader code to support OpenGL 4.1
 
@@ -52,7 +53,7 @@ Huge shoutout to [fabjan](https://github.com/fabjan) who contributed a handful o
 This does not extend to native Apple Silicon (and therefore ARM64) support
 :::
 
-There may be some issues as this is the first macOS release, but you *should* be able to install the game via the launcher just like any other supported platform. The [installation instructions](/docs/usage/installation/) have been updated, however there isn't a whole lot to say -- the launcher installs like any other common MacOS application.  Download the `.dmg` and drag-and-drop it into your `Applications` folder.
+There may be some issues as this is the first macOS release, but you _should_ be able to install the game via the launcher just like any other supported platform. The [installation instructions](/docs/usage/installation/) have been updated, however there isn't a whole lot to say -- the launcher installs like any other common MacOS application. Download the `.dmg` and drag-and-drop it into your `Applications` folder.
 
 ![](./img/mac.png)
 
@@ -61,7 +62,7 @@ There may be some issues as this is the first macOS release, but you *should* be
 The launcher can now be used to manage texture packs. You can even add multiple packs at the same time.
 
 :::caution
-As with most initial implementations, you should expect some potential bugs or rough edges.  However the most likely bug you will run into is the texture pack being in an unsupported format. Texture pack authors will have to update their packs accordingly.
+As with most initial implementations, you should expect some potential bugs or rough edges. However the most likely bug you will run into is the texture pack being in an unsupported format. Texture pack authors will have to update their packs accordingly.
 :::
 
 - Information for end-users can be found [here](/docs/usage/texture_replacement)
@@ -114,7 +115,7 @@ Some cutscenes had missing eyes or animations, particularly `fortress-save-frien
 
 ### Adjust Jak 2's File Tree <PRLink href="https://github.com/open-goal/jak-project/pull/2806"/>
 
-The original file structure was made more than a year ago without a ton of context around each file.  As a result, some things ended up in the wrong spot or had confusing names.
+The original file structure was made more than a year ago without a ton of context around each file. As a result, some things ended up in the wrong spot or had confusing names.
 
 ### Race and Defend Stadium Regressions <PRLink href="https://github.com/open-goal/jak-project/pull/2816"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2848"/>
 
@@ -134,7 +135,7 @@ Better mouse cursor positioning when the game is letterboxed.
 
 ### Prepare Jak 2 Translation Files for Crowdin <PRLink href="https://github.com/open-goal/jak-project/pull/2802"/>
 
-The subtitle files for Jak 2 have been adjusted to support Crowdin in the future.  As soon as they are fully transcribed in English, they will be made available for translation there.
+The subtitle files for Jak 2 have been adjusted to support Crowdin in the future. As soon as they are fully transcribed in English, they will be made available for translation there.
 
 ### Bump Minimap Icon Limit to 256 from 64 <PRLink href="https://github.com/open-goal/jak-project/pull/2826"/>
 
@@ -166,7 +167,11 @@ A bunch of work has occurred this month around getting texture animations workin
 
 ![](img/hud-skullgem.gif)
 
-<ReactPlayer controls url={"https://www.youtube.com/watch?v=Cgs3o4apXTE"} className="blog-video"/>
+<ReactPlayer
+  controls
+  url={"https://www.youtube.com/watch?v=Cgs3o4apXTE"}
+  className="blog-video"
+/>
 
 ### Support Textures in Progress Menu <PRLink href="https://github.com/open-goal/jak-project/pull/2838"/>
 

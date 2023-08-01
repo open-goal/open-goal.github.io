@@ -24,7 +24,7 @@ While it's possible to just edit the base "test-zone" level, it's important to k
 
 However we'll copy the files that are already existing and edit them as that's much easier from writing them from scratch.
 
-Navigate to "_data\custom\_levels"_, copy the _"test-zone"_ folder, and rename it to the name of your custom level.
+Navigate to "_data\custom_levels"_, copy the _"test-zone"_ folder, and rename it to the name of your custom level.
 
 ![](./img/folder-setup-1.png)
 
@@ -66,7 +66,7 @@ We'll skip over the .glb for now as there's some other code we need to add and e
 
 Once again we can copy the already existing _test-zone_ and edit the names to ours.
 
-Location: _"data\goal\_src\jak1\game.gp"_
+Location: _"data\goal_src\jak1\game.gp"_
 
 Line: 1621
 
@@ -102,11 +102,11 @@ This means the axes are rotated on the X axis by 90 degrees.
 
 All you really need to know is when you'll convert coordinates between the two you'll need to do this conversion:
 
-| **Jak 1** | **Blender** |
-| --- | --- |
-| **X** | **X** |
-| **Y** | **Z** |
-| **Z** | **Y (inverted)** |
+| **Jak 1** | **Blender**      |
+| --------- | ---------------- |
+| **X**     | **X**            |
+| **Y**     | **Z**            |
+| **Z**     | **Y (inverted)** |
 
 #### The "Stats \> Target" method
 
@@ -136,7 +136,7 @@ This is what the position then need to be set in blender for an object to appear
 
 My preferred method to place my custom level in jak 1 is to import a level's geometry into my blender file directly. These will be positioned correctly within Blender. Which means you can just place your level in relation with that 3D file, giving you a better idea of how it'll fit there.
 
-I'll first start by importing "village1\_background.glb" and "training\_background.glb" into my Blender file so I can locate an adequate location.
+I'll first start by importing "village1_background.glb" and "training_background.glb" into my Blender file so I can locate an adequate location.
 
 ![](./img/importing-village1.png)
 
@@ -261,7 +261,7 @@ We're almost done to be able to get to our level in the game. The last thing we'
 
 Once again we can copy the already existing _test-zone_ and edit it to fit our level.
 
-Location: _"data\goal\_src\jak1\engine\level\level-info.gc"_
+Location: _"data\goal_src\jak1\engine\level\level-info.gc"_
 
 Line: 1975
 
@@ -367,7 +367,7 @@ The debug continue-point can be changed, doing so can save you a lot of time if 
 
 The mod-base has an extra file for mod related settings. This file also contains an overwrite for the starting debug continue-point.
 
-Navigate to: "data\goal\_src\jak1\engine\mods\mods-settings.gc"
+Navigate to: "data\goal_src\jak1\engine\mods\mods-settings.gc"
 
 Line: 40
 
@@ -383,7 +383,7 @@ Another advantage of this method is that you're not changing some of the base co
 
 Even if you're not using the mod-base, you'll still be able to change this which I'd still suggest doing. The compile time whenever you want to change it will be a lot longer but it's probably still going to be a huge time save overall.
 
-Navigate to: "data\goal\_src\jak1\engine\game\game-info.gc"
+Navigate to: "data\goal_src\jak1\engine\game\game-info.gc"
 
 Line: 219
 

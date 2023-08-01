@@ -8,7 +8,6 @@ sidebar_position: 3
 The following instructions depend on if you are using a release version (pre-compiled) or building the project from source.
 :::
 
-
 ## Using the OpenGOAL Launcher
 
 ### Using a proper bundle
@@ -27,12 +26,11 @@ Next you'll want to enable the pack and apply the changes, and that should be it
 
 ![](./img/texture-pack-apply.png)
 
-
 ### Manually
 
 If you don't want to use this feature, or the texture pack is not in the correct format, you can apply texture replacements yourself manually.
 
-Navigate to the folder that you set as the Installation Directory.  You can find this in the settings page.
+Navigate to the folder that you set as the Installation Directory. You can find this in the settings page.
 
 From there, you'll want to create a `texture_replacements/` folder in the following directory:
 
@@ -69,4 +67,3 @@ Where `page_name` is the name of the folder in `decompiler_out/jak1/textures` an
 :::tip
 You'll have to create the `texture_replacements` folder yourself.
 :::
-

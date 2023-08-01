@@ -15,7 +15,7 @@ Here's a brief rundown of the key points for translating text.
 - Jak's font is very limiting, keep this in mind when translating strings or for evaluating if your language is a good candidate. [#supported-characters](#supported-characters)
 - Crowdin:
   - Only the custom strings we have added are able to be translated via [Crowdin](https://crowdin.com/project/opengoal)
-  - The strings are keyed by their text-id.  If it's not obvious what the context is, you can reference the text-id and where it is used in the code
+  - The strings are keyed by their text-id. If it's not obvious what the context is, you can reference the text-id and where it is used in the code
     - [Jak 1](https://github.com/open-goal/jak-project/blob/master/goal_src/jak1/engine/ui/text-h.gc)
     - As time passes, hopefully translators will add this context into Crowdin so it becomes more obvious.
 - If you need to modify original strings, you will need to submit a PR with your changes.
@@ -30,7 +30,7 @@ You will need to provide your Crowdin username to do so, and you should probably
 
 ## Supported Characters
 
-First off, the fonts included in the the games are quite limiting, they do not support the entire unicode character set (not even close).  Therefore if your language isn't compatible, adding support for it is outside the scope of this guide.
+First off, the fonts included in the the games are quite limiting, they do not support the entire unicode character set (not even close). Therefore if your language isn't compatible, adding support for it is outside the scope of this guide.
 
 ### Jak 1
 
@@ -88,6 +88,7 @@ Jak 1's font supports the following characters from a translation string:
 There are two ways to modify and contribute translations.
 
 The first is to do it via [Crowdin](https://crowdin.com/project/opengoal) which has every custom string we have added to the games
+
 - Pros
   - Keeps track of what isn't already translated
   - Zero knowledge of Git/Github required
@@ -100,6 +101,7 @@ As you are translating via Crowdin, if it is not obvious whatthe string is or wh
 ![](./img/crowdin-context.png)
 
 The second is to modify the files and submit a PR via github https://github.com/open-goal/jak-project/tree/master/game/assets/jak1/text
+
 - Pros
   - Can add a new language
   - Translate any text-id string you want
@@ -115,6 +117,7 @@ If you want to add a brand new language or locale to the game you will have to g
 > TODO - do a better write-up about this here
 
 Until this section is more fleshed out, check out the following existing documentation / examples for how to do so:
+
 - [Relevant section in subtitle docs, very similar](/docs/contributing/subtitle-translations#step-2---adding-a-brand-new-language)
 - An example PR adding Hungarian - https://github.com/open-goal/jak-project/pull/2141
 
@@ -122,7 +125,7 @@ Until this section is more fleshed out, check out the following existing documen
 
 As stated above, Crowdin only includes new custom strings we have added in OpenGOAL (for example, `Graphics Settings`)
 
-So translating a base game string requires submitting a PR, similar to what you'd have to do to add a brand new language.  Base game strings are separated into another file from the custom strings.  You can see an example of this with some [existing languages](https://github.com/open-goal/jak-project/blob/ae3b76e465261f65f5605a2911bf8d7378746413/game/assets/jak1/game_text.gp#L17-L18)
+So translating a base game string requires submitting a PR, similar to what you'd have to do to add a brand new language. Base game strings are separated into another file from the custom strings. You can see an example of this with some [existing languages](https://github.com/open-goal/jak-project/blob/ae3b76e465261f65f5605a2911bf8d7378746413/game/assets/jak1/game_text.gp#L17-L18)
 
 All of the game's text ids can be found here https://github.com/open-goal/jak-project/blob/master/goal_src/jak1/engine/ui/text-h.gc
 

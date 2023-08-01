@@ -39,7 +39,8 @@ NOTE - You must be on the latest version of the launcher (`2.0.10` or above) to 
 
 ### Translate all the Things <PRLink href="https://github.com/open-goal/jak-project/pull/2613"/> <PRLink href="https://github.com/open-goal/jak-project/pull/1760"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2637"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2644"/>
 
-A lot of work finally fell in place this month to make translating more accessible.  We now have two Crowdin projects:
+A lot of work finally fell in place this month to make translating more accessible. We now have two Crowdin projects:
+
 - https://crowdin.com/project/opengoal
   - Covers custom game text that we have added to the game
   - Subtitles that don't have an audio accompaniment
@@ -55,6 +56,7 @@ If you are someone who is going to translate the subtitles via Crowdin, and you 
 ### Regressions fixed
 
 There were a few major re-writes to large swathes of code and a few manual changes were accidentally undone, leading to a few bugs to re-appear. The following have been fixed:
+
 - "Press Circle to talk" appearing when it shouldn't and letting you talk from NPCs you shouldn't. <PRLink href="https://github.com/open-goal/jak-project/pull/2642"/>
 - Racer HUD being misaligned. <PRLink href="https://github.com/open-goal/jak-project/pull/2648"/>
 - Orb glow not existing. <PRLink href="https://github.com/open-goal/jak-project/pull/2650"/>
@@ -75,7 +77,11 @@ During some codebase cleanup and improvements, we accidentally introduced a few 
 
 One of the last files that was blocked (and still technically is, just was fixed manually). Fixes missing dialogue (guards / citizens) when wandering through the city.
 
-<ReactPlayer controls url="https://www.youtube.com/watch?v=6oDq1bPxKSE" className="blog-video"/>
+<ReactPlayer
+  controls
+  url="https://www.youtube.com/watch?v=6oDq1bPxKSE"
+  className="blog-video"
+/>
 
 ### `blit-displays`, `sprite-distort` <PRLink href="https://github.com/open-goal/jak-project/pull/2616"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2620"/>
 
@@ -87,7 +93,11 @@ Adds part of the `blit-displays` system. This is used to copy and modify the scr
 
 ![](./img/blit.png)
 
-<ReactPlayer controls url="https://youtu.be/0Tws1FSt2ys" className="blog-video"/>
+<ReactPlayer
+  controls
+  url="https://youtu.be/0Tws1FSt2ys"
+  className="blog-video"
+/>
 
 ### Shadows <PRLink href="https://github.com/open-goal/jak-project/pull/2632"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2647"/>
 
@@ -117,7 +127,11 @@ This makes the code related to the missions in the game much easier to understan
 
 A new debug menu that allows for quick playback of any audio file in the game, which is mainly going to be used for the transcription and translation of subtitles for the new subtitle system.
 
-<ReactPlayer controls url="https://youtu.be/og3uIeO6O-I" className="blog-video"/>
+<ReactPlayer
+  controls
+  url="https://youtu.be/og3uIeO6O-I"
+  className="blog-video"
+/>
 
 ## Upcoming Work
 
@@ -133,6 +147,10 @@ In addition to handling audio outside of cutscenes, the new system offers the fo
 
 As of right now, we only have a small portion of lines transcribed (there's thousands of voicelines!) and while the new system also supports cutscenes, this has not been tested yet and we still have to look at how to merge the original subtitles into the new system in order to avoid having to rewrite the script.
 
-<ReactPlayer controls url="https://www.youtube.com/watch?v=cLIwkdJm8BQ" className="blog-video"/>
+<ReactPlayer
+  controls
+  url="https://www.youtube.com/watch?v=cLIwkdJm8BQ"
+  className="blog-video"
+/>
 
 ![](./img/subtitles.png)

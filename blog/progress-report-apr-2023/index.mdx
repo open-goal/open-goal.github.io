@@ -40,10 +40,14 @@ NOTE - You must be on the latest version of the launcher (`2.0.10` or above) to 
 ### Fix Jak 1 Alpha Issues <PRLink href="https://github.com/open-goal/jak-project/pull/2458"/>
 
 This fixed some graphical regressions:
+
 - The sculptor's face shield lacking transparency
 - Final boss' red ring attack
 
-<ImageCompare left={require("./img/sculptor-before.png").default} right={require("./img/sculptor-after.png").default}/>
+<ImageCompare
+  left={require("./img/sculptor-before.png").default}
+  right={require("./img/sculptor-after.png").default}
+/>
 
 ### Fix Debug Booting <PRLink href="https://github.com/open-goal/jak-project/pull/2469"/>
 
@@ -101,13 +105,21 @@ This resolved many feature gaps in Jak 2 graphics-wise. Generic was needed for a
 
 This video showcases a small chunk of uses of this effect throughout the game:
 
-<ReactPlayer controls url="https://www.youtube.com/watch?v=-zwhSq-Id4M" className="blog-video"/>
+<ReactPlayer
+  controls
+  url="https://www.youtube.com/watch?v=-zwhSq-Id4M"
+  className="blog-video"
+/>
 
 ### Shadow Renderer <PRLink href="https://github.com/open-goal/jak-project/pull/2507"/>
 
 Still a work in progress, the shadow renderer is slowly starting to take shape, albeit with its fair share of bugs.
 
-<ReactPlayer controls url="https://www.youtube.com/watch?v=wUB9YsEe5xM" className="blog-video"/>
+<ReactPlayer
+  controls
+  url="https://www.youtube.com/watch?v=wUB9YsEe5xM"
+  className="blog-video"
+/>
 
 ### Version Diffs <PRLink href="https://github.com/open-goal/jak-project/pull/2528"/>
 
@@ -147,7 +159,11 @@ The PlayStation 2's IOP (Input Output Processor), which was just the PS1's main 
 
 For the longest time, we have been missing the Jak 2 version of the driver which has been the cause of dozens of bugs, but thanks to Ziemas' and water111's hard work at reverse engineering Jak 2's Overlord, we finally have full cutscene audio and voice lines in OpenGOAL! This change alone resolved between 30-40 issues we've been tracking.
 
-<ReactPlayer controls url="https://www.youtube.com/watch?v=r9wqzN5Ut94" className="blog-video"/>
+<ReactPlayer
+  controls
+  url="https://www.youtube.com/watch?v=r9wqzN5Ut94"
+  className="blog-video"
+/>
 
 ### Aspect Ratio Related Minimap Stretch <PRLink href="https://github.com/open-goal/jak-project/pull/2593"/>
 
@@ -170,6 +186,7 @@ The second is that using relative `project-path` overrides, typically via the `-
 ### New `defpart` syntax <PRLink href="https://github.com/open-goal/jak-project/pull/2572"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2587"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2596"/>
 
 This still has some issues that need to be worked out, namely:
+
 - The compilation speed is slower in comparison, but trying to be improved.
 - Documentation for the new format needs to be written.
 

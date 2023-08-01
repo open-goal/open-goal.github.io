@@ -2,66 +2,66 @@
 // Note: type annotations allow type checking and IDEs autocompletion
 
 // @ts-ignore
-const themes = require('prism-react-renderer').themes;
+const themes = require("prism-react-renderer").themes;
 const lightCodeTheme = themes.github;
 const darkCodeTheme = themes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'OpenGOAL',
-  tagline: 'Reviving the Language that Brought us the Jak and Daxter Series',
-  url: 'https://open-goal.github.io',
-  baseUrl: '/',
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'throw',
-  favicon: 'img/favicon.png',
+  title: "OpenGOAL",
+  tagline: "Reviving the Language that Brought us the Jak and Daxter Series",
+  url: "https://open-goal.github.io",
+  baseUrl: "/",
+  onBrokenLinks: "throw",
+  onBrokenMarkdownLinks: "throw",
+  favicon: "img/favicon.png",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'open-goal', // Usually your GitHub org/user name.
-  projectName: 'open-goal.github.io', // Usually your repo name.
+  organizationName: "open-goal", // Usually your GitHub org/user name.
+  projectName: "open-goal.github.io", // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: "en",
+    locales: ["en"],
   },
   markdown: {
     mermaid: true,
   },
   scripts: [
     {
-      src: 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.74/dist/shoelace.js',
+      src: "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.74/dist/shoelace.js",
       type: "module",
-    }
+    },
   ],
   stylesheets: [
-    'https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&family=Roboto+Mono:wght@400;700&display=swap',
-    'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.74/dist/themes/dark.css',
-    "https://fonts.googleapis.com/icon?family=Material+Icons"
+    "https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700&family=Roboto+Mono:wght@400;700&display=swap",
+    "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.74/dist/themes/dark.css",
+    "https://fonts.googleapis.com/icon?family=Material+Icons",
   ],
   presets: [
     [
-      'classic',
+      "classic",
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
           path: "documentation",
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: require.resolve("./sidebars.js"),
           editUrl:
-            'https://github.com/open-goal/open-goal.github.io/tree/master/'
+            "https://github.com/open-goal/open-goal.github.io/tree/master/",
         },
         blog: {
-          path: 'blog',
+          path: "blog",
           blogSidebarCount: 0,
           showReadingTime: true,
           editUrl:
-            'https://github.com/open-goal/open-goal.github.io/tree/master/',
+            "https://github.com/open-goal/open-goal.github.io/tree/master/",
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve("./src/css/custom.css"),
         },
       }),
     ],
@@ -70,85 +70,88 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       announcementBar: {
-        id: 'announcementBar-5', // Increment on change
+        id: "announcementBar-5", // Increment on change
         content: `<a href="/blog/progress-report-july-2023">Check out July's Progress Report Here!</a>`,
       },
       algolia: {
         // The application ID provided by Algolia
-        appId: 'YAP33BKRCA',
+        appId: "YAP33BKRCA",
         // Public API key: it is safe to commit it
-        apiKey: '7d68c3181a134366b669225073fed1cb',
-        indexName: 'open-goal',
+        apiKey: "7d68c3181a134366b669225073fed1cb",
+        indexName: "open-goal",
         // Optional: see doc section below
         contextualSearch: true,
         // Optional: Algolia search parameters
         searchParameters: {},
         // Optional: path for search page that enabled by default (`false` to disable it)
-        searchPagePath: 'search',
+        searchPagePath: "search",
         //... other Algolia params
       },
       colorMode: {
-        defaultMode: 'dark',
+        defaultMode: "dark",
         disableSwitch: true,
         respectPrefersColorScheme: false,
       },
-      image: 'img/logo.png',
-      metadata: [{ name: 'twitter:card', content: 'summary' }],
+      image: "img/logo.png",
+      metadata: [{ name: "twitter:card", content: "summary" }],
       navbar: {
-        title: 'OpenGOAL',
+        title: "OpenGOAL",
         logo: {
-          alt: 'OpenGOAL Logo',
-          src: 'img/logo.png',
+          alt: "OpenGOAL Logo",
+          src: "img/logo.png",
         },
         items: [
-          { to: 'blog', label: 'Blog', position: 'left' },
+          { to: "blog", label: "Blog", position: "left" },
           {
-            to: '/progress/milestones', label: 'Progress', position: 'left',
+            to: "/progress/milestones",
+            label: "Progress",
+            position: "left",
             items: [
               {
-                label: 'Major Milestones',
-                to: '/progress/milestones',
+                label: "Major Milestones",
+                to: "/progress/milestones",
               },
               {
-                label: 'Jak and Daxter - Decompilation',
-                to: '/progress/jak1',
+                label: "Jak and Daxter - Decompilation",
+                to: "/progress/jak1",
               },
               {
-                label: 'Jak II - Decompilation',
-                to: '/progress/jak2',
-              }
-            ]
+                label: "Jak II - Decompilation",
+                to: "/progress/jak2",
+              },
+            ],
           },
           {
-            type: 'doc',
-            docId: 'intro',
-            position: 'left',
-            label: 'Documentation',
+            type: "doc",
+            docId: "intro",
+            position: "left",
+            label: "Documentation",
           },
-          { to: '/docs/faq', label: 'FAQ', position: 'left' },
+          { to: "/docs/faq", label: "FAQ", position: "left" },
           {
-            label: 'Galleries', position: 'left',
+            label: "Galleries",
+            position: "left",
             items: [
               {
-                label: 'Jak and Daxter: The Precursor Legacy',
-                to: '/gallery/jak1',
+                label: "Jak and Daxter: The Precursor Legacy",
+                to: "/gallery/jak1",
               },
               {
-                label: 'Jak II',
-                to: '/gallery/jak2',
-              }
-            ]
+                label: "Jak II",
+                to: "/gallery/jak2",
+              },
+            ],
           },
           {
-            href: 'https://github.com/open-goal',
-            position: 'right',
-            className: 'header-github-link',
-            'aria-label': 'GitHub repository',
+            href: "https://github.com/open-goal",
+            position: "right",
+            className: "header-github-link",
+            "aria-label": "GitHub repository",
           },
         ],
       },
       footer: {
-        style: 'dark',
+        style: "dark",
         copyright: `
         Copyright © ${new Date().getFullYear()} OpenGOAL. Built with Docusaurus.
         <br>
@@ -158,22 +161,22 @@ const config = {
       prism: {
         theme: darkCodeTheme,
         lightTheme: lightCodeTheme,
-        additionalLanguages: ['lisp', 'clojure']
+        additionalLanguages: ["lisp", "clojure"],
       },
     }),
   webpack: {
     jsLoader: (isServer) => ({
-      loader: require.resolve('swc-loader'),
+      loader: require.resolve("swc-loader"),
       options: {
         jsc: {
           parser: {
-            syntax: 'typescript',
+            syntax: "typescript",
             tsx: true,
           },
-          target: 'es2017',
+          target: "es2017",
         },
         module: {
-          type: isServer ? 'commonjs' : 'es6',
+          type: isServer ? "commonjs" : "es6",
         },
       },
     }),

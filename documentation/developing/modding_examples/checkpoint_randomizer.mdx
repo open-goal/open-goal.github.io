@@ -6,11 +6,11 @@ description: A deep dive into the code changes for the Checkpoint Randomizer Mod
 
 # Checkpoint Randomizer Mod
 
-<PostAuthors authors={["dallmeyer"]} authorNames={["barg034"]}/>
+<PostAuthors authors={["dallmeyer"]} authorNames={["barg034"]} />
 
 ## Background
 
-👋 Today I'm going to walk through the changes we made to build the Checkpoint Randomizer mod. To my knowledge, this was one of the earliest OpenGOAL mods, and as such there was a lot of trial and error to get things right. I'll do my best to describe the *process* of figuring out how things worked and what we needed to do, in addition to walking through the latest version of the code.
+👋 Today I'm going to walk through the changes we made to build the Checkpoint Randomizer mod. To my knowledge, this was one of the earliest OpenGOAL mods, and as such there was a lot of trial and error to get things right. I'll do my best to describe the _process_ of figuring out how things worked and what we needed to do, in addition to walking through the latest version of the code.
 
 ![](./img/checkpoint_randomizer/gambler.png)
 
@@ -18,9 +18,18 @@ A little backstory to this mod - before OpenGOAL, there was actually a [predeces
 
 Initially, the intent of the mod was pretty straightforward - whenever you collect a Power Cell, it should warp you to a randomly selected checkpoint in the game. If you want to see what that looks like, check out this speedrun of that randomizer category from [OutrageousJosh](https://www.twitch.tv/outrageousjosh):
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/MPPQ-9oYs3c?start=1013" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe
+  width="640"
+  height="360"
+  src="https://www.youtube.com/embed/MPPQ-9oYs3c?start=1013"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+></iframe>
 
 Over time, we've added quite a few enhancements and variations to this, such as:
+
 - addressing miscellaneous softlocks and edge cases
 - refactoring the random checkpoint logic to make it consistent based on an initial seed value
 - letting the user change various options:
@@ -31,7 +40,7 @@ Over time, we've added quite a few enhancements and variations to this, such as:
   - toggling a few additional custom checkpoints
 - extending the pause menu to configure the above options, and persisting them to file
 
-Unfortunately I don't have the cleanest *full* diff for this, because our Checkpoint Randomizer mod is bundled with some other challenge options (bonkless, pacifist, etc) and a bit of local multiplayer code. With that said [here is the full diff](https://github.com/dallmeyer/jak-project/compare/master...dallmeyer:jak-project:rando?w=1#files_bucket) of changes for this mod - I'll point out the specific pieces relating to the Checkpoint Randomizer as we go.
+Unfortunately I don't have the cleanest _full_ diff for this, because our Checkpoint Randomizer mod is bundled with some other challenge options (bonkless, pacifist, etc) and a bit of local multiplayer code. With that said [here is the full diff](https://github.com/dallmeyer/jak-project/compare/master...dallmeyer:jak-project:rando?w=1#files_bucket) of changes for this mod - I'll point out the specific pieces relating to the Checkpoint Randomizer as we go.
 
 ## Main idea
 
@@ -142,15 +151,15 @@ If you search the codebase for "fishgame" you should eventually find yourself in
   )
 ```
 
-As you might guess from the name, `rand-vu-percent?` is one of the ways RNG can be introduced. Defined in [`goal_src/jak1/engine/math/math.gc`](https://github.com/open-goal/jak-project/blob/08ce65fd9bafa56f0d0017a9670112acc1019bb7/goal_src/jak1/engine/math/math.gc#L230-L233), this function will return `#t` with the probability that is provided as an argument. In this case, it's used to randomly determine whether a 5 pound fish (`'powerup`), an eel (`'bad`), or a 1 pound fish (`'normal`) will be spawned next, based on the probabilities set for that part of the fish game (`'deadly-percent` is always 0, so the `'deadly` branch is never hit 🤷‍♂️). 
+As you might guess from the name, `rand-vu-percent?` is one of the ways RNG can be introduced. Defined in [`goal_src/jak1/engine/math/math.gc`](https://github.com/open-goal/jak-project/blob/08ce65fd9bafa56f0d0017a9670112acc1019bb7/goal_src/jak1/engine/math/math.gc#L230-L233), this function will return `#t` with the probability that is provided as an argument. In this case, it's used to randomly determine whether a 5 pound fish (`'powerup`), an eel (`'bad`), or a 1 pound fish (`'normal`) will be spawned next, based on the probabilities set for that part of the fish game (`'deadly-percent` is always 0, so the `'deadly` branch is never hit 🤷‍♂️).
 
-`math.gc` actually contains a whole library of RNG functions that we can use in different scenarios, so now how can we use these to randomly choose a `continue-point` to warp to? Well if we had an array of 10 checkpoints, we could select an index by generating a random integer between 0 and 9 (inclusive) using [`rand-vu-int-count`](https://github.com/open-goal/jak-project/blob/08ce65fd9bafa56f0d0017a9670112acc1019bb7/goal_src/jak1/engine/math/math.gc#L230-L233). 
+`math.gc` actually contains a whole library of RNG functions that we can use in different scenarios, so now how can we use these to randomly choose a `continue-point` to warp to? Well if we had an array of 10 checkpoints, we could select an index by generating a random integer between 0 and 9 (inclusive) using [`rand-vu-int-count`](https://github.com/open-goal/jak-project/blob/08ce65fd9bafa56f0d0017a9670112acc1019bb7/goal_src/jak1/engine/math/math.gc#L230-L233).
 
 Unfortunately with the nested linked list design of `*level-load-info*` and the inner `continues` lists, it's tough to apply something like this directly. There are also a few test checkpoints that we'd want to exclude in the randomizer. So instead we can build a custom flat array of the checkpoints we want to use:
 
 ```opengoal
-(define *checkpoint-list* 
-  (the-as (array string) 
+(define *checkpoint-list*
+  (the-as (array string)
     (new 'static 'boxed-array :type string :length 77 :allocated-length 77
       "game-start"
       "village1-hut"
@@ -174,7 +183,7 @@ And then we're free to combine our checkpoint warp command with `rand-vu-int-cou
 
 ### Triggering on Power Cell pickup
 
-The last piece of the puzzle for the original mod is to trigger this randomized checkpoint warp whenever the player picks up a Power Cell. Internally these are known as `fuel-cell`s, and are [defined in `goal_src/jak1/engine/common-obs/collectables.gc`](https://github.com/open-goal/jak-project/blob/08ce65fd9bafa56f0d0017a9670112acc1019bb7/goal_src/jak1/engine/common-obs/collectables.gc#L1305-L1317). 
+The last piece of the puzzle for the original mod is to trigger this randomized checkpoint warp whenever the player picks up a Power Cell. Internally these are known as `fuel-cell`s, and are [defined in `goal_src/jak1/engine/common-obs/collectables.gc`](https://github.com/open-goal/jak-project/blob/08ce65fd9bafa56f0d0017a9670112acc1019bb7/goal_src/jak1/engine/common-obs/collectables.gc#L1305-L1317).
 
 #### What happens when you touch a Power Cell?
 
@@ -242,7 +251,6 @@ So we see this is a `citb-iris-door`, which is [defined in `goal_src/jak1/levels
 
 This type has a field `locked` which sounds pretty suspicious - sure enough if we read through this file, we can see [`locked` is part of the check to decide if the door should go from `door-closed` to `door-opening`](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/common-obs/baseplat.gc#L216-L223). We did some tests to try to unlock the door, looking it up by name and setting the field directly:
 
-
 ```opengoal
 (set! (-> (the citb-iris-door (process-by-ename "citb-iris-door-21")) locked) #f)
 ```
@@ -260,11 +268,11 @@ Our attempt to unlock the Citadel door was reversed by the door re-locking itsel
 (defun unlock-citadel-door-no-cells ()
   ;; Unlock citadel door if the randomizer is on. Invis wall is removed elsewhere (racer.gc). Softlocks bad.
   (if (entity-by-name "citb-iris-door-21")
-    ;; we break the link between the citadel door's state and the warp gate switch, 
+    ;; we break the link between the citadel door's state and the warp gate switch,
     ;; and then manually open the door
     (let ((citb-iris-door-21 (the eco-door (-> (entity-by-name "citb-iris-door-21") extra process))))
       (set! (-> citb-iris-door-21 state-actor) #f)
-      (set! (-> citb-iris-door-21 locked) #f) 
+      (set! (-> citb-iris-door-21 locked) #f)
     )
   ))
 ```
@@ -292,8 +300,8 @@ As the comment there reminds us, we still have an invisible wall to dispose of. 
 
 Each `racer` has 2 possible `path-controls` it will use for the invisible wall: `path-racer` and `path-target` (technically this is a `curve-control`, a child of `path-control`). When `racer` is initialized, there are a couple of conditions under which we will use `path-racer` (otherwise we will fall back to `path-target`):
 
-- `(and *target* (logtest? (-> *target* control root-prim prim-core action) (collide-action ca-9)))` 
-  - this is just the way of checking if you're already on the Zoomer 
+- `(and *target* (logtest? (-> *target* control root-prim prim-core action) (collide-action ca-9)))`
+  - this is just the way of checking if you're already on the Zoomer
   - you'll see a similar condition but with `(collide-action ca-14)` for [Flutflut's invisible walls](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/levels/flut_common/flutflut.gc#L370)
 - `(= (-> obj condition) 3)`
   - `obj` here is the `racer` itself, and its [`condition` field is populated](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/levels/racer_common/racer.gc#L423) from the `'index` [res tag](https://github.com/open-goal/jak-project/blob/66c680e8a348160de75c4fcda72c444c8378d9c8/goal_src/jak1/engine/entity/res.gc#L8-L31_)
@@ -354,9 +362,9 @@ There's a function `fishermans-boat-leave-dock?` in which we can see a reference
 We can see one of the other checks in here is that you've completed the fishing game (or that you're in cheat mode and holding L3). The [simplest solution](https://github.com/dallmeyer/jak-project/blob/1589034851b300b6890137be4bc27b15439f24ef/goal_src/jak1/levels/village1/fishermans-boat.gc#L835-L842) we could come up with was just to extend this condition, and also let you use the boat whenever Misty Island is loaded. Since Misty Island is not loaded when you're still in Sandover Village, this does NOT let you use the boat back on the Sandover side, unless you meet one of the other conditions.
 
 ```opengoal
-(or 
-  (task-complete? *game-info* (game-task jungle-fishgame)) 
-  (and *cheat-mode* (cpad-hold? 0 l3)) 
+(or
+  (task-complete? *game-info* (game-task jungle-fishgame))
+  (and *cheat-mode* (cpad-hold? 0 l3))
   (or
     (= (-> *level* level 0 name) 'misty)
     (= (-> *level* level 1 name) 'misty)
@@ -411,7 +419,7 @@ When the player collects a Power Cell, we just use the checkpoint at index `(-> 
 (defun orchestrateCheckpointWarp ()
   (let ((checkpointName (-> *rando-state* checkpoint-list (-> *rando-state* next-idx))))
     ;; increment checkpoint list index for next time
-    (set! 
+    (set!
         (-> *rando-state* next-idx)
         (mod (+ (-> *rando-state* next-idx) n) *rando-list-length*)
         )
@@ -441,7 +449,7 @@ If we run into the case where the checkpoint list is not initialized (e.g. after
 
 ```opengoal
 (defun advanceCheckpointList ((n int))
-  (set! 
+  (set!
     (-> *rando-state* next-idx)
     (mod (+ (-> *rando-state* next-idx) n) *rando-list-length*)
     )
@@ -482,7 +490,7 @@ Remember when we refactored the code to [generate a consistent checkpoint list u
 
 This difference in `rand-vu` doesn't really cause any issues in most gameplay... though speedrunners have a few RNG manipulation tricks which can be performed on PS2 that don't work the same way in OpenGOAL. For the checkpoint randomizer, this was going to be a problem - we needed a way to consistently generate a list from a given seed, and to have the list feel truly random, without any patterns.
 
-I did some research into RNG and eventually found the [`java.util.Random` documentation](https://docs.oracle.com/javase/8/docs/api/java/util/Random.html), which explains in detail their implementation of "a linear congruential pseudorandom number generator as defined by D. H. Lehmer and described by Donald E. Knuth in The Art of Computer Programming, Volume 3: Seminumerical Algorithms, section 3.2.1". 
+I did some research into RNG and eventually found the [`java.util.Random` documentation](https://docs.oracle.com/javase/8/docs/api/java/util/Random.html), which explains in detail their implementation of "a linear congruential pseudorandom number generator as defined by D. H. Lehmer and described by Donald E. Knuth in The Art of Computer Programming, Volume 3: Seminumerical Algorithms, section 3.2.1".
 
 The implementation really isn't too complicated, but we don't really need to get into the details here - as long as it results in more random values. I went ahead and [ported this RNG engine over to OpenGOAL](https://github.com/open-goal/jak-project/blob/master/goal_src/jak1/pc/util/knuth-rand.gc) based on the Java docs. Once I had it working correctly, I ran the same sequential number test as I had previously run against the `rand-vu` engine, and the results were quite different:
 
@@ -496,7 +504,8 @@ While it is not used in the vanilla OpenGOAL engine, the [`knuth-rand` library i
 
 ### Random seed vs set seed
 
-We glossed over this important bit earlier, but there are actually a couple ways to play (and speedrun) these RNG-seeded games: either using a random seed, or a specific "set seed". 
+We glossed over this important bit earlier, but there are actually a couple ways to play (and speedrun) these RNG-seeded games: either using a random seed, or a specific "set seed".
+
 - A random seed is going to give you a unique experience, and require you to think on your feet
 - A set seed could be used for a few things, such as:
   - multiple players racing each other on the same seed
@@ -542,7 +551,7 @@ And when we start a new game and need to generate the checkpoint list, if we're 
 
 Early on while playing, we noticed that you get warped to some levels (Snowy Mountain, Citadel) way more often than other levels (Sentinel Beach, Forbidden Jungle, Precursor Basin). We quickly realized this was simply because there were way more checkpoints in some levels than others - Snowy Mountain has 8, and Citadel has 8-10 (depending on if you count the ones that are actually in Lava Tube).
 
-Depending on the number of Power Cells in a level, this could be a bit frustrating. And boy, that gondola ride down from Snowy Mountain feels longer and longer each time. So the quick and dirty fix we came up with was to simply repeat checkpoints in our array for the levels that are under-represented, in order to balance things out. 
+Depending on the number of Power Cells in a level, this could be a bit frustrating. And boy, that gondola ride down from Snowy Mountain feels longer and longer each time. So the quick and dirty fix we came up with was to simply repeat checkpoints in our array for the levels that are under-represented, in order to balance things out.
 
 ```opengoal
 (define *checkpoint-list* (the-as (array string) (new
@@ -577,7 +586,7 @@ Later on, we added a `checkpoint-logic` setting with a `'logic-random-level` opt
 ```
 
 ```opengoal
-(define *checkpoint-list-by-level-idx* 
+(define *checkpoint-list-by-level-idx*
   (new 'static 'boxed-array :type (array string) :length 16 :allocated-length 16
     ;; Geyser Rock
     (new 'static 'boxed-array :type string :length 2
@@ -616,8 +625,8 @@ Later on, we added a `checkpoint-logic` setting with a `'logic-random-level` opt
           (let ((random-level-idx (knuth-rand-int-range 0 (-> *checkpoint-list-by-level-idx* length))))
             ;; ...then choose random checkpoint within that level
             (let ((random-level-checkpoint-idx (knuth-rand-int-range 0 (-> *checkpoint-list-by-level-idx* random-level-idx length))))
-              (-> *checkpoint-list-by-level-idx* 
-                random-level-idx 
+              (-> *checkpoint-list-by-level-idx*
+                random-level-idx
                 random-level-checkpoint-idx
                 )
               )
@@ -834,7 +843,7 @@ At first, warping when picking up Precursor Orbs (internally called [`money`](ht
 
 We noticed that after collecting Precursor Orbs from a vent and getting warped to another checkpoint, if you returned to the vent the number of remaining Precursor Orbs was not always updated properly. Since collecting the Orb and warping happens before the `orb-cache-top` updates the number of Orbs it has remaining, Orbs were effectively getting duplicated!
 
-The way we decided to work around this was to wait until you collected the final Orb from a vent before triggering any checkpoint warp. With our new approach we'd only be calling `orchestrateCheckpointWarp` once per vent, which if you're warping on every 1 collectable, doesn't really matter. 
+The way we decided to work around this was to wait until you collected the final Orb from a vent before triggering any checkpoint warp. With our new approach we'd only be calling `orchestrateCheckpointWarp` once per vent, which if you're warping on every 1 collectable, doesn't really matter.
 
 But if for example you're warping on every 25 collectables, the counter ought to increment by the number of Precursor Orbs it held. To correct this, we added an `amount` parameter to the `orchestrateCheckpointWarp`, so that we could increment our counter by an accurate amount.
 
@@ -880,8 +889,8 @@ We also need to make sure that individual Precursor Orbs picked up from these ve
       ...
       ;; if the randomizer is on AND set to warp on orbs AND this isn't from an orb cache, warp the target.
       ;; see orb-cache.gc for how those warps are handled
-      (when (and 
-          (-> *randomizer-settings* checkpoint-randomizer?) 
+      (when (and
+          (-> *randomizer-settings* checkpoint-randomizer?)
           (-> *randomizer-settings* warp-on-orb?)
           (!= (-> money-parent type) orb-cache-top)
         )
@@ -892,7 +901,15 @@ We also need to make sure that individual Precursor Orbs picked up from these ve
 
 Here's poor Josh trying out a buggy early version and making use of all three - warping on any Power Cell, Precursor Orb, or Scout Fly 🙃
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/B5mEhVt0v68" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe
+  width="640"
+  height="360"
+  src="https://www.youtube.com/embed/B5mEhVt0v68"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+></iframe>
 
 ### Eco
 
@@ -903,9 +920,9 @@ Supporting checkpoints on eco (internally called [`eco-collectable`](https://git
   ...
   :code (behavior ((arg0 object) (arg1 handle))
     ...
-    (when (and 
+    (when (and
         (-> *randomizer-settings* checkpoint-randomizer?)
-        (or 
+        (or
           (and (-> *randomizer-settings* warp-on-green-eco?) (= (-> self fact pickup-type) (pickup-type eco-green)))
           (and (-> *randomizer-settings* warp-on-green-eco?) (= (-> self fact pickup-type) (pickup-type eco-pill)))
           (and (-> *randomizer-settings* warp-on-blue-eco?) (= (-> self fact pickup-type) (pickup-type eco-blue)))
@@ -1168,17 +1185,17 @@ Most of what I'll cover will only relate to the Options menus, but the Power Cel
 
 - [`progress-draw.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-draw.gc)
   - this is where the Power Cell, Scout Fly, and Precursor Orb menus are drawn
-  - the *original* Options menu would be drawn here as well
+  - the _original_ Options menu would be drawn here as well
 - [`progress-h.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-h.gc)
   - many of the main types, enums, and a few globals used across the `progress` codebase are defined here
 - [`progress-part.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-part.gc)
   - Power Cell, Scout Fly, Precursor Orb, Memory Card, etc icons are defined here
 - [`progress-static.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress-static.gc)
-  - the *original* Options menu is defined here
+  - the _original_ Options menu is defined here
   - the 16 levels (as shown in the game/menus) are defined here, as well as a mapping from these to the 21 physical levels
   - the mapping from Power Cell `game-task`s to their corresponding levels and display text happens here
 - [`progress.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/engine/ui/progress/progress.gc)
-  - the *original* logic for transitioning through the menus, responding to controller inputs, etc is here
+  - the _original_ logic for transitioning through the menus, responding to controller inputs, etc is here
 - [`progress-pc.gc`](https://github.com/open-goal/jak-project/blob/6d99f1bfc1aa4f3ab5a5f3dfca7d4688434f2984/goal_src/jak1/pc/progress-pc.gc)
   - thanks to [Dass](https://github.com/ManDude), this is where a lot of the code for the Options menu is overridden and simplified
   - this is where additional OpenGOAL-exclusive menus (MSAA, inverted controls, etc) are added
@@ -1291,7 +1308,7 @@ With this knowledge, we can implement the various pieces for all the new randomi
 - [`goal_src/jak1/engine/ui/text-h.gc`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/engine/ui/text-h.gc#L809-L856) - `game-text-id` entries for menu text
 - [`goal_src/jak1/engine/ui/progress/progress-h.gc`](https://github.com/dallmeyer/jak-project/blob/57897557abcb60b379dea0144f0df961bf712a1a/goal_src/jak1/engine/ui/progress/progress-h.gc)
   - [`progress-screen`](https://github.com/dallmeyer/jak-project/blob/57897557abcb60b379dea0144f0df961bf712a1a/goal_src/jak1/engine/ui/progress/progress-h.gc#L123-L127) entries for submenus
-  - [`game-option-type`](https://github.com/dallmeyer/jak-project/blob/57897557abcb60b379dea0144f0df961bf712a1a/goal_src/jak1/engine/ui/progress/progress-h.gc#L170-L172) entries for carousells and new yes/no style options 
+  - [`game-option-type`](https://github.com/dallmeyer/jak-project/blob/57897557abcb60b379dea0144f0df961bf712a1a/goal_src/jak1/engine/ui/progress/progress-h.gc#L170-L172) entries for carousells and new yes/no style options
 - [`goal_src/jak1/pc/progress-pc.gc`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#) - `progress` menu configuration
   - option in root Options menus [`*main-options-pc*`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L111), [`*main-options-secrets*`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L124), [`*options-pc*`](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L139)
   - [submenu definitions](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L206-L262)
@@ -1309,7 +1326,7 @@ With this knowledge, we can implement the various pieces for all the new randomi
     - [menu option to carousell mapping](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L1742-L1743)
     - [settings to `int-backup` mapping](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L1704-L1716)
     - [`int-backup` to settings mapping](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L1834-L1846)
-    -  drawing [selected](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L2279-L2280) and [unselected](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L2373-L2374) carousell options
+    - drawing [selected](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L2279-L2280) and [unselected](https://github.com/dallmeyer/jak-project/blob/35a4935b5aab54f69eaf86bdbab1edc2e636ad08/goal_src/jak1/pc/progress-pc.gc#L2373-L2374) carousell options
 - [`goal_src/jak1/engine/ui/progress/progress.gc`](https://github.com/dallmeyer/jak-project/blob/f46d4549ca3dca265b2bf2e51c01fceaa50edd4a/goal_src/jak1/engine/ui/progress/progress.gc#L836-L840) - allowlist entries for `can-go-back?`
 
 ![](./img/checkpoint_randomizer/progress_randomizer_main.png)

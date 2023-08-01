@@ -10,7 +10,6 @@ This page contains the font color table for each game. This table and the enum i
 Some of these colors are modified at runtime. For example, `credits` in Jak 1 is altered when rendering the staff titles. These tables only reflect the initial values.
 :::
 
-
 import ColorTable from './color_table.js';
 
 ## Jak & Daxter
@@ -20,4 +19,3 @@ import ColorTable from './color_table.js';
 ## Jak II
 
 <ColorTable game="jak2"/>
-

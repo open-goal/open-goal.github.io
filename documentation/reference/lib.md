@@ -19,6 +19,7 @@ GOAL's `printf`.
 ```
 
 The following destinations are currently supported:
+
 - `#t` - print to the listener. After the current game frame is over, this will be sent to the compiler and you can see it at the GOAL prompt.
 - `0` - print to `stdout` in the runtime immediately. This won't be visible from within the compiler - you must look at the runtime to see it. This is useful for debugging if the runtime crashes before flushing the normal print buffer.
 - `#f` - print to a new string allocated on the global heap.
@@ -28,12 +29,12 @@ The following destinations are currently supported:
 The global variable `*print-column*` can be used to automatically print at a certain indentation. The very first thing printed during a frame will not have the indentation applied.
 
 The format string escape sequences all start with `~`, then have arguments (possibly none), then have a single character code. The arguments look like:
+
 - `~A`, the `A` code with no arguments
 - `~12A`, the `A` code with an integer argument of `12`
 - `~'zA`, the `A` code with a character argument of `z`
-- ``` ~`hello`A```, the `A` code with a string argument of `"hello"`
+- `` ~`hello`A``, the `A` code with a string argument of `"hello"`
 - `~12,'bA`, the `A` code with two arguments, integer `12` and character `b`
-
 
 The escape codes are:
 
@@ -225,6 +226,7 @@ Jump to a label.
 The label must be in the current label space. You can jump forward or backward.
 
 Example:
+
 ```lisp
 (if skip-code?
   (goto end)
@@ -245,7 +247,8 @@ This form is reserved by the compiler. Internally all forms in a file are groupe
 
 ### GOAL "Two Element" Conditions
 
-These are `!=`, `eq?`, `neq?`, `=`, `>`, `<`, `>=`, `<=`. The default is to compare the two objects as unsigned 64-bit integers, unless a special case is hit. The special case is determined by the type of the __first__ argument:
+These are `!=`, `eq?`, `neq?`, `=`, `>`, `<`, `>=`, `<=`. The default is to compare the two objects as unsigned 64-bit integers, unless a special case is hit. The special case is determined by the type of the **first** argument:
+
 - Floating point: if second argument is a number, convert to floating point. Use floating point comparisons
 - Binteger: convert first argument to integer. If second argument is a number, convert to integer. Use signed integer comparisons
 - Integer: If second argument is a number, convert to integer. Use signed integer comparison
@@ -258,6 +261,7 @@ Currently there is absolutely no type checking done on comparisons, which makes 
 When a two-element condition is used as a condition for an `if`, `cond`, `while`, `goto-when`, or any other branching condition, there is an optimization that avoids computing a GOAL boolean, then checking that GOAL boolean as a branch condition. Instead the comparison operation directly sets the x86-64 flags for a jump. Original GOAL has a similar optimization.
 
 There are a lot of unknown details
+
 - What order are things evaluated / converted?
 - How does the order work when there's a `not`?
 - Type Checking is probably needed.
@@ -302,7 +306,7 @@ Evaluates `test`s until one is truthy. Then evaluates all `clause`s in that case
 
 If there is no `else`, and no cases match, return `#f`. (is it always `#f`?)
 
-The return type is the lowest common ancestor type of all cases. Note that for a `cond` without `else`, the possible return value of `#f` is __not__ considered when determining the return type. So:
+The return type is the lowest common ancestor type of all cases. Note that for a `cond` without `else`, the possible return value of `#f` is **not** considered when determining the return type. So:
 
 ```lisp
 (print-type
@@ -357,6 +361,7 @@ Set a value!
 ```
 
 Sets `place` to `value`. The `place` can be once of:
+
 - A lexical variable defined by `let`, or an argument of a function
 - A global symbol
 - A `car` or `cdr` of a pair
@@ -448,7 +453,7 @@ Example:
   )
 ```
 
-Define a new function with the given name. Note that until the `defun` itself executes, the function __cannot be used!__. So don't call functions before the `defun`. This is unlike C, where you can forward declare a function and use it before the actual definition.
+Define a new function with the given name. Note that until the `defun` itself executes, the function **cannot be used!**. So don't call functions before the `defun`. This is unlike C, where you can forward declare a function and use it before the actual definition.
 
 There is an optional docstring. Currently the docstring is just thrown away but in the future we could save them and and generate documentation or something.
 
@@ -463,6 +468,7 @@ Define a method!
 In many ways is similar to `defun`. See section on methods for more details.
 
 You can only `defmethod` if one of these two is true:
+
 - You are overriding a parent method
 - You have declared this method in the type's `deftype`
 
@@ -505,14 +511,17 @@ The `:segment` option defaults to `main`, unless the `lambda` is defined in a fu
 The arguments default to type of `object` if no type is provided. In the case where a lambda is used immediately (a `let`) the compiler will propagate more specific types. This is why you don't have to give types when using `let`.
 
 A GOAL lambda has three purposes:
+
 1. Generate a function as a "real" x86-64 function.
 2. Save the code so the function can later be inlined
 3. Immediately use the lambda in the head of a list as part of a `let` or `let*` macro
 
-__Example of 1:__
+**Example of 1:**
+
 ```
 (sort my-list (lambda ((x int) (y int) (< x y))))
 ```
+
 We create a real x86-64 function to pass to the `sort` function. In this case you should specify types - the default of `object` is not suitable.
 
 The other two cases are handled by `let` and `defun` macros, and shouldn't show up in other places, so they are left out.
@@ -584,6 +593,7 @@ The reader will expand `'thing` to `(quote thing)`
 ```
 
 Currently `quote` supports:
+
 - `'a-symbol` - will return the symbol `a-symbol`
 - `'()` - will return the empty list.
 
@@ -600,6 +610,7 @@ Define a GOOS and GOAL constant.
 The constant is available in both GOOS and GOAL. You can use it in `#cond` expressions (GOOS) and in GOAL code. The constant inserts the `value` as an s-expression in the code. This means it's a "code" constant, and doesn't have a type.
 
 There are a few restrictions:
+
 - Currently constants do not work in `deftype`. (this should be fixed eventually)
 - Constants may not work in places where the compiler is expecting a symbol which isn't actually compiled. So `(+ MY_CONSTANT 2)` is fine, but `(defun MY_CONSTANT () ...)` isn't. Don't use constants for type names, function names, or symbol names. It is fine to have a constant with a value of a symbol, but don't `(define MY_CONSTANT)` or `(set! MY_CONSTANT)` or `(new MY_CONSTANT)` or things like that.
 - Don't use constants with `method` form.
@@ -691,10 +702,11 @@ Works on integers only. The exact behavior needs to be explored because the EE i
 ```
 
 The exact behavior of GOAL shifts isn't fully understood, so these are temporary wrappers around x86-64 variable shift instructions.
+
 - `shlv` shift left variable
 - `sarv` shift arithmetic right variable
 - `shrv` shift logical right variable
-64-bit operation.
+  64-bit operation.
 
 ### `logand`
 
@@ -770,7 +782,7 @@ will return the `inspect` method of `string`.
 
 ### `car` and `cdr`
 
-Get element from pair. `car` returns the first element, `cdr` returns the second element. 
+Get element from pair. `car` returns the first element, `cdr` returns the second element.
 
 ```lisp
 (car some-pair)
@@ -814,6 +826,7 @@ Convert between types, doing the expected thing for number conversions.
 If the `type` and the `thing` are both numbers, it will automatically convert between the different numeric types as needed. In all other cases, it does a dangerous `reinterpret_cast`. cppreference.com explains this idea clearly with "Converts between types by reinterpreting the underlying bit pattern."
 
 If the `thing` is a number:
+
 - If `type` is `binteger`, convert the number to a `binteger`
 - If `type` is `int` or `uint` (or some user-defined child type of these), convert the number to an integer.
 - If `type` is `float`, convert the number to a `float`
@@ -908,7 +921,7 @@ Not implemented well yet.
 
 ## Inline Assembly Forms
 
-In general, assembly forms have a name that begins with a `.`. They all evaluate to `none` and copy the form of an x86-64 instruction. For example `(.sub dst src)`. A destination must be a settable register (ok if it's spilled). So you can't do something like `(.sub (-> obj field) x)`. Instead, do `(set! temp (-> obj field))`, `(.sub temp x)`, `(set! (-> obj field) temp)`.  The sources can be any expression, or a register. This allows you to mix high-level code with assembly easily, like `(.mov rax (-> obj field))` or `(.push (+ 1 (-> obj field)))`.
+In general, assembly forms have a name that begins with a `.`. They all evaluate to `none` and copy the form of an x86-64 instruction. For example `(.sub dst src)`. A destination must be a settable register (ok if it's spilled). So you can't do something like `(.sub (-> obj field) x)`. Instead, do `(set! temp (-> obj field))`, `(.sub temp x)`, `(set! (-> obj field) temp)`. The sources can be any expression, or a register. This allows you to mix high-level code with assembly easily, like `(.mov rax (-> obj field))` or `(.push (+ 1 (-> obj field)))`.
 
 By default, assembly forms work with the coloring system. This means that assembly and high level expression can be mixed together without clobbering each other. It also means use of callee-saved registers will cause them to be backed up/restored in the function prologue and epilogue. Use of weird registers like `r15`, `r14`, and `rsp` works as you would expect with the coloring system.
 
@@ -922,7 +935,7 @@ But you can also request to skip this with `:color #f` option, like `(.push my-r
   )
 ```
 
-Create register variables. You can optionally specify a register with the `:reg` option and a register name like `rax` or `xmm3`. The initial value of the register is not set. If you don't specify a register, a GPR will be chosen for you by the coloring system and it will behave like a `let`. If you don't specify a register, you can specify a register class (`gpr`, a normal 64-bit integer register; `fpr`, a 32-bit single precision float; or  `vf`, and 128-bit floating point vector register) and the compiler will pick a GPR or XMM for you.
+Create register variables. You can optionally specify a register with the `:reg` option and a register name like `rax` or `xmm3`. The initial value of the register is not set. If you don't specify a register, a GPR will be chosen for you by the coloring system and it will behave like a `let`. If you don't specify a register, you can specify a register class (`gpr`, a normal 64-bit integer register; `fpr`, a 32-bit single precision float; or `vf`, and 128-bit floating point vector register) and the compiler will pick a GPR or XMM for you.
 
 If you pick a callee-saved register and use it within the coloring system, the compiler will back it up for you in the prologue and restore it in the epilogue.
 If you pick a special register like `rsp`, it won't be backed up.
@@ -1024,12 +1037,13 @@ The x86-64 ret instruction. The color option does nothing. This is not recognize
 ```
 
 Move between two registers. The `dst` should be a register (either `rlet` or `let` variable), and the `src` can be a register or any expression. The following moves are supported:
+
 - `gpr` to `gpr`
 - `fpr` to `fpr` (only moves lower 32-bits of the xmms, uses `movss`)
 - `vf` to `vf` (moves all 128-bits of the xmms, uses `vmovaps`)
 - `gpr` to `fpr` (only moves 32-bits, uses `movd`)
 - `fpr` to `gpr` (only moves 32-bits, upper 32-bits are zero, uses `movd`)
-This code generation is identical to using a `(set! dst src)` form.
+  This code generation is identical to using a `(set! dst src)` form.
 
 ### `.nop.vf`
 
@@ -1090,6 +1104,7 @@ Store a vector float. Works similarly to the `lvf` form, but there is no optimiz
 ```
 
 All the three operand forms work similarly. You can do something like `(.add.vf vf1 vf2 vf3)`. All operations use the similarly named `v<op-name>ps` instruction, xmm128 VEX encoding. We support the following `op-name`s:
+
 - `xor`
 - `add`
 - `sub`
@@ -1115,6 +1130,7 @@ vf10[w] = vf20[w] + vf30[x]
 ```
 
 There are a few functions that will perform multiple operations involving the accumulator. We support the following `op-name`s:
+
 - `add.mul` - Calculate the product of `src0` and `src1` and add it to the value of `acc` => `acc + (src0 * src1)`
 - `sub.mul` - Calculate the product of `src0` and `src1` and subtract it from the value of `acc` => `acc - (src0 * src1)`
 
@@ -1147,6 +1163,7 @@ Calculates the square-root of _one_ of `src`'s components specified by `ftf` and
 These instructions are interesting as they behave differently than the other math operations. In the original VU, results were stored in a seperate `Q` register, which was _NOT_ 128-bit. Instead it was a 32-bit register, meaning you have to pick which component from `src` you want to use. `:fsf` and `:ftf` are used to accomplish this, as usual, this is through bit flags -- `00` will select `x` and `11` will select `w`.
 
 As `dst` is just yet another vector / xmm register in x86, things are kept simple and the quotient is copied to _all_ packed single-float positions. This allows:
+
 - Selecting any of the resulting vector slots will be equal to the quotient.
 - Since the low-floating-point (X) is defined, the xmm register should function as expected for normal math operations
 
@@ -1171,6 +1188,7 @@ w = N/A, left alone                                => 999
 > `VDEST = <-4, 8, -4, 999>`
 
 This is equivalent to the following on the PS2:
+
 ```mips
 vopmula.xyz acc src1 src2
 vopmsub.xyz dst src2 src1
@@ -1215,6 +1233,7 @@ Wrapper around `vpsrld`, `vpsrad`, and `vpslld`. Does shifts on each of the 4 32
 ```
 
 Equivalents of the EE's MMI instructions with the same name. These can only be used on 128-bit variables. Most map to single x86 instructions:
+
 - `pextlw` is `VPUNPCKLDQ` (sources swapped)
 - `pextuw` is `VPUNPCKHDQ` (sources swapped)
 - `pcpyld` is `VPUNPCKLQDQ` (sources swapped)
@@ -1222,11 +1241,13 @@ Equivalents of the EE's MMI instructions with the same name. These can only be u
 - `pceqw` is `VPCMPEQD`
 
 Some map to multiple instructions. These must use the coloring system.
+
 - `ppach` is a sequence of 7 instructions (`VPSHUFLW`, `VPSHUFHW`, `VPSRLDQ`, `VPUNPCKLQDQ`).
 
 ## TODO
 
 ### Things related to enums
+
 Not yet implemented
 
 ### `defmacro`

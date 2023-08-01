@@ -49,7 +49,7 @@ SDL was choosen because it has more up-to-date support for DualShock / DualSense
 
 Additionally, it's a huge cleanup to all of the related code which should make it easier to add more features and fix issues as they are found.
 
-From a user's perspective, essentially nothing should have changed in terms of functionality.  There are a bunch of new features though, including being able to re-map your bindings via the pause menu.
+From a user's perspective, essentially nothing should have changed in terms of functionality. There are a bunch of new features though, including being able to re-map your bindings via the pause menu.
 
 :::tip
 Existing controller keybindings will not automatically be converted, you will need to set them up yourself via the new menus.
@@ -77,7 +77,7 @@ There has been a quite a bit of translation progress this month.
 
 Swedish translations were further improved; also Finnish, Dutch and Danish subtitles are actively being translated with Danish already at 60%! With that being the case, we've added those 3 languages to the in-game option menu.
 
-A quick reminder for translators: keep in mind that Jak 1 has a very limited character set.  This is mostly an issue for Japanese but we've recently added an automatic check that will detect any bad characters when we go to add the translations to the game.  The entire supported character set is detailed [here](https://opengoal.dev/docs/contributing/text-translations#supported-characters).
+A quick reminder for translators: keep in mind that Jak 1 has a very limited character set. This is mostly an issue for Japanese but we've recently added an automatic check that will detect any bad characters when we go to add the translations to the game. The entire supported character set is detailed [here](https://opengoal.dev/docs/contributing/text-translations#supported-characters).
 
 ## Jak 2 Fixes
 
@@ -163,6 +163,6 @@ We were missing the file containing particle definitions for the inside of the S
 
 ### Newlines and the REPL <PRLink href="https://github.com/open-goal/jak-project/pull/2784"/>
 
-The REPL will now support multi-line pasting via terminals that properly support bracketed paste mode.  This does **not** include [powershell](https://github.com/PowerShell/PSReadLine/issues/1471) or command prompt!
+The REPL will now support multi-line pasting via terminals that properly support bracketed paste mode. This does **not** include [powershell](https://github.com/PowerShell/PSReadLine/issues/1471) or command prompt!
 
 It also supports new-lines while typing normally (`Ctrl+J` or `Ctrl+Enter`); this should work in any terminal.

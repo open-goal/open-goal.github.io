@@ -11,7 +11,7 @@ OpenGOAL Compiler 0.2
 g  >
 ```
 
-The `g` indicates that you can input OpenGOAL compiler commands.  For a listing of common commands run:
+The `g` indicates that you can input OpenGOAL compiler commands. For a listing of common commands run:
 
 ```lisp
 (repl-help)
@@ -41,7 +41,7 @@ gc > (e)
 [Listener] Closed connection to target
 ```
 
-Once we are connected, we see that there is a `gc` prompt. This indicates that the listener has an open socket connection. Now the REPL will accept both compiler commands and OpenGOAL source code.  All `(format #t ...` debugging prints (like `printf`) will show up in this REPL. Each time you run something in the REPL, the result is printed as a decimal number. If the result doesn't make sense to print as a decimal, or there is no result, you will get some random number.
+Once we are connected, we see that there is a `gc` prompt. This indicates that the listener has an open socket connection. Now the REPL will accept both compiler commands and OpenGOAL source code. All `(format #t ...` debugging prints (like `printf`) will show up in this REPL. Each time you run something in the REPL, the result is printed as a decimal number. If the result doesn't make sense to print as a decimal, or there is no result, you will get some random number.
 
 In the future there will be a fancier printer here.
 
@@ -99,7 +99,7 @@ Reset the target.
 (r ["ip address"] [port-number])
 ```
 
-Regardless of the current state, attempt to reset the target and reconnect. After this, the target will have nothing loaded.  Like with `(lt)`, the default IP and port are probably what you want.
+Regardless of the current state, attempt to reset the target and reconnect. After this, the target will have nothing loaded. Like with `(lt)`, the default IP and port are probably what you want.
 
 Note: `r` is actually a macro.
 
@@ -127,7 +127,7 @@ Ping the target.
 (:status)
 ```
 
-Send a ping-like message to the target. Requires the target to be connected. If successful, prints nothing.  Will time-out and display and error message if the GOAL kernel or code dispatched by the kernel is stuck in an infinite loop.  Unlikely to be used often.
+Send a ping-like message to the target. Requires the target to be connected. If successful, prints nothing. Will time-out and display and error message if the GOAL kernel or code dispatched by the kernel is stuck in an infinite loop. Unlikely to be used often.
 
 ## Compiler Forms - Compiler Commands
 
@@ -136,11 +136,12 @@ These forms are used to control the GOAL compiler, and are usually entered at th
 ### `reload`
 
 Reload the GOAL compiler
+
 ```lisp
 (reload)
 ```
 
-Disconnect from the target and reset all compiler state.  This is equivalent to exiting the compiler and opening it again.
+Disconnect from the target and reset all compiler state. This is equivalent to exiting the compiler and opening it again.
 
 ### `get-info`
 
@@ -223,7 +224,7 @@ Execute GOOS code.
 (seval form...)
 ```
 
-Evaluates the forms in the GOOS macro language. The result is not returned in any way, so it's only useful for getting side effects.  It's not really used other than to bootstrap some GOAL macros for creating macros.
+Evaluates the forms in the GOOS macro language. The result is not returned in any way, so it's only useful for getting side effects. It's not really used other than to bootstrap some GOAL macros for creating macros.
 
 ### `asm-file`
 
@@ -234,13 +235,15 @@ Compile a file.
 ```
 
 This runs the compiler on a given file. The file path is relative to the `jak-project` folder. These are the options:
+
 - `:color`: run register allocation and code generation. Can be omitted if you don't want actually generate code. Usually you want this option.
 - `:write`: write the object file to the `out/obj` folder. You must also have `:color` on. You must do this to include this file in a DGO.
 - `:load`: send the object file to the target with the listener. Requires `:color` but not `:write`. There may be issues with `:load`ing very large object files (believed fixed).
-- `:disassemble`: prints a disassembly of the code by function.  Currently data is not disassebmled. This code is not linked so references to symbols will have placeholder values like `0xDEADBEEF`.  The IR is printed next to each instruction so you can see what symbol is supposed to be linked. Requires `:color`.
+- `:disassemble`: prints a disassembly of the code by function. Currently data is not disassebmled. This code is not linked so references to symbols will have placeholder values like `0xDEADBEEF`. The IR is printed next to each instruction so you can see what symbol is supposed to be linked. Requires `:color`.
 - `:no-code`: checks that the result of processing the file generates no code or data. This will be true if your file contains only macros / constant definition. The `goal-lib.gc` file that is loaded by the compiler automatically when it starts must generate no code. You can use `(asm-file "goal_src/goal-lib.gc" :no-code)` to reload this file and double check that it doesn't generate code.
 
 To reduce typing, there are some useful macros:
+
 - `(m "filename")` is "make" and does a `:color` and `:write`.
 - `(ml "filename")` is "make and load" and does a `:color` and `:write` and `:load`. This effectively replaces the previous version of file in the currently running game with the one you just compiled, and is a super useful tool for quick debugging/iterating.
 - `(md "filename")` is "make debug" and does a `:color`, `:write`, and `:disassemble`. It is quite useful for working on the compiler and seeing what code is output.
@@ -311,4 +314,4 @@ In the future, this may become part of `asm-data-file`.
 (add-macro-to-autocomplete macro-name)
 ```
 
-Makes the given name show up as a macro in the GOAL REPL. Generating macros may be done programmatically using GOOS and this form can be used to make these show up in the autocomplete. This also makes the macro known to `get-info` which will report that the macro was defined at the location where the macro which expanded to `add-macro-to-autocomplete` is located in GOAL code.  This is used internally by `defmacro`.
+Makes the given name show up as a macro in the GOAL REPL. Generating macros may be done programmatically using GOOS and this form can be used to make these show up in the autocomplete. This also makes the macro known to `get-info` which will report that the macro was defined at the location where the macro which expanded to `add-macro-to-autocomplete` is located in GOAL code. This is used internally by `defmacro`.
