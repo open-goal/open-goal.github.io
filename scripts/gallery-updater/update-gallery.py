@@ -155,7 +155,7 @@ def generate_gallery(gallery, out_path):
       else:
         imgThumbSrc = "useBaseUrl('{}')".format(media_entry["thumbLink"])
         imgSrc = "useBaseUrl('{}')".format(media_entry["link"])
-        gallery_items = gallery_items + '                <a href={{{}}} ><img loading="lazy" src={{{}}} alt="{} - {}" /></a>\n'.format(imgSrc, imgThumbSrc, media_entry["caption"].replace('"', ''), media_entry["timestamp"])
+        gallery_items = gallery_items + '                <a href={{{}}} ><img loading="lazy" src={{{}}} alt="{} - {}" /></a>\n'.format(imgSrc, imgThumbSrc, media_entry["caption"].replace('\"', ''), media_entry["timestamp"])
       if media_entry["caption"] != None:
         gallery_items = gallery_items + '                <blockquote>{}</blockquote>\n'.format(media_entry["caption"])
       gallery_items = gallery_items + '              </div>\n'
