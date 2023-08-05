@@ -149,7 +149,7 @@ def generate_gallery(gallery, out_path):
     for idx, media_entry in enumerate(sub_gallery["media"]):
       if row_count % 3 == 0:
         gallery_items = gallery_items + '            <div className="row center">\n'
-      gallery_items = gallery_items + '              <div className="col col--4">\n'
+      gallery_items = gallery_items + '              <div className="col col--4" style={{textAlign: \'center\'}}>\n'
       if media_entry["video"]:
         gallery_items = gallery_items + '                <ReactPlayer controls width=\'100%\' url="{}"></ReactPlayer>\n'.format(media_entry["link"])
       else:
