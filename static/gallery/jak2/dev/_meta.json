@@ -944,7 +944,7 @@
   },
   {
     "name": "merc-lod-2.png",
-    "caption": "KG at the lower lod",
+    "caption": "KG at the lower LOD",
     "timestamp": "2023-02-26"
   },
   {
@@ -996,7 +996,7 @@
   },
   {
     "name": "lod-1.png",
-    "caption": "OpenGOAL lod settings. If you use PS2 settings, the orbs, conveyors, warp gate, and dark eco don't render from here.",
+    "caption": "OpenGOAL LOD settings. If you use PS2 settings, the orbs, conveyors, warp gate, and dark eco don't render from here.",
     "timestamp": "2023-03-11"
   },
   {
@@ -1598,12 +1598,12 @@
   },
   {
     "name": "intro-5.png",
-    "caption": "Low lod metalheads...",
+    "caption": "Low LOD metalheads...",
     "timestamp": "2023-06-08"
   },
   {
     "name": "intro-6.png",
-    "caption": "... vs high lod metalheads",
+    "caption": "... vs high LOD metalheads",
     "timestamp": "2023-06-08"
   },
   {

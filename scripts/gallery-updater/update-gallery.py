@@ -157,7 +157,7 @@ def generate_gallery(gallery, out_path):
         imgSrc = "useBaseUrl('{}')".format(media_entry["link"])
         gallery_items = gallery_items + '                <a href={{{}}} ><img loading="lazy" src={{{}}} alt="{} - {}" /></a>\n'.format(imgSrc, imgThumbSrc, media_entry["caption"].replace('\"', ''), media_entry["timestamp"])
       if media_entry["caption"] != None:
-        gallery_items = gallery_items + '                <blockquote>{}</blockquote>\n'.format(media_entry["caption"])
+        gallery_items = gallery_items + '                <blockquote style={{margin: "auto", display: "table"}}>' + '{}</blockquote>\n'.format(media_entry["caption"])
       gallery_items = gallery_items + '              </div>\n'
       row_count = row_count + 1
       if row_count % 3 == 0 or idx == len(sub_gallery["media"]) - 1:
