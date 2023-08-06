@@ -148,9 +148,9 @@ def generate_gallery(gallery, out_path):
     current_gallery_content = current_gallery_content.replace("___DESCRIPTION___", sub_gallery["description"])
     for idx, media_entry in enumerate(sub_gallery["media"]):
       timestamp_prefix = '[{}] '.format(media_entry["timestamp"]) if media_entry["timestamp"] else ""
-      if row_count % 3 == 0:
+      if row_count % 4 == 0:
         gallery_items = gallery_items + '            <div className="row center">\n'
-      gallery_items = gallery_items + '              <div className="col col--4" style={{textAlign: \'center\'}}>\n'
+      gallery_items = gallery_items + '              <div className="col col--3" style={{textAlign: \'center\'}}>\n'
       if media_entry["video"]:
         gallery_items = gallery_items + '                <ReactPlayer controls width=\'100%\' url="{}" title="{}{}"></ReactPlayer>\n'.format(media_entry["link"], timestamp_prefix, media_entry["caption"].replace('\"', ''))
       else:
@@ -160,7 +160,7 @@ def generate_gallery(gallery, out_path):
       gallery_items = gallery_items + '                <blockquote style={{margin: "auto", display: "table"}}>' + '{}{}</blockquote>\n'.format(timestamp_prefix, media_entry["caption"])
       gallery_items = gallery_items + '              </div>\n'
       row_count = row_count + 1
-      if row_count % 3 == 0 or idx == len(sub_gallery["media"]) - 1:
+      if row_count % 4 == 0 or idx == len(sub_gallery["media"]) - 1:
         gallery_items = gallery_items + '            </div>\n'
     current_gallery_content = current_gallery_content.replace("___ENTRIES___", gallery_items)
     galleries_text = galleries_text + current_gallery_content
