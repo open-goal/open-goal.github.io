@@ -328,7 +328,7 @@
     "video": true
   },
   {
-    "name": "nav-mesh.png",
+    "name": "nav-mesh-1.png",
     "caption": "Debug visualization for nav-mesh",
     "timestamp": "2022-12-31"
   },
@@ -620,7 +620,7 @@
     "link": "https://cdn.discordapp.com/attachments/995787558816595968/1069784133380882442/ripple-2023-01-30_19.59.37.mp4",
     "caption": "Water ripple effect",
     "timestamp": "2023-01-30",
-    "name": "ripple",
+    "name": "ripple-1",
     "video": true
   },
   {
@@ -1010,7 +1010,7 @@
     "timestamp": "2023-03-11"
   },
   {
-    "name": "shadow-debug.png",
+    "name": "shadow-debug-1.png",
     "caption": "A debug tool for shadows",
     "timestamp": "2023-03-13"
   },
@@ -1077,12 +1077,12 @@
   },
   {
     "name": "kor-no-blackface.png",
-    "caption": "No Kor blackface like in the PS3 port",
+    "caption": "There's no texture morphing at this point anyway, but rest assured OpenGOAL won't have the 'Kor blackface' issue that happens in the PS3 port",
     "timestamp": "2023-03-22"
   },
   {
     "name": "guard-4.png",
-    "caption": "\"Yeah I guess during the [metalhead] invasion it makes since to just program the guards to hit everything\" -Zedb0t",
+    "caption": "\"Yeah I guess during the [metalhead] invasion it makes sense to just program the guards to hit everything\" -Zedb0t",
     "timestamp": "2023-03-22"
   },
   {
@@ -1111,9 +1111,747 @@
     "name": "race-mesh-2.png",
     "caption": "",
     "timestamp": "2023-03-26"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1089655115910217788/nav_stuff-2023-03-26_16.58.59.mp4",
+    "caption": "\"I think all the messed up turning stuff is a nav issue unfortunately\" -water111",
+    "timestamp": "2023-03-25",
+    "name": "nav-enemy-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1089676005020532801/20230326232237393_gk_HQJlpyoi2V.webm",
+    "caption": "These airlocks are meant to hide load times on PS2. ManDude plays around with speeding them up, since this is less of a concern on modern hardware.",
+    "timestamp": "2023-03-26",
+    "name": "airlock-1",
+    "video": true
+  },
+  {
+    "name": "orb-1.png",
+    "caption": "Did you know there's an orb out of bounds in the underport level?",
+    "timestamp": "2023-03-26"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1090788386580746370/vortex-2023-03-29_20.03.08.mp4",
+    "caption": "\"Vortex renderer works! Just missing the textures...\" -water111",
+    "timestamp": "2023-03-29",
+    "name": "vortex-1",
+    "video": true
+  },
+  {
+    "name": "fog-1.png",
+    "caption": "\"Is the baron statue meant to ignore fog?\" -ManDude (no, it isn't)",
+    "timestamp": "2023-03-29"
+  },
+  {
+    "name": "neon-1.png",
+    "caption": "",
+    "timestamp": "2023-03-30"
+  },
+  {
+    "link": "https://youtu.be/86JRlMxYVRI",
+    "caption": "Shuttle missions are working",
+    "timestamp": "2023-03-31",
+    "name": "shuttle-1",
+    "video": true
+  },
+  {
+    "name": "mars-tomb-1.png",
+    "caption": "",
+    "timestamp": "2023-04-01"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1092859246137323600/2023-04-04_13-10-26.mp4",
+    "caption": "Hacking around that pesky gui-control issue, the Daxter chase sequence is pretty playable, though the streaming animation speed is too slow",
+    "timestamp": "2023-04-04",
+    "name": "indax-2",
+    "video": true
+  },
+  {
+    "name": "progress-1.png",
+    "caption": "The code for these progress menus was also notoriously painful in Jak 1",
+    "timestamp": "2023-04-07"
+  },
+  {
+    "name": "progress-2.png",
+    "caption": "\"You can now start a new game from the title screen\" -ManDude",
+    "timestamp": "2023-04-07"
+  },
+  {
+    "name": "progress-3.png",
+    "caption": "",
+    "timestamp": "2023-04-07"
+  },
+  {
+    "name": "green-arrows.png",
+    "caption": "Can't unsee (it's like this on PS2 as well, and carried over to Jak 3)",
+    "timestamp": "2023-04-13"
+  },
+  {
+    "name": "error-1.png",
+    "caption": "",
+    "timestamp": "2023-04-13"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1096478564871843931/20230414175351272_gk_TDvdmhhXwH.webm",
+    "caption": "Making sure Mars Tomb skip still works with faster load times",
+    "timestamp": "2023-04-14",
+    "name": "mars-tomb-2",
+    "video": true
+  },
+  {
+    "name": "nav-mesh-2.png",
+    "caption": "Turns out this is an original game bug in the nav-mesh",
+    "timestamp": "2023-04-14"
+  },
+  {
+    "name": "nav-mesh-3.png",
+    "caption": "In Jak 2, nav-meshes can now use quads (Jak 1 only used triangles)",
+    "timestamp": "2023-04-14"
+  },
+  {
+    "name": "sprite-glow-7.png",
+    "caption": "Still debugging sprite-glow issues with different graphic settings",
+    "timestamp": "2023-04-14"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1096857652530778182/2023-04-15_20-00-07.mp4",
+    "caption": "More shadow debug tools",
+    "timestamp": "2023-04-15",
+    "name": "shadow-debug-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1097130801734352916/2023-04-16_14-04-48.mp4",
+    "caption": "Boom shadows",
+    "timestamp": "2023-04-16",
+    "name": "shadow-debug-3",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1097237542501355550/2023-04-16_21-09-42.mp4",
+    "caption": "This lighting effect actually uses shadows too",
+    "timestamp": "2023-04-16",
+    "name": "shadow-debug-4",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1097262833739235409/gun_shooting-2023-04-16_16.50.14.mp4",
+    "caption": "water111 gets generic-merc and the warp effect working",
+    "timestamp": "2023-04-16",
+    "name": "generic-merc-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1097265763649343708/guard_kill-2023-04-16_17.01.56.mp4",
+    "caption": "",
+    "timestamp": "2023-04-16",
+    "name": "generic-merc-2",
+    "video": true
+  },
+  {
+    "name": "generic-merc-3.png",
+    "caption": "",
+    "timestamp": "2023-04-16"
+  },
+  {
+    "name": "generic-merc-4.png",
+    "caption": "",
+    "timestamp": "2023-04-16"
+  },
+  {
+    "name": "generic-merc-5.png",
+    "caption": "",
+    "timestamp": "2023-04-16"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1097268810639216731/wobbly-2023-04-16_17.14.07.mp4",
+    "caption": "",
+    "timestamp": "2023-04-16",
+    "name": "generic-merc-6",
+    "video": true
+  },
+  {
+    "name": "red-lightning-4.png",
+    "caption": "Still some mixed up RGB/BGR",
+    "timestamp": "2023-04-16"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1097491130137985114/2023-04-17_13-56-57.mp4",
+    "caption": "\"The ripple distortion effect in water breaks around the screen edges\" -Hat Kid",
+    "timestamp": "2023-04-17",
+    "name": "ripple-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1097495231026442270/2023-04-17_14-13-28.mp4",
+    "caption": "Similar issue with the security wall's effect",
+    "timestamp": "2023-04-17",
+    "name": "ripple-3",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1097598027608375407/2023-04-17_21-01-50.mp4",
+    "caption": "\"I just reimplemented the missing target-yellow-jump-blast that is still called in Jak 2 but not defined anywhere and made it spawn the yellow gun blast instead\" -Hat Kid",
+    "timestamp": "2023-04-17",
+    "name": "guns-4",
+    "video": true
+  },
+  {
+    "name": "hud-3.png",
+    "caption": "",
+    "timestamp": "2023-04-18"
+  },
+  {
+    "name": "ntsc-v2.png",
+    "caption": "The initial PS2 releases had a potential softlock around the stadium missions, OpenGOAL will include the patch that was added in later releases.",
+    "timestamp": "2023-04-18"
+  },
+  {
+    "name": "generic-merc-7.png",
+    "caption": "Some weirdness with fog and the warp effect",
+    "timestamp": "2023-04-18"
+  },
+  {
+    "name": "skatepark-1.png",
+    "caption": "The skatepark test level found in the files of the PS3 version, loaded in OpenGOAL",
+    "timestamp": "2023-04-22"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1099821832871350353/out.mp4",
+    "caption": "Streaming audio! \"Overlord was programmed by insane people\" -water111",
+    "timestamp": "2023-04-23",
+    "name": "overlord-1",
+    "video": true
+  },  
+  {
+    "name": "generic-merc-8.png",
+    "caption": "Another suspicious warp effect",
+    "timestamp": "2023-04-23"
+  },
+  {
+    "name": "escort-kid-1.png",
+    "caption": "The airlock speedup is fixed and now the Escort Kid mission is completable",
+    "timestamp": "2023-04-23"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1100203804684718110/sound_getting_better-2023-04-24_19.35.43.mp4",
+    "caption": "More streaming audio fixes",
+    "timestamp": "2023-04-24",
+    "name": "overlord-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1100215200470274049/speed-2023-04-24_20.21.20.mp4",
+    "caption": "",
+    "timestamp": "2023-04-24",
+    "name": "overlord-3",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1100220921576439878/2023-04-25_02-44-16.mp4",
+    "caption": "\"Hey at least we made it to the third mission\" -water111",
+    "timestamp": "2023-04-24",
+    "name": "overlord-4",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1100235014102339665/2023-04-25_03-36-40.mp4",
+    "caption": "Other languages work too, though volume is off",
+    "timestamp": "2023-04-24",
+    "name": "overlord-5",
+    "video": true
+  },
+  {
+    "name": "particles-1.png",
+    "caption": "\"They dont look like this for you guys, right? Just to make sure...\" -ManDude",
+    "timestamp": "2023-04-25"
+  },
+  {
+    "name": "particles-2.png",
+    "caption": "Turned out to be an issue with RNG in the particle system",
+    "timestamp": "2023-04-25"
+  },
+  {
+    "name": "sig-2.png",
+    "caption": "\"For some reason he just instantly dies if you push him off the piston\" -Hat Kid",
+    "timestamp": "2023-04-26"
+  },
+  {
+    "name": "credits-1.png",
+    "caption": "",
+    "timestamp": "2023-04-26"
+  },
+  {
+    "name": "metalkor-2.png",
+    "caption": "Debugging an issue with metalkor rendering",
+    "timestamp": "2023-04-26"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1100941578513698887/out2.mp4",
+    "caption": "A fix in the decompilation finally gets the streaming animations working for this section",
+    "timestamp": "2023-04-26",
+    "name": "overlord-6",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1100963261505077398/20230427025245335_gk_RfoAMmIGYZ.webm",
+    "caption": "Amusing bug with missing face animations",
+    "timestamp": "2023-04-26",
+    "name": "face-animations-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1101227409430290482/2023-04-27_21-14-12.mp4",
+    "caption": "A NaN bug was causing the 'excitement' level and audio to increase when it shouldn't here",
+    "timestamp": "2023-04-26",
+    "name": "face-animations-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1101590687205576735/2023-04-28_21-24-52.mp4",
+    "caption": "",
+    "timestamp": "2023-04-28",
+    "name": "mars-tomb-3",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1102282956195758140/20230430181747078_gk_BPCly93SAh.webm",
+    "caption": "",
+    "timestamp": "2023-04-30",
+    "name": "avalanche-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/858317290856775700/1102425234478469202/2023-04-30_22-37-50.mp4",
+    "caption": "Level Select and Restart Mission are working now",
+    "timestamp": "2023-04-30",
+    "name": "avalanche-1",
+    "video": true
+  },
+  {
+    "name": "sprite-distort-1.png",
+    "caption": "\"Sprite distort doesnt appear to be working very well...\" -ManDude",
+    "timestamp": "2023-05-01"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1102748878324903956/out3.mp4",
+    "caption": "\"I improved the aiming\" -water111",
+    "timestamp": "2023-05-01",
+    "name": "guns-5",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1102750202194038894/misty_thing-2023-05-01_20.14.45.mp4",
+    "caption": "WARNING: LOUD",
+    "timestamp": "2023-05-01",
+    "name": "guns-6",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1102750287883677696/20230502011508052_gk_ovWJtUNVsE.webm",
+    "caption": "\"They changed literally nothing for Jak 2 [sprite distort], our shaders just needed some modifications\" -ManDude",
+    "timestamp": "2023-05-01",
+    "name": "sprite-distort-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1102769619791528017/2023-05-02_03-31-10.mp4",
+    "caption": "\"I somehow entered this cursed state\" -Hat Kid",
+    "timestamp": "2023-05-01",
+    "name": "race-3",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1103435612108898415/20230503223822385_gk_TMX6MPdxk6.webm",
+    "caption": "Progress menu clean up",
+    "timestamp": "2023-05-03",
+    "name": "progress-4",
+    "video": true
+  },
+  {
+    "name": "rac-1.png",
+    "caption": "These Rachet & Clank posters were only showing up while paused",
+    "timestamp": "2023-05-04"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1104465235194167296/shadow_stuff-2023-05-06_13.33.11.mp4",
+    "caption": "\"Some progress on a rewritten Shadow2 renderer. It's still using the EE mips2c stuff from shadow-cpu, but the Shadow_PS2.cpp VU1 stuff isn't being used\" -water111",
+    "timestamp": "2023-05-06",
+    "name": "shadow-debug-5",
+    "video": true
+  },
+  {
+    "name": "shadow-debug-6.png",
+    "caption": "Shadows still look different from PS2, and are buggy in some places",
+    "timestamp": "2023-05-06"
+  },
+  {
+    "name": "shadow-debug-7.png",
+    "caption": "\"Halving the shadow colors seems to be correct\" -ManDude",
+    "timestamp": "2023-05-06"
+  },
+  {
+    "name": "collision-2.png",
+    "caption": "\"For some reason the noboard flag is used as extra wall for cars and stuff (instead of nopilot) and these walls lack that [so you can drive right through]\" -ManDude",
+    "timestamp": "2023-05-07"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1105901684338741419/2023-05-10_18-55-58.mp4",
+    "caption": "OpenGOAL exclusive secrets?",
+    "timestamp": "2023-05-10",
+    "name": "secrets-1",
+    "video": true
+  },
+  {
+    "name": "castle-1.png",
+    "caption": "\"This thing now renders!\" -ManDude",
+    "timestamp": "2023-05-14"
+  },
+  {
+    "name": "traffic-manager-3.png",
+    "caption": "Speedrunners noticed that guard spawns seemed out of place, turns out there was a bug in the spawn ranges",
+    "timestamp": "2023-05-14"
+  },
+  {
+    "name": "orb-2.png",
+    "caption": "ManDude resorted to cheating to find all the orbs",
+    "timestamp": "2023-05-16"
+  },
+  {
+    "name": "subtitles-2.png",
+    "caption": "Subtitle editor improvements",
+    "timestamp": "2023-05-17"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1109554751261126756/2023-05-20_20-53-17.mp4",
+    "caption": "Unused voicelines when Jak hijacks a vehicle",
+    "timestamp": "2023-05-20",
+    "name": "secrets-2",
+    "video": true
+  },
+  {
+    "name": "subtitles-3.png",
+    "caption": "More subtitle editor improvements",
+    "timestamp": "2023-05-23"
+  },
+  {
+    "name": "subtitles-4.png",
+    "caption": "",
+    "timestamp": "2023-05-23"
+  },
+  {
+    "name": "subtitles-5.png",
+    "caption": "",
+    "timestamp": "2023-05-24"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1113176985640902836/2023-05-30_20-45-24.mp4",
+    "caption": "Each audio line gets queued, and originally it was showing the subtitles prematurely",
+    "timestamp": "2023-05-30",
+    "name": "subtitles-6",
+    "video": true
+  },
+  {
+    "name": "oracle-1.png",
+    "caption": "\"I love how the oracle is actually just Daxter... FORESHADOWING?????\" -ManDude",
+    "timestamp": "2023-05-31"
+  },
+  {
+    "name": "demo-1.png",
+    "caption": "Kiosk (demo) mode partially works",
+    "timestamp": "2023-05-31"
+  },
+  {
+    "name": "generic-merc-9.png",
+    "caption": "Warp effect and fog still not cooperating",
+    "timestamp": "2023-06-05"
+  },
+  {
+    "name": "metalkor-3.png",
+    "caption": "Whatever was breaking metalkor was apparently fixed?",
+    "timestamp": "2023-06-06"
+  },
+  {
+    "name": "discord-1.png",
+    "caption": "Early Discord RPC support",
+    "timestamp": "2023-06-07"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1116438112004997200/20230608194500648_gk_zVN6YU8K9G.webm",
+    "caption": "Misc voicelines",
+    "timestamp": "2023-06-08",
+    "name": "subtitles-7",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1116548714664837221/blerd-2023-06-08_22.04.54.mp4",
+    "caption": "\"Behold the high precision floating point blerc\" -water111",
+    "timestamp": "2023-06-08",
+    "name": "blerf-1",
+    "video": true
+  },
+  {
+    "name": "blerf-2.png",
+    "caption": "The younger Jak model in Jak 2 has a beard hidden inside his face",
+    "timestamp": "2023-06-08"
+  },
+  {
+    "name": "intro-5.png",
+    "caption": "Low lod metalheads...",
+    "timestamp": "2023-06-08"
+  },
+  {
+    "name": "intro-6.png",
+    "caption": "... vs high lod metalheads",
+    "timestamp": "2023-06-08"
+  },
+  {
+    "name": "blerf-3.png",
+    "caption": "",
+    "timestamp": "2023-06-10"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1117520111461470448/2023-06-11_20-21-11.mp4",
+    "caption": "Hiphog mirror is breaking the new blerf renderer",
+    "timestamp": "2023-06-11",
+    "name": "blerf-4",
+    "video": true
+  },
+  {
+    "name": "nest-1.png",
+    "caption": "\"lol they just didnt make the particle effects for this level\" -ManDude",
+    "timestamp": "2023-06-14"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1119023270537199636/20230615224839960_Discord_lhMzx2dHFD-25M.mp4",
+    "caption": "The vortex effect actually speeds up time in-game (watch the stars in Sandover), so you get this weird side effect in the Discord RPC",
+    "timestamp": "2023-06-15",
+    "name": "discord-2",
+    "video": true
+  },
+  {
+    "name": "lights-1.png",
+    "caption": "\"Kinda cool, they actually placed foreground lights in jak 2. In jak 1, there were like 5 in the whole game, because each light had to be manually programmed\" -water111",
+    "timestamp": "2023-06-17"
+  },
+  {
+    "name": "tess-1.png",
+    "caption": "\"She just does this off camera for some reason\" -ManDude",
+    "timestamp": "2023-06-17"
+  },
+  {
+    "name": "screenshots-1.png",
+    "caption": "Native screenshots work in high-quality and with MSAA",
+    "timestamp": "2023-06-18"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1120407750749474848/20230619183826856_gk_gqFYqd2V8r.webm",
+    "caption": "Originally once you beat the game, the carrier wouldn't return to the port here. In OpenGOAL this is fixed, allowing you to return to the metalhead nest!",
+    "timestamp": "2023-06-19",
+    "name": "nest-2",
+    "video": true
+  },
+  {
+    "name": "softlock-1.png",
+    "caption": "You can softlock yourself out of this orb in the original game, because it doesn't spawn in the later versions of the sewers level. Another thing fixed in OpenGOAL",
+    "timestamp": "2023-06-19"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1121055566077382726/20230621131914359_gk_qvqeVUpSRe.mp4",
+    "caption": "An unused variation of the racepoint side mission.",
+    "timestamp": "2023-06-21",
+    "name": "bbush-1",
+    "video": true
+  },
+  {
+    "name": "bbush-2.png",
+    "caption": "Another unused racepoint side mission, strangely using the Onin tent icon",
+    "timestamp": "2023-06-21"
+  },
+  {
+    "name": "krew-1.png",
+    "caption": "\"There's meant to be an elec gate visible from the krew boss but it's too far away on PS2\" -ManDude",
+    "timestamp": "2023-06-21"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1121956078951878748/20230624011207492_gk_8tMCAHloNd.webm",
+    "caption": "\"I just softlocked the game... wait... the game is just running at like 2fps... I'm in an infinite loop of mission fails\" -ManDude",
+    "timestamp": "2023-06-23",
+    "name": "bbush-3",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1122567021813583892/sky-2023-06-25_12.39.48.mp4",
+    "caption": "Clouds!",
+    "timestamp": "2023-06-25",
+    "name": "clouds-1",
+    "video": true
+  },
+  {
+    "name": "softlock-2.png",
+    "caption": "Another original game bug - if you exit out of the stadium races too quickly, you can softlock yourself out of the orbs.",
+    "timestamp": "2023-06-27"
+  },
+  {
+    "name": "softlock-3.png",
+    "caption": "It's now patched in OpenGOAL, but testing the fix and getting gold in these was actually kinda challenging",
+    "timestamp": "2023-06-27"
+  },
+  {
+    "name": "race-3.png",
+    "caption": "These textures work during races now",
+    "timestamp": "2023-06-28"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1124172204117069904/20230630035200279_gk_hU7U84lXsC.webm",
+    "caption": "Progress menu transitions at 150% speed",
+    "timestamp": "2023-06-29",
+    "name": "progress-5",
+    "video": true
+  },
+  {
+    "name": "collision-3.png",
+    "caption": "Collision renderer",
+    "timestamp": "2023-07-04"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1127360792094851112/sky-2023-07-08_18.08.24.mp4",
+    "caption": "Long-awaited texture animations!",
+    "timestamp": "2023-07-08",
+    "name": "tex-anim-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1129482344236060864/darkjak-2023-07-14_14.38.39.mp4",
+    "caption": "Texture morphing gives Dark Jak his purple color",
+    "timestamp": "2023-07-14",
+    "name": "tex-anim-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1129495086271582318/cutscene-2023-07-14_15.29.23.mp4",
+    "caption": "Works in cutscenes too",
+    "timestamp": "2023-07-14",
+    "name": "tex-anim-3",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1129869703188328448/gems-2023-07-15_16.17.49.mp4",
+    "caption": "Skull gems use texture animations as well",
+    "timestamp": "2023-07-15",
+    "name": "tex-anim-4",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1130176062287007744/conveyor-2023-07-16_12.35.35.mp4",
+    "caption": "Conveyor belt animation",
+    "timestamp": "2023-07-15",
+    "name": "tex-anim-5",
+    "video": true
+  },
+  {
+    "name": "progress-6.png",
+    "caption": "ManDude tidying up progress menu alignment, one by one",
+    "timestamp": "2023-07-21"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1131987733175349248/waterfall-2023-07-21_12.34.33.mp4",
+    "caption": "Easily overlooked texture animation in the waterfall (sprites turned off here)",
+    "timestamp": "2023-07-21",
+    "name": "tex-anim-6",
+    "video": true
+  },
+  {
+    "name": "tex-anim-7.png",
+    "caption": "\"lol I never realized that these treads are animated. They even go at different speeds during a turn. Naughty Dog is good at adding details that nobody ever notices\" -water111",
+    "timestamp": "2023-07-21"
+  },
+  {
+    "name": "tex-anim-8.png",
+    "caption": "Another underappreciated texture animation",
+    "timestamp": "2023-07-21"
+  },
+  {
+    "name": "bigmap-1.png",
+    "caption": "The map in the progress menu is composed of these differently 'colored' regions, which individually fill out as you progress through a level",
+    "timestamp": "2023-07-21"
+  },
+  {
+    "name": "progress-7.png",
+    "caption": "Textures within the progress menu are starting to work",
+    "timestamp": "2023-07-23"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1132715037220409628/title-2023-07-23_12.44.02.mp4",
+    "caption": "Billboard sprites get fixed!",
+    "timestamp": "2023-07-23",
+    "name": "sprites-1",
+    "video": true
+  },
+  {
+    "name": "progress-8.png",
+    "caption": "",
+    "timestamp": "2023-07-24"
+  },
+  {
+    "name": "progress-9.png",
+    "caption": "",
+    "timestamp": "2023-07-24"
+  },
+  {
+    "name": "progress-10.png",
+    "caption": "",
+    "timestamp": "2023-07-24"
+  },
+  {
+    "name": "smurf-1.png",
+    "caption": "A short-lived bug where the dark eco texture morph wasn't cleared after one of the Oracle cutscenes",
+    "timestamp": "2023-07-24"
+  },
+  {
+    "name": "generic-merc-10.png",
+    "caption": "Still some annoying warp effect bugs",
+    "timestamp": "2023-07-24"
+  },
+  {
+    "name": "progress-11.png",
+    "caption": "\"This title isn't centered wtf Naughty Dog!!\" -ManDude",
+    "timestamp": "2023-07-25"
+  },
+  {
+    "name": "yakow-1.png",
+    "caption": "The yakows are actually missing a texture for these areas in gray",
+    "timestamp": "2023-07-29"
+  },
+  {
+    "name": "yakow-2.png",
+    "caption": "OpenGOAL attempts to fix this by re-using some nearby textures",
+    "timestamp": "2023-07-29"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1134929255705362442/menu-2023-07-29_15.22.40.mp4",
+    "caption": "water111 fixes up the progress menu so it doesn't flash with a single all-black frame",
+    "timestamp": "2023-07-29",
+    "name": "progress-12",
+    "video": true
+  },
+  {
+    "name": "no-tex-1.png",
+    "caption": "Haven city with textures disabled",
+    "timestamp": "2023-08-01"
+  },
+  {
+    "name": "no-tex-2.png",
+    "caption": "",
+    "timestamp": "2023-08-01"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1136092163806081044/20230802012034149_gk_Uk4HCApbPR.mp4",
+    "caption": "Improved camera for turbo JET Board",
+    "timestamp": "2023-08-01",
+    "name": "jetboard-5",
+    "video": true
   }
-  
-  
-  
   
 ]
