@@ -16,7 +16,7 @@ The PNG file should have an alpha channel. Some textures use their alpha channel
 
 To make this easier to set up, you can copy the default textures from `assets`, and then modify those.
 
-For example, you can copy the `common` folder from `data/decompiler_out/jak1/textures` to `texture_replacements`. Then you can modify the png files in `texture_replacements/common`
+For example, you can copy the `common` folder from `data/decompiler_out/jak1/textures` to `texture_replacements`. If you're using the OpenGOAL Launcher and want to replace textures for your active version, you want to use the folder at `<your-install-directory>/active/jak1/data/texture_replacements`. Then you can modify the png files in `texture_replacements/common`.
 
 ## Rebuilding the game with modified textures
 
