@@ -48,7 +48,7 @@ Jak 1's font supports the following characters from a translation string:
   - Tildes
     - `Ñ Ã Õ`
   - Acute
-    - `Á É Í Ó Ú`
+    - `Á Ć É Í Ń Ó Ś Ú Ź`
   - Double Acute
     - `Ő Ű`
   - Circumflex
@@ -57,6 +57,8 @@ Jak 1's font supports the following characters from a translation string:
     - `À È Ì Ò Ù`
   - Umlaut
     - `Ä Ë Ï Ö ö Ü`
+  - Other
+    - `Ą Ę Ł Ż`
 - Japanese Characters (All katakana and hiragana used in modern Japanese writing)
   - Punctuation
     - `・ ゛ ゜ ー 『 』` (note that period is omitted, you must use the Western-script period)
