@@ -59,7 +59,7 @@ Jak 1's font supports the following characters from a translation string:
     - `Ä Ë Ï Ö ö Ü`
 - Japanese Characters (All katakana and hiragana used in modern Japanese writing)
   - Punctuation
-    - `・ ゛ ゜ ー 『 』`
+    - `・ ゛ ゜ ー 『 』` (note that period is omitted, you must use the Western-script period)
   - Kanji
     - `海 界 学 岩 旧 空 撃 賢 湖 口 行 合 士 寺 山 者 所 書 小 沼 上 城 場 出 闇 遺 黄 屋 下 家 火 花 青 宝 石 赤 跡 川 戦 村 隊 台 長 鳥 艇 洞 道 発 飛 噴 池 中 塔 島 部 砲 産 眷 力 緑 岸 像 谷 心 森 水 船 世`
   - Hiragana
