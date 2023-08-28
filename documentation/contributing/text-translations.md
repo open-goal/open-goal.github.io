@@ -34,26 +34,21 @@ First off, the fonts included in the the games are quite limiting, they do not s
 
 ### Jak 1
 
-:::caution
-Note that for Jak 1, alphabetical strings must be UPPERCASE
-:::
-
 Jak 1's font supports the following characters from a translation string:
 
-- A-Z
-  - **must be uppercase!**
+- <span className="yellowColor"><b>Uppercase</b></span> alphabetical characters (A through Z)
 - 0-9
 - Space
 - The following ASCII special characters
   - `' ! ( ) + - , . / : = < > * % ? "`
   - `<TIL>` Represents `~`
 - Other Special Characters
-  - ``ˇ ` ¨ º ¡ ¿ Æ Ç ß ™ 、Å Ø``
+  - ``ˇ ` ¨ º ¡ ¿ Æ Œ Ç ß ™ 、Å Ø``
 - Accents
   - Tildes
     - `Ñ Ã Õ`
   - Acute
-    - `Á É Í Ó Ú`
+    - `Á Ć É Í Ń Ó Ś Ú Ź`
   - Double Acute
     - `Ő Ű`
   - Circumflex
@@ -62,26 +57,27 @@ Jak 1's font supports the following characters from a translation string:
     - `À È Ì Ò Ù`
   - Umlaut
     - `Ä Ë Ï Ö ö Ü`
+  - Other
+    - `Ą Ę Ł Ż`
 - Japanese Characters (All katakana and hiragana used in modern Japanese writing)
+  - Punctuation
+    - `・ ゛ ゜ ー 『 』` (note that period is omitted, you must use the Western-script period)
   - Kanji
-    - `海 界 学 ワ ヲ ン 岩 旧 空 ヮ 撃 賢 湖 口 行 合 士 寺 山 者 所 書 小 沼 上 城 場 出 闇 遺 黄 屋 下 家 火 花 レ Œ ロ 青 ・ ゛ ゜ ー 『 』 宝 石 赤 跡 川 戦 村 隊 台 長 鳥 艇 洞 道 発 飛 噴 池 中 塔 島 部 砲 産 眷 力 緑 岸 像 谷 心 森 水 船 世`
-  - Hiragana
+    - `海 界 学 岩 旧 空 撃 賢 湖 口 行 合 士 寺 山 者 所 書 小 沼 上 城 場 出 闇 遺 黄 屋 下 家 火 花 青 宝 石 赤 跡 川 戦 村 隊 台 長 鳥 艇 洞 道 発 飛 噴 池 中 塔 島 部 砲 産 眷 力 緑 岸 像 谷 心 森 水 船 世`
+  - Katakana & Hiragana
+    - `ァ ア ィ イ ゥ ウ ェ エ ォ オ カ キ ク ケ コ サ シ ス セ ソ タ チ ッ ツ テ ト ナ ニ ヌ ネ ノ ハ ヒ フ ヘ ホ マ ミ ム メ モ ャ ヤ ュ ユ ョ ヨ ラ リ ル レ ロ ヮ ワ ヲ ン`
     - `ぁ あ ぃ い ぅ う ぇ え ぉ お か き く け こ さ し す せ そ た ち っ つ て と な に ぬ ね の は ひ ふ へ ほ ま み む め も ゃ や ゅ ゆ ょ よ ら り る れ ろ ゎ わ を ん`
     - Dakuten
+      - `ヴ ガ ギ グ ゲ ゴ ザ ジ ズ ゼ ゾ ダ ヂ ヅ デ ド バ ビ ブ ベ ボ`
       - `が ぎ ぐ げ ご ざ じ ず ぜ ぞ だ ぢ づ で ど ば び ぶ べ ぼ`
     - Handakuten
-      - `ぱ ぴ ぷ ぺ ぽ`
-  - Katakana
-    - `ァ ア ィ イ ゥ ウ ェ エ ォ オ カ キ ク ケ コ サ シ ス セ ソ タ チ ッ ツ テ ト ナ ニ ヌ ネ ノ ハ ヒ フ ヘ ホ マ ミ ム メ モ ャ ヤ ュ ユ ョ ヨ ラ リ ル`
-    - Dakuten
-      - `ヴ ガ ギ グ ゲ ゴ ザ ジ ズ ゼ ゾ ダ ヂ ヅ デ ド バ ビ ブ ベ ボ`
-    - Handakuten
       - `パ ピ プ ペ ポ`
+      - `ぱ ぴ ぷ ぺ ぽ`
 - PS2 Buttons
-  - `<PAD_X>`
-  - `<PAD_TRIANGLE>`
-  - `<PAD_CIRCLE>`
-  - `<PAD_SQUARE>`
+  - `<PAD_X>` (PlayStation X button)
+  - `<PAD_TRIANGLE>` (PlayStation Triangle button)
+  - `<PAD_CIRCLE>` (PlayStation Square button)
+  - `<PAD_SQUARE>` (PlayStation Circle button)
 
 ## Modifying Existing Translations
 
