@@ -48,7 +48,7 @@ Jak 1's font supports the following characters from a translation string:
   - `' ! ( ) + - , . / : = < > * % ? "`
   - `<TIL>` Represents `~`
 - Other Special Characters
-  - ``ˇ ` ¨ º ¡ ¿ Æ Ç ß ™ 、Å Ø``
+  - ``ˇ ` ¨ º ¡ ¿ Æ Œ Ç ß ™ 、Å Ø``
 - Accents
   - Tildes
     - `Ñ Ã Õ`
@@ -63,8 +63,10 @@ Jak 1's font supports the following characters from a translation string:
   - Umlaut
     - `Ä Ë Ï Ö ö Ü`
 - Japanese Characters (All katakana and hiragana used in modern Japanese writing)
+  - Punctuation
+    - `・ ゛ ゜ ー 『 』`
   - Kanji
-    - `海 界 学 ワ ヲ ン 岩 旧 空 ヮ 撃 賢 湖 口 行 合 士 寺 山 者 所 書 小 沼 上 城 場 出 闇 遺 黄 屋 下 家 火 花 レ Œ ロ 青 ・ ゛ ゜ ー 『 』 宝 石 赤 跡 川 戦 村 隊 台 長 鳥 艇 洞 道 発 飛 噴 池 中 塔 島 部 砲 産 眷 力 緑 岸 像 谷 心 森 水 船 世`
+    - `海 界 学 岩 旧 空 撃 賢 湖 口 行 合 士 寺 山 者 所 書 小 沼 上 城 場 出 闇 遺 黄 屋 下 家 火 花 青 宝 石 赤 跡 川 戦 村 隊 台 長 鳥 艇 洞 道 発 飛 噴 池 中 塔 島 部 砲 産 眷 力 緑 岸 像 谷 心 森 水 船 世`
   - Hiragana
     - `ぁ あ ぃ い ぅ う ぇ え ぉ お か き く け こ さ し す せ そ た ち っ つ て と な に ぬ ね の は ひ ふ へ ほ ま み む め も ゃ や ゅ ゆ ょ よ ら り る れ ろ ゎ わ を ん`
     - Dakuten
@@ -72,16 +74,16 @@ Jak 1's font supports the following characters from a translation string:
     - Handakuten
       - `ぱ ぴ ぷ ぺ ぽ`
   - Katakana
-    - `ァ ア ィ イ ゥ ウ ェ エ ォ オ カ キ ク ケ コ サ シ ス セ ソ タ チ ッ ツ テ ト ナ ニ ヌ ネ ノ ハ ヒ フ ヘ ホ マ ミ ム メ モ ャ ヤ ュ ユ ョ ヨ ラ リ ル`
+    - `ァ ア ィ イ ゥ ウ ェ エ ォ オ カ キ ク ケ コ サ シ ス セ ソ タ チ ッ ツ テ ト ナ ニ ヌ ネ ノ ハ ヒ フ ヘ ホ マ ミ ム メ モ ャ ヤ ュ ユ ョ ヨ ラ リ ル レ ロ ヮ ワ ヲ ン`
     - Dakuten
       - `ヴ ガ ギ グ ゲ ゴ ザ ジ ズ ゼ ゾ ダ ヂ ヅ デ ド バ ビ ブ ベ ボ`
     - Handakuten
       - `パ ピ プ ペ ポ`
 - PS2 Buttons
-  - `<PAD_X>`
-  - `<PAD_TRIANGLE>`
-  - `<PAD_CIRCLE>`
-  - `<PAD_SQUARE>`
+  - `<PAD_X>` (PlayStation X button)
+  - `<PAD_TRIANGLE>` (PlayStation Triangle button)
+  - `<PAD_CIRCLE>` (PlayStation Square button)
+  - `<PAD_SQUARE>` (PlayStation Circle button)
 
 ## Modifying Existing Translations
 
