@@ -34,14 +34,9 @@ First off, the fonts included in the the games are quite limiting, they do not s
 
 ### Jak 1
 
-:::caution
-Note that for Jak 1, alphabetical strings must be UPPERCASE
-:::
-
 Jak 1's font supports the following characters from a translation string:
 
-- A-Z
-  - **must be uppercase!**
+- __**Uppercase**__ alphabetical characters (A through Z)
 - 0-9
 - Space
 - The following ASCII special characters
