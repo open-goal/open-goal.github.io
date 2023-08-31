@@ -83,7 +83,10 @@ Like in Jak 1, we're adding new secrets to the game for a little bit of extra fu
 - Item magnet
 - Precursor Orb tracker
 
-<!-- TODO some pictures -->
+![](img/no-textures.png)
+![](img/health-bars.png)
+![](img/vehicle-health-bars.png)
+![](img/skill-tracker.png)
 
 ### Music Player <PRLink href="https://github.com/open-goal/jak-project/pull/2900"/>
 
@@ -123,7 +126,7 @@ The texture for the player arrow on the minimap is now drawn correctly.
 
 ### Japanese Subtitle Support <PRLink href="https://github.com/open-goal/jak-project/pull/2914"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2916"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2917"/>
 
-OpenGOAL now supports Jak 2's very fancy Japanese subtitles.
+OpenGOAL now supports Jak 2's very fancy Japanese subtitles. They are actually static images instead of rendered text and not only do they have furigana, but they also have highlighted text and even display some Precurian text.
 
 ![](img/subtitle-jp.png)
 
@@ -144,6 +147,12 @@ The last of the missing texture animations, the toxic slime in the Weapons Facto
 ### Fix Sprite Glow Depth Test Issues <PRLink href="https://github.com/open-goal/jak-project/pull/2923"/>
 
 Fixes cases where glow sprites could be seen through other glow sprites.
+
+<ReactPlayer
+  controls
+  url={require("./video/sprite-glow-depth-test.mp4").default}
+  className="blog-video"
+/>
 
 ### Minimap Improvements <PRLink href="https://github.com/open-goal/jak-project/pull/2929"/>
 
