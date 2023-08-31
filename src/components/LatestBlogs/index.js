@@ -2,6 +2,18 @@ import React from "react";
 
 const BlogList = [
   {
+    title: "Progress Report - August 2023",
+    image: require("@site/blog/progress-report-aug-2023/img/poster.png")
+      .default,
+    description: (
+      <>
+        Custom level support has gotten some love and Jak 2 got lots of small
+        graphical improvements/fixes.
+      </>
+    ),
+    link: "/blog/progress-report-aug-2023",
+  },
+  {
     title: "Progress Report - July 2023",
     image: require("@site/blog/progress-report-july-2023/img/poster.png")
       .default,
