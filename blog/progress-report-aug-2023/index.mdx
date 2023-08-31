@@ -53,21 +53,25 @@ Fixes a crash that would occur when loading and unloading custom levels and norm
 
 ### Fix Wrong File Paths for GOAL data files <PRLink href="https://github.com/open-goal/jak-project/pull/2932"/>
 
-After we started to work on Jak 2, we split up our file paths so we have `jak1` and `jak2` folders. However, the `out/obj` path, which is where GOAL object files are located, was never changed to accomodate this until now.
+After we started to work on Jak 2, we split up our file paths so we have `jak1` and `jak2` folders. However, some of the debug code which reads compiled objects files at runtime was never changed to accomodate this until now.
 
-The result was that whenever the game tried to link a data file like an art group (which contains information about a particular model), it would fail because it couldn't find the file. This issue mainly manifested in custom levels, where it would cause any actor whose art group failed to load to not show up.
+The result was that whenever the game tried to link a data file like an art group (which contains information about a particular model) from there, it would fail because it couldn't find the file. This issue mainly manifested in custom levels, where it would cause any actor whose art group failed to load to not show up.
 
 ### Add Support for Packing Models and Textures Directly Into Custom Levels <PRLink href="https://github.com/open-goal/jak-project/pull/2936"/>
 
-Another issue that has plagued custom levels for the longest time has been that if you wanted to have any non-common actor in your level, such as the floating platforms seen in Spider Cave, you would need to sacrifice one of the two level slots for a normal level that has the actor you need in order for it to be rendered properly (otherwise, it would just either be invisible or, due to the last issue mentioned, not spawn in).
+Another issue that has plagued custom levels for the longest time has been that if you wanted to have any non-common actor in your level, such as the floating platforms seen in Spider Cave, you would need to sacrifice one of the two level slots for a normal level that has the actor you need in order for it to be rendered properly (otherwise, it would just either be invisible or, due to the last issue mentioned, not spawn in at all).
 
 Now, you are able to specify which art groups you want to use in your level and the level builder will pack all the models and their textures directly into the level, removing the need to waste one of the level slots.
+
+### Fix Game Territory Being Wrong <PRLink href="https://github.com/open-goal/jak-project/pull/2946"/>
+
+The territory/region the game was compiled in was incorrectly always set to NTSC-U/SCEA (American version). The territory is used to change a few minor behaviors throughout the game, most notable the Sony titles ("Sony Computer Entertainment America" vs. "Sony Computer Entertainment Europe"), the Japanese sound effects and the date format on the save files. This has now been corrected and the correct region will be picked when you compile the game through the launcher now.
 
 ## Jak 2
 
 ### Fix Palace Airlock Not Opening After Baron Boss Fight <PRLink href="https://github.com/open-goal/jak-project/pull/2863"/>
 
-One of the last few gameplay bugs remaining, the door back to the city not opening after the first Baron fight has been fixed.
+One of the last few major gameplay bugs remaining, the door back to the city not opening after the first Baron fight has been fixed.
 
 ### New Secrets
 
@@ -99,35 +103,44 @@ Some shrubs were being drawn as translucent when they shouldn't be.
 
 ### Fix Sprite Glow Clipping <PRLink href="https://github.com/open-goal/jak-project/pull/2902"/>
 
-Now we can be blinded by the sun again, just as Rubin intended.
+The sprites spawned by the sun were being rendered too far away and not showing up. Now we can be blinded by the sun again, just as Rubin intended.
 
 ![](img/lens-flare.png)
 
-### Bigmap Support and Minimap Texture Filtering <PRLink href="https://github.com/open-goal/jak-project/pull/2906"/>
+### Bigmap Support <PRLink href="https://github.com/open-goal/jak-project/pull/2906"/>
 
-The big map in the progress menu finally works and the minimap now has texture filtering.
+The big map in the progress menu finally works properly!
 
 ![](img/bigmap.png)
 
 ### Fix BLERC on Warp Objects <PRLink href="https://github.com/open-goal/jak-project/pull/2907"/>
 
-Facial animations were broken on objects using the warp effect, such as the Hip Hog mirror.
+Blend shapes were broken on objects using the warp effect, such as the Hip Hog mirror. This caused it to look far more "warped" than it should.
 
 ### Fix Sprite Glow Flickering <PRLink href="https://github.com/open-goal/jak-project/pull/2912"/>
 
-### Fix Minimap Arrow Alpha <PRLink href="https://github.com/open-goal/jak-project/pull/2913"/>
+Occasionally, glow sprites would flicker and disappear. This annoying error is now fixed.
 
-The texture for the player arrow on the minimap is now drawn correctly.
+### Fix Sprite Glow Depth Test Issues <PRLink href="https://github.com/open-goal/jak-project/pull/2923"/>
+
+Fixes cases where glow sprites could be seen through other glow sprites and the opposite behavior where a hidden glow sprite was making glow sprites in front not get drawn.
+
+### Fix Minimap Arrow and Icon Motion <PRLink href="https://github.com/open-goal/jak-project/pull/2913"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2929"/>
+
+The texture for the player arrow on the minimap is now drawn correctly and does not get squished at widescreen when facing left or right. The icon motion has been smoothed out as well, instead of snapping to the original game's 512x416 framebuffer.
 
 ![](img/minimap-alpha.png)
 
 ### Japanese Subtitle Support <PRLink href="https://github.com/open-goal/jak-project/pull/2914"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2916"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2917"/>
 
-OpenGOAL now supports Jak 2's very fancy Japanese subtitles.
+OpenGOAL now supports Jak 2's fancy Japanese subtitles, the splash screens and the scrap books.
 
 ![](img/subtitle-jp.png)
+![](img/splash-all.png)
 
 ### Improved Clouds <PRLink href="https://github.com/open-goal/jak-project/pull/2921"/>
+
+The cloud textures now use the correct colors and match the original game!
 
 ![](img/clouds.png)
 
@@ -141,16 +154,12 @@ The last of the missing texture animations, the toxic slime in the Weapons Facto
   className="blog-video"
 />
 
-### Fix Sprite Glow Depth Test Issues <PRLink href="https://github.com/open-goal/jak-project/pull/2923"/>
-
-Fixes cases where glow sprites could be seen through other glow sprites.
-
-### Minimap Improvements <PRLink href="https://github.com/open-goal/jak-project/pull/2929"/>
-
-Fixes an issue in widescreen where the player arrow would get squished depending on the facing angle and smoothens the icon motion.
-
 ### Fix Incorrect Music Playing Sometimes <PRLink href="https://github.com/open-goal/jak-project/pull/2938"/>
+
+A small issue, but fixed nonetheless. One easy way to trigger it would be entering an airlock with the JET-Board and observe the JET-Board theme not playing on the new level you just entered.
 
 ## Tooling Improvements
 
 ### Subtitle Editor Fixes <PRLink href="https://github.com/open-goal/jak-project/pull/2941"/>
+
+The subtitle editor wasn't working... correctly for Jak 1. This has been addressed, and a couple new small features were added as a bonus.
