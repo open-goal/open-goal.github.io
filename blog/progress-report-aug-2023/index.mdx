@@ -53,7 +53,7 @@ Fixes a crash that would occur when loading and unloading custom levels and norm
 
 ### Fix Wrong File Paths for GOAL data files <PRLink href="https://github.com/open-goal/jak-project/pull/2932"/>
 
-After we started to work on Jak 2, we split up our file paths so we have `jak1` and `jak2` folders. However, some of the debug code which reads compiled objects files at runtime was never changed to accomodate this until now.
+After we started to work on Jak 2, we split up our file paths so we have `jak1` and `jak2` folders. However, some of the debug code which reads compiled object files at runtime was never changed to accomodate this until now.
 
 The result was that whenever the game tried to link a data file like an art group (which contains information about a particular model) from there, it would fail because it couldn't find the file. This issue mainly manifested in custom levels, where it would cause any actor whose art group failed to load to not show up.
 
