@@ -87,7 +87,10 @@ Like in Jak 1, we're adding new secrets to the game for a little bit of extra fu
 - Item magnet
 - Precursor Orb tracker
 
-<!-- TODO some pictures -->
+![](img/no-textures.png)
+![](img/health-bars.png)
+![](img/vehicle-health-bars.png)
+![](img/skill-tracker.png)
 
 ### Music Player <PRLink href="https://github.com/open-goal/jak-project/pull/2900"/>
 
@@ -125,6 +128,12 @@ Occasionally, glow sprites would flicker and disappear. This annoying error is n
 
 Fixes cases where glow sprites could be seen through other glow sprites and the opposite behavior where a hidden glow sprite was making glow sprites in front not get drawn.
 
+<ReactPlayer
+  controls
+  url={require("./video/sprite-glow-depth-test.mp4").default}
+  className="blog-video"
+/>
+
 ### Fix Minimap Arrow and Icon Motion <PRLink href="https://github.com/open-goal/jak-project/pull/2913"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2929"/>
 
 The texture for the player arrow on the minimap is now drawn correctly and does not get squished at widescreen when facing left or right. The icon motion has been smoothed out as well, instead of snapping to the original game's 512x416 framebuffer.
@@ -133,7 +142,7 @@ The texture for the player arrow on the minimap is now drawn correctly and does 
 
 ### Japanese Subtitle Support <PRLink href="https://github.com/open-goal/jak-project/pull/2914"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2916"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2917"/>
 
-OpenGOAL now supports Jak 2's fancy Japanese subtitles, the splash screens and the scrap books.
+OpenGOAL now supports Jak 2's fancy Japanese subtitles, the splash screens and the scrap books. These are all static images and not text rendered at run-time.
 
 ![](img/subtitle-jp.png)
 ![](img/splash-all.png)
