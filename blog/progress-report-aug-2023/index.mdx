@@ -165,7 +165,11 @@ The last of the missing texture animations, the toxic slime in the Weapons Facto
 
 ### Fix Incorrect Music Playing Sometimes <PRLink href="https://github.com/open-goal/jak-project/pull/2938"/>
 
-A small issue, but fixed nonetheless. One easy way to trigger it would be entering an airlock with the JET-Board and observe the JET-Board theme not playing on the new level you just entered.
+A small issue, but fixed nonetheless. This was causing music variations or alternate versions to not play sometimes.
+
+### Fix Bug in Outro Cutscene <PRLink href="https://github.com/open-goal/jak-project/pull/2952"/>
+
+The Port scene in the outro cutscene had a bug that froze the background clock even after the cutscene ended, freezing all water, cloud and skull gem animations until something caused it to go back to normal speed, such as failing a mission or the Dark Bomb.
 
 ## Tooling Improvements
 
