@@ -37,14 +37,7 @@ const BlogList = [
       </>
     ),
     link: "/blog/progress-report-june-2023",
-  },
-  {
-    title: "Progress Report - May. 2023",
-    image: require("@site/blog/progress-report-may-2023/img/poster.png")
-      .default,
-    description: <>I never know what to say here, we did some things.</>,
-    link: "/blog/progress-report-may-2023",
-  },
+  }
 ];
 
 function BlogPost({ image, title, description, link }) {
