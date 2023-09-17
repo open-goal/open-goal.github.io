@@ -220,7 +220,7 @@ As they do not need translation.
 
 #### Step 2.4 - Compiling the Game and testing the Language
 
-We need a test string to check if our language loads in the properly. Let's replace the prompt to talk with a placeholder text:
+We need a test string to check if our language loads in the game properly. Let's replace the prompt to talk with a placeholder text:
 - in the `game_base_text_{LANG_CODE}.json` file we just cleaned up replace the string with ID `0104` with something else, like so:\
 ![](img/placeholder_string_example.png)
 
