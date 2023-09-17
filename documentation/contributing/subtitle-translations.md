@@ -31,7 +31,7 @@ If you have successfully followed the steps and the game is successfully running
 Are you adding a brand new language, or simply changing or adding to an existing language?
 
 :::info
-If you adding to a language that already has subtitles (ie. English) [skip ahead](#edit-subtitles), otherwise continue in order!
+If you're adding to a language that already has subtitles (ie. English) [skip ahead](#edit-subtitles), otherwise continue in order!
 :::
 
 ## Step 2 - Adding a Brand New Language
