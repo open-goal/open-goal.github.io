@@ -19,17 +19,17 @@ Here's a brief rundown of the key points for translating text.
     - [Jak 1](https://github.com/open-goal/jak-project/blob/master/goal_src/jak1/engine/ui/text-h.gc)
     - As time passes, hopefully translators will add this context into Crowdin so it becomes more obvious.
 - If you need to modify original game strings, you will need to submit a PR with your changes.
-  - This requires you to set up a development build of OpenGOAL and decompile the game by yourself.
+  - This requires you to set up a development build of OpenGOAL and decompile the game yourself.
 
 ## Crowdin
 
-We've chosen Crowdin as our provider for hopefully simplifying the translation process. If you are interested in moderating / becoming a proof reader for a specific language, reach out in the Discord and we can make that happen.
+We've chosen Crowdin as our provider for hopefully simplifying the translation process. If you are interested in moderating / becoming a proofreader for a specific language, reach out in the Discord and we can make that happen.
 
 You will need to provide your Crowdin username to do so, and you should probably have already contributed to some degree (which makes it even easier to elevate your privileges)
 
 ## Supported Characters
 
-First off, the fonts included in the the games are quite limiting, they do not support the entire unicode character set (not even close). Therefore if your language isn't compatible, adding support for it is outside the scope of this guide.
+First off, the fonts included in the games are quite limiting, they do not support the entire unicode character set (not even close). Therefore if your language isn't compatible, adding support for it is outside the scope of this guide.
 
 ### Jak 1
 
@@ -129,6 +129,10 @@ If you have successfully followed the steps and the game is successfully running
 
 ### Step 2 - Adding a new language to the Menus
 
+:::info
+This guide assumes you will be translating both the Base Game Strings as well as the custom menu text and subtitles added by OpenGOAL.
+:::
+
 :::tip
 If you're going to be editing the files with Visual Studio Code it is highly recommended that you install the OpenGOAL extension.
 :::
@@ -137,7 +141,7 @@ If you're going to be editing the files with Visual Studio Code it is highly rec
 
 First we should start by adding an option in-game to pick the language we're currently working on:
 
-1. Start by opening `goal_src/{GAME_NAME}/pc/pckernel-impl.gc` and look at the `defenum pc-language` list
+1. Start by opening `goal_src/{GAME_NAME}/pc/pckernel-impl.gc` and look at the `defenum pc-language` list,
 2. If your language is not on this list, add it with a clear name and unique ID. For example `(latin 99)` (do not exceed the ID value of custom):\
 ![](img/defenum-pc-language-example.png)
 3. We now have to setup text entries for this new language. First add it to the `text-id` enum in the respective `all-types.gc` file:
@@ -145,11 +149,11 @@ First we should start by adding an option in-game to pick the language we're cur
 ![](img/defenum-text-id.png)\
 ![](img/defenum-text-id-example.png)\
 :::tip
-These enum ID's are in Hexadecimal (ie. 1-9, A-F)
+These enum ID's are written in Hex (ie. 1-9, A-F)
 :::
 4. Add this same entry to the same enum in `goal_src/{GAME_NAME}/engine/ui/text-h.gc`\
 ![](img/text-h-example.png)
-5. Lastly, add at least the english text entry for this in `game/assets/{GAME_NAME}/text/game_custom_text_en_US.json`\
+5. Lastly, add at least the english text entry for it in `game/assets/{GAME_NAME}/text/game_custom_text_en_US.json`\
 ![](img/game_custom_text_entry_example.png)
 
 #### Step 2.2 - Wiring up the Language
@@ -162,9 +166,9 @@ We can now wire up this new language to the game itself. This requires a few cha
 ![](img/default-menu-pc-example.png)
 1. Now we have to create the text files that will contain the translated strings for the game to read:
    - Grab the decompiled base game strings file from `decompiler_out/{GAME_NAME}/assets/game_text.txt`, copy it into `game/assets/{GAME_NAME}/text/` and rename it to `game_base_text_{LANG_CODE}.json`
-   - Now copy and paste the `game_custom_text_en_US.json` in the same folder and rename it to `game_custom_text_{LANG_CODE}.json` as well
-   - Then go to `game/assets/{GAME_NAME}/subtitle/` and copy and paste `subtitle_lines_en-US.json` and `subtitle_meta_en-US.json` in the same spot and rename them to `subtitle_lines_{LANG_CODE}.json` and `subtitle_meta_{LANG_CODE}.json` respectively
-   - open `subtitle_meta_{LANG_CODE}.json`, delete everything and paste in the following:
+   - Now copy and paste the `game_custom_text_en_US.json` in the same folder and rename it to `game_custom_text_{LANG_CODE}.json` as well,
+   - Then go to `game/assets/{GAME_NAME}/subtitle/` and copy and paste `subtitle_lines_en-US.json` and `subtitle_meta_en-US.json` in the same spot and rename them to `subtitle_lines_{LANG_CODE}.json` and `subtitle_meta_{LANG_CODE}.json` respectively,
+   - Open `subtitle_meta_{LANG_CODE}.json`, delete everything and paste in the following:
    ```json
    {
    "cutscenes": {},
@@ -172,9 +176,9 @@ We can now wire up this new language to the game itself. This requires a few cha
    }
    ```
 1. Lastly, we have to point to these files in the code for the game to load them:
-   - open `game/assets/{GAME_NAME}/jak1/game_text.gp` and add the base and custom text files to the list\
+   - Open `game/assets/{GAME_NAME}/jak1/game_text.gp` and add the base and custom text files to the list:\
   ![](img/game_text_example.png)
-   - open `game/assets/{GAME_NAME}/jak1/game_subtitle.gp` and add the subtitle text file to the list\
+   - Open `game/assets/{GAME_NAME}/jak1/game_subtitle.gp` and add the subtitle and meta text files to the list:\
   ![](img/game_subtitle_example.png)
 
 #### Step 2.3 - Cleaning up the Base Game Strings file
@@ -205,20 +209,20 @@ To this:\
   ![](img/game_base_text_clean_up_8.png)
    - press `Ctrl+Shift+L`, hold `Shift` and press `Arrow Up` enough times, so the selection looks like this:\
   ![](img/game_base_text_clean_up_9.png)\
-   - press `Backspace` to delete all of the selected lines
+   - press `Backspace` to delete all of the selected lines,
    - while your cursor is still in multiple places at once delete the spaces before the `,` for better readability, like so:\
   ![](img/game_base_text_clean_up_10.png)
 
-We suggest you delete the credits starting here:\
+    - We suggest you delete the credits starting here:\
 ![](img/game_base_text_clean_up_11.png)\
 And ending here:\
 ![](img/game_base_text_clean_up_12.png)\
 As they do not need translation.
 
-1. Finally, remove the `,` just before the `}` at the end of the file to finish the cleanup.\
+4. Finally, remove the `,` just before the `}` at the end of the file to finish the cleanup:\
 ![](img/game_base_text_clean_up_13.png)
 
-#### Step 2.4 - Compiling the Game and testing the Language
+#### Step 2.4 - Compiling the Game and Testing the Language
 
 We need a test string to check if our language loads in the game properly. Let's replace the prompt to talk with a placeholder text:
 - in the `game_base_text_{LANG_CODE}.json` file we just cleaned up replace the string with ID `0104` with something else, like so:\
@@ -233,6 +237,18 @@ We need a test string to check if our language loads in the game properly. Let's
 1.  Since we changed the string for the prompt to talk, turn around and approach Keira to see your placeholder text in place\
 ![](img/ingame_lang_string_example.png)
 
-### Step 3 - Translating a Base Game String
+### Step 3 - Translating Strings, Testing In-Game and submitting a PR
 
-As stated above, Crowdin only includes new custom strings we have added in OpenGOAL (for example, `Graphics Settings`)
+At this point you're free to translate every single string to your desired language by editing these files:
+   - Base Game - `game_base_text_{LANG_CODE}.json` in `game/assets/{GAME_NAME}/text/`
+   - Custom Menus added by OpenGOAL -  `game_custom_text_{LANG_CODE}.json` in `game/assets/{GAME_NAME}/text/`
+   - Subtitles - `subtitle_lines_{LANG_CODE}.json` in `game/assets/{GAME_NAME}/subtitle/`
+
+After editing each of these files you are able to see the changes you made without restarting the entire build, to do so:
+1. Rebuild the game using `(mi)` in REPL,
+2. Switch to a language other than the one you're editing,
+3. Switch back.
+
+After that you will see your newly translated strings in-game.
+
+Once you are happy with your changes submit a pull request to `https://github.com/open-goal/jak-project` with them so they can be reviewed and added to the game for everyone to use!
