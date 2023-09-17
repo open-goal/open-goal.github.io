@@ -197,7 +197,7 @@ This part assumes you're using Visual Studio Code to edit the file.
    - now add `{` at the top of the file, and `}` at the end:\
   ![](img/game_base_text_clean_up_5-1.png)\
   ![](img/game_base_text_clean_up_5-2.png)
-3. Now we have to delete all of the unnecessary trasnlated strings we don't need. So, for every string ID, delete every line other than the first, so it goes from this:\
+1. Now we have to delete all of the unnecessary translated strings we don't need. So, for every string ID, delete every line other than the first, so it goes from this:\
 ![](img/game_base_text_clean_up_6.png)\
 To this:\
   ![](img/game_base_text_clean_up_7.png)\
