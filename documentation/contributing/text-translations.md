@@ -109,7 +109,9 @@ The second is to modify the files and submit a PR via github https://github.com/
 
 If you want to add a brand new language or locale to the game you will have to go down the PR route which is going to take significantly more time to set up.
 
-:::caution Be aware that at the time of writing we use the original Jak 1 font, which has a very limited character set. Your language might not be supported well by this font so you'll want to confirm this first. Feel free to reach out for clarification if you are unsure. :::
+:::caution
+Be aware that at the time of writing we use the original Jak 1 font, which has a very limited character set. Your language might not be supported well by this font so you'll want to confirm this first. Feel free to reach out for clarification if you are unsure.
+:::
 
 ### Step 1 - Setting up the project
 
