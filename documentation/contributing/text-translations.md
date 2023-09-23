@@ -144,27 +144,37 @@ If you're going to be editing the files with Visual Studio Code it is highly rec
 First we should start by adding an option in-game to pick the language we're currently working on:
 
 1. Start by opening `goal_src/{GAME_NAME}/pc/pckernel-impl.gc` and look at the `defenum pc-language` list,
-2. If your language is not on this list, add it with a clear name and unique ID. For example `(latin 99)` (do not exceed the ID value of custom):  
+2. If your language is not on this list, add it with a clear name and unique ID. For example `(latin 99)` (do not exceed the ID value of custom):
+
 ![](img/defenum-pc-language-example.png)
+
 3. We now have to setup text entries for this new language. First add it to the `text-id` enum in the respective `all-types.gc` file:
-    - for Jak 1 that is `decompiler/config/all-types.gc`  
-![](img/defenum-text-id.png)  
-![](img/defenum-text-id-example.png)  
+    - for Jak 1 that is `decompiler/config/all-types.gc`
+
+![](img/defenum-text-id.png)
+![](img/defenum-text-id-example.png)
+
 :::tip
 These enum ID's are written in Hex (ie. 1-9, A-F)
 :::
-4. Add this same entry to the same enum in `goal_src/{GAME_NAME}/engine/ui/text-h.gc`  
+
+4. Add this same entry to the same enum in `goal_src/{GAME_NAME}/engine/ui/text-h.gc`
+
 ![](img/text-h-example.png)
-5. Lastly, add at least the english text entry for it in `game/assets/{GAME_NAME}/text/game_custom_text_en_US.json`  
+
+5. Lastly, add at least the english text entry for it in `game/assets/{GAME_NAME}/text/game_custom_text_en_US.json`
+
 ![](img/game_custom_text_entry_example.png)
 
 #### Step 2.2 - Wiring up the Language
 
 We can now wire up this new language to the game itself. This requires a few changes:
 
-1. Add it to the `*text-languages*` and `*subtitle-languages*` lists in `goal_src/{GAME_NAME}/pc/progress-pc.gc`. Maintain the order by the numeric ID (ie. `english` is `0` so it comes first). If your language was brand new you should also add it to `*language-remap-info-pc*` in a similar fashion.  
+1. Add it to the `*text-languages*` and `*subtitle-languages*` lists in `goal_src/{GAME_NAME}/pc/progress-pc.gc`. Maintain the order by the numeric ID (ie. `english` is `0` so it comes first). If your language was brand new you should also add it to `*language-remap-info-pc*` in a similar fashion.
+
 ![](img/progress-pc-example.png)
-1. Add it to the built-in debug menu for completeness in `goal_src/{GAME_NAME}/pc/debug/default-menu-pc.gc`  
+1. Add it to the built-in debug menu for completeness in `goal_src/{GAME_NAME}/pc/debug/default-menu-pc.gc`
+
 ![](img/default-menu-pc-example.png)
 1. Now we have to create the text files that will contain the translated strings for the game to read:
    - Grab the decompiled base game strings file from `decompiler_out/{GAME_NAME}/assets/game_text.txt`, copy it into `game/assets/{GAME_NAME}/text/` and rename it to `game_base_text_{LANG_CODE}.json`
@@ -173,11 +183,11 @@ We can now wire up this new language to the game itself. This requires a few cha
    - Open `subtitle_meta_{LANG_CODE}.json`, delete everything and paste in the following:
    ```json
    {
-   "cutscenes": {},
-   "hints": {}
+     "cutscenes": {},
+     "hints": {}
    }
    ```
-1. Lastly, we have to point to these files in the code for the game to load them:
+2. Lastly, we have to point to these files in the code for the game to load them:
    - Open `game/assets/{GAME_NAME}/jak1/game_text.gp` and add the base and custom text files to the list:  
   ![](img/game_text_example.png)
    - Open `game/assets/{GAME_NAME}/jak1/game_subtitle.gp` and add the subtitle and meta text files to the list:  
