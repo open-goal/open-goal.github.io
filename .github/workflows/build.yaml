@@ -26,19 +26,7 @@ jobs:
           node-version: 18
           cache: yarn
 
-      - name: Build Gallery
-        run: |
-          pip install pillow pillow-avif-plugin
-          python ./scripts/gallery-updater/update-gallery.py
-
-      - name: Install NPM Dependencies
-        run: |
-          yarn install --immutable
-
-      - name: Build Site
+      - name: Build Website
         env:
           process.env.DOCUSAURUS_SSR_CONCURRENCY: 2
-        run: |
-          unzip ./static/data/docs/opengoal-docs.zip -d ./
-          yarn gen-docs
-          yarn build
+        run: yarn cf-pages-deploy
