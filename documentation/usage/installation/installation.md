@@ -131,7 +131,7 @@ The Launcher is distributed as a `.dmg` and can be installed like any other comm
 The latest release of the Launcher can be found using the link below.
 
 <div className="row markdownMarginBottom">
-    <div className="col col--4">
+    <div className="col col--6">
         <LauncherDownloadLink />
     </div>
 </div>
@@ -263,7 +263,29 @@ The process of using a `jak-project` release on an Intel based Mac is very simil
 
 ### Linux (Steam Deck)
 
-If you are here looking to set up OpenGOAL on your Steam Deck there is a video guide for Steam Deck users that covers the process of installing and running OpenGOAL very thoroughly. The only change in this video is that we do now support other non black label versions of Jak and Daxter, so any disc should work!
+There are two main ways to install OpenGOAL on your SteamDeck.  The first of which is to use our official plugin for the Decky Loader, the second is to do it all yourself and copy the files over as if you were installing in a normal linux environment.
+
+#### Decky Plugin
+
+First, you must have decky installed.  Head over to https://decky.xyz/ and follow their installation steps, it's very simple.
+
+Next, you'll want to download the latest version of the plugin via our download link:
+
+<div className="row markdownMarginBottom">
+    <div className="col col--6">
+        <LauncherDownloadLink />
+    </div>
+</div>
+
+You will have to enable developer tools to install from a `.zip` file.
+
+Once installed, the plugin will help you install the game as well as create a library shortcut for it.
+
+**TODO - a video tutorial that shows this process end-to-end.**
+
+#### Manually
+
+This is a video guide for Steam Deck users that covers the process of installing and running OpenGOAL very thoroughly. The only change in this video is that we do now support other non black label versions of Jak and Daxter, so any disc should work!
 
 <ReactPlayer url={"https://www.youtube.com/watch?v=Cv7mlCSHKxc&t=564s"} style={{marginBottom: "1em"}}/>
 
