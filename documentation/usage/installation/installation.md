@@ -131,7 +131,7 @@ The Launcher is distributed as a `.dmg` and can be installed like any other comm
 The latest release of the Launcher can be found using the link below.
 
 <div className="row markdownMarginBottom">
-    <div className="col col--4">
+    <div className="col col--6">
         <LauncherDownloadLink />
     </div>
 </div>
@@ -272,7 +272,7 @@ First, you must have decky installed.  Head over to https://decky.xyz/ and follo
 Next, you'll want to download the latest version of the plugin via our download link:
 
 <div className="row markdownMarginBottom">
-    <div className="col col--4">
+    <div className="col col--6">
         <LauncherDownloadLink />
     </div>
 </div>

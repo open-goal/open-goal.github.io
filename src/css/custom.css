@@ -712,3 +712,8 @@ h5 {
   padding: var(--ifm-code-padding-vertical) var(--ifm-code-padding-horizontal);
   vertical-align: middle;
 }
+
+.downloadWrapper {
+  display: flex;
+  gap: 0.5em;
+}
