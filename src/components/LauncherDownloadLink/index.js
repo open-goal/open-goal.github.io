@@ -24,6 +24,7 @@ export default function LauncherDownloadLink() {
     const data = await response.json();
     const parser = new UAParser();
     const platformLower = parser.getOS().name.toLowerCase();
+    console.log(platformLower);
     setDetectedPlatform(
       `${parser.getOS().name} - ${parser.getCPU().architecture}`,
     );
