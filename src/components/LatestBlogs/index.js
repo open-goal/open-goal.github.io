@@ -2,6 +2,17 @@ import React from "react";
 
 const BlogList = [
   {
+    title: "Progress Report - September 2023",
+    image: require("@site/blog/progress-report-sept-2023/img/poster.png")
+      .default,
+    description: (
+      <>
+        One year of progress.
+      </>
+    ),
+    link: "/blog/progress-report-sept-2023",
+  },
+  {
     title: "Progress Report - August 2023",
     image: require("@site/blog/progress-report-aug-2023/img/poster.png")
       .default,
@@ -24,19 +35,6 @@ const BlogList = [
       </>
     ),
     link: "/blog/progress-report-july-2023",
-  },
-  {
-    title: "Progress Report - June 2023",
-    image: require("@site/blog/progress-report-june-2023/img/poster.png")
-      .default,
-    description: (
-      <>
-        One of the biggest rewrites we've done in a while has been released, and
-        as usual, work continues on bug fixing and quality-of-life improving Jak
-        2.
-      </>
-    ),
-    link: "/blog/progress-report-june-2023",
   }
 ];
 
