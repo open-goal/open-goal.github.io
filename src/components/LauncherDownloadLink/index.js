@@ -58,7 +58,12 @@ export default function LauncherDownloadLink() {
       }
       const deckyPluginData = await deckyPluginResponse.json();
       setDeckyPluginVersion(deckyPluginData.tag_name);
-      setDeckyPluginDownloadUrl(deckyPluginData.browser_download_url);
+      for (const asset of deckyPluginData.assets) {
+        if (asset.name.match(/^.*\.zip$/)) {
+          setDeckyPluginDownloadUrl(asset.browser_download_url);
+          break;
+        }
+      }
       for (const asset of data.assets) {
         if (asset.name.match(/^.*\.AppImage$/)) {
           setAvailable(true);
