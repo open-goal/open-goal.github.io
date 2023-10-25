@@ -33,7 +33,7 @@ We only support Windows 10, and Windows 11.
 
 - Windows 7 has been out of support since January 2020
 - Windows 8.1 will be end of life January 2023
-  :::
+:::
 
 You may need to install the [latest 64-bit C++ redistribution](https://aka.ms/vs/17/release/vc_redist.x64.exe).
 
@@ -104,7 +104,7 @@ If you're interested, these are the underlying issues:
 - https://github.com/MicrosoftEdge/WebView2Feedback/issues/3138#issuecomment-1387432722
 - https://github.com/MicrosoftEdge/WebView2Feedback/issues/3137
 - https://github.com/MicrosoftEdge/WebView2Feedback/issues/3136
-  :::
+:::
 
 #### Linux
 
