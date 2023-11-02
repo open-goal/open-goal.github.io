@@ -2,6 +2,17 @@ import React from "react";
 
 const BlogList = [
   {
+    title: "Progress Report - October 2023",
+    image: require("@site/blog/progress-report-oct-2023/img/poster.png")
+      .default,
+    description: (
+      <>
+        The wait is finally over.
+      </>
+    ),
+    link: "/blog/progress-report-oct-2023",
+  },
+  {
     title: "Progress Report - September 2023",
     image: require("@site/blog/progress-report-sept-2023/img/poster.png")
       .default,
@@ -23,18 +34,6 @@ const BlogList = [
       </>
     ),
     link: "/blog/progress-report-aug-2023",
-  },
-  {
-    title: "Progress Report - July 2023",
-    image: require("@site/blog/progress-report-july-2023/img/poster.png")
-      .default,
-    description: (
-      <>
-        Intel macOS support and texture pack management has landed as well as a
-        ton of progress on texture animations in Jak 2.
-      </>
-    ),
-    link: "/blog/progress-report-july-2023",
   }
 ];
 
