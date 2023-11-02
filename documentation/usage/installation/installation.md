@@ -6,6 +6,18 @@ import Requirements from '../../partials/\_requirements.mdx';
 
 # Installation
 
+## Video Guide
+
+If you would prefer a video guide walking through installing the launcher (or SteamDeck plugin) and game on every platform we currently support, check out this
+
+<ReactPlayer
+  controls
+  url="https://www.youtube.com/watch?v=K84UUMnkJc4"
+  className="blog-video"
+/>
+
+Otherwise the following describes the same steps with text, which may elaborate on certain sections more than the video does.
+
 ## Opening notes
 
 > Please note that help and support for this project is not always available, as everyone involved is donating their time to this project for free. If this page or the [FAQs](/docs/faq) can't answer your question, you might be able to find help in the OpenGOAL [discord](https://discord.gg/VZbXMHXzWv), but we do not guarantee support.
