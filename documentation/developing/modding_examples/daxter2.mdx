@@ -1,0 +1,136 @@
+---
+sidebar_position: 3
+title: Daxter 2
+description: A deep dive into the code changes for the Daxter 2 Mod
+---
+
+# Daxter 2 Mod
+
+<PostAuthors authors={["dallmeyer"]} authorNames={["barg034"]} />
+
+## Background
+
+This post is going to go through the changes I made for my Jak II mod "Daxter 2", in which you play as Daxter throughout the entire game. Just to limit your expectations up front - it mostly reuses the playable Daxter from the Mars Tomb mission, so there aren't any *completely new* models or animations created as part of this mod, though I have made several tweaks to *existing* models and animations. If you'd like to play this mod yourself, you can find it in the [Unofficial Mod Launcher](https://jakmods.dev/).
+
+I'll go through things in more detail below, but you can [click here to see the full diff](https://github.com/OpenGOAL-Mods/OG-Mod-Base/compare/main...OpenGOAL-Mods:OG-Daxter2:131ab7bce2ce26cf18e41dda4601213c2cbf314f) of changes for this mod.
+
+![](./img/daxter2/dax_board.png)
+
+### "Play the whole game as X" style mods
+
+The concept for this mod is similar in spirit to a few mods we've done in the past for Jak 1, like the [FlutFlut Legacy](https://www.youtube.com/watch?v=_z8GhVWFYfI) or [Zoomer Legacy](https://www.youtube.com/watch?v=BDvvCY8gFDQ), where you're stuck trying to beat the game without playing as Jak on foot as you normally would. 
+
+At a high-level, the development approach for these kind of mods is something like:
+1. Understand how the gameplay mode of choice (FlutFlut, Zoomer, Daxter, etc) is represented and handled in the codebase
+2. Ensure necessary code and art groups for the gameplay mode are loaded at all times
+3. Write some code to switch to the gameplay mode of choice under appropriate conditions (e.g. when not already in that mode)
+4. Do some playtesting and see what doesn't work or breaks
+5. Debug any issues, and patch/extend the codebase to address them
+   - This often involves reusing code from normal Jak states for unhandled cases in the other states
+6. Go back to step 4 and repeat until happy with the results
+
+## Understanding `target` fields and states
+
+In the Jak games - regardless of whether you're playing as Jak on foot, riding the JET Board, driving the Titan Suit, playing as Daxter, etc - the player is represented as `*target*`, an instance of the `target` type. This very important child of `process-drawable`/`process-focusable` has dozens of different possible states corresponding to all the different states and gameplay modes the game offers. You may want to read the documentation on [Processes and States](../../reference/process_and_state) to for more info on how processes and states work in general.
+
+### Learnings from Jak 1 mods
+
+To start, here are a few sample `target` states from Jak 1:
+- Jak standing still is `target-stance`
+- Jak hanging from an edge is `target-edge-grab`
+- Jak double-jumping out of water is `target-swim-jump-jump`
+- Playing fish game is `target-fishing`
+
+In Jak 1, you can send a `'change-mode` event to `*target*`, and [instruct it to switch states](https://github.com/open-goal/jak-project/blob/2ce7b365688a1c20a26d7ca2a2aeff9565cc004e/goal_src/jak1/engine/target/target-handler.gc#L777-L823) with various params. In particular, `'flut` and `'racing` were the relevant cases we utilized in the FlutFlut and Zoomer Legacy mods, respectively. There are a handful of different states for [FlutFlut](https://github.com/open-goal/jak-project/blob/2ce7b365688a1c20a26d7ca2a2aeff9565cc004e/goal_src/jak1/engine/target/target-h.gc#L76-L93) (`target-flut-air-attack`, `target-flut-death`, `target-flut-start`, etc) and the [Zoomer](https://github.com/open-goal/jak-project/blob/2ce7b365688a1c20a26d7ca2a2aeff9565cc004e/goal_src/jak1/engine/target/target-h.gc#L113-L126) (`target-racing-bounce`, `target-racing-death`, `target-racing-start`, etc).
+
+Additionally, there is an important field within the `target` type `(-> *target* control root-prim prim-core action)` that is generally used to check if the player is currently on FlutFlut or on the Zoomer (or riding a moving platform, on a swingpole, etc). For example, here are a couple helper functions:
+
+```opengoal
+(defun target-on-flut? () 
+  (and 
+    *target* 
+    (logtest? (-> *target* control root-prim prim-core action) (collide-action flut))
+    )
+  )
+
+(defun target-on-zoomer? () 
+  (and 
+    *target* 
+    (logtest? (-> *target* control root-prim prim-core action) (collide-action racer))
+    )
+  )
+```
+
+### Jak 2 `target`
+
+In Jak 2, this hasn't changed too drastically. Here are a few sample `target` states from Jak 2 (many were carried over from Jak 1):
+- Jak standing still is `target-stance`
+- Jak hanging from an edge is `target-edge-grab`
+- Jak double-jumping out of water is `target-swim-jump-jump`
+- Jak hitting a grenade on the JET board is `target-board-grenade`
+
+The playable Daxter mission in Mars Tomb is a mode that you can switch to with `(send-event *target* 'change-mode 'indax #f)` and there are various corresponding `target` states for the Daxter mode (`target-indax-death`, `target-indax-jump`, `target-indax-start`, etc).
+
+Instead of the buried `collide-action` field from Jak 1, in Jak 2 the `process-focusable` parent type introduces a `focus-status` field that is used to check if the player is in Daxter mode, is on the JET Board, is using a gun, etc. There is an easy to use `focus-test?` macro to go with this, for example:
+
+```opengoal
+(defun target-indax? () 
+  (and 
+    *target* 
+    (focus-test? *target* indax)
+    )
+  )
+
+(defun target-board? () 
+  (and 
+    *target* 
+    (focus-test? *target* board)
+    )
+  )
+```
+
+## Keeping `indax` code and art groups loaded
+
+One thing I've glossed over until this point is that you can only use these different gameplay modes if you have all the necessary dependencies loaded. If you try to switch to `indax` mode and don't have the `tombe` level loaded, the game will crash! The same thing happens in Jak 1 with FlutFlut if you don't have Boggy Swamp or Snowy Mountain loaded, or with the Zoomer if you don't have one of its levels loaded.
+
+From some trial and error in building the Jak 1 mods, we know how to rearrange the dependencies to keep specific code files and art groups loaded at all times. 
+
+## Switching to `indax` mode under appropriate conditions
+
+At this point, we've established how to switch the player's mode, we know which states are used for the different modes, and we can check whether the player is currently in a given mode. So we should be ready to write some basic code that checks every frame if, based on the player's conditions, we need to send a `'change-mode 'indax` event.
+
+Our OpenGOAL Mod Base comes with a `runs-every-frame` function where we might put this code, and a starting implementation might do something like:
+
+```opengoal
+(defun runs-every-frame ()
+  (when (and *target*
+             (not (focus-test? *target* indax)))
+    (send-event *target* 'change-mode 'indax #f)
+    )
+  )
+```
+
+
+
+---
+
+## Appendix
+
+- [Using the OpenGOAL REPL](../repl)
+- [OpenGOAL unofficial Mod Launcher](https://jakmods.dev)
+- [OpenGOAL Mod Base - Github](https://jakmods.dev/modbaseRedirect.html)
+- [OpenGOAL Blindfold Assist Mod - Github](https://github.com/OpenGOAL-Unofficial-Mods/blindfold-assist)
+  - [Full Diff](https://github.com/OpenGOAL-Unofficial-Mods/blindfold-assist/commit/1cd217498b5efa501c4980241d253a6b09e8c330)
+- [OpenGOAL Language Reference](../../reference)
+  - [`if`](../../reference/lib/#if)
+  - [`and`](../../reference/goos/#and)
+  - [`cond`](../../reference/lib/#cond)
+  - [`let`](../../reference/lib/#let)
+  - [`let*`](../../reference/lib/#let-1)
+  - [`+`](../../reference/lib/#-2)
+  - [`-`](../../reference/lib/#-)
+  - [`/`](../../reference/lib/#-4)
+  - [`set!`](../../reference/goos/#set)
+  - [`the-as`](../../reference/lib/#the-as)
+  - [Processes and States](../../reference/process_and_state)
+  - [Comments](../../reference/syntax/#comments)
