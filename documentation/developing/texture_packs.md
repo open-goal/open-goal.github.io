@@ -12,7 +12,7 @@ Do not change the resolution of the sky, clouds, or eye textures. Other textures
 
 The PNG file should have an alpha channel. Some textures use their alpha channels for transparency, or for indicating which parts should have environment mapping applied. It may be useful to look at how the original texture uses the alpha channel first, especially for particle effects.
 
-## Directory structure
+## Texture pack structure
 
 The structure of your texture pack (the file and directory names) must match the ones from the original game, so the recommended workflow is to first extract these original textures as PNG files, and use this as a starting point for your modifications.
 
@@ -31,6 +31,12 @@ Now you can see how the textures are laid out, and you can start setting up your
 You can copy/paste the whole `common` folder into the `texture_replacements` folder. Then you can modify the PNG files directly in `texture_replacements/common`. Feel free to delete any textures you're not modifying - the decompiler will just continue using the original textures if it doesn't find a replacement in your pack.
 
 If you're using the OpenGOAL Launcher and want to replace textures for your active version, you want to use the folder at `<your-install-directory>/active/jak1/data/texture_replacements`.
+
+### Replacing a repeated texture across multiple folders
+
+You may notice some texture are repeated in several different folders - for instance, textures for the "Babak" Lurker such as `bab-fur.png` are repeated in each level that needs them (which is not all of them - probably why they don't live under `common`).
+
+If you'd like to globally replace a texture such as this across the game, you can create a special `_all` folder within your `texture_replacements` folder and put the textures there. Note that any level-specific texture replacements WILL take precedence over textures in the `_all` folder - you can find more info in [this PR](https://github.com/open-goal/jak-project/pull/3234).
 
 ## Rebuilding the game with modified textures
 
