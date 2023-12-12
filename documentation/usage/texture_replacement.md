@@ -8,6 +8,8 @@ sidebar_position: 3
 The following instructions depend on if you are using a release version (pre-compiled) or building the project from source.
 :::
 
+If you're looking to create your own texture packs, see the [Developing > Texture Packs](/docs/developing/texture_packs) page for more info.
+
 ## Using the OpenGOAL Launcher
 
 ### Using a proper bundle
