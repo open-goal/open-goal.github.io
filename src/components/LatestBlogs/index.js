@@ -7,7 +7,7 @@ const BlogList = [
       .default,
     description: (
       <>
-        TODO
+        Slightly belated this time around.
       </>
     ),
     link: "/blog/progress-report-nov-2023",
