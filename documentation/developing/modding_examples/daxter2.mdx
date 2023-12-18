@@ -179,7 +179,7 @@ Keep in mind that if we want to allow the use of some non-`indax` Jak states, we
 
 ### JET Board
 
-I originally wanted to get this working for the JET Board, and so I updated the condition to use a `case` to filter out the `target-board` states:
+I originally wanted to get this concept working for the JET Board, and so I updated the condition to use a `case` to filter out the `target-board` states:
 
 ```opengoal
 (defun runs-every-frame ()
@@ -263,6 +263,80 @@ It is possible to keep the JET Board visible when not using it, and have it foll
 And that was it, suddenly I was riding around on the JET Board as Daxter! I was pretty happy with how well the JET Board animations worked with just Daxter visible, but I wasn't sure if the approach would work well enough for other Jak states/animations.
 
 ### Ground pound
+
+Well, I decided to give it a shot and try the same approach for ground pounds. First of all, we'll need to add code to allow `target` to transition from states like `indax-jump` into a ground pound. We can probably borrow some code from where the non-`indax` jump state(s) transition into a ground pound. To verify the name of the state(s) we're interested in, we can use the debug menu - if we enable `Target` > `Target Stats`, a bunch of information is shown on screen, including Jak's current state.
+
+With this, we can see Jak's ground pound is the `target-flop` state, and we can search through the code to see how `target` gets there. [This snippet of code](https://github.com/open-goal/jak-project/blob/897e9c588b344bd86838e9ea0ef2ef642130069a/goal_src/jak2/engine/target/target.gc#L1116-L1138) checks for the square button press and sends Jak into a ground pound from the `target-jump` state under certain conditions. Similar code can be found in the `target-double-jump`, `target-high-jump`, and `target-attack-uppercut-jump` states (with different parameters), but for Daxter's version I decided to just reuse the code from `target-jump` within `target-indax-jump` and `target-indax-double-jump`:
+
+```opengoal
+(defstate target-indax-jump (target)
+  ...
+  :trans (behavior ()
+    ...
+    ;; allow daxter to ground pound
+    (if (and (cpad-pressed? (-> self control cpad number) square)
+             (and ;; (< (vector-dot (-> self control dynam gravity-normal) (-> self control transv))
+                  ;;    (* 26624.0 (-> self darkjak-giant-interp) (-> self darkjak-giant-interp))
+                  ;;    )
+                  (< -61440.0 (vector-dot (-> self control dynam gravity-normal) (-> self control transv)))
+                  (and (>= (- (current-time) (-> self control last-time-of-stuck))
+                           (the-as time-frame (-> *TARGET-bank* stuck-timeout))
+                           )
+                       (not (logtest? (-> self state-flags) (state-flags prevent-attack)))
+                       (not (logtest? (-> self control current-surface flags) (surface-flag no-attack no-hands)))
+                       (not (and (not (using-gun? self)) (!= (-> self skel top-anim interp) 0.0)))
+                       )
+                  )
+             )
+        (go
+          target-flop
+          65502.96
+          -163840.0
+          (the-as float (if (= (-> *cpad-list* cpads (-> self control cpad number) stick0-speed) 0.0)
+                            0
+                            #x47866666
+                            )
+                  )
+          )
+        )
+    (mod-var-jump #t #t (cpad-hold? (-> self control cpad number) x) (-> self control transv))
+    )
+   ...
+   )
+```
+
+Before I could actually test anything though, I'd also need to add Jak's ground pound states to the allowlist I started with the JET Board states. Without this, you would be able to *initiate* a ground pound as Daxter, but you'd be immediately forced back into the `indax` mode, cancelling the ground pound. From some trial and error, I decided to allow these few states to cover the start of the ground pound through to any bounce/jump out of it:
+
+```opengoal
+(defun runs-every-frame ()
+  ;; switch in/out of daxter states
+  (when *target*
+    (case (-> *target* state name)
+      ((;; jetboard
+        'target-board-clone-anim
+        ...
+        ;; ground pound
+        'target-flop
+        'target-flop-hit-ground
+        'target-hit-ground
+        'target-duck-high-jump
+        'target-duck-high-jump-jump
+        )
+        ;; do nothing
+        )
+      (else
+        ;; force to indax mode
+        (send-event *target* 'change-mode 'indax #f)
+        )
+      )
+    
+    ;; hide jak
+    (logior! (-> *target* draw status) (draw-control-status no-draw-bounds2))
+    )
+  )
+```
+
+The animations were a little abrupt when going between `indax` mode and ground pounds, and the momentum felt a little unnatural... But overall it was good enough for me at this stage in the project, I was mostly just happy to give the player a way to break the grates and unblock that part of the first mission.
 
 ### Swingpoles
 
