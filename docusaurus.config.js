@@ -119,6 +119,10 @@ const config = {
                 label: "Jak II - Decompilation",
                 to: "/progress/jak2",
               },
+              {
+                label: "Jak 3 - Decompilation",
+                to: "/progress/jak3",
+              },
             ],
           },
           {
