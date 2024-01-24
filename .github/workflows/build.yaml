@@ -28,5 +28,5 @@ jobs:
 
       - name: Build Website
         env:
-          process.env.DOCUSAURUS_SSR_CONCURRENCY: 2
+          process.env.DOCUSAURUS_SSR_CONCURRENCY: 4
         run: yarn cf-pages-deploy
