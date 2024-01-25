@@ -15,7 +15,7 @@
     "gen-docs": "node ./scripts/doc-formatter/index.mjs",
     "download-docs": "node ./scripts/download-doc-bundle/index.mjs",
     "format": "npx prettier --write .",
-    "cf-pages-deploy": "pip install pillow pillow-avif-plugin && python ./scripts/gallery-updater/update-gallery.py && yarn install --immutable && unzip ./static/data/docs/opengoal-docs.zip -d ./ && yarn gen-docs && yarn build"
+    "cf-pages-deploy": "pip install pillow pillow-avif-plugin && python ./scripts/gallery-updater/update-gallery.py && yarn install --immutable && unzip ./static/data/docs/opengoal-docs.zip -d ./ && yarn gen-docs && yarn build --no-minify"
   },
   "dependencies": {
     "@algolia/client-search": "^4.22.1",
