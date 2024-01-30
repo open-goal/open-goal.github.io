@@ -2,6 +2,17 @@ import React from "react";
 
 const BlogList = [
   {
+    title: "Progress Report - January 2024",
+    image: require("@site/blog/progress-report-jan-2024/img/poster.png")
+      .default,
+    description: (
+      <>
+        New year, new game.
+      </>
+    ),
+    link: "/blog/progress-report-jan-2024",
+  },
+  {
     title: "Progress Report - November 2023",
     image: require("@site/blog/progress-report-nov-2023/img/poster.png")
       .default,
@@ -22,17 +33,6 @@ const BlogList = [
       </>
     ),
     link: "/blog/progress-report-oct-2023",
-  },
-  {
-    title: "Progress Report - September 2023",
-    image: require("@site/blog/progress-report-sept-2023/img/poster.png")
-      .default,
-    description: (
-      <>
-        One year of progress.
-      </>
-    ),
-    link: "/blog/progress-report-sept-2023",
   }
 ];
 
