@@ -137,8 +137,11 @@ function scanFolder(fileList, gameName, progressDb) {
     fs.readFileSync(`./jak-project/goal_src/${gameName}/build/all_objs.json`),
   );
   for (const fileMeta of fileList) {
+    let obj_name = fileMeta[0];
+    let obj_ver = fileMeta[2];
+    let code_file = ((gameName === "jak1" || gameName === "jak2") && obj_ver == 3) || (gameName === "jak3" && obj_ver == 5 && !obj_name.endsWith("-ag"));
     // Skip art files
-    if (fileMeta[2] == 3) {
+    if (code_file) {
       // Check it's line count
       let filePath = `./jak-project/goal_src/${gameName}/${fileMeta[4]}/${fileMeta[0]}.gc`;
       if (fs.existsSync(filePath)) {
@@ -286,7 +289,7 @@ async function loadSheetData() {
 }
 
 function getSheetAssignmentFromName(objectName) {
-  for (const entry of sheetData) {
+  for (const entry of sheetData.rows) {
     if (entry.Name === objectName) {
       if ("Assign" in entry && entry.Assign !== "") {
         return entry.Assign;
