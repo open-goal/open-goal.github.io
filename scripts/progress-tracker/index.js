@@ -170,6 +170,8 @@ function scanCasts(gameName) {
   let decompFolder = "jak1/ntsc_v1";
   if (gameName === "jak2") {
     decompFolder = "jak2/ntsc_v1";
+  } else if (gameName === "jak3") {
+    decompFolder = "jak3/ntsc_v1";
   }
   let stackCasts = parse(
     fs.readFileSync(
@@ -409,8 +411,8 @@ function auditProcess(gameName, pulls, issues) {
     }
 
     // Update spreadsheet assignment
-    if (gameName === "jak2") {
-      // only jak 2 is in active development
+    if (gameName === "jak3") {
+      // only jak 3 is in active development
       const assignment = getSheetAssignmentFromName(fileName);
       if (assignment !== null) {
         const assignmentLenient = assignment.replace(" ", "").toLowerCase();
@@ -590,5 +592,6 @@ for (const issue of issues) {
 
 auditProcess("jak1", pullRequestHistory, issuesFiltered);
 auditProcess("jak2", pullRequestHistory, issuesFiltered);
+auditProcess("jak3", pullRequestHistory, issuesFiltered);
 
 // TODO - query a shared google drive sheet to get the same information
