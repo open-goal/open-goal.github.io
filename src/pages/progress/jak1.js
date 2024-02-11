@@ -456,6 +456,7 @@ export default function Jak1DecompProgress() {
                       exportButton: true,
                       sorting: true,
                       pageSize: 25,
+                      pageSizeOptions:[25, 50, 100],
                     }}
                     isLoading={false}
                   />
