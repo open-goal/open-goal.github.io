@@ -48,7 +48,7 @@ jobs:
 
       - name: Build Static Content
         env:
-          DOCUSAURUS_SSR_CONCURRENCY: 2
+          DOCUSAURUS_SSR_CONCURRENCY: 4
         run: |
           unzip ./static/data/docs/opengoal-docs.zip -d ./
           yarn gen-docs

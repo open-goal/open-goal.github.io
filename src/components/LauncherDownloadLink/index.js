@@ -15,7 +15,7 @@ export default function LauncherDownloadLink() {
   const [isArm, setIsArm] = useState(false);
   const [isLinux, setIsLinux] = useState(false);
 
-  useEffect(async () => {
+  const fetchReleaseData = async () => {
     const parser = new UAParser();
     const platformLower = parser.getOS().name.toLowerCase();
     setDetectedPlatform(
@@ -93,6 +93,10 @@ export default function LauncherDownloadLink() {
       setLoading(false);
       return;
     }
+  }
+
+  useEffect(() => {
+    fetchReleaseData();
   }, []);
 
   const downloadText = (isDeckyPlugin) => {
@@ -164,7 +168,7 @@ export default function LauncherDownloadLink() {
   }
 
   return (
-    <div class="downloadWrapper">
+    <div className="downloadWrapper">
       <div className={`box ${!available ? "disabled" : ""}`}>
         <span className="icon">
           <img src="/img/download.svg" />
