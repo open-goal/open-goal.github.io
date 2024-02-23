@@ -236,6 +236,10 @@ Controls the environment mapping effect on foreground objects, such as Precursor
     </div>
 </div>
 
+#### ACTOR CULLING
+
+Controls the actor culling effect. When enabled, precomputed visibility data is used to determine which actors should be spawned or not, based on the camera's position. When disabled, actors are always spawned whenever the level they belong to is displayed. Default value is on. Recommended value is on. Performance impact is non-negligible, you may see lag spikes.
+
 ## Input Options
 
 Input options can be found in the `Game Options` menu:
