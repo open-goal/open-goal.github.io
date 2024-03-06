@@ -1,6 +1,6 @@
 # OpenGOAL Website
 
-This website (https://opengoal.dev) is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+This website (https://opengoal.dev) is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
 For a package manager, Yarn is preferred - https://yarnpkg.com/getting-started/install
 
