@@ -70,8 +70,8 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       announcementBar: {
-        id: "announcementBar-10", // Increment on change
-        content: `<a href="/blog/progress-report-jan-2024">Check out January's Progress Report Here!</a>`,
+        id: "announcementBar-11", // Increment on change
+        content: `<a href="/blog/progress-report-feb-2024">Check out February's Progress Report Here!</a>`,
       },
       algolia: {
         // The application ID provided by Algolia
