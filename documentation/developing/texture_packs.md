@@ -28,15 +28,15 @@ Afterwards you'll need to run the decompiler/extractor again to extract the text
 
 Now you can see how the textures are laid out, and you can start setting up your texture pack. Let's say you want to change the Precursor Orb texture `egg-ndimadman.png`, which you can find in the `common` folder. 
 
-You can copy/paste the whole `common` folder into the `texture_replacements` folder. Then you can modify the PNG files directly in `texture_replacements/common`. Feel free to delete any textures you're not modifying - the decompiler will just continue using the original textures if it doesn't find a replacement in your pack.
+You can copy/paste the whole `common` folder into the `texture_replacements/jak1` folder. Then you can modify the PNG files directly in `texture_replacements/jak1/common`. Feel free to delete any textures you're not modifying - the decompiler will just continue using the original textures if it doesn't find a replacement in your pack.
 
-If you're using the OpenGOAL Launcher and want to replace textures for your active version, you want to use the folder at `<your-install-directory>/active/jak1/data/texture_replacements`.
+If you're using the OpenGOAL Launcher and want to replace textures for your active version, you want to use the folder at `<your-install-directory>/active/jak1/data/texture_replacements/jak1`.
 
 ### Replacing a repeated texture across multiple folders
 
 You may notice some texture are repeated in several different folders - for instance, textures for the "Babak" Lurker such as `bab-fur.png` are repeated in each level that needs them (which is not all of them - probably why they don't live under `common`).
 
-If you'd like to globally replace a texture such as this across the game, you can create a special `_all` folder within your `texture_replacements` folder and put the textures there. Note that any level-specific texture replacements WILL take precedence over textures in the `_all` folder - you can find more info in [this PR](https://github.com/open-goal/jak-project/pull/3234).
+If you'd like to globally replace a texture such as this across the game, you can create a special `_all` folder within your `texture_replacements/jak1` folder and put the textures there. Note that any level-specific texture replacements WILL take precedence over textures in the `_all` folder - you can find more info in [this PR](https://github.com/open-goal/jak-project/pull/3234).
 
 ## Rebuilding the game with modified textures
 
@@ -45,7 +45,7 @@ Run the decompiler/extractor again to rebuild with modified textures.
 If it worked, you will see:
 
 ```
-Replacing jak-project/texture_replacements/common/jng-precursor-metal-plain-01-lores.png
+Replacing jak-project/texture_replacements/jak1/common/jng-precursor-metal-plain-01-lores.png
 ```
 
 as part of the output.
