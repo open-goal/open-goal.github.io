@@ -26,6 +26,12 @@ jobs:
           node-version: 18
           cache: yarn
 
+      - name: Docusaurus Cache
+        uses: actions/cache@v4
+        with:
+          path: ./node_modules/.cache
+          key: docusaurus-build-cache-${{ hashFiles('yarn.lock') }}
+
       - name: Build Website
         env:
           process.env.DOCUSAURUS_SSR_CONCURRENCY: 4
