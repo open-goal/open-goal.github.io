@@ -27,6 +27,12 @@ jobs:
           cache: yarn
           cache-dependency-path: scripts/progress-tracker/package.json
 
+      - name: Docusaurus Cache
+        uses: actions/cache@v4
+        with:
+          path: ./node_modules/.cache
+          key: docusaurus-build-cache-${{ hashFiles('yarn.lock') }}
+
       - name: Update Statistics
         env:
           SHEET_LINK: ${{ secrets.SHEET_LINK }}
