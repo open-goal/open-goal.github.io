@@ -10,7 +10,7 @@ const darkCodeTheme = themes.dracula;
 const config = {
   title: "OpenGOAL",
   tagline: "Reviving the Language that Brought us the Jak and Daxter Series",
-  url: "https://open-goal.github.io",
+  url: "https://opengoal.dev",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "throw",
