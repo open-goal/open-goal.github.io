@@ -145,7 +145,7 @@ export default function Home() {
           </div>
         </div>
         <section className="home-section">
-          <div className="container" style={{ paddingLeft: "5em" }}>
+          <div className="container indent">
             <div className="row" style={{ marginTop: "3em" }}>
               <h2 className="home-heading" style={{ fontWeight: "600" }}>
                 Reviving the Language that Brought us the{" "}
@@ -185,7 +185,7 @@ export default function Home() {
         </section>
         <LatestBlogs />
         <section className="home-section">
-          <div className="container" style={{ paddingLeft: "5em" }}>
+          <div className="container indent">
             <div className="row" style={{ marginTop: "5em" }}>
               <h2 className="home-heading" style={{ fontWeight: "600" }}>
                 Play the classics you loved with a{" "}
@@ -213,7 +213,7 @@ export default function Home() {
         </section>
         <HomepageGameplayFeatures />
         <section className="home-section">
-          <div className="container" style={{ paddingLeft: "5em" }}>
+          <div className="container indent">
             <div className="row" style={{ marginTop: "5em" }}>
               <h2 className="home-heading" style={{ fontWeight: "600" }}>
                 Freedom to{" "}
@@ -242,8 +242,8 @@ export default function Home() {
         </section>
         <HomepageDevelopmentFeatures />
         <section className="home-section" style={{ marginBottom: "10em" }}>
-          <div className="container" style={{ paddingLeft: "5em" }}>
-            <div className="row" style={{ marginTop: "5em" }}>
+          <div className="container indent">
+            <div className="row" style={{ marginTop: "5em", marginBottom: "2em" }}>
               <h2 className="home-heading" style={{ fontWeight: "600" }}>
                 Further links and get involved
               </h2>

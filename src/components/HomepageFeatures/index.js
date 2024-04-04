@@ -67,7 +67,7 @@ const DevelopmentFeatureList = [
 
 function Feature({ Svg, title, description }) {
   return (
-    <div className={clsx("col col--3")}>
+    <div className={clsx("col col--3 feature-item")}>
       <div className="text--center">
         <Svg className={styles.featureSvg} role="img" />
       </div>
@@ -83,37 +83,9 @@ export function HomepageGameplayFeatures() {
   return (
     <section className={"home-section"}>
       <div className="container">
-        <div
-          className="row"
-          style={{ justifyContent: "center", alignItems: "center" }}
-        >
+        <div className="row" style={{ justifyContent: "center", gap: "1em" }}>
           {GameplayFeatureList.map((props, idx) => (
-            <div className={clsx("col col--3")}>
-              <div className="text--center">
-                <props.Svg className={styles.featureSvg} role="img" />
-              </div>
-            </div>
-          ))}
-        </div>
-        <div
-          className="row"
-          style={{ justifyContent: "center", alignItems: "center" }}
-        >
-          {GameplayFeatureList.map((props, idx) => (
-            <div className={clsx("col col--3")}>
-              <div className="text--center">
-                <h3 className="monospaced">{props.title}</h3>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="row" style={{ justifyContent: "center" }}>
-          {GameplayFeatureList.map((props, idx) => (
-            <div className={clsx("col col--3")}>
-              <div className="text--center">
-                <p>{props.description}</p>
-              </div>
-            </div>
+            <Feature key={idx} {...props} />
           ))}
         </div>
       </div>
@@ -125,7 +97,7 @@ export function HomepageDevelopmentFeatures() {
   return (
     <section className={"home-section"}>
       <div className="container">
-        <div className="row" style={{ justifyContent: "center" }}>
+        <div className="row" style={{ justifyContent: "center", gap: "1em"  }}>
           {DevelopmentFeatureList.map((props, idx) => (
             <Feature key={idx} {...props} />
           ))}
@@ -134,3 +106,45 @@ export function HomepageDevelopmentFeatures() {
     </section>
   );
 }
+
+// export function HomepageGameplayFeatures() {
+//   return (
+//     <section className={"home-section"}>
+//       <div className="container">
+//         <div
+//           className="row"
+//           style={{ justifyContent: "center", alignItems: "center" }}
+//         >
+//           {GameplayFeatureList.map((props, idx) => (
+//             <div className={clsx("col col--3")}>
+//               <div className="text--center">
+//                 <props.Svg className={styles.featureSvg} role="img" />
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//         <div
+//           className="row"
+//           style={{ justifyContent: "center", alignItems: "center" }}
+//         >
+//           {GameplayFeatureList.map((props, idx) => (
+//             <div className={clsx("col col--3")}>
+//               <div className="text--center">
+//                 <h3 className="monospaced">{props.title}</h3>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//         <div className="row" style={{ justifyContent: "center" }}>
+//           {GameplayFeatureList.map((props, idx) => (
+//             <div className={clsx("col col--3")}>
+//               <div className="text--center">
+//                 <p>{props.description}</p>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }

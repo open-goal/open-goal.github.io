@@ -108,7 +108,3 @@ export default function LatestBlogs() {
     </section>
   );
 }
-
-// {BlogList.map((props, idx) => (
-//   <BlogPost key={idx} {...props} />
-// ))}

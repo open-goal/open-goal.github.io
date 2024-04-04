@@ -8,14 +8,19 @@ export default function LauncherDownloadLink() {
   const [available, setAvailable] = useState(false);
   const [apiError, setApiError] = useState(false);
 
-  const [downloadUrl, setDownloadUrl] = useState("#");
-  const [forPlatform, setForPlatform] = useState("");
-  const [launcherVersion, setLauncherVersion] = useState("");
-  const [deckyPluginVersion, setDeckyPluginVersion] = useState("");
-  const [deckyPluginDownloadUrl, setDeckyPluginDownloadUrl] = useState("");
   const [detectedPlatform, setDetectedPlatform] = useState("");
+  const [forPlatform, setForPlatform] = useState("");
   const [isArm, setIsArm] = useState(false);
   const [isLinux, setIsLinux] = useState(false);
+
+  const [launcherVersion, setLauncherVersion] = useState("");
+  const [downloadUrlAutomatic, setDownloadUrlAutomatic] = useState("#");
+  const [downloadUrlWindows, setDownloadUrlWindows] = useState("#");
+  const [downloadUrlLinux, setDownloadUrlLinux] = useState("#");
+  const [downloadUrlMacOS, setDownloadUrlMacOS] = useState("#");
+
+  const [deckyPluginVersion, setDeckyPluginVersion] = useState("");
+  const [deckyPluginDownloadUrl, setDeckyPluginDownloadUrl] = useState("");
 
   const fetchReleaseData = async () => {
     const parser = new UAParser();
@@ -36,65 +41,54 @@ export default function LauncherDownloadLink() {
       return;
     }
     const data = await response.json();
+    setLauncherVersion(data.tag_name);
+    for (const asset of data.assets) {
+      if (asset.name.match(/^.*\.msi$/)) {
+        setAvailable(true);
+        setDownloadUrlWindows(asset.browser_download_url);
+      } else if (asset.name.match(/^.*\.AppImage$/)) {
+        setAvailable(true);
+        setDownloadUrlLinux(asset.browser_download_url);
+      } else if (asset.name.match(/^.*\.dmg$/)) {
+        setAvailable(true);
+        setDownloadUrlMacOS(asset.browser_download_url);
+      }
+    }
 
-    if (isWindows) {
-      for (const asset of data.assets) {
-        if (asset.name.match(/^.*\.msi$/)) {
-          setAvailable(true);
-          setDownloadUrl(asset.browser_download_url);
-          setForPlatform("Windows");
-          setLauncherVersion(data.tag_name);
-          setLoading(false);
-          return;
-        }
-      }
-    } else if (isLinux) {
-      setIsLinux(true);
-      const deckyPluginResponse = await fetch(
-        `https://api.github.com/repos/open-goal/decky-plugin/releases/latest`,
-      );
-      if (deckyPluginResponse.status != 200) {
-        setLoading(false);
-        setApiError(true);
-        return;
-      }
-      const deckyPluginData = await deckyPluginResponse.json();
-      setDeckyPluginVersion(deckyPluginData.tag_name);
-      for (const asset of deckyPluginData.assets) {
-        if (asset.name.match(/^.*\.zip$/)) {
-          setDeckyPluginDownloadUrl(asset.browser_download_url);
-          break;
-        }
-      }
-      for (const asset of data.assets) {
-        if (asset.name.match(/^.*\.AppImage$/)) {
-          setAvailable(true);
-          setDownloadUrl(asset.browser_download_url);
-          setForPlatform("Linux");
-          setLauncherVersion(data.tag_name);
-          setLoading(false);
-          return;
-        }
-      }
-    } else if (isMacOS) {
-      setIsArm(
-        parser.getCPU().architecture === "arm" ||
-          parser.getCPU().architecture === "arm64",
-      );
-      for (const asset of data.assets) {
-        if (asset.name.match(/^.*\.dmg$/)) {
-          setAvailable(true);
-          setDownloadUrl(asset.browser_download_url);
-          setForPlatform("Intel MacOS");
-          setLauncherVersion(data.tag_name);
-          setLoading(false);
-          return;
-        }
-      }
-    } else {
+    const deckyPluginResponse = await fetch(
+      `https://api.github.com/repos/open-goal/decky-plugin/releases/latest`,
+    );
+    if (deckyPluginResponse.status != 200) {
       setLoading(false);
+      setApiError(true);
       return;
     }
+    const deckyPluginData = await deckyPluginResponse.json();
+    setDeckyPluginVersion(deckyPluginData.tag_name);
+    for (const asset of deckyPluginData.assets) {
+      if (asset.name.match(/^.*\.zip$/)) {
+        setDeckyPluginDownloadUrl(asset.browser_download_url);
+        break;
+      }
+    }
+
+    if (isWindows) {
+      setForPlatform("Windows");
+      setDownloadUrlAutomatic(downloadUrlWindows);
+    } else if (isLinux) {
+      setForPlatform("Linux");
+      setDownloadUrlAutomatic(downloadUrlLinux);
+    } else {
+      setForPlatform("Intel MacOS");
+      setDownloadUrlAutomatic(downloadUrlMacOS);
+    }
+
+    setIsArm(
+      parser.getCPU().architecture === "arm" ||
+      parser.getCPU().architecture === "arm64",
+    );
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -187,30 +181,13 @@ export default function LauncherDownloadLink() {
 
   return (
     <div className="downloadWrapper">
-      <SplitButton isLoading={loading} isDisabled={!available} />
+      <SplitButton isLoading={loading} isDisabled={!available} primaryButtonLabel={`${forPlatform} Launcher @ ${launcherVersion}`} primaryButtonURL={downloadUrlAutomatic} secondaryButtonLabels={[
+        `Windows Launcher @ ${launcherVersion}`,
+        `Linux Launcher @ ${launcherVersion}`,
+        `Intel MacOS Launcher @ ${launcherVersion}`,
+        `Decky Plugin @ ${deckyPluginVersion}`,
+      ]} secondaryButtonUrls={[downloadUrlWindows, downloadUrlLinux, downloadUrlMacOS, deckyPluginDownloadUrl]}/>
       <Button variant="outlined">Getting Started</Button>
     </div>
-
-    // <div className="downloadWrapper">
-    //   <div className={`box ${!available ? "disabled" : ""}`}>
-    //     <span className="icon">
-    //       <img src="/img/download.svg" />
-    //     </span>
-    //     <DownloadContent isDeckyPlugin={false} />
-    //     <a href={downloadUrl} className="link">
-    //       Download OpenGOAL
-    //     </a>
-    //   </div>
-    //   {isLinux ? <div className={`box ${!available ? "disabled" : ""}`}>
-    //     <span className="icon">
-    //       <img src="/img/download.svg" />
-    //     </span>
-    //     <DownloadContent isDeckyPlugin={true} />
-    //     <a href={deckyPluginDownloadUrl} className="link">
-    //       Download OpenGOAL Decky Plugin
-    //     </a>
-    //   </div> : null}
-
-    // </div>
   );
 }

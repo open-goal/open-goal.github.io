@@ -835,11 +835,16 @@ h5 {
 }
 
 .home-link-row {
-  background-color: #262433;
   padding: 1.5em;
   padding-left: 2em;
   padding-right: 2em;
-  background-image: url(https://refine.ams3.cdn.digitaloceanspaces.com/website/static/assets/landing-noise.webp);
+  background: linear-gradient( 134deg, #2b2939, rgba(18, 18, 30, 0.87) ), url("data:image/svg+xml,%3Csvg viewBox='0 0 317 317' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  border-radius: 1em;
+}
+
+.feature-item {
+  filter: contrast(100%) brightness(100%);
+  background: radial-gradient(circle at 98% 12%, rgb(43, 58, 62), rgba(0, 0, 0, 0.7)), url("data:image/svg+xml,%3Csvg viewBox='0 0 251 251' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.97' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   border-radius: 1em;
 }
 
@@ -861,4 +866,20 @@ h5 {
 
 .home-link-row.red:hover {
   filter: drop-shadow(rgba(255, 76, 77, 0.18) 0px 0px 10px);
+}
+
+.container.indent {
+  padding-left: 5em;
+}
+
+/* CSS rule for mobile screen widths */
+@media only screen and (max-width: 767px) {
+  .home-blogs-right > div.row {
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 2em;
+  }
+  .container.indent {
+    padding-left: 2.5em;
+  }
 }

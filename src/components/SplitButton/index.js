@@ -22,6 +22,7 @@ export default function SplitButton({
   const anchorRef = React.useRef(null);
 
   const handleMenuItemClick = (event, index) => {
+    console.log(secondaryButtonUrls[index]);
     setOpen(false);
   };
 
@@ -49,6 +50,11 @@ export default function SplitButton({
           onClick={(event) => {
             // todo
           }}
+          sx={{fontFamily: 'Roboto Mono',
+            backgroundColor: '#f77223',
+            color: 'black',
+            fontSize: '1em',
+            padding: '0.5em',}}
         >
           {isDisabled ? "Downloads Unavailable" : primaryButtonLabel}
         </LoadingButton>
@@ -59,6 +65,11 @@ export default function SplitButton({
           aria-label="other download options"
           aria-haspopup="menu"
           onClick={handleToggle}
+          sx={{fontFamily: 'Roboto Mono',
+            backgroundColor: '#f77223',
+            color: 'black',
+            fontSize: '1em',
+            padding: '0.5em',}}
         >
           <ChevronDownIcon />
         </Button>
@@ -84,11 +95,9 @@ export default function SplitButton({
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu" autoFocusItem>
-                  {options.map((option, index) => (
+                  {secondaryButtonLabels.map((option, index) => (
                     <MenuItem
                       key={option}
-                      disabled={index === 2}
-                      selected={index === selectedIndex}
                       onClick={(event) => handleMenuItemClick(event, index)}
                     >
                       {option}
