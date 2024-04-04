@@ -45,7 +45,7 @@ We only support Windows 10, and Windows 11.
 
 - Windows 7 has been out of support since January 2020
 - Windows 8.1 will be end of life January 2023
-:::
+  :::
 
 You may need to install the [latest 64-bit C++ redistribution](https://aka.ms/vs/17/release/vc_redist.x64.exe).
 
@@ -116,7 +116,7 @@ If you're interested, these are the underlying issues:
 - https://github.com/MicrosoftEdge/WebView2Feedback/issues/3138#issuecomment-1387432722
 - https://github.com/MicrosoftEdge/WebView2Feedback/issues/3137
 - https://github.com/MicrosoftEdge/WebView2Feedback/issues/3136
-:::
+  :::
 
 #### Linux
 
@@ -275,11 +275,11 @@ The process of using a `jak-project` release on an Intel based Mac is very simil
 
 ### Linux (Steam Deck)
 
-There are two main ways to install OpenGOAL on your SteamDeck.  The first of which is to use our official plugin for the Decky Loader, the second is to do it all yourself and copy the files over as if you were installing in a normal linux environment.
+There are two main ways to install OpenGOAL on your SteamDeck. The first of which is to use our official plugin for the Decky Loader, the second is to do it all yourself and copy the files over as if you were installing in a normal linux environment.
 
 #### Decky Plugin
 
-First, you must have decky installed.  Head over to https://decky.xyz/ and follow their installation steps, it's very simple.
+First, you must have decky installed. Head over to https://decky.xyz/ and follow their installation steps, it's very simple.
 
 Next, you'll want to download the latest version of the plugin via our download link:
 

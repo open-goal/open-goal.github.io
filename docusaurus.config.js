@@ -193,22 +193,19 @@ const config = {
 
 function customizedSvgo() {
   return {
-    name: 'docusaurus-svgo',
+    name: "docusaurus-svgo",
     configureWebpack(config) {
       // allow svgr to use svgo config file
       for (const rule of config.module.rules) {
-        if (
-          typeof rule === 'object' &&
-          rule.test.toString() === '/\\.svg$/i'
-        ) {
+        if (typeof rule === "object" && rule.test.toString() === "/\\.svg$/i") {
           for (const nestedRule of rule.oneOf) {
             if (nestedRule.use instanceof Array) {
               for (const loader of nestedRule.use) {
                 if (
-                  typeof loader === 'object' &&
-                  loader.loader === require.resolve('@svgr/webpack')
+                  typeof loader === "object" &&
+                  loader.loader === require.resolve("@svgr/webpack")
                 ) {
-                  if (typeof loader.options === 'object') {
+                  if (typeof loader.options === "object") {
                     loader.options.svgoConfig = null;
                   }
                 }
@@ -219,7 +216,7 @@ function customizedSvgo() {
       }
       return {
         mergeStrategy: {
-          'module.rules': 'replace',
+          "module.rules": "replace",
         },
         module: {
           rules: config.module.rules,

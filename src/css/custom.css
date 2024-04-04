@@ -30,12 +30,18 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
   --ifm-font-weight-semibold: 700;
   --docsearch-highlight-color: #006b9f !important;
-  --alternate-bg-color: #0c0e10;
+  --ifm-navbar-background-color: #1a120e;
+  --ifm-dropdown-hover-background-color: #1a120e;
+  --ifm-dropdown-background-color: #24150e;
+  --ifm-background-color: #171717;
+}
+
+.dropdown__link:hover {
+  color: var(--ifm-menu-color-active);
 }
 
 [data-theme="light"] {
   --ifm-color-primary: #fd6b00;
-  --alternate-bg-color: #fbd24e;
 }
 
 .DocSearch-Hit-source {
@@ -44,7 +50,7 @@
 
 div[class^="announcementBar_"] {
   font-family: "Roboto Mono", monospace;
-	color: black;
+  color: black;
   font-weight: 700 !important;
   font-size: 1rem !important;
   --site-announcement-bar-stripe-color1: hsl(22.3, 100%, 48.4%) !important;
@@ -64,7 +70,7 @@ html {
 }
 
 .monospaced {
-  font-family: "Roboto Mono", monospace;
+  font-family: "Roboto Mono", monospace !important;
 }
 
 .navbar__items {
@@ -97,12 +103,14 @@ html {
 
 .hero {
   text-align: unset !important;
-  background-color: #0c0e10;
+  background-color: unset;
+  padding-bottom: 1.5em;
 }
 
 .hero-subtitle {
   font-size: 1rem;
   font-family: "Roboto Mono", monospace;
+  text-shadow: 1px 1px 2px black;
 }
 
 .hero-prompt-prefix {
@@ -144,26 +152,22 @@ html {
   }
 }
 
-.alternate-bg-color {
-  background-color: var(--alternate-bg-color);
-}
-
-.home-section {
-  padding-top: 2.5em;
-  padding-bottom: 2.5em;
-}
-
 .typed-cursor.typed-cursor--blink {
   animation: cursor-blink 0.5s steps(2) infinite;
 }
 
 .img-logo {
-  width: 250px;
+  width: 350px;
 }
 
-.col .left-align {
+.col.left-align {
+  align-items: center;
   display: flex;
-  justify-content: left;
+  flex-direction: column;
+}
+
+.text-align-left {
+  text-align: left;
 }
 
 .box {
@@ -716,4 +720,145 @@ h5 {
 .downloadWrapper {
   display: flex;
   gap: 0.5em;
+}
+
+.home-section {
+  margin: 0;
+}
+
+.home-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 75vh;
+}
+
+.home-header .images {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.home-header .images .gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(
+    circle at center,
+    rgb(27, 27, 29, 1) 0%,
+    rgb(27, 27, 29, 0.75) 30%,
+    rgba(27, 27, 29, 0.15) 60%
+  );
+  z-index: 2;
+}
+
+.home-header .images img {
+  object-fit: cover;
+  transition: opacity 0.5s ease;
+  opacity: 1;
+}
+
+.home-header .images img.hidden {
+  opacity: 0;
+}
+
+.home-header .images img#jak1 {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.3s ease;
+  left: 0;
+  width: 55%;
+  clip-path: polygon(0% 0%, 99.5% 0%, 81.5% 100%, 0% 100%);
+}
+
+.home-header .images img#jak2 {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.3s ease;
+  right: 0;
+  width: 55%;
+  clip-path: polygon(18.5% 0%, 100% 0%, 100% 100%, 0.5% 100%);
+}
+
+.home-header .content {
+  position: absolute;
+  z-index: 3;
+  text-align: center;
+  width: 100%;
+}
+
+.home-header .downloadWrapper {
+  justify-content: center;
+}
+
+.home-blogs-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-blog-card-content {
+  filter: contrast(120%) brightness(100%);
+  background: linear-gradient(
+      134deg,
+      rgba(254, 187, 1, 1),
+      rgba(231, 2, 251, 0.54)
+    ),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 317 317' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.home-blog-title {
+  font-weight: 700 !important;
+  color: black !important;
+}
+
+.home-blog-description {
+  font-family: "Lato", sans-serif !important;
+  font-size: 1em !important;
+  font-weight: 400 !important;
+  color: black !important;
+}
+
+.home-link-row-wrapper {
+  color: var(--ifm-hero-text-color);
+}
+
+.home-link-row-wrapper:hover {
+  text-decoration: none;
+  color: var(--ifm-hero-text-color);
+}
+
+.home-link-row {
+  background-color: #262433;
+  padding: 1.5em;
+  padding-left: 2em;
+  padding-right: 2em;
+  background-image: url(https://refine.ams3.cdn.digitaloceanspaces.com/website/static/assets/landing-noise.webp);
+  border-radius: 1em;
+}
+
+.home-link-row > div {
+  width: 100%;
+}
+
+.home-link-row-icon {
+  margin-left: 1em;
+}
+
+.home-link-row.green:hover {
+  filter: drop-shadow(rgba(122, 235, 71, 0.18) 0px 0px 10px);
+}
+
+.home-link-row.discord:hover {
+  filter: drop-shadow(rgba(114, 137, 218, 0.18) 0px 0px 10px);
+}
+
+.home-link-row.red:hover {
+  filter: drop-shadow(rgba(255, 76, 77, 0.18) 0px 0px 10px);
 }

@@ -139,7 +139,9 @@ function scanFolder(fileList, gameName, progressDb) {
   for (const fileMeta of fileList) {
     let obj_name = fileMeta[0];
     let obj_ver = fileMeta[2];
-    let code_file = ((gameName === "jak1" || gameName === "jak2") && obj_ver == 3) || (gameName === "jak3" && obj_ver == 5 && !obj_name.endsWith("-ag"));
+    let code_file =
+      ((gameName === "jak1" || gameName === "jak2") && obj_ver == 3) ||
+      (gameName === "jak3" && obj_ver == 5 && !obj_name.endsWith("-ag"));
     // Skip art files
     if (code_file) {
       // Check it's line count
@@ -588,7 +590,7 @@ let issues = await getAllIssues();
 let issuesFiltered = [];
 // Filter out pull requests, all pull requests are issues -- not all issues are pull requests
 for (const issue of issues) {
-  if (!"pull_request" in issue) {
+  if ((!"pull_request") in issue) {
     issuesFiltered.push(issue);
   }
 }

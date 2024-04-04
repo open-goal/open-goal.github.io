@@ -1,5 +1,7 @@
 import { UAParser } from "ua-parser-js";
 import React, { useState, useEffect } from "react";
+import SplitButton from "../SplitButton";
+import Button from "@mui/material/Button";
 
 export default function LauncherDownloadLink() {
   const [loading, setLoading] = useState(true);
@@ -77,7 +79,7 @@ export default function LauncherDownloadLink() {
     } else if (isMacOS) {
       setIsArm(
         parser.getCPU().architecture === "arm" ||
-        parser.getCPU().architecture === "arm64",
+          parser.getCPU().architecture === "arm64",
       );
       for (const asset of data.assets) {
         if (asset.name.match(/^.*\.dmg$/)) {
@@ -93,7 +95,7 @@ export default function LauncherDownloadLink() {
       setLoading(false);
       return;
     }
-  }
+  };
 
   useEffect(() => {
     fetchReleaseData();
@@ -101,21 +103,25 @@ export default function LauncherDownloadLink() {
 
   const downloadText = (isDeckyPlugin) => {
     if (isDeckyPlugin) {
-      return (
-        <>Decky Plugin {deckyPluginVersion}&nbsp;&nbsp;</>
-      );
+      return <>Decky Plugin {deckyPluginVersion}&nbsp;&nbsp;</>;
     } else {
       return (
-        <>Launcher {launcherVersion} for {forPlatform}&nbsp;&nbsp;</>
+        <>
+          Launcher {launcherVersion} for {forPlatform}&nbsp;&nbsp;
+        </>
       );
     }
-  }
+  };
 
   function DownloadContent(props) {
     if (loading) {
       return (
         <div className="text">
-          <h3 className="title">{props.isDeckyPlugin ? "Download Decky Plugin" : "Download Launcher"}</h3>
+          <h3 className="title">
+            {props.isDeckyPlugin
+              ? "Download Decky Plugin"
+              : "Download Launcher"}
+          </h3>
           <p className="description">Fetching latest release...</p>
         </div>
       );
@@ -123,7 +129,11 @@ export default function LauncherDownloadLink() {
     if (apiError) {
       return (
         <div className="text">
-          <h3 className="title">{props.isDeckyPlugin ? "Download Decky Plugin" : "Download Launcher"}</h3>
+          <h3 className="title">
+            {props.isDeckyPlugin
+              ? "Download Decky Plugin"
+              : "Download Launcher"}
+          </h3>
           <p className="description">
             Can't fetch latest release, API error or you are rate-limited!
           </p>
@@ -133,7 +143,11 @@ export default function LauncherDownloadLink() {
     if (!available || isArm) {
       return (
         <div className="text">
-          <h3 className="title">{props.isDeckyPlugin ? "Download Decky Plugin" : "Download Launcher"}</h3>
+          <h3 className="title">
+            {props.isDeckyPlugin
+              ? "Download Decky Plugin"
+              : "Download Launcher"}
+          </h3>
           <p className="description">
             Everything you need to start playing with a copy of your original
             game
@@ -147,7 +161,11 @@ export default function LauncherDownloadLink() {
     } else {
       return (
         <div className="text">
-          <h3 className="title">{props.isDeckyPlugin ? "Download Decky Plugin" : "Download Launcher"}</h3>
+          <h3 className="title">
+            {props.isDeckyPlugin
+              ? "Download Decky Plugin"
+              : "Download Launcher"}
+          </h3>
           <p className="description">
             Everything you need to start playing with a copy of your original
             game{props.isDeckyPlugin ? " on your SteamDeck" : null}
@@ -169,25 +187,30 @@ export default function LauncherDownloadLink() {
 
   return (
     <div className="downloadWrapper">
-      <div className={`box ${!available ? "disabled" : ""}`}>
-        <span className="icon">
-          <img src="/img/download.svg" />
-        </span>
-        <DownloadContent isDeckyPlugin={false} />
-        <a href={downloadUrl} className="link">
-          Download OpenGOAL
-        </a>
-      </div>
-      {isLinux ? <div className={`box ${!available ? "disabled" : ""}`}>
-        <span className="icon">
-          <img src="/img/download.svg" />
-        </span>
-        <DownloadContent isDeckyPlugin={true} />
-        <a href={deckyPluginDownloadUrl} className="link">
-          Download OpenGOAL Decky Plugin
-        </a>
-      </div> : null}
-
+      <SplitButton isLoading={loading} isDisabled={!available} />
+      <Button variant="outlined">Getting Started</Button>
     </div>
+
+    // <div className="downloadWrapper">
+    //   <div className={`box ${!available ? "disabled" : ""}`}>
+    //     <span className="icon">
+    //       <img src="/img/download.svg" />
+    //     </span>
+    //     <DownloadContent isDeckyPlugin={false} />
+    //     <a href={downloadUrl} className="link">
+    //       Download OpenGOAL
+    //     </a>
+    //   </div>
+    //   {isLinux ? <div className={`box ${!available ? "disabled" : ""}`}>
+    //     <span className="icon">
+    //       <img src="/img/download.svg" />
+    //     </span>
+    //     <DownloadContent isDeckyPlugin={true} />
+    //     <a href={deckyPluginDownloadUrl} className="link">
+    //       Download OpenGOAL Decky Plugin
+    //     </a>
+    //   </div> : null}
+
+    // </div>
   );
 }
