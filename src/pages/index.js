@@ -83,13 +83,42 @@ function HomepageHeader() {
 export default function Home() {
   const { siteConfig } = useDocusaurusContext();
   const [jak1Image, setJak1Image] = useState(
-    useBaseUrl("/img/jak1/milestones-a.webp"),
+    "/img/home/jak1/7am.webp",
   );
   const [jak2Image, setJak2Image] = useState(
-    useBaseUrl("/img/jak1/milestones-b.webp"),
+    "/img/home/jak2/7am.webp",
   );
 
   useEffect(() => {
+    // Get the current date and time
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+    // Check the current time against specified times
+    if (currentHour >= 7) {
+      setJak1Image("/img/home/jak1/7am.webp");
+      setJak2Image("/img/home/jak2/7am.webp");
+    } else if (currentHour >= 9) {
+      setJak1Image("/img/home/jak1/9am.webp");
+      setJak2Image("/img/home/jak2/9am.webp");
+    } else if (currentHour >= 12) {
+      setJak1Image("/img/home/jak1/12pm.webp");
+      setJak2Image("/img/home/jak2/12pm.png");
+    } else if (currentHour >= 15) {
+      setJak1Image("/img/home/jak1/3pm.webp");
+      setJak2Image("/img/home/jak2/3pm.webp");
+    } else if (currentHour >= 18) {
+      setJak1Image("/img/home/jak1/6pm.webp");
+      setJak2Image("/img/home/jak2/6pm.webp");
+    } else if (currentHour >= 19) {
+      setJak1Image("/img/home/jak1/7pm.webp");
+      setJak2Image("/img/home/jak2/7pm.webp");
+    } else if (currentHour >= 23 || currentHour < 4) {
+      setJak1Image("/img/home/jak1/11pm.webp");
+      setJak2Image("/img/home/jak2/11pm.png");
+    } else {
+      setJak1Image("/img/home/jak1/4am.webp");
+      setJak2Image("/img/home/jak2/4am.webp");
+    }
     // set images
     document.getElementById("jak1").classList.remove("hidden");
     document.getElementById("jak2").classList.remove("hidden");
@@ -104,8 +133,8 @@ export default function Home() {
         <div className="home-header">
           <div className="images">
             <div className="gradient-overlay"></div>
-            <img id="jak1" className="hidden" src={jak1Image}></img>
-            <img id="jak2" className="hidden" src={jak2Image}></img>
+            <img id="jak1" className="hidden" src={useBaseUrl(jak1Image)}></img>
+            <img id="jak2" className="hidden" src={useBaseUrl(jak2Image)}></img>
           </div>
           <div class="divider"></div>
           <div className="content">
