@@ -882,3 +882,14 @@ h5 {
     padding-left: 2.5em;
   }
 }
+
+/* overrides */
+#__docusaurus {
+  [class^='docMainContainer_'] {
+    max-width: 95%;
+
+    > .container {
+      max-width: 95%;
+    }
+  }
+}
