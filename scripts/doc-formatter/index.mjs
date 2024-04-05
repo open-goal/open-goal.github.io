@@ -303,9 +303,8 @@ function generatePackageDocs(gameName, fileDocs) {
     let pkgName = getPackageNameFromPackageSubPath(pkgPath);
     let docFilePath = `./documentation/source-docs/${gameName}/packages/${pkgPath}/index.mdx`;
     if (!package_docs.hasOwnProperty(docFilePath)) {
-      package_docs[
-        docFilePath
-      ] = `---\npagination_next: null\npagination_prev: null\nhide_title: true\ntitle: \"${pkgName}\"\ncustom_edit_url: null\ntoc_min_heading_level: 2\ntoc_max_heading_level: 4\n---\n\n<div class="doc-file">\n`;
+      package_docs[docFilePath] =
+        `---\npagination_next: null\npagination_prev: null\nhide_title: true\ntitle: \"${pkgName}\"\ncustom_edit_url: null\ntoc_min_heading_level: 2\ntoc_max_heading_level: 4\n---\n\n<div class="doc-file">\n`;
     }
     let output = package_docs[docFilePath];
     if (pkgPath !== "unknown") {

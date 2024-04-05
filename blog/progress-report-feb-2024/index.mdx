@@ -24,8 +24,8 @@ Jak 3 decompilation progress is in full swing, as well as a few notable addition
 This month's OpenGOAL Tooling (jak-project repo) release is `0.2.8`.
 
 <div className="row markdownMarginBottom">
-  <div className="col col--6">
-    <LauncherDownloadLink/>
+  <div className="col col--12">
+    <LauncherDownloadLink />
   </div>
 </div>
 
@@ -48,7 +48,7 @@ This has been a very highly reported issue since the release of Jak 2, with many
 We seem to have narrowed this down to a problem not in our code, but in third-party software that causes similar issues in a whole host of other games and applications. The culprit appears to be `Nahimic` which is an audio thing pushed by various manufacturers (ASUS, Steelseries, etc).
 
 :::important
-If you have this issue, please try and follow the steps described here and see if that resolves the issue https://github.com/open-goal/jak-project/issues/3279#issuecomment-1975011557. 
+If you have this issue, please try and follow the steps described here and see if that resolves the issue https://github.com/open-goal/jak-project/issues/3279#issuecomment-1975011557.
 
 If it does resolve the issue, let us know in the Discord so we can wrap this one up as "not our fault" and add relevant documentation to the installation guides.
 :::
@@ -63,13 +63,13 @@ It is important to note that if no controllers are detected, the keyboard contro
 
 So why was this done?
 
-Steam Input is something that tries to, among several things, improve controller support for games.  One of the ways it accomplishes this is by mapping controller inputs to keyboard inputs, so when you press a button on your controller it simultaneously hits a respective key on your keyboard.
+Steam Input is something that tries to, among several things, improve controller support for games. One of the ways it accomplishes this is by mapping controller inputs to keyboard inputs, so when you press a button on your controller it simultaneously hits a respective key on your keyboard.
 
-Users were complaining that when they pressed for example `X` on their controller, the game would pause, or in other words it would simultaneously hit `Start`. The "solution" for a while was to suggest closing Steam which is obviously less than ideal.  You can probably already guess what the problem is from the above, `X` is bound to `Enter` on the keyboard via Steam Input and the game is simultaneously processing both inputs.
+Users were complaining that when they pressed for example `X` on their controller, the game would pause, or in other words it would simultaneously hit `Start`. The "solution" for a while was to suggest closing Steam which is obviously less than ideal. You can probably already guess what the problem is from the above, `X` is bound to `Enter` on the keyboard via Steam Input and the game is simultaneously processing both inputs.
 
 The game's input system has been explicitly designed to take in input from multiple sources simultaneously so TLDR -- you can't just temporarily ignore one source (and how would you know which is the right thing to ignore as well!). The straight-forward and consistent solution is to disable the keyboard by default as it is not the way most people play the games.
 
-There is also a new way to enable or disable the keyboard setting via the "topbar" incase you have no way to navigate to the in-game pause menu to enable it for the first time.  However in most situations this should not be required, as mentioned above, if no controllers are detected the keyboard inputs are automatically enabled for you.
+There is also a new way to enable or disable the keyboard setting via the "topbar" incase you have no way to navigate to the in-game pause menu to enable it for the first time. However in most situations this should not be required, as mentioned above, if no controllers are detected the keyboard inputs are automatically enabled for you.
 
 ![](img/keyboard-toggle.png)
 
@@ -95,12 +95,12 @@ This is also an optimization, the new joint decompression code is faster.
 
 ### Fix Sprite-Distort Related Crash <PRLink href="https://github.com/open-goal/jak-project/pull/3357"/>
 
-There is a potential crash when a level was loaded due to the `sprite-distort` tables not being initialized yet.  This would result in a race, and the backend rendering code would sometimes crash.  This is a long-standing bug that was "recently" (read months ago) made more likely once the sprite limit was raised -- the larger the table, the more likely it would hit an invalid uninitialized index.
+There is a potential crash when a level was loaded due to the `sprite-distort` tables not being initialized yet. This would result in a race, and the backend rendering code would sometimes crash. This is a long-standing bug that was "recently" (read months ago) made more likely once the sprite limit was raised -- the larger the table, the more likely it would hit an invalid uninitialized index.
 
 This finally fixes that by ensuring the tables are initialized and we no longer have random startup crashes!
 
 If you ever have a crash going forward with the log `weird sprite_distort startup crash happened again!` scream and let us know!
- 
+
 ## Jak 2
 
 ### Custom speedrun categories <PRLink href="https://github.com/open-goal/jak-project/pull/3378"/>
@@ -121,16 +121,16 @@ See the PR for the example file used in the demonstration video below, editing t
 
 ### High-fps input buffer and cloud speed <PRLink href="https://github.com/open-goal/jak-project/pull/3178"/>
 
-The input buffer has been given a larger size depending on your framerate.  Often times the frame buffer for inputs would be too small in practice on higher framerates, leading to inputs being dropped.  For example the time between pressing `X` after jumping to double jump.
+The input buffer has been given a larger size depending on your framerate. Often times the frame buffer for inputs would be too small in practice on higher framerates, leading to inputs being dropped. For example the time between pressing `X` after jumping to double jump.
 
 Additionally, the clouds should move at a more correct pace now.
 
 ## Jak 3
 
-### Decompilation Update <PRLink href="https://github.com/open-goal/jak-project/pull/3377"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3374"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3373"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3371"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3370"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3365"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3364"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3363"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3359"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3362"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3352"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3356"/> 
+### Decompilation Update <PRLink href="https://github.com/open-goal/jak-project/pull/3377"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3374"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3373"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3371"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3370"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3365"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3364"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3363"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3359"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3362"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3352"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3356"/>
 
 Many files have been decompiled in Jak 3 so far, many of which are simple ones or ones that were mostly unchanged from Jak 2.
 
 One new feature that had to be detected and handled was inherited non-virtual states.
 
-The ability to persist process stack-size overrides via a json file has already been added.  This is nice because previously we would manually change these values in the files meaning we could accidentally revert that adjustment.  When the stack size is too small, the game crashes, so this is one less thing to have to worry about causing a regression.
+The ability to persist process stack-size overrides via a json file has already been added. This is nice because previously we would manually change these values in the files meaning we could accidentally revert that adjustment. When the stack size is too small, the game crashes, so this is one less thing to have to worry about causing a regression.

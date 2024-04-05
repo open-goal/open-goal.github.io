@@ -1,19 +1,25 @@
 import { UAParser } from "ua-parser-js";
 import React, { useState, useEffect } from "react";
+import SplitButton from "../SplitButton";
+import Button from "@mui/material/Button";
 
-export default function LauncherDownloadLink() {
+export default function LauncherDownloadLink({ hideTutorial = false }) {
   const [loading, setLoading] = useState(true);
-  const [available, setAvailable] = useState(false);
+  const [available, setAvailable] = useState(true);
   const [apiError, setApiError] = useState(false);
 
-  const [downloadUrl, setDownloadUrl] = useState("#");
+  const [detectedPlatform, setDetectedPlatform] = useState("");
   const [forPlatform, setForPlatform] = useState("");
+  const [isArm, setIsArm] = useState(false);
+
   const [launcherVersion, setLauncherVersion] = useState("");
+  const [downloadUrlAutomatic, setDownloadUrlAutomatic] = useState("#");
+  const [downloadUrlWindows, setDownloadUrlWindows] = useState("#");
+  const [downloadUrlLinux, setDownloadUrlLinux] = useState("#");
+  const [downloadUrlMacOS, setDownloadUrlMacOS] = useState("#");
+
   const [deckyPluginVersion, setDeckyPluginVersion] = useState("");
   const [deckyPluginDownloadUrl, setDeckyPluginDownloadUrl] = useState("");
-  const [detectedPlatform, setDetectedPlatform] = useState("");
-  const [isArm, setIsArm] = useState(false);
-  const [isLinux, setIsLinux] = useState(false);
 
   const fetchReleaseData = async () => {
     const parser = new UAParser();
@@ -34,66 +40,56 @@ export default function LauncherDownloadLink() {
       return;
     }
     const data = await response.json();
-
-    if (isWindows) {
-      for (const asset of data.assets) {
-        if (asset.name.match(/^.*\.msi$/)) {
-          setAvailable(true);
-          setDownloadUrl(asset.browser_download_url);
+    setLauncherVersion(data.tag_name);
+    for (const asset of data.assets) {
+      if (asset.name.match(/^.*\.msi$/)) {
+        setAvailable(true);
+        setDownloadUrlWindows(asset.browser_download_url);
+        if (isWindows) {
           setForPlatform("Windows");
-          setLauncherVersion(data.tag_name);
-          setLoading(false);
-          return;
+          setDownloadUrlAutomatic(asset.browser_download_url);
         }
-      }
-    } else if (isLinux) {
-      setIsLinux(true);
-      const deckyPluginResponse = await fetch(
-        `https://api.github.com/repos/open-goal/decky-plugin/releases/latest`,
-      );
-      if (deckyPluginResponse.status != 200) {
-        setLoading(false);
-        setApiError(true);
-        return;
-      }
-      const deckyPluginData = await deckyPluginResponse.json();
-      setDeckyPluginVersion(deckyPluginData.tag_name);
-      for (const asset of deckyPluginData.assets) {
-        if (asset.name.match(/^.*\.zip$/)) {
-          setDeckyPluginDownloadUrl(asset.browser_download_url);
-          break;
-        }
-      }
-      for (const asset of data.assets) {
-        if (asset.name.match(/^.*\.AppImage$/)) {
-          setAvailable(true);
-          setDownloadUrl(asset.browser_download_url);
+      } else if (asset.name.match(/^.*\.AppImage$/)) {
+        setAvailable(true);
+        setDownloadUrlLinux(asset.browser_download_url);
+        if (isLinux) {
           setForPlatform("Linux");
-          setLauncherVersion(data.tag_name);
-          setLoading(false);
-          return;
+          setDownloadUrlAutomatic(asset.browser_download_url);
         }
-      }
-    } else if (isMacOS) {
-      setIsArm(
-        parser.getCPU().architecture === "arm" ||
-        parser.getCPU().architecture === "arm64",
-      );
-      for (const asset of data.assets) {
-        if (asset.name.match(/^.*\.dmg$/)) {
-          setAvailable(true);
-          setDownloadUrl(asset.browser_download_url);
+      } else if (asset.name.match(/^.*\.dmg$/)) {
+        setAvailable(true);
+        setDownloadUrlMacOS(asset.browser_download_url);
+        if (isMacOS) {
           setForPlatform("Intel MacOS");
-          setLauncherVersion(data.tag_name);
-          setLoading(false);
-          return;
+          setDownloadUrlAutomatic(asset.browser_download_url);
         }
       }
-    } else {
+    }
+
+    const deckyPluginResponse = await fetch(
+      `https://api.github.com/repos/open-goal/decky-plugin/releases/latest`,
+    );
+    if (deckyPluginResponse.status != 200) {
       setLoading(false);
+      setApiError(true);
       return;
     }
-  }
+    const deckyPluginData = await deckyPluginResponse.json();
+    setDeckyPluginVersion(deckyPluginData.tag_name);
+    for (const asset of deckyPluginData.assets) {
+      if (asset.name.match(/^.*\.zip$/)) {
+        setDeckyPluginDownloadUrl(asset.browser_download_url);
+        break;
+      }
+    }
+
+    setIsArm(
+      parser.getCPU().architecture === "arm" ||
+        parser.getCPU().architecture === "arm64",
+    );
+
+    setLoading(false);
+  };
 
   useEffect(() => {
     fetchReleaseData();
@@ -101,53 +97,36 @@ export default function LauncherDownloadLink() {
 
   const downloadText = (isDeckyPlugin) => {
     if (isDeckyPlugin) {
-      return (
-        <>Decky Plugin {deckyPluginVersion}&nbsp;&nbsp;</>
-      );
+      return <>Decky Plugin {deckyPluginVersion}&nbsp;&nbsp;</>;
     } else {
       return (
-        <>Launcher {launcherVersion} for {forPlatform}&nbsp;&nbsp;</>
+        <>
+          Launcher {launcherVersion} for {forPlatform}&nbsp;&nbsp;
+        </>
       );
     }
-  }
+  };
 
   function DownloadContent(props) {
     if (loading) {
       return (
         <div className="text">
-          <h3 className="title">{props.isDeckyPlugin ? "Download Decky Plugin" : "Download Launcher"}</h3>
+          <h3 className="title">
+            {props.isDeckyPlugin
+              ? "Download Decky Plugin"
+              : "Download Launcher"}
+          </h3>
           <p className="description">Fetching latest release...</p>
-        </div>
-      );
-    }
-    if (apiError) {
-      return (
-        <div className="text">
-          <h3 className="title">{props.isDeckyPlugin ? "Download Decky Plugin" : "Download Launcher"}</h3>
-          <p className="description">
-            Can't fetch latest release, API error or you are rate-limited!
-          </p>
-        </div>
-      );
-    }
-    if (!available || isArm) {
-      return (
-        <div className="text">
-          <h3 className="title">{props.isDeckyPlugin ? "Download Decky Plugin" : "Download Launcher"}</h3>
-          <p className="description">
-            Everything you need to start playing with a copy of your original
-            game
-          </p>
-          <span className="more">
-            Launcher only supports Windows, Linux and Intel MacOS.
-          </span>
-          <span>Detected platform: {detectedPlatform}</span>
         </div>
       );
     } else {
       return (
         <div className="text">
-          <h3 className="title">{props.isDeckyPlugin ? "Download Decky Plugin" : "Download Launcher"}</h3>
+          <h3 className="title">
+            {props.isDeckyPlugin
+              ? "Download Decky Plugin"
+              : "Download Launcher"}
+          </h3>
           <p className="description">
             Everything you need to start playing with a copy of your original
             game{props.isDeckyPlugin ? " on your SteamDeck" : null}
@@ -168,26 +147,58 @@ export default function LauncherDownloadLink() {
   }
 
   return (
-    <div className="downloadWrapper">
-      <div className={`box ${!available ? "disabled" : ""}`}>
-        <span className="icon">
-          <img src="/img/download.svg" />
-        </span>
-        <DownloadContent isDeckyPlugin={false} />
-        <a href={downloadUrl} className="link">
-          Download OpenGOAL
-        </a>
+    <React.Fragment>
+      <div className="downloadWrapper">
+        <SplitButton
+          isLoading={loading}
+          isDisabled={!available}
+          primaryButtonLabel={`${forPlatform} Launcher @ ${launcherVersion}`}
+          primaryButtonUrl={downloadUrlAutomatic}
+          secondaryButtonLabels={[
+            `Windows Launcher @ ${launcherVersion}`,
+            `Linux Launcher @ ${launcherVersion}`,
+            `Intel MacOS Launcher @ ${launcherVersion}`,
+            `Decky Plugin @ ${deckyPluginVersion}`,
+          ]}
+          secondaryButtonUrls={[
+            downloadUrlWindows,
+            downloadUrlLinux,
+            downloadUrlMacOS,
+            deckyPluginDownloadUrl,
+          ]}
+        />
+        {hideTutorial ? null : (
+          <Button
+            sx={{
+              fontFamily: "Roboto Mono",
+              backgroundColor: "rgb(49, 28, 16)",
+              color: "#f77223",
+              padding: "0.5em",
+              fontWeight: 600,
+              fontSize: "1em",
+              borderColor: "rgb(247, 92, 0)",
+              ":hover": {
+                backgroundColor: "rgb(77, 42, 22)",
+              },
+            }}
+          >
+            Getting Started
+          </Button>
+        )}
       </div>
-      {isLinux ? <div className={`box ${!available ? "disabled" : ""}`}>
-        <span className="icon">
-          <img src="/img/download.svg" />
-        </span>
-        <DownloadContent isDeckyPlugin={true} />
-        <a href={deckyPluginDownloadUrl} className="link">
-          Download OpenGOAL Decky Plugin
-        </a>
-      </div> : null}
-
-    </div>
+      {apiError || !available || isArm ? (
+        <div className="row" style={{ justifyContent: "center", gap: "1em" }}>
+          <p>
+            {apiError
+              ? "Couldn't fetch latest release, API error or you are rate-limited!"
+              : null}
+            <br />
+            {isArm
+              ? `Launcher only supports Windows, Linux and Intel MacOS. Detected platform: ${forPlatform}`
+              : null}
+          </p>
+        </div>
+      ) : null}
+    </React.Fragment>
   );
 }

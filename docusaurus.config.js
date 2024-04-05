@@ -66,12 +66,16 @@ const config = {
       }),
     ],
   ],
+  plugins: [
+    // @ts-ignore
+    customizedSvgo,
+  ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       announcementBar: {
-        id: "announcementBar-11", // Increment on change
-        content: `<a href="/blog/progress-report-feb-2024">Check out February's Progress Report Here!</a>`,
+        id: "announcementBar-12", // Increment on change
+        content: `<a href="/blog/progress-report-mar-2024">Check out March's Progress Report Here!</a>`,
       },
       algolia: {
         // The application ID provided by Algolia
@@ -186,5 +190,40 @@ const config = {
     }),
   },
 };
+
+function customizedSvgo() {
+  return {
+    name: "docusaurus-svgo",
+    configureWebpack(config) {
+      // allow svgr to use svgo config file
+      for (const rule of config.module.rules) {
+        if (typeof rule === "object" && rule.test.toString() === "/\\.svg$/i") {
+          for (const nestedRule of rule.oneOf) {
+            if (nestedRule.use instanceof Array) {
+              for (const loader of nestedRule.use) {
+                if (
+                  typeof loader === "object" &&
+                  loader.loader === require.resolve("@svgr/webpack")
+                ) {
+                  if (typeof loader.options === "object") {
+                    loader.options.svgoConfig = null;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      return {
+        mergeStrategy: {
+          "module.rules": "replace",
+        },
+        module: {
+          rules: config.module.rules,
+        },
+      };
+    },
+  };
+}
 
 module.exports = config;

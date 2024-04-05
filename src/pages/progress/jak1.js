@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Layout from "@theme/Layout";
-import { createTheme, Switch, ThemeProvider, FormGroup, FormControlLabel } from "@mui/material";
+import {
+  createTheme,
+  Switch,
+  ThemeProvider,
+  FormGroup,
+  FormControlLabel,
+} from "@mui/material";
 import MaterialTable from "material-table";
 import decompFileData from "/data/progress/jak1/progress.json";
 import decompHistoryData from "/data/progress/jak1/history.json";
@@ -71,7 +77,10 @@ const fileStatusData = () => {
     }
   }
   // combine "started" and "decompiled"
-  if (Object.keys(statusAmounts).includes("started") && Object.keys(statusAmounts).includes("decompiled")) {
+  if (
+    Object.keys(statusAmounts).includes("started") &&
+    Object.keys(statusAmounts).includes("decompiled")
+  ) {
     statusAmounts["decompiled"] += statusAmounts["started"];
     delete statusAmounts["started"];
   }
@@ -307,8 +316,7 @@ function DeveloperModeContent() {
                       );
                     }
                   },
-                  customSort: (a, b) =>
-                    a["status"].localeCompare(b["status"]),
+                  customSort: (a, b) => a["status"].localeCompare(b["status"]),
                 },
                 {
                   title: "Assigned To",
@@ -334,9 +342,7 @@ function DeveloperModeContent() {
                           </div>
                         );
                       } else {
-                        return (
-                          <div>{rowData.assignedTo.sheet.user_name}</div>
-                        );
+                        return <div>{rowData.assignedTo.sheet.user_name}</div>;
                       }
                     } else if (rowData.assignedTo.pr !== null) {
                       // Find the person's avatar
@@ -376,9 +382,7 @@ function DeveloperModeContent() {
                       rowData.status !== "decompiled"
                     ) {
                       return (
-                        <strike className="mutedColor">
-                          {rowData.loc}
-                        </strike>
+                        <strike className="mutedColor">{rowData.loc}</strike>
                       );
                     }
                     return rowData.loc;
@@ -428,8 +432,7 @@ function DeveloperModeContent() {
                       }
                     }
                   },
-                  customSort: (a, b) =>
-                    a["issues"].length < b["issues"].length,
+                  customSort: (a, b) => a["issues"].length < b["issues"].length,
                 },
                 {
                   title: "Pull Requests",
@@ -482,10 +485,7 @@ function DeveloperModeContent() {
                     if (pullIcons.length == 0) {
                       return <div>---</div>;
                     } else {
-                      if (
-                        totalHiddenPulls == 0 ||
-                        totalHiddenPulls == 1
-                      ) {
+                      if (totalHiddenPulls == 0 || totalHiddenPulls == 1) {
                         return <div>{pullIcons}</div>;
                       } else {
                         return (
@@ -531,10 +531,22 @@ export default function Jak1DecompProgress() {
           <div className="container">
             <div className="row">
               <FormGroup>
-                <FormControlLabel control={<Switch checked={developerMode} onChange={() => setDeveloperMode(!developerMode)} />} label="Are you a developer?" />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={developerMode}
+                      onChange={() => setDeveloperMode(!developerMode)}
+                    />
+                  }
+                  label="Are you a developer?"
+                />
               </FormGroup>
             </div>
-            {developerMode ? <DeveloperModeContent /> : <NonDeveloperModeContent />}
+            {developerMode ? (
+              <DeveloperModeContent />
+            ) : (
+              <NonDeveloperModeContent />
+            )}
           </div>
         </section>
       </main>
