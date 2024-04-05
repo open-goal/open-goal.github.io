@@ -97,7 +97,7 @@ export function HomepageDevelopmentFeatures() {
   return (
     <section className={"home-section"}>
       <div className="container">
-        <div className="row" style={{ justifyContent: "center", gap: "1em"  }}>
+        <div className="row" style={{ justifyContent: "center", gap: "1em" }}>
           {DevelopmentFeatureList.map((props, idx) => (
             <Feature key={idx} {...props} />
           ))}

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import SplitButton from "../SplitButton";
 import Button from "@mui/material/Button";
 
-export default function LauncherDownloadLink({hideTutorial = false}) {
+export default function LauncherDownloadLink({ hideTutorial = false }) {
   const [loading, setLoading] = useState(true);
   const [available, setAvailable] = useState(true);
   const [apiError, setApiError] = useState(false);
@@ -85,7 +85,7 @@ export default function LauncherDownloadLink({hideTutorial = false}) {
 
     setIsArm(
       parser.getCPU().architecture === "arm" ||
-      parser.getCPU().architecture === "arm64",
+        parser.getCPU().architecture === "arm64",
     );
 
     setLoading(false);
@@ -119,8 +119,7 @@ export default function LauncherDownloadLink({hideTutorial = false}) {
           <p className="description">Fetching latest release...</p>
         </div>
       );
-    }
-     else {
+    } else {
       return (
         <div className="text">
           <h3 className="title">
@@ -150,33 +149,56 @@ export default function LauncherDownloadLink({hideTutorial = false}) {
   return (
     <React.Fragment>
       <div className="downloadWrapper">
-        <SplitButton isLoading={loading} isDisabled={!available} primaryButtonLabel={`${forPlatform} Launcher @ ${launcherVersion}`} primaryButtonUrl={downloadUrlAutomatic} secondaryButtonLabels={[
-          `Windows Launcher @ ${launcherVersion}`,
-          `Linux Launcher @ ${launcherVersion}`,
-          `Intel MacOS Launcher @ ${launcherVersion}`,
-          `Decky Plugin @ ${deckyPluginVersion}`,
-        ]} secondaryButtonUrls={[downloadUrlWindows, downloadUrlLinux, downloadUrlMacOS, deckyPluginDownloadUrl]}/>
-        {hideTutorial ? null : <Button sx={{fontFamily: 'Roboto Mono',
-              backgroundColor: 'rgb(49, 28, 16)',
-              color: '#f77223',
-              padding: '0.5em',
+        <SplitButton
+          isLoading={loading}
+          isDisabled={!available}
+          primaryButtonLabel={`${forPlatform} Launcher @ ${launcherVersion}`}
+          primaryButtonUrl={downloadUrlAutomatic}
+          secondaryButtonLabels={[
+            `Windows Launcher @ ${launcherVersion}`,
+            `Linux Launcher @ ${launcherVersion}`,
+            `Intel MacOS Launcher @ ${launcherVersion}`,
+            `Decky Plugin @ ${deckyPluginVersion}`,
+          ]}
+          secondaryButtonUrls={[
+            downloadUrlWindows,
+            downloadUrlLinux,
+            downloadUrlMacOS,
+            deckyPluginDownloadUrl,
+          ]}
+        />
+        {hideTutorial ? null : (
+          <Button
+            sx={{
+              fontFamily: "Roboto Mono",
+              backgroundColor: "rgb(49, 28, 16)",
+              color: "#f77223",
+              padding: "0.5em",
               fontWeight: 600,
-              fontSize: '1em',
-              borderColor: 'rgb(247, 92, 0)',
-              ':hover': {
-                backgroundColor: 'rgb(77, 42, 22)',
-              }  
-            
-            }}>Getting Started</Button>}
+              fontSize: "1em",
+              borderColor: "rgb(247, 92, 0)",
+              ":hover": {
+                backgroundColor: "rgb(77, 42, 22)",
+              },
+            }}
+          >
+            Getting Started
+          </Button>
+        )}
       </div>
-      {(apiError || !available || isArm) ? <div className="row" style={{ justifyContent: "center", gap: "1em" }}>
-        <p>
-          {apiError ? "Couldn't fetch latest release, API error or you are rate-limited!" : null}
-          <br/>
-          {isArm ? `Launcher only supports Windows, Linux and Intel MacOS. Detected platform: ${forPlatform}` : null}
-        </p>
-      </div> : null}
-      
+      {apiError || !available || isArm ? (
+        <div className="row" style={{ justifyContent: "center", gap: "1em" }}>
+          <p>
+            {apiError
+              ? "Couldn't fetch latest release, API error or you are rate-limited!"
+              : null}
+            <br />
+            {isArm
+              ? `Launcher only supports Windows, Linux and Intel MacOS. Detected platform: ${forPlatform}`
+              : null}
+          </p>
+        </div>
+      ) : null}
     </React.Fragment>
   );
 }

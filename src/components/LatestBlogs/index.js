@@ -12,7 +12,8 @@ const BlogList = [
       .default,
     description: (
       <>
-        Jak 3 decompilation progress continues, there will be a lot to share next month.
+        Jak 3 decompilation progress continues, there will be a lot to share
+        next month.
       </>
     ),
     link: "/blog/progress-report-mar-2024",
@@ -35,7 +36,7 @@ const BlogList = [
       .default,
     description: <>New year, new game.</>,
     link: "/blog/progress-report-jan-2024",
-  }
+  },
 ];
 
 function BlogPost({ image, title, description, link, height, backgroundSvg }) {

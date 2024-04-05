@@ -1,7 +1,7 @@
 import * as React from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import MenuItem from "@mui/material/MenuItem";
-import Select from '@mui/material/Select';
+import Select from "@mui/material/Select";
 import { MoveToBottomIcon } from "@primer/octicons-react";
 
 export default function SplitButton({
@@ -19,58 +19,59 @@ export default function SplitButton({
   return (
     <React.Fragment>
       <LoadingButton
-          loading={isLoading}
-          onClick={(event) => {
-            window.location.href = primaryButtonUrl;
-          }}
-          sx={{fontFamily: 'Roboto Mono',
-            backgroundColor: '#f77223',
-            color: 'black',
-            padding: '0.5em',
-            fontWeight: 600,
-            fontSize: '1em',
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: 0,
-            ':hover': {
-              backgroundColor: 'rgb(247, 92, 0)',
-            }  
-          
-          }}
-        >
-          <MoveToBottomIcon size={24} />
-          <span style={{marginLeft: '0.5em'}}>{isDisabled ? "Downloads Unavailable" : primaryButtonLabel}</span>
-          
-        </LoadingButton>
+        loading={isLoading}
+        onClick={(event) => {
+          window.location.href = primaryButtonUrl;
+        }}
+        sx={{
+          fontFamily: "Roboto Mono",
+          backgroundColor: "#f77223",
+          color: "black",
+          padding: "0.5em",
+          fontWeight: 600,
+          fontSize: "1em",
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0,
+          ":hover": {
+            backgroundColor: "rgb(247, 92, 0)",
+          },
+        }}
+      >
+        <MoveToBottomIcon size={24} />
+        <span style={{ marginLeft: "0.5em" }}>
+          {isDisabled ? "Downloads Unavailable" : primaryButtonLabel}
+        </span>
+      </LoadingButton>
       <Select
         disabled={isLoading || isDisabled}
         inputProps={{
           MenuProps: {
             PaperProps: {
               sx: {
-                 backgroundColor: 'rgb(26, 25, 28)'
-              }
-            }
-          }
+                backgroundColor: "rgb(26, 25, 28)",
+              },
+            },
+          },
         }}
         sx={{
-          backgroundColor: '#f77223',
+          backgroundColor: "#f77223",
           borderTopLeftRadius: 0,
           borderBottomLeftRadius: 0,
-          marginRight: '1em',
-          ':hover': {
-            backgroundColor: 'rgb(247, 92, 0)',
+          marginRight: "1em",
+          ":hover": {
+            backgroundColor: "rgb(247, 92, 0)",
           },
           "&.MuiOutlinedInput-root": {
             "& div.MuiSelect-select": {
-              paddingRight: '24px'
+              paddingRight: "24px",
             },
             "&:hover fieldset": {
-              borderColor: 'rgba(0, 0, 0, 0.23)'
+              borderColor: "rgba(0, 0, 0, 0.23)",
             },
             "&.Mui-focused fieldset": {
-              borderColor: 'rgba(0, 0, 0, 0.23)'
-            }
-          }
+              borderColor: "rgba(0, 0, 0, 0.23)",
+            },
+          },
         }}
       >
         {secondaryButtonLabels.map((option, index) => {
@@ -78,14 +79,21 @@ export default function SplitButton({
           if (secondaryButtonUrls[index] === primaryButtonUrl) {
             return null;
           }
-          return (<MenuItem
-            key={option}
-            onClick={(event) => handleMenuItemClick(event, index)}
-            sx={{fontFamily: 'Roboto Mono', color: '#f77223', fontSize: '1em',fontWeight: 600,
-            fontSize: '1em'}}
-          >
-            {option}
-          </MenuItem>)
+          return (
+            <MenuItem
+              key={option}
+              onClick={(event) => handleMenuItemClick(event, index)}
+              sx={{
+                fontFamily: "Roboto Mono",
+                color: "#f77223",
+                fontSize: "1em",
+                fontWeight: 600,
+                fontSize: "1em",
+              }}
+            >
+              {option}
+            </MenuItem>
+          );
         })}
       </Select>
     </React.Fragment>

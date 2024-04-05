@@ -82,12 +82,8 @@ function HomepageHeader() {
 
 export default function Home() {
   const { siteConfig } = useDocusaurusContext();
-  const [jak1Image, setJak1Image] = useState(
-    "/img/home/jak1/7am.webp",
-  );
-  const [jak2Image, setJak2Image] = useState(
-    "/img/home/jak2/7am.webp",
-  );
+  const [jak1Image, setJak1Image] = useState("/img/home/jak1/7am.webp");
+  const [jak2Image, setJak2Image] = useState("/img/home/jak2/7am.webp");
 
   useEffect(() => {
     // Get the current date and time
@@ -232,7 +228,10 @@ export default function Home() {
             <div className="row">
               <div className="col col--6">
                 <p style={{ color: "#c6c6c6" }}>
-                  Having the games decompiled and recompilable essentially means you are only limited by time and effort. Additionally if you are interested in technical areas like compiler development and everything that involves, this is a project for you.
+                  Having the games decompiled and recompilable essentially means
+                  you are only limited by time and effort. Additionally if you
+                  are interested in technical areas like compiler development
+                  and everything that involves, this is a project for you.
                 </p>
               </div>
             </div>
@@ -241,7 +240,10 @@ export default function Home() {
         <HomepageDevelopmentFeatures />
         <section className="home-section" style={{ marginBottom: "10em" }}>
           <div className="container indent">
-            <div className="row" style={{ marginTop: "5em", marginBottom: "2em" }}>
+            <div
+              className="row"
+              style={{ marginTop: "5em", marginBottom: "2em" }}
+            >
               <h2 className="home-heading" style={{ fontWeight: "600" }}>
                 Further links and get involved
               </h2>
