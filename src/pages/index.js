@@ -39,7 +39,7 @@ function HomepageHeader() {
     interval = setInterval(() => {
       setCount(counterRef.current + 1);
       setCurrText(textToType.substring(0, counterRef.current));
-    }, 75);
+    }, 25);
   }, []);
 
   const { siteConfig } = useDocusaurusContext();
@@ -204,7 +204,7 @@ export default function Home() {
               <div className="col col--6">
                 <p style={{ color: "#c6c6c6" }}>
                   The OpenGOAL version adds a variety of improvements and
-                  accessibility options. Modders have made creative
+                  accessibility options. Modders have even made creative
                   modifications and entirely new content.
                 </p>
               </div>
@@ -232,9 +232,7 @@ export default function Home() {
             <div className="row">
               <div className="col col--6">
                 <p style={{ color: "#c6c6c6" }}>
-                  The OpenGOAL version adds a variety of improvements and
-                  accessibility options. Modders have made creative
-                  modifications and entirely new content.
+                  Having the games decompiled and recompilable essentially means you are only limited by time and effort. Additionally if you are interested in technical areas like compiler development and everything that involves, this is a project for you.
                 </p>
               </div>
             </div>
