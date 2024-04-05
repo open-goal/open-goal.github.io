@@ -2,6 +2,7 @@ import * as React from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import MenuItem from "@mui/material/MenuItem";
 import Select from '@mui/material/Select';
+import { MoveToBottomIcon } from "@primer/octicons-react";
 
 export default function SplitButton({
   isLoading,
@@ -36,7 +37,9 @@ export default function SplitButton({
           
           }}
         >
-          {isDisabled ? "Downloads Unavailable" : primaryButtonLabel}
+          <MoveToBottomIcon size={24} />
+          <span style={{marginLeft: '0.5em'}}>{isDisabled ? "Downloads Unavailable" : primaryButtonLabel}</span>
+          
         </LoadingButton>
       <Select
         disabled={isLoading || isDisabled}
