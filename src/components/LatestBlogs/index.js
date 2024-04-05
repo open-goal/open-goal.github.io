@@ -7,6 +7,17 @@ import { CardActionArea } from "@mui/material";
 
 const BlogList = [
   {
+    title: "Progress Report - March 2024",
+    image: require("@site/blog/progress-report-mar-2024/img/poster.png")
+      .default,
+    description: (
+      <>
+        Jak 3 decompilation progress continues, there will be a lot to share next month.
+      </>
+    ),
+    link: "/blog/progress-report-mar-2024",
+  },
+  {
     title: "Progress Report - February 2024",
     image: require("@site/blog/progress-report-feb-2024/img/poster.png")
       .default,
@@ -24,14 +35,7 @@ const BlogList = [
       .default,
     description: <>New year, new game.</>,
     link: "/blog/progress-report-jan-2024",
-  },
-  {
-    title: "Progress Report - November 2023",
-    image: require("@site/blog/progress-report-nov-2023/img/poster.png")
-      .default,
-    description: <>Slightly belated this time around.</>,
-    link: "/blog/progress-report-nov-2023",
-  },
+  }
 ];
 
 function BlogPost({ image, title, description, link, height, backgroundSvg }) {
