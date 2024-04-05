@@ -18,22 +18,22 @@
     "cf-pages-deploy": "pip install pillow pillow-avif-plugin && python ./scripts/gallery-updater/update-gallery.py && yarn install --immutable && unzip ./static/data/docs/opengoal-docs.zip -d ./ && yarn gen-docs && yarn build --no-minify"
   },
   "dependencies": {
-    "@algolia/client-search": "^4.22.1",
+    "@algolia/client-search": "^4.23.2",
     "@docusaurus/core": "^3.2.0",
     "@docusaurus/plugin-ideal-image": "^3.2.0",
     "@docusaurus/preset-classic": "^3.2.0",
     "@docusaurus/theme-common": "^3.2.0",
     "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/styled": "^11.11.5",
     "@mdx-js/react": "^3.0.1",
-    "@mui/lab": "^5.0.0-alpha.166",
-    "@mui/material": "^5.15.11",
-    "@mui/styled-engine": "^5.15.11",
-    "@mui/styles": "^5.15.11",
-    "@primer/octicons-react": "^19.8.0",
-    "@swc/core": "^1.4.2",
+    "@mui/lab": "^5.0.0-alpha.169",
+    "@mui/material": "^5.15.14",
+    "@mui/styled-engine": "^5.15.14",
+    "@mui/styles": "^5.15.14",
+    "@primer/octicons-react": "^19.9.0",
+    "@swc/core": "^1.4.11",
     "clsx": "^2.0.0",
-    "html-react-parser": "^5.1.8",
+    "html-react-parser": "^5.1.10",
     "jspdf-autotable": "^3.8.2",
     "jspdf": "^2.5.1",
     "material-table": "^2.0.5",
@@ -42,20 +42,20 @@
     "prop-types": "^15.8.1",
     "react-dom": "^18.2.0",
     "react-loadable": "^5.5.0",
-    "react-player": "^2.15.0",
+    "react-player": "^2.15.1",
     "react": "^18.2.0",
-    "recharts": "^2.12.2",
+    "recharts": "^2.12.3",
     "search-insights": "^2.13.0",
     "swc-loader": "^0.2.6",
     "ua-parser-js": "^1.0.37",
-    "webpack": "^5.90.3"
+    "webpack": "^5.91.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.2.0",
     "@octokit/rest": "^20.0.2",
     "@types/ua-parser-js": "^0.7.39",
     "prettier": "^3.2.5",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.3"
   },
   "browserslist": {
     "production": [
