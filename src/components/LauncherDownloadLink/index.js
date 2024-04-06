@@ -169,6 +169,9 @@ export default function LauncherDownloadLink({ hideTutorial = false }) {
         />
         {hideTutorial ? null : (
           <Button
+            onClick={() => {
+              window.location.href = "/docs/usage/installation/";
+            }}
             sx={{
               fontFamily: "Roboto Mono",
               backgroundColor: "rgb(49, 28, 16)",
