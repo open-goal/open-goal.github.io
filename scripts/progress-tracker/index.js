@@ -419,8 +419,8 @@ function auditProcess(gameName, pulls, issues) {
     if (gameName === "jak3") {
       // only jak 3 is in active development
       const assignment = getSheetAssignmentFromName(fileName);
-      if (assignment !== null && assignment !== undefined) {
-        console.log(`File: ${fileName} - Assignment: ${assignment}`);
+      if (assignment !== null && assignment !== undefined && assignment !== 0) {
+        // console.log(`File: ${fileName} - Assignment: ${assignment}`);
         const assignmentLenient = assignment.replace(" ", "").toLowerCase();
         if (assignmentLenient in sheetAssignmentMapping) {
           entry.assignedTo.sheet = sheetAssignmentMapping[assignmentLenient];
