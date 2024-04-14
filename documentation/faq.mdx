@@ -57,9 +57,13 @@ The first game is at a stage where it is mostly feature complete and bug free on
 Please remember that we do this work for free, in our spare time, when we feel like it. There are no rigid timelines that we make for ourselves, things will be done when they are done.
 
 - _Jak and Daxter_ is mostly finished, bug fixes and improvements will continue to be added overtime.
-- _Jak II_ is in very early stages, do not hold your breath on this being complete within atleast a year.
-- _Jak 3_ will probably be worked on after _Jak II_ is "complete."
-- We are unsure if we will work on _Jak X_ at this time.
+- _Jak II_ is also mostly finished, but kept in beta, because some a few background audio problems haven't been fixed yet.
+- _Jak 3_ is in early stages, do not hold your breath on this being complete within atleast a year.
+- _Jak X_ will probably _not_ be decompiled by the current developers. The goal was to look into the original games, make fixes to them and support modding, whereas _Jak X_ is considered a spin-off. Never forget you can still use an emulator to play these games.
+https://discord.com/channels/756287461377703987/1009521377113555014/1228907276052594718
+https://discord.com/channels/756287461377703987/1094315000308437162/1225126287870398598
+
+To our knowledge, these are the only games ever written using GOAL.
 
 ### Will you decompile Daxter or The Lost Frontier?
 
@@ -71,13 +75,14 @@ No. _Ratchet & Clank_ does not use Naughty Dog's engine and was not written in G
 
 ### Will you decompile [_insert non-Jak game here_]?
 
-No, we are no where near done with Jak yet, and other than experience not much is transferable from this project to others. The Jak games present a very unique set of challenges that we have solved that other games do not -- similarly other games pose entirely new sets of challenges.
+No, we are no where near done with Jak yet, and other than experience not much is transferable from this project to others. The Jak games present a very unique set of challenges that we have solved that other games do not -- similarly other games pose entirely new sets of challenges. To word it more technically, the four games are the only ones ever written using GOAL.
+https://discord.com/channels/756287461377703987/801612566874554399/1221207684074963014
 
 Most importantly, we are motivated on working on Jak, not other games. Those other games likely already have small niche communities plugging away at things in the background just like we were.
 
 ### Is there support for raytracing?
 
-Implementing raytracing would require a very massive art overhaul which is far outside the scope of this project.
+No. Implementing raytracing would require a very massive art overhaul which is far outside the scope of this project.
 
 ## Game Info
 
@@ -87,11 +92,19 @@ We have added a plethora of options to the game settings (and removed some that 
 
 ### Will there be bug fixes to the game?
 
-The original game had a few issues of varying severity - from progress softlocks to crashing - that we are aiming to patch. The complexity of these issues is varying (if they were simple to reproduce and fix, Naughty Dog likely would have done it), but so far we have fixed more than a couple of issues that could crash the game.
+The original game had a few issues of varying severity - from progress softlocks to crashing - that we have patched or are aiming to patch. The complexity of these issues is varying (if they were simple to reproduce and fix, Naughty Dog likely would have done it), but so far we have fixed more than a couple of issues that could crash the game.
 
 ### Will there be mod support?
 
 In the future yes! We intend to make it as easy as we can to make your own code or import graphics for the game.
+
+### Where can I find HD textures?
+
+The textures are copyrighted material. We do not promote downloading a texture pack if such exists, since it wouldn't require to have obtained a legal copy of the game that provides these textures.
+
+### Input modifications
+
+Presure sensitivity will be ignored.
 
 ## Troubleshooting
 
@@ -105,17 +118,21 @@ Your GPU might be too weak. Some of our rendering code is a bit inefficient and 
 
 ### The game crashed!!
 
-Curses! Contact us in the help channel on the discord server and tell us about it! Post the log files as well. These are located in the `data/log` folder of the release (if you are using the Launcher, there is a button on the settings tab that takes you to the folder containing the `data` folder).
+Curses! Look in the [help channel](https://discord.com/channels/756287461377703987/1019706639810580553) on the discord server or on the [github issues](https://github.com/open-goal/jak-project/issues) and see if it is being processed, or if workarounds have been provided. If you didn't find anything related that could help you out, tell us about it! Create a post in the channel on discord or an issue on github to describe the issues and add a generated support package. 
+https://discord.com/channels/756287461377703987/1020343516242653214
 
-Make sure you tell us exactly how the crash happened and what settings you were using.
+Make sure you tell us **exactly** how the crash happened and what settings you were using. In order to fix it, it is much easier if we're able to reproduce it. Even if you happen to have find a way to workaround the problem, we still would like to hear further from you, because other users may encounter the issue as well, and it helps us to diagnose the problem.
 
 ### My controller doesn't work!
 
 Our controller handling does need some work, but generally speaking any controller defined in this database should be supported https://github.com/gabomdq/SDL_GameControllerDB You can try the following until support improves:
 
-- Make sure you only have 1 controller plugged in at a time to ensure that one is used
-- Try leveraging Steam to get the controller recognized
-- If your controller isn't in the DB above, you should follow the steps there to make a mapping for your controller
+- Make sure you only have 1 controller plugged in at a time to ensure that one is used.
+- Try leveraging Steam to get the controller recognized. Conversely, if you have steam or any other games that may be using your controller open, try closing them.
+- If your controller isn't in the DB above, you should follow the steps there to make a mapping for your controller.
+- Try using third-party software or kernel drivers for your particular controller (i.e. [DualSenseX](https://dualsensex.com/), [DS4Windows](https://ds4-windows.com/), [DsHidMini](https://docs.nefarius.at/projects/DsHidMini/), [xpadneo](https://atar-axis.github.io/xpadneo/))
+
+https://discord.com/channels/756287461377703987/1020342993057746944
 
 ### I am having some other issue or found a bug with the game/tools.
 
@@ -133,9 +150,9 @@ Our project moves very fast so it's hard to give an answer here that will remain
 
 Some recommended steps are:
 
-- Consult our GitHub README and get the project setup
+- Consult our GitHub README and [get the project setup](https://github.com/open-goal/jak-project?tab=readme-ov-file#setting-up-a-development-environment)
 - Look through our documentation that we try to update when we get a chance
-- Look through our issue board on the github repository and see if you feel comfortable tackling a problem
+- Look through our [issue board](https://github.com/orgs/open-goal/projects) on the github repository and see if you feel comfortable tackling a problem
 
 Aside from the OpenGOAL source code for the games, our codebase is almost entirely C++ with the exception of some throwaway scripts written in Python or what have you. Of course you will eventually have to understand OpenGOAL, our flavour of the Naughty Dog language, as the game is by-and-large _not rewritten_ in C++.
 
