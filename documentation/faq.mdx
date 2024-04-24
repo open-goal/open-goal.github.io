@@ -96,7 +96,7 @@ In the future yes! We intend to make it as easy as we can to make your own code 
 
 ### Will you support pressure sensitivity?
 
-No. Pressure sensitivity is the possibility of a few controllers such as DualShock 2, DualShock 3 to detect differences in the amount of force applied to them, as opposed to binary inputs (e.g. "pressed" or "not pressed"). Even though this seems appealing for driving vehicles, there is no plan to support this for face buttons. The vast majority of controllers doesn't support this at a hardware or driver level anyway. In the future, we possibly support an option to use triggers to accelerate combined with pressure sensitivity.
+No. Pressure sensitivity is the possibility of a few controllers such as DualShock 2, DualShock 3 to detect differences in the amount of force applied to them, as opposed to binary inputs (e.g. "pressed" or "not pressed"). Even though pressure sensitivity is present in the PS2 and PS3 versions (for extra jump height and controlling the zoomer), there is no plan to support this for face buttons. The vast majority of controllers doesn't support this at a hardware or driver level anyway. In the future, we possibly support an option to use triggers to accelerate combined with pressure sensitivity.
 
 ### Will there be an Android Port?
 
@@ -130,7 +130,7 @@ Curses! Contact us in the [help channel](https://discord.com/channels/7562874613
 Our controller handling does need some work, but generally speaking any controller defined in this database should be supported https://github.com/gabomdq/SDL_GameControllerDB You can try the following until support improves:
 
 - Make sure you only have 1 controller plugged in at a time to ensure that one is used.
-- Try leveraging Steam to get the controller recognized. Conversely, if you have Steam or any other games that may be using your controller open, try closing them.
+- Try leveraging Steam to get the controller recognized. Conversely, if you have Steam or any other games that may be using your controller open, try closing them. You can also [turn off Steam Input](https://github.com/open-goal/open-goal.github.io/pull/237#discussion_r1569563834) if enabled, as it might try to make your controller function as a replacement for keyboard and mouse.
 - If your controller isn't in the DB above, you should follow the steps there to make a mapping for your controller.
 - Try using third-party software or kernel drivers for your particular controller (i.e. [DualSenseX](https://dualsensex.com/), [DS4Windows](https://ds4-windows.com/), [DsHidMini](https://docs.nefarius.at/projects/DsHidMini/), [xpadneo](https://atar-axis.github.io/xpadneo/))
 
