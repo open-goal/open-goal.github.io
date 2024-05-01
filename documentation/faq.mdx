@@ -16,7 +16,7 @@ You will need your own legitimately obtained copy of the original game. The Jak 
 [Example _Jak and Daxter_ listing (THIS IS NOT AN ENDORSEMENT).](https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=jak&_sacat=0)
 :::
 
-We encourage you to use our Launcher which simplifies the installation and updating process. You can find a link to get this from the homepage at: https://opengoal.dev
+We encourage you to use our Launcher which simplifies the installation and updating process. You can find a link to get this from the homepage at: [https://opengoal.dev](https://opengoal.dev).
 
 Alternatively, you can use the latest release from our GitHub repo https://github.com/open-goal/jak-project/releases and provide the path to your ISO like so - `./extractor[.exe] <path-to-iso>`. Once this completes, you should be able to run `gk[.exe]` to start the game.
 
@@ -92,15 +92,16 @@ The original game had a few issues of varying severity - from progress softlocks
 
 ### Will there be mod support?
 
-In the future yes! We intend to make it as easy as we can to make your own code or import graphics for the game. In the meanwhile several mods can already be tried out using the unofficial mod launcher, found at https://jakmods.dev/
+In the future yes! We intend to make it as easy as we can to make your own code or import graphics for the game. In the meanwhile several mods can already be tried out using the unofficial mod launcher, found at [https://jakmods.dev/](https://jakmods.dev/).
 
 ### Will you support pressure sensitivity?
 
-No. Pressure sensitivity is the possibility of a few controllers such as DualShock 2, DualShock 3 to detect differences in the amount of force applied to them, as opposed to binary inputs (e.g. "pressed" or "not pressed"). Even though pressure sensitivity is present in the PS2 and PS3 versions (for extra jump height and controlling the zoomer), there is no plan to support this. The vast majority of controllers doesn't support this at a hardware or driver level anyway. In the future, we possibly support an option to use triggers to accelerate combined with pressure sensitivity.
+No. Pressure sensitivity is the possibility of a few controllers such as DualShock 2, DualShock 3 to detect differences in the amount of force applied to them, as opposed to binary inputs (e.g. "pressed" or "not pressed"). Even though pressure sensitivity is present in the PS2 and PS3 versions (for extra jump height and controlling the zoomer), there is no plan to support this. The vast majority of controllers doesn't support this at a hardware or driver level anyway. <!--In the future, we possibly support an option to use triggers to accelerate combined with pressure sensitivity.-->
 
-### Will there be an Android Port?
+### Will you support ARM platforms (such as Android, Apple Silicon, Nintendo Switch, etc.)?
 
-Currently not planned. The game was originally written in a custom programming language called GOAL, so we had to write our own compiler, which only supports x86-64. If you are interested in compilers and extending our compiler to support ARM, ask for more details in development.
+Currently, it's not planned. Supporting ARM platforms requires rewriting our own GOAL compiler, which as of writing only supports x86-64 platforms. In the current core-development team no one has interest in undertaking this work, but if you do take interest in compilers and extending ours to support ARM, ask for more details in the [development channel](https://discord.com/channels/756287461377703987/756287461830688810) on Discord.
+<!-- https://discord.com/channels/756287461377703987/987391863478693998/987394013931905084 -->
 
 ### The launcher requests an ISO. Where can I find them?
 
@@ -109,6 +110,10 @@ You can extract the isos from a physical copy of the game for PS2, as described 
 ### Where can I find HD textures?
 
 The textures are copyrighted material. We do not promote downloading a texture pack if such exists, since it wouldn't respect the copyrights.
+
+### Where are my saves?
+
+The saves can be found in `AppData\Roaming\OpenGOAL\jak1` on Windows, or in `~/.config/OpenGOAL/jak1` on Linux. In very old versions, the saves were in your user folder, in a folder named `OpenGOAL`.
 
 ## Troubleshooting
 
@@ -122,7 +127,7 @@ Your GPU might be too weak. Some of our rendering code is a bit inefficient and 
 
 ### The game crashed!!
 
-Curses! Contact us in the [help channel](https://discord.com/channels/756287461377703987/1019706639810580553) on the discord server and tell us about it! Post a support package as well. If you're using a Launcher, it can be generated under the help section. Make sure you tell us exactly how the crash happened and what settings you were using.
+Curses! Contact us in the [help channel](https://discord.com/channels/756287461377703987/1019706639810580553) on the discord server and tell us about it! Post a support package as well (see [here](https://youtube.com/watch?v=5nnl9Av09Zg) how to generate one). If you're using a Launcher, it can be generated under the help section. Make sure you tell us exactly how the crash happened and what settings you were using.
 <!--https://discord.com/channels/756287461377703987/1020343516242653214-->
 
 ### My controller doesn't work!
@@ -132,7 +137,7 @@ Our controller handling does need some work, but generally speaking any controll
 - Make sure you only have 1 controller plugged in at a time to ensure that one is used.
 - Try leveraging Steam to get the controller recognized. Conversely, if you have Steam or any other games that may be using your controller open, try closing them. You can also [turn off Steam Input](https://github.com/open-goal/open-goal.github.io/pull/237#discussion_r1569563834) if enabled, as it might try to make your controller function as a replacement for keyboard and mouse.
 - If your controller isn't in the DB above, you should follow the steps there to make a mapping for your controller.
-- Try using third-party software or kernel drivers for your particular controller (i.e. [DualSenseX](https://dualsensex.com/), [DS4Windows](https://ds4-windows.com/), [DsHidMini](https://docs.nefarius.at/projects/DsHidMini/), [xpadneo](https://atar-axis.github.io/xpadneo/))
+- Try using third-party software or kernel drivers for your particular controller (i.e. [DualSenseX](https://dualsensex.com/), [DS4Windows](https://ds4-windows.com/), [DsHidMini](https://docs.nefarius.at/projects/DsHidMini/), [xpadneo](https://atar-axis.github.io/xpadneo/)).
 
 <!--https://discord.com/channels/756287461377703987/1020342993057746944-->
 
@@ -156,12 +161,8 @@ Our project moves very fast so it's hard to give an answer here that will remain
 
 Some recommended steps are:
 
-- Consult our GitHub README and [get the project setup](https://github.com/open-goal/jak-project?tab=readme-ov-file#setting-up-a-development-environment)
-- Look through our documentation that we try to update when we get a chance
-- Look through our [issue board](https://github.com/orgs/open-goal/projects) on the github repository and see if you feel comfortable tackling a problem
+- Consult our GitHub README and [get the project setup](https://github.com/open-goal/jak-project?tab=readme-ov-file#setting-up-a-development-environment).
+- Look through our documentation that we try to update when we get a chance.
+- Look through our [issue board](https://github.com/orgs/open-goal/projects) on the github repository and see if you feel comfortable tackling a problem.
 
 Aside from the OpenGOAL source code for the games, our codebase is almost entirely C++ with the exception of some throwaway scripts written in Python or what have you. Of course you will eventually have to understand OpenGOAL, our flavour of the Naughty Dog language, as the game is by-and-large _not rewritten_ in C++.
-
-### Will you support ARM platforms?
-
-No, and the current core-development team has no one interested in undertaking the work to port our code to work on ARM platforms.
