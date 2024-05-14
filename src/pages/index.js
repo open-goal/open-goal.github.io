@@ -89,28 +89,29 @@ export default function Home() {
     // Get the current date and time
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
+    // console.log(`Current Hour: ${currentHour}`)
     // Check the current time against specified times
-    if (currentHour >= 7) {
-      setJak1Image("/img/home/jak1/7am.webp");
-      setJak2Image("/img/home/jak2/7am.webp");
-    } else if (currentHour >= 9) {
-      setJak1Image("/img/home/jak1/9am.webp");
-      setJak2Image("/img/home/jak2/9am.webp");
-    } else if (currentHour >= 12) {
-      setJak1Image("/img/home/jak1/12pm.webp");
-      setJak2Image("/img/home/jak2/12pm.webp");
-    } else if (currentHour >= 15) {
-      setJak1Image("/img/home/jak1/3pm.webp");
-      setJak2Image("/img/home/jak2/3pm.webp");
-    } else if (currentHour >= 18) {
-      setJak1Image("/img/home/jak1/6pm.webp");
-      setJak2Image("/img/home/jak2/6pm.webp");
+    if (currentHour >= 23 || currentHour < 4) {
+      setJak1Image("/img/home/jak1/11pm.webp");
+      setJak2Image("/img/home/jak2/11pm.webp");
     } else if (currentHour >= 19) {
       setJak1Image("/img/home/jak1/7pm.webp");
       setJak2Image("/img/home/jak2/7pm.webp");
-    } else if (currentHour >= 23 || currentHour < 4) {
-      setJak1Image("/img/home/jak1/11pm.webp");
-      setJak2Image("/img/home/jak2/11pm.webp");
+    } else if (currentHour >= 18) {
+      setJak1Image("/img/home/jak1/6pm.webp");
+      setJak2Image("/img/home/jak2/6pm.webp");
+    } else if (currentHour >= 15) {
+      setJak1Image("/img/home/jak1/3pm.webp");
+      setJak2Image("/img/home/jak2/3pm.webp");
+    } else if (currentHour >= 12) {
+      setJak1Image("/img/home/jak1/12pm.webp");
+      setJak2Image("/img/home/jak2/12pm.webp");
+    } else if (currentHour >= 9) {
+      setJak1Image("/img/home/jak1/9am.webp");
+      setJak2Image("/img/home/jak2/9am.webp");
+    } else if (currentHour >= 7) {
+      setJak1Image("/img/home/jak1/7am.webp");
+      setJak2Image("/img/home/jak2/7am.webp");
     } else {
       setJak1Image("/img/home/jak1/4am.webp");
       setJak2Image("/img/home/jak2/4am.webp");
