@@ -44,6 +44,10 @@ Because the triangles in a `collide-mesh` use `uint8`s for the vertex indices, t
 
 Though there is no theoretical limit for how many `collide-mesh`es you can fit in an array (aside from things like art group file size), you should try not to overdo it, since the game's collision cache does not like it when there's too many triangles grouped up too close together, which will result in Jak phasing through complex collision like this or the game potentially crashing (and you will also have set up collision in GOAL for each of these meshes which can get tedious with this many).
 
+:::warning
+Note that Blender's GLTF exporter will separate faces, which could increase the overall vertex count, so double check the total count on the `.glb` file itself and make adjustments if necessary.
+:::
+
 ## Getting Started
 
 To get started, you will need the following:
