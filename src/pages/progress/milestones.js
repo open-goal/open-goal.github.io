@@ -11,7 +11,7 @@ function truncateString(str, num) {
 function LatestChanges() {
   const [recentPRs, setRecentPRs] = useState([]);
 
-  useEffect(async () => {
+  const getLatestMergedPRs = async () => {
     const response = await fetch(
       `https://api.github.com/search/issues?q=org:open-goal+is:pr+is:merged&sort=updated`,
     );
@@ -39,6 +39,10 @@ function LatestChanges() {
       items.push(pr);
     }
     setRecentPRs(items);
+  };
+
+  useEffect(() => {
+    getLatestMergedPRs();
   }, []);
 
   if (recentPRs.length == 0) {

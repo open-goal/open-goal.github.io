@@ -149,7 +149,7 @@ First we should start by adding an option in-game to pick the language we're cur
 ![](img/defenum-pc-language-example.png)
 
 3. We now have to setup text entries for this new language. First add it to the `text-id` enum in the respective `all-types.gc` file:
-    - for Jak 1 that is `decompiler/config/all-types.gc`
+   - for Jak 1 that is `decompiler/config/all-types.gc`
 
 ![](img/defenum-text-id.png)
 ![](img/defenum-text-id-example.png)
@@ -173,9 +173,11 @@ We can now wire up this new language to the game itself. This requires a few cha
 1. Add it to the `*text-languages*` and `*subtitle-languages*` lists in `goal_src/{GAME_NAME}/pc/progress-pc.gc`. Maintain the order by the numeric ID (ie. `english` is `0` so it comes first). If your language was brand new you should also add it to `*language-remap-info-pc*` in a similar fashion.
 
 ![](img/progress-pc-example.png)
+
 1. Add it to the built-in debug menu for completeness in `goal_src/{GAME_NAME}/pc/debug/default-menu-pc.gc`
 
 ![](img/default-menu-pc-example.png)
+
 1. Now we have to create the text files that will contain the translated strings for the game to read:
    - Grab the decompiled base game strings file from `decompiler_out/{GAME_NAME}/assets/game_text.txt`, copy it into `game/assets/{GAME_NAME}/text/` and rename it to `game_base_text_{LANG_CODE}.json`
    - Now copy and paste the `game_custom_text_en_US.json` in the same folder and rename it to `game_custom_text_{LANG_CODE}.json` as well,
@@ -189,9 +191,9 @@ We can now wire up this new language to the game itself. This requires a few cha
    ```
 2. Lastly, we have to point to these files in the code for the game to load them:
    - Open `game/assets/{GAME_NAME}/jak1/game_text.gp` and add the base and custom text files to the list:  
-  ![](img/game_text_example.png)
+     ![](img/game_text_example.png)
    - Open `game/assets/{GAME_NAME}/jak1/game_subtitle.gp` and add the subtitle and meta text files to the list:  
-  ![](img/game_subtitle_example.png)
+     ![](img/game_subtitle_example.png)
 
 #### Step 2.3 - Cleaning up the Base Game Strings file
 
@@ -202,61 +204,65 @@ This part assumes you're using Visual Studio Code to edit the file.
 :::
 
 1. Let's start with deleting these 3 lines of code, because we don't need them:  
-![](img/game_base_text_clean_up_1.png)
+   ![](img/game_base_text_clean_up_1.png)
 2. Now let's turn all the hex ID's into proper JSON formatting:
    - start by selecting the first `(#x` at the top of the file, press `Ctrl+Shift+L` to select every single occurence of this combination of symbols in the file, it should look like this:  
-  ![](img/game_base_text_clean_up_2.png)
+     ![](img/game_base_text_clean_up_2.png)
    - now, simply type in a `"`, then move using the Arrow Keys to the end of the ID and add another `"` followed by a colon:  
-  ![](img/game_base_text_clean_up_3.png)
+     ![](img/game_base_text_clean_up_3.png)
    - select the `)` at the bottom of the first group of strings, press `Ctrl+F` to open up a `Find` window, press the right arrow button on the left side of it to expand it to show `Replace`, then in the `Replace` box type in a `,` and press `Replace All`, like so:
-  ![](img/game_base_text_clean_up_4.png)
+     ![](img/game_base_text_clean_up_4.png)
    - now add `{` at the top of the file, and `}` at the end:  
-  ![](img/game_base_text_clean_up_5-1.png)  
-  ![](img/game_base_text_clean_up_5-2.png)
-1. Now we have to delete all of the unnecessary translated strings we don't need. So, for every string ID, delete every line other than the first, so it goes from this:  
-![](img/game_base_text_clean_up_6.png)  
-To this:  
-  ![](img/game_base_text_clean_up_7.png)  
+     ![](img/game_base_text_clean_up_5-1.png)  
+     ![](img/game_base_text_clean_up_5-2.png)
+3. Now we have to delete all of the unnecessary translated strings we don't need. So, for every string ID, delete every line other than the first, so it goes from this:  
+   ![](img/game_base_text_clean_up_6.png)  
+   To this:  
+    ![](img/game_base_text_clean_up_7.png)
+
    - to do this quickly select the `,` from the line below to the start of the line the `,` is on, like so:  
-  ![](img/game_base_text_clean_up_8.png)
+     ![](img/game_base_text_clean_up_8.png)
    - press `Ctrl+Shift+L`, hold `Shift` and press `Arrow Up` enough times, so the selection looks like this:  
-  ![](img/game_base_text_clean_up_9.png)  
+     ![](img/game_base_text_clean_up_9.png)
    - press `Backspace` to delete all of the selected lines,
    - while your cursor is still in multiple places at once delete the spaces before the `,` for better readability, like so:  
-  ![](img/game_base_text_clean_up_10.png)
+     ![](img/game_base_text_clean_up_10.png)
 
-    - We suggest you delete the credits starting here:  
-![](img/game_base_text_clean_up_11.png)  
-And ending here:  
-![](img/game_base_text_clean_up_12.png)  
-As they do not need translation.
+   - We suggest you delete the credits starting here:  
+     ![](img/game_base_text_clean_up_11.png)  
+     And ending here:  
+     ![](img/game_base_text_clean_up_12.png)  
+     As they do not need translation.
 
 4. Finally, remove the `,` just before the `}` at the end of the file to finish the cleanup:  
-![](img/game_base_text_clean_up_13.png)
+   ![](img/game_base_text_clean_up_13.png)
 
 #### Step 2.4 - Compiling the Game and Testing the Language
 
 We need a test string to check if our language loads in the game properly. Let's replace the prompt to talk with a placeholder text:
+
 - in the `game_base_text_{LANG_CODE}.json` file we just cleaned up replace the string with ID `0104` with something else, like so:  
-![](img/placeholder_string_example.png)
+  ![](img/placeholder_string_example.png)
 
 1. Let's recompile the game and boot it to make sure it's still working. If you followed the build setup instructions you should be familiar with this, but to recap:
    - Open a terminal / command prompt at the root of the folder and enter `task repl`
    - Once the REPL loads, run `(mi)`
    - When the `(mi)` completes, open a separate terminal and run `task boot-game`
    - If everything boots up successfully, you should be able to see your new language in the menu, and selecting it shouldn't cause any errors!  
-![](img/ingame_lang_option_example.png)
-1.  Since we changed the string for the prompt to talk, turn around and approach Keira to see your placeholder text in place  
-![](img/ingame_lang_string_example.png)
+     ![](img/ingame_lang_option_example.png)
+1. Since we changed the string for the prompt to talk, turn around and approach Keira to see your placeholder text in place  
+   ![](img/ingame_lang_string_example.png)
 
 ### Step 3 - Translating Strings, Testing In-Game and submitting a PR
 
 At this point you're free to translate every single string to your desired language by editing these files:
-   - Base Game - `game_base_text_{LANG_CODE}.json` in `game/assets/{GAME_NAME}/text/`
-   - Custom Menus added by OpenGOAL -  `game_custom_text_{LANG_CODE}.json` in `game/assets/{GAME_NAME}/text/`
-   - Subtitles - `subtitle_lines_{LANG_CODE}.json` in `game/assets/{GAME_NAME}/subtitle/`
+
+- Base Game - `game_base_text_{LANG_CODE}.json` in `game/assets/{GAME_NAME}/text/`
+- Custom Menus added by OpenGOAL - `game_custom_text_{LANG_CODE}.json` in `game/assets/{GAME_NAME}/text/`
+- Subtitles - `subtitle_lines_{LANG_CODE}.json` in `game/assets/{GAME_NAME}/subtitle/`
 
 After editing each of these files you are able to see the changes you made without restarting the entire build, to do so:
+
 1. Rebuild the game using `(mi)` in REPL,
 2. Switch to a language other than the one you're editing,
 3. Switch back.

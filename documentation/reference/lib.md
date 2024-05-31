@@ -415,7 +415,7 @@ Note, if you define multiple variables in a `let`, you cannot refer to variables
 ### `let*`
 
 ```lisp
-(let ((var-name value)...) body...)
+(let* ((var-name value)...) body...)
 ```
 
 Define local variables. If you define multiple in a single `let*`, you can refer to previous variables.

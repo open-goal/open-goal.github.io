@@ -15,7 +15,7 @@ An "atom" in Lisp is a form that can't be broken down into smaller forms. For ex
 All integers are by default `int`, a signed 64-bit integer. You can use:
 
 - decimal: Like `123` or `-232`. The allowable range is `INT64_MIN` to `INT64_MAX`.
-- hex: Like `#x123`. The allowable range is `0` to `UINT64_MAX`. Values over `INT64_MAX` will wrap around.
+- hex: Like `#x123`. The allowable range is `0` to `UINT64_MAX`. Values over `UINT64_MAX` will wrap around.
 - binary: Like `#b10101010`. The range is the same as hex.
 - character:
   - Most can be written like `#\c` for the character `c`.

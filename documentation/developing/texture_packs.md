@@ -20,13 +20,13 @@ The structure of your texture pack (the file and directory names) must match the
 
 First make sure that the `save_texture_pngs` option is set to `true` in the [decompiler config file](https://github.com/open-goal/jak-project/blob/master/decompiler/config/jak1/jak1_config.jsonc#L111) for the game. You can find this file at `data/decompiler/config/jak1/jak1_config.jsonc`, or if you're using the OpenGOAL Launcher at `<your-install-directory>/active/jak1/data/decompiler/config/jak1/jak1_config.jsonc`. There's a separate `jak2/jak2_config.jsonc` file for Jak 2, so make sure you update the right one.
 
-Afterwards you'll need to run the decompiler/extractor again to extract the textures. Once that completes successfully you should find the extracted textures at `data/decompiler_out/jak1/textures`, or if you're using the OpenGOAL Launcher at `<your-install-directory>/active/jak1/data/decompiler_out/jak1/textures`. 
+Afterwards you'll need to run the decompiler/extractor again to extract the textures. Once that completes successfully you should find the extracted textures at `data/decompiler_out/jak1/textures`, or if you're using the OpenGOAL Launcher at `<your-install-directory>/active/jak1/data/decompiler_out/jak1/textures`.
 
 ![](./img/texture-dir-example0.png)
 
 ### Setting up `texture_replacements`
 
-Now you can see how the textures are laid out, and you can start setting up your texture pack. Let's say you want to change the Precursor Orb texture `egg-ndimadman.png`, which you can find in the `common` folder. 
+Now you can see how the textures are laid out, and you can start setting up your texture pack. Let's say you want to change the Precursor Orb texture `egg-ndimadman.png`, which you can find in the `common` folder.
 
 You can copy/paste the whole `common` folder into the `texture_replacements/jak1` folder. Then you can modify the PNG files directly in `texture_replacements/jak1/common`. Feel free to delete any textures you're not modifying - the decompiler will just continue using the original textures if it doesn't find a replacement in your pack.
 

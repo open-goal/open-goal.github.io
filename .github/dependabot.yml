@@ -10,12 +10,6 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
-    ignore:
-      # React 18 is not properly supported in docusaurus yet
-      - dependency-name: "react"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "react-dom"
-        update-types: ["version-update:semver-major"]
     groups:
       frontend-dependencies:
         patterns:

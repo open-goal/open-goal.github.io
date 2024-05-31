@@ -137,8 +137,13 @@ function scanFolder(fileList, gameName, progressDb) {
     fs.readFileSync(`./jak-project/goal_src/${gameName}/build/all_objs.json`),
   );
   for (const fileMeta of fileList) {
+    let obj_name = fileMeta[0];
+    let obj_ver = fileMeta[2];
+    let code_file =
+      ((gameName === "jak1" || gameName === "jak2") && obj_ver == 3) ||
+      (gameName === "jak3" && obj_ver == 5 && !obj_name.endsWith("-ag"));
     // Skip art files
-    if (fileMeta[2] == 3) {
+    if (code_file) {
       // Check it's line count
       let filePath = `./jak-project/goal_src/${gameName}/${fileMeta[4]}/${fileMeta[0]}.gc`;
       if (fs.existsSync(filePath)) {
@@ -170,6 +175,8 @@ function scanCasts(gameName) {
   let decompFolder = "jak1/ntsc_v1";
   if (gameName === "jak2") {
     decompFolder = "jak2/ntsc_v1";
+  } else if (gameName === "jak3") {
+    decompFolder = "jak3/ntsc_v1";
   }
   let stackCasts = parse(
     fs.readFileSync(
@@ -284,7 +291,7 @@ async function loadSheetData() {
 }
 
 function getSheetAssignmentFromName(objectName) {
-  for (const entry of sheetData) {
+  for (const entry of sheetData.rows) {
     if (entry.Name === objectName) {
       if ("Assign" in entry && entry.Assign !== "") {
         return entry.Assign;
@@ -409,10 +416,11 @@ function auditProcess(gameName, pulls, issues) {
     }
 
     // Update spreadsheet assignment
-    if (gameName === "jak2") {
-      // only jak 2 is in active development
+    if (gameName === "jak3") {
+      // only jak 3 is in active development
       const assignment = getSheetAssignmentFromName(fileName);
-      if (assignment !== null) {
+      if (assignment !== null && assignment !== undefined && assignment !== 0) {
+        // console.log(`File: ${fileName} - Assignment: ${assignment}`);
         const assignmentLenient = assignment.replace(" ", "").toLowerCase();
         if (assignmentLenient in sheetAssignmentMapping) {
           entry.assignedTo.sheet = sheetAssignmentMapping[assignmentLenient];
@@ -583,12 +591,13 @@ let issues = await getAllIssues();
 let issuesFiltered = [];
 // Filter out pull requests, all pull requests are issues -- not all issues are pull requests
 for (const issue of issues) {
-  if (!"pull_request" in issue) {
+  if ((!"pull_request") in issue) {
     issuesFiltered.push(issue);
   }
 }
 
 auditProcess("jak1", pullRequestHistory, issuesFiltered);
 auditProcess("jak2", pullRequestHistory, issuesFiltered);
+auditProcess("jak3", pullRequestHistory, issuesFiltered);
 
 // TODO - query a shared google drive sheet to get the same information

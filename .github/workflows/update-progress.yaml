@@ -21,11 +21,17 @@ jobs:
         run: git clone https://github.com/open-goal/jak-project.git
 
       - name: setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: yarn
           cache-dependency-path: scripts/progress-tracker/package.json
+
+      - name: Docusaurus Cache
+        uses: actions/cache@v4
+        with:
+          path: ./node_modules/.cache
+          key: docusaurus-build-cache-${{ hashFiles('yarn.lock') }}
 
       - name: Update Statistics
         env:

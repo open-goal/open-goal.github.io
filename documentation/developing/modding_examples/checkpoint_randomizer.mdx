@@ -14,7 +14,7 @@ description: A deep dive into the code changes for the Checkpoint Randomizer Mod
 
 ![](./img/checkpoint_randomizer/gambler.png)
 
-A little backstory to this mod - before OpenGOAL, there was actually a [predecessor that ran alongside the PCSX2 emulator](https://www.youtube.com/watch?v=jpYPk8eoDts), which would read from/write to PCSX2 memory, developed by [Ruh](https://www.youtube.com/@PunishedRuh). Around mid-2022 as OpenGOAL Jak 1 development was wrapping up, [MikeGamePro](https://github.com/MikeGamePro) and [Zed](https://github.com/Zedb0T) then ported the concept over to OpenGOAL. This is actually what sparked my interest in OpenGOAL modding, and how I met these guys 😅 Zed popped into my stream while I was trying out their original randomizer, we started talking about enhancements, and the rest is history. If you'd like to play this mod yourself, you can find it in the [Unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io/).
+A little backstory to this mod - before OpenGOAL, there was actually a [predecessor that ran alongside the PCSX2 emulator](https://www.youtube.com/watch?v=jpYPk8eoDts), which would read from/write to PCSX2 memory, developed by [Ruh](https://www.youtube.com/@PunishedRuh). Around mid-2022 as OpenGOAL Jak 1 development was wrapping up, [MikeGamePro](https://github.com/MikeGamePro) and [Zed](https://github.com/Zedb0T) then ported the concept over to OpenGOAL. This is actually what sparked my interest in OpenGOAL modding, and how I met these guys 😅 Zed popped into my stream while I was trying out their original randomizer, we started talking about enhancements, and the rest is history. If you'd like to play this mod yourself, you can find it in the [Unofficial Mod Launcher](https://jakmods.dev/).
 
 Initially, the intent of the mod was pretty straightforward - whenever you collect a Power Cell, it should warp you to a randomly selected checkpoint in the game. If you want to see what that looks like, check out this speedrun of that randomizer category from [OutrageousJosh](https://www.twitch.tv/outrageousjosh):
 
@@ -499,6 +499,8 @@ The implementation really isn't too complicated, but we don't really need to get
 Happy with these results, I switched the checkpoint randomizer over to using this new `knuth-rand` engine instead of `rand-vu`. Zed and I did some testing, and we could no longer reproduce the predictable checkpoints pairs Bin had called out with the `rand-vu` version. We released an update and asked her to try it out - she confirmed that the checkpoints felt truly random now 👍
 
 While it is not used in the vanilla OpenGOAL engine, the [`knuth-rand` library is included in the codebase](https://github.com/open-goal/jak-project/blob/bc40fc5d2f942b49b73bf43e7725ea21d971e191/goal_src/jak1/pc/util/knuth-rand.gc) for anyone to use.
+
+EDIT: Since the time when this page was originally written, the `rand-vu` engine has been improved upon! While it still doesn't replicate the PS2's `Q` register, it does now have an adequate [source of randomness](https://github.com/open-goal/jak-project/blob/a80cff9a4c5d3383ee959c3c68c594b426745f85/goal_src/jak1/engine/math/math.gc#L202) and should no longer produce the kinds of patterns shown above.
 
 ## RNG Options
 
@@ -1338,8 +1340,8 @@ With this knowledge, we can implement the various pieces for all the new randomi
 ## Appendix
 
 - [Using the OpenGOAL REPL](../repl)
-- [OpenGOAL unofficial Mod Launcher](https://opengoal-unofficial-mods.github.io)
-- [OpenGOAL Mod Base - Github](https://opengoal-unofficial-mods.github.io/modbaseRedirect.html)
+- [OpenGOAL unofficial Mod Launcher](https://jakmods.dev)
+- [OpenGOAL Mod Base - Github](https://jakmods.dev/modbaseRedirect.html)
 - [OpenGOAL Randomizer Mod Pack - Github](https://github.com/OpenGOAL-Unofficial-Mods/opengoal-randomizer-mod-pack)
   - [Full Diff](https://github.com/dallmeyer/jak-project/compare/master...dallmeyer:jak-project:rando?w=1#files_bucket)
 - [OpenGOAL Language Reference](../../reference)

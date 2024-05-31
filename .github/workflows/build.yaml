@@ -21,12 +21,18 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: yarn
 
+      - name: Docusaurus Cache
+        uses: actions/cache@v4
+        with:
+          path: ./node_modules/.cache
+          key: docusaurus-build-cache-${{ hashFiles('yarn.lock') }}
+
       - name: Build Website
         env:
-          process.env.DOCUSAURUS_SSR_CONCURRENCY: 2
+          process.env.DOCUSAURUS_SSR_CONCURRENCY: 4
         run: yarn cf-pages-deploy

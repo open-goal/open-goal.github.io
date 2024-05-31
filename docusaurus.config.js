@@ -10,7 +10,7 @@ const darkCodeTheme = themes.dracula;
 const config = {
   title: "OpenGOAL",
   tagline: "Reviving the Language that Brought us the Jak and Daxter Series",
-  url: "https://open-goal.github.io",
+  url: "https://opengoal.dev",
   baseUrl: "/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "throw",
@@ -66,12 +66,16 @@ const config = {
       }),
     ],
   ],
+  plugins: [
+    // @ts-ignore
+    customizedSvgo,
+  ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       announcementBar: {
-        id: "announcementBar-9", // Increment on change
-        content: `<a href="/blog/progress-report-nov-2023">Check out November's Progress Report Here!</a>`,
+        id: "announcementBar-13", // Increment on change
+        content: `<a href="/blog/progress-report-apr-2024">Check out April's Progress Report Here!</a>`,
       },
       algolia: {
         // The application ID provided by Algolia
@@ -118,6 +122,10 @@ const config = {
               {
                 label: "Jak II - Decompilation",
                 to: "/progress/jak2",
+              },
+              {
+                label: "Jak 3 - Decompilation",
+                to: "/progress/jak3",
               },
             ],
           },
@@ -182,5 +190,40 @@ const config = {
     }),
   },
 };
+
+function customizedSvgo() {
+  return {
+    name: "docusaurus-svgo",
+    configureWebpack(config) {
+      // allow svgr to use svgo config file
+      for (const rule of config.module.rules) {
+        if (typeof rule === "object" && rule.test.toString() === "/\\.svg$/i") {
+          for (const nestedRule of rule.oneOf) {
+            if (nestedRule.use instanceof Array) {
+              for (const loader of nestedRule.use) {
+                if (
+                  typeof loader === "object" &&
+                  loader.loader === require.resolve("@svgr/webpack")
+                ) {
+                  if (typeof loader.options === "object") {
+                    loader.options.svgoConfig = null;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      return {
+        mergeStrategy: {
+          "module.rules": "replace",
+        },
+        module: {
+          rules: config.module.rules,
+        },
+      };
+    },
+  };
+}
 
 module.exports = config;
