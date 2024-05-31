@@ -7,6 +7,17 @@ import { CardActionArea } from "@mui/material";
 
 const BlogList = [
   {
+    title: "Progress Report - May 2024",
+    image: require("@site/blog/progress-report-may-2024/img/poster.png")
+      .default,
+    description: (
+      <>
+        Jak 3 decompilation is nearing completion.
+      </>
+    ),
+    link: "/blog/progress-report-may-2024",
+  },
+  {
     title: "Progress Report - April 2024",
     image: require("@site/blog/progress-report-apr-2024/img/poster.png")
       .default,
@@ -28,18 +39,6 @@ const BlogList = [
       </>
     ),
     link: "/blog/progress-report-mar-2024",
-  },
-  {
-    title: "Progress Report - February 2024",
-    image: require("@site/blog/progress-report-feb-2024/img/poster.png")
-      .default,
-    description: (
-      <>
-        Jak 3 decompilation progress is in full swing, as well as a few notable
-        additions to the other games.
-      </>
-    ),
-    link: "/blog/progress-report-feb-2024",
   }
 ];
 
