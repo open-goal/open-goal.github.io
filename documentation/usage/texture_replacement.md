@@ -30,6 +30,10 @@ Next you'll want to enable the pack and apply the changes, and that should be it
 
 ### Manually
 
+:::info
+Anytime you see `<GAME>` it is a placeholder text that you need to replace with the specific game you are replacing textures for.
+:::
+
 If you don't want to use this feature, or the texture pack is not in the correct format, you can apply texture replacements yourself manually.
 
 Navigate to the folder that you set as the Installation Directory. You can find this in the settings page.
