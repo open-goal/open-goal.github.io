@@ -18,7 +18,7 @@ The structure of your texture pack (the file and directory names) must match the
 
 ### Extracting original textures
 
-First make sure that the `save_texture_pngs` option is set to `true` in the [decompiler config file](https://github.com/open-goal/jak-project/blob/master/decompiler/config/jak1/jak1_config.jsonc#L111) for the game. You can find this file at `data/decompiler/config/jak1/jak1_config.jsonc`, or if you're using the OpenGOAL Launcher at `<your-install-directory>/active/jak1/data/decompiler/config/jak1/jak1_config.jsonc`. There's a separate `jak2/jak2_config.jsonc` file for Jak 2, so make sure you update the right one.
+First make sure that the `save_texture_pngs` option is set to `true` in the [decompiler config file](https://github.com/open-goal/jak-project/blob/master/decompiler/config/jak1/jak1_config.jsonc#L123) for the game. You can find this file at `data/decompiler/config/jak1/jak1_config.jsonc`, or if you're using the OpenGOAL Launcher at `<your-install-directory>/active/jak1/data/decompiler/config/jak1/jak1_config.jsonc`. There's a separate `jak2/jak2_config.jsonc` file for Jak 2, so make sure you update the right one.
 
 Afterwards you'll need to run the decompiler/extractor again to extract the textures. Once that completes successfully you should find the extracted textures at `data/decompiler_out/jak1/textures`, or if you're using the OpenGOAL Launcher at `<your-install-directory>/active/jak1/data/decompiler_out/jak1/textures`.
 
