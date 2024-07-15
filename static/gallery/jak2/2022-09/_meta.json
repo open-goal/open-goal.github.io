@@ -1,0 +1,72 @@
+[
+  {
+    "name": "water-first-jak2-screenshot.png",
+    "caption": "water111 shares the first screenshot of Jak 2 (partially) running!",
+    "timestamp": "2022-09-02"
+  },
+  {
+    "name": "prison-actor-vis.png",
+    "caption": "\"loading PRI.DGO and viewing actor vis - amazingly it just kinda worked on the first try\" -water111",
+    "timestamp": "2022-09-16"
+  },
+  {
+    "name": "tfrag.png",
+    "caption": "\"tfrag already works?\" -Hat Kid (the answer is mostly yes)",
+    "timestamp": "2022-09-17"
+  },
+  {
+    "name": "two-levels.png",
+    "caption": "Loading two levels",
+    "timestamp": "2022-09-18"
+  },
+  {
+    "name": "early-actor-marks.png",
+    "caption": "Actor marks around ctysluma",
+    "timestamp": "2022-09-18"
+  },
+  {
+    "name": "shrubbery.png",
+    "caption": "Bring me a shrubbery!",
+    "timestamp": "2022-09-24"
+  },
+  {
+    "name": "ctysluma-1.png",
+    "caption": "ctysluma looking a little more recognizable",
+    "timestamp": "2022-09-24"
+  },
+  {
+    "name": "ctysluma-2.png",
+    "caption": "",
+    "timestamp": "2022-09-24"
+  },
+  {
+    "name": "prison-1.png",
+    "caption": "Yay prison?",
+    "timestamp": "2022-09-24"
+  },
+  {
+    "name": "ctywide-1.png",
+    "caption": "",
+    "timestamp": "2022-09-27"
+  },
+  {
+    "name": "pause.png",
+    "caption": "dEbuGgInG tExT sTuFf",
+    "timestamp": "2022-09-27"
+  },
+  {
+    "name": "mandude-debug-wr.png",
+    "caption": "Debug menu is functional and ManDude becomes the first one to \"beat the game\"",
+    "timestamp": "2022-09-27"
+  },
+  {
+    "name": "bsp-viz.png",
+    "caption": "A new debug visualization in Jak 2: bsp-leaf boundaries",
+    "timestamp": "2022-09-30"
+  },
+  {
+    "name": "time-of-day.png",
+    "caption": "Time-of-day now allows for different weights for red green and blue. Here the ground is drawn with Jak 1's system, the building with Jak 2's",
+    "timestamp": "2022-09-30"
+  }
+]

@@ -141,15 +141,20 @@ const config = {
           { to: "/docs/faq", label: "FAQ", position: "left" },
           {
             label: "Galleries",
+            to: "/docs/category/galleries",
             position: "left",
             items: [
               {
                 label: "Jak and Daxter: The Precursor Legacy",
-                to: "/gallery/jak1",
+                to: "/docs/category/jak-and-daxter-galleries",
               },
               {
                 label: "Jak II",
-                to: "/gallery/jak2",
+                to: "/docs/category/jak-ii-galleries",
+              },
+              {
+                label: "Jak 3",
+                to: "/docs/category/jak-3-galleries",
               },
             ],
           },

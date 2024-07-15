@@ -1,0 +1,128 @@
+[
+  {
+    "name": "collision-3.png",
+    "caption": "Collision renderer",
+    "timestamp": "2023-07-04"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1127360792094851112/sky-2023-07-08_18.08.24.mp4",
+    "caption": "Long-awaited texture animations!",
+    "timestamp": "2023-07-08",
+    "name": "tex-anim-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1129482344236060864/darkjak-2023-07-14_14.38.39.mp4",
+    "caption": "Texture morphing gives Dark Jak his purple color",
+    "timestamp": "2023-07-14",
+    "name": "tex-anim-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1129495086271582318/cutscene-2023-07-14_15.29.23.mp4",
+    "caption": "Works in cutscenes too",
+    "timestamp": "2023-07-14",
+    "name": "tex-anim-3",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1129869703188328448/gems-2023-07-15_16.17.49.mp4",
+    "caption": "Skull gems use texture animations as well",
+    "timestamp": "2023-07-15",
+    "name": "tex-anim-4",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1130176062287007744/conveyor-2023-07-16_12.35.35.mp4",
+    "caption": "Conveyor belt animation",
+    "timestamp": "2023-07-15",
+    "name": "tex-anim-5",
+    "video": true
+  },
+  {
+    "name": "progress-6.png",
+    "caption": "ManDude tidying up progress menu alignment, one by one",
+    "timestamp": "2023-07-21"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1131987733175349248/waterfall-2023-07-21_12.34.33.mp4",
+    "caption": "Easily overlooked texture animation in the waterfall (sprites turned off here)",
+    "timestamp": "2023-07-21",
+    "name": "tex-anim-6",
+    "video": true
+  },
+  {
+    "name": "tex-anim-7.png",
+    "caption": "\"lol I never realized that these treads are animated. They even go at different speeds during a turn. Naughty Dog is good at adding details that nobody ever notices\" -water111",
+    "timestamp": "2023-07-21"
+  },
+  {
+    "name": "tex-anim-8.png",
+    "caption": "Another underappreciated texture animation",
+    "timestamp": "2023-07-21"
+  },
+  {
+    "name": "bigmap-1.png",
+    "caption": "The map in the progress menu is composed of these differently 'colored' regions, which individually fill out as you progress through a level",
+    "timestamp": "2023-07-21"
+  },
+  {
+    "name": "progress-7.png",
+    "caption": "Textures within the progress menu are starting to work",
+    "timestamp": "2023-07-23"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1132715037220409628/title-2023-07-23_12.44.02.mp4",
+    "caption": "Billboard sprites get fixed!",
+    "timestamp": "2023-07-23",
+    "name": "sprites-1",
+    "video": true
+  },
+  {
+    "name": "progress-8.png",
+    "caption": "",
+    "timestamp": "2023-07-24"
+  },
+  {
+    "name": "progress-9.png",
+    "caption": "",
+    "timestamp": "2023-07-24"
+  },
+  {
+    "name": "progress-10.png",
+    "caption": "",
+    "timestamp": "2023-07-24"
+  },
+  {
+    "name": "smurf-1.png",
+    "caption": "A short-lived bug where the dark eco texture morph wasn't cleared after one of the Oracle cutscenes",
+    "timestamp": "2023-07-24"
+  },
+  {
+    "name": "generic-merc-10.png",
+    "caption": "Still some annoying warp effect bugs",
+    "timestamp": "2023-07-24"
+  },
+  {
+    "name": "progress-11.png",
+    "caption": "\"This title isn't centered wtf Naughty Dog!!\" -ManDude",
+    "timestamp": "2023-07-25"
+  },
+  {
+    "name": "yakow-1.png",
+    "caption": "The yakows are actually missing a texture for these areas in gray",
+    "timestamp": "2023-07-29"
+  },
+  {
+    "name": "yakow-2.png",
+    "caption": "OpenGOAL attempts to fix this by re-using some nearby textures",
+    "timestamp": "2023-07-29"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1134929255705362442/menu-2023-07-29_15.22.40.mp4",
+    "caption": "water111 fixes up the progress menu so it doesn't flash with a single all-black frame",
+    "timestamp": "2023-07-29",
+    "name": "progress-12",
+    "video": true
+  }
+]

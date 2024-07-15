@@ -7,9 +7,6 @@ import pillow_avif
 
 galleryMap = {
   'jak1': {
-    'name': "Jak and Daxter: The Precursor Legacy",
-    'metaTitle': "Jak and Daxter: The Precursor Legacy Galleries",
-    'metaDescription': "A collection of images taken with OpenGOAL as well as during its development running Jak and Daxter: The Precursor Legacy",
     'galleries': {
       'promo': {
         'name': "Promo Gallery",
@@ -26,14 +23,93 @@ galleryMap = {
     }
   },
   'jak2': {
-    'name': "Jak II",
-    'metaTitle': "Jak II Galleries",
-    'metaDescription': "A collection of images taken with OpenGOAL as well as during its development running Jak II",
     'galleries': {
-      'dev': {
-        'name': "Development Gallery",
+      '2022-09': {
+        'name': "Development - Sept 2022",
         'description': "Various pictures and videos we took while working on Jak II.",
-        'folder': 'jak2/dev',
+        'folder': 'jak2/2022-09',
+        'media': []
+      },
+      '2022-10': {
+        'name': "Development - Oct 2022",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2/2022-10',
+        'media': []
+      },
+      '2022-11': {
+        'name': "Development - Nov 2022",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2/2022-11',
+        'media': []
+      },
+      '2022-12': {
+        'name': "Development - Dec 2022",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2/2022-12',
+        'media': []
+      },
+      '2023-01': {
+        'name': "Development - Jan 2023",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2/2023-01',
+        'media': []
+      },
+      '2023-02': {
+        'name': "Development - Feb 2023",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2/2023-02',
+        'media': []
+      },
+      '2023-03': {
+        'name': "Development - Mar 2023",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2/2023-03',
+        'media': []
+      },
+      '2023-04': {
+        'name': "Development - Apr 2023",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2/2023-04',
+        'media': []
+      },
+      '2023-05': {
+        'name': "Development - May 2023",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2/2023-05',
+        'media': []
+      },
+      '2023-06': {
+        'name': "Development - Jun 2023",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2/2023-06',
+        'media': []
+      },
+      '2023-07': {
+        'name': "Development - Jul 2023",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2/2023-07',
+        'media': []
+      },
+      '2023-08': {
+        'name': "Development - Aug 2023",
+        'description': "Various pictures and videos we took while working on Jak II.",
+        'folder': 'jak2/2023-08',
+        'media': []
+      }
+    }
+  },
+  'jak3': {
+    'galleries': {
+      'early': {
+        'name': "Early Development",
+        'description': "Various pictures and videos we took while working on Jak 3.",
+        'folder': 'jak3/early',
+        'media': []
+      },
+      '2024-04': {
+        'name': "Development - Apr 2024",
+        'description': "Various pictures and videos we took while working on Jak 3.",
+        'folder': 'jak3/2024-04',
         'media': []
       }
     }
@@ -122,35 +198,42 @@ def init_gallery(gallery):
       sub_gallery["media"] = init_media_links(folder_to_search, meta_file)
 
 
-def generate_gallery(gallery, out_path):
-  # Read in the gallery templates
-  master_template_file = ""
-  with open('./scripts/gallery-updater/gallery-master.template', 'r', encoding='utf-8') as f:
-    master_template_file = f.read()
-  gallery_template_file = ""
-  with open('./scripts/gallery-updater/gallery.template', 'r', encoding='utf-8') as f:
-    gallery_template_file = f.read()
-
-  # Replace title and description
-  master_template_file = master_template_file.replace("___TITLE___", gallery["metaTitle"])
-  master_template_file = master_template_file.replace("___DESCRIPTION___", gallery["metaDescription"])
-  master_template_file = master_template_file.replace("___GALLERY-TITLE___", gallery["name"])
-
+def generate_gallery(gallery, src_out_dir, mdx_out_dir):
   # Generate each (sub-)gallery
-  galleries_text = ""
-  for _, sub_gallery in gallery["galleries"].items():
+  sidebar_position = 0
+  for key, sub_gallery in gallery["galleries"].items():
+    # Get full path for files to generate
+    src_out_path_no_ext = f"{src_out_dir}/{key}"
+    src_out_path = f"{src_out_path_no_ext}.js"
+    mdx_out_path = f"{mdx_out_dir}/{key}.mdx"
+
+    # Read in the gallery templates
+    mdx_template_file = ""
+    with open('./scripts/gallery-updater/gallery-mdx.template', 'r', encoding='utf-8') as f:
+      mdx_template_file = f.read()
+    gallery_template_file = ""
+    with open('./scripts/gallery-updater/gallery.template', 'r', encoding='utf-8') as f:
+      gallery_template_file = f.read()
+
+    # Replace fields in mdx
+    mdx_template_file = mdx_template_file.replace("___TITLE___", sub_gallery["name"])
+    mdx_template_file = mdx_template_file.replace("___DESCRIPTION___", sub_gallery["description"])
+    mdx_template_file = mdx_template_file.replace("___SIDEBAR-POSITION___", str(sidebar_position))
+    mdx_template_file = mdx_template_file.replace("___GALLERY-SRC-PATH___", src_out_path_no_ext)
+    sidebar_position += 1
+
+    # Replace gallery title and description
+    gallery_template_file = gallery_template_file.replace("___TITLE___", sub_gallery["name"])
+    gallery_template_file = gallery_template_file.replace("___DESCRIPTION___", sub_gallery["description"])
+
     # Generate the actual images, 3 per row
     row_count = 0
     gallery_items = ""
-    current_gallery_content = gallery_template_file
-    # Replace gallery title and description
-    current_gallery_content = current_gallery_content.replace("___TITLE___", "{}".format(sub_gallery["name"]))
-    current_gallery_content = current_gallery_content.replace("___DESCRIPTION___", sub_gallery["description"])
     for idx, media_entry in enumerate(sub_gallery["media"]):
       timestamp_prefix = '[{}] '.format(media_entry["timestamp"]) if media_entry["timestamp"] else ""
-      if row_count % 4 == 0:
+      if row_count % 3 == 0:
         gallery_items = gallery_items + '            <div className="row center">\n'
-      gallery_items = gallery_items + '              <div className="col col--3" style={{textAlign: \'center\'}}>\n'
+      gallery_items = gallery_items + '              <div className="col" style={{textAlign: \'center\'}}>\n'
       if media_entry["video"]:
         gallery_items = gallery_items + '                <ReactPlayer controls width=\'100%\' url="{}" title="{}{}"></ReactPlayer>\n'.format(media_entry["link"], timestamp_prefix, media_entry["caption"].replace('\"', ''))
       else:
@@ -160,21 +243,22 @@ def generate_gallery(gallery, out_path):
       gallery_items = gallery_items + '                <blockquote style={{margin: "auto", display: "table"}}>' + '{}{}</blockquote>\n'.format(timestamp_prefix, media_entry["caption"])
       gallery_items = gallery_items + '              </div>\n'
       row_count = row_count + 1
-      if row_count % 4 == 0 or idx == len(sub_gallery["media"]) - 1:
+      if row_count % 3 == 0 or idx == len(sub_gallery["media"]) - 1:
         gallery_items = gallery_items + '            </div>\n'
-    current_gallery_content = current_gallery_content.replace("___ENTRIES___", gallery_items)
-    galleries_text = galleries_text + current_gallery_content
+    gallery_template_file = gallery_template_file.replace("___ENTRIES___", gallery_items)
 
-  # write all the galleries now
-  master_template_file = master_template_file.replace("___GALLERIES___", galleries_text)
-
-  with open(out_path, 'w', encoding='utf-8') as f:
-    f.write(master_template_file)
+    # write the mdx and src files
+    with open(mdx_out_path, 'w', encoding='utf-8') as f:
+      f.write(mdx_template_file)
+    with open(src_out_path, 'w', encoding='utf-8') as f:
+      f.write(gallery_template_file)
 
 # generate the gallery data
 init_gallery(galleryMap['jak1'])
 init_gallery(galleryMap['jak2'])
+init_gallery(galleryMap['jak3'])
 
 # write the actual gallery pages
-generate_gallery(galleryMap['jak1'], "./src/pages/gallery/jak1.js")
-generate_gallery(galleryMap['jak2'], "./src/pages/gallery/jak2.js")
+generate_gallery(galleryMap['jak1'], "./src/pages/gallery/jak1", "./documentation/gallery/jak1")
+generate_gallery(galleryMap['jak2'], "./src/pages/gallery/jak2", "./documentation/gallery/jak2")
+generate_gallery(galleryMap['jak3'], "./src/pages/gallery/jak3", "./documentation/gallery/jak3")

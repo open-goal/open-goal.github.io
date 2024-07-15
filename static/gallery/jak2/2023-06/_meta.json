@@ -1,0 +1,150 @@
+[
+  {
+    "name": "generic-merc-9.png",
+    "caption": "Warp effect and fog still not cooperating",
+    "timestamp": "2023-06-05"
+  },
+  {
+    "name": "metalkor-3.png",
+    "caption": "Whatever was breaking metalkor was apparently fixed?",
+    "timestamp": "2023-06-06"
+  },
+  {
+    "name": "discord-1.png",
+    "caption": "Early Discord RPC support",
+    "timestamp": "2023-06-07"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1116438112004997200/20230608194500648_gk_zVN6YU8K9G.webm",
+    "caption": "Misc voicelines",
+    "timestamp": "2023-06-08",
+    "name": "subtitles-7",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1116548714664837221/blerd-2023-06-08_22.04.54.mp4",
+    "caption": "\"Behold the high precision floating point blerc\" -water111",
+    "timestamp": "2023-06-08",
+    "name": "blerf-1",
+    "video": true
+  },
+  {
+    "name": "blerf-2.png",
+    "caption": "The younger Jak model in Jak 2 has a beard hidden inside his face",
+    "timestamp": "2023-06-08"
+  },
+  {
+    "name": "intro-5.png",
+    "caption": "Low LOD metalheads...",
+    "timestamp": "2023-06-08"
+  },
+  {
+    "name": "intro-6.png",
+    "caption": "... vs high LOD metalheads",
+    "timestamp": "2023-06-08"
+  },
+  {
+    "name": "blerf-3.png",
+    "caption": "",
+    "timestamp": "2023-06-10"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1117520111461470448/2023-06-11_20-21-11.mp4",
+    "caption": "Hiphog mirror is breaking the new blerf renderer",
+    "timestamp": "2023-06-11",
+    "name": "blerf-4",
+    "video": true
+  },
+  {
+    "name": "nest-1.png",
+    "caption": "\"lol they just didnt make the particle effects for this level\" -ManDude",
+    "timestamp": "2023-06-14"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1119023270537199636/20230615224839960_Discord_lhMzx2dHFD-25M.mp4",
+    "caption": "The vortex effect actually speeds up time in-game (watch the stars in Sandover), so you get this weird side effect in the Discord RPC",
+    "timestamp": "2023-06-15",
+    "name": "discord-2",
+    "video": true
+  },
+  {
+    "name": "lights-1.png",
+    "caption": "\"Kinda cool, they actually placed foreground lights in jak 2. In jak 1, there were like 5 in the whole game, because each light had to be manually programmed\" -water111",
+    "timestamp": "2023-06-17"
+  },
+  {
+    "name": "tess-1.png",
+    "caption": "\"She just does this off camera for some reason\" -ManDude",
+    "timestamp": "2023-06-17"
+  },
+  {
+    "name": "screenshots-1.png",
+    "caption": "Native screenshots work in high-quality and with MSAA",
+    "timestamp": "2023-06-18"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1120407750749474848/20230619183826856_gk_gqFYqd2V8r.webm",
+    "caption": "Originally once you beat the game, the carrier wouldn't return to the port here. In OpenGOAL this is fixed, allowing you to return to the metalhead nest!",
+    "timestamp": "2023-06-19",
+    "name": "nest-2",
+    "video": true
+  },
+  {
+    "name": "softlock-1.png",
+    "caption": "You can softlock yourself out of this orb in the original game, because it doesn't spawn in the later versions of the sewers level. Another thing fixed in OpenGOAL",
+    "timestamp": "2023-06-19"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1121055566077382726/20230621131914359_gk_qvqeVUpSRe.mp4",
+    "caption": "An unused variation of the racepoint side mission.",
+    "timestamp": "2023-06-21",
+    "name": "bbush-1",
+    "video": true
+  },
+  {
+    "name": "bbush-2.png",
+    "caption": "Another unused racepoint side mission, strangely using the Onin tent icon",
+    "timestamp": "2023-06-21"
+  },
+  {
+    "name": "krew-1.png",
+    "caption": "\"There's meant to be an elec gate visible from the krew boss but it's too far away on PS2\" -ManDude",
+    "timestamp": "2023-06-21"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1121956078951878748/20230624011207492_gk_8tMCAHloNd.webm",
+    "caption": "\"I just softlocked the game... wait... the game is just running at like 2fps... I'm in an infinite loop of mission fails\" -ManDude",
+    "timestamp": "2023-06-23",
+    "name": "bbush-3",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1122567021813583892/sky-2023-06-25_12.39.48.mp4",
+    "caption": "Clouds!",
+    "timestamp": "2023-06-25",
+    "name": "clouds-1",
+    "video": true
+  },
+  {
+    "name": "softlock-2.png",
+    "caption": "Another original game bug - if you exit out of the stadium races too quickly, you can softlock yourself out of the orbs.",
+    "timestamp": "2023-06-27"
+  },
+  {
+    "name": "softlock-3.png",
+    "caption": "It's now patched in OpenGOAL, but testing the fix and getting gold in these was actually kinda challenging",
+    "timestamp": "2023-06-27"
+  },
+  {
+    "name": "race-3.png",
+    "caption": "These textures work during races now",
+    "timestamp": "2023-06-28"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1124172204117069904/20230630035200279_gk_hU7U84lXsC.webm",
+    "caption": "Progress menu transitions at 150% speed",
+    "timestamp": "2023-06-29",
+    "name": "progress-5",
+    "video": true
+  }
+]
