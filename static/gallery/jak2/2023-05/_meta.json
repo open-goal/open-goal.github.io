@@ -1,0 +1,135 @@
+[
+  {
+    "name": "sprite-distort-1.png",
+    "caption": "\"Sprite distort doesnt appear to be working very well...\" -ManDude",
+    "timestamp": "2023-05-01"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1102748878324903956/out3.mp4",
+    "caption": "\"I improved the aiming\" -water111",
+    "timestamp": "2023-05-01",
+    "name": "guns-5",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1102750202194038894/misty_thing-2023-05-01_20.14.45.mp4",
+    "caption": "WARNING: LOUD",
+    "timestamp": "2023-05-01",
+    "name": "guns-6",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1102750287883677696/20230502011508052_gk_ovWJtUNVsE.webm",
+    "caption": "\"They changed literally nothing for Jak 2 [sprite distort], our shaders just needed some modifications\" -ManDude",
+    "timestamp": "2023-05-01",
+    "name": "sprite-distort-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1102769619791528017/2023-05-02_03-31-10.mp4",
+    "caption": "\"I somehow entered this cursed state\" -Hat Kid",
+    "timestamp": "2023-05-01",
+    "name": "race-3",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1103435612108898415/20230503223822385_gk_TMX6MPdxk6.webm",
+    "caption": "Progress menu clean up",
+    "timestamp": "2023-05-03",
+    "name": "progress-4",
+    "video": true
+  },
+  {
+    "name": "rac-1.png",
+    "caption": "These Rachet & Clank posters were only showing up while paused",
+    "timestamp": "2023-05-04"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1104465235194167296/shadow_stuff-2023-05-06_13.33.11.mp4",
+    "caption": "\"Some progress on a rewritten Shadow2 renderer. It's still using the EE mips2c stuff from shadow-cpu, but the Shadow_PS2.cpp VU1 stuff isn't being used\" -water111",
+    "timestamp": "2023-05-06",
+    "name": "shadow-debug-5",
+    "video": true
+  },
+  {
+    "name": "shadow-debug-6.png",
+    "caption": "Shadows still look different from PS2, and are buggy in some places",
+    "timestamp": "2023-05-06"
+  },
+  {
+    "name": "shadow-debug-7.png",
+    "caption": "\"Halving the shadow colors seems to be correct\" -ManDude",
+    "timestamp": "2023-05-06"
+  },
+  {
+    "name": "collision-2.png",
+    "caption": "\"For some reason the noboard flag is used as extra wall for cars and stuff (instead of nopilot) and these walls lack that [so you can drive right through]\" -ManDude",
+    "timestamp": "2023-05-07"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1105901684338741419/2023-05-10_18-55-58.mp4",
+    "caption": "OpenGOAL exclusive secrets?",
+    "timestamp": "2023-05-10",
+    "name": "secrets-1",
+    "video": true
+  },
+  {
+    "name": "castle-1.png",
+    "caption": "\"This thing now renders!\" -ManDude",
+    "timestamp": "2023-05-14"
+  },
+  {
+    "name": "traffic-manager-3.png",
+    "caption": "Speedrunners noticed that guard spawns seemed out of place, turns out there was a bug in the spawn ranges",
+    "timestamp": "2023-05-14"
+  },
+  {
+    "name": "orb-2.png",
+    "caption": "ManDude resorted to cheating to find all the orbs",
+    "timestamp": "2023-05-16"
+  },
+  {
+    "name": "subtitles-2.png",
+    "caption": "Subtitle editor improvements",
+    "timestamp": "2023-05-17"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1109554751261126756/2023-05-20_20-53-17.mp4",
+    "caption": "Unused voicelines when Jak hijacks a vehicle",
+    "timestamp": "2023-05-20",
+    "name": "secrets-2",
+    "video": true
+  },
+  {
+    "name": "subtitles-3.png",
+    "caption": "More subtitle editor improvements",
+    "timestamp": "2023-05-23"
+  },
+  {
+    "name": "subtitles-4.png",
+    "caption": "",
+    "timestamp": "2023-05-23"
+  },
+  {
+    "name": "subtitles-5.png",
+    "caption": "",
+    "timestamp": "2023-05-24"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1113176985640902836/2023-05-30_20-45-24.mp4",
+    "caption": "Each audio line gets queued, and originally it was showing the subtitles prematurely",
+    "timestamp": "2023-05-30",
+    "name": "subtitles-6",
+    "video": true
+  },
+  {
+    "name": "oracle-1.png",
+    "caption": "\"I love how the oracle is actually just Daxter... FORESHADOWING?????\" -ManDude",
+    "timestamp": "2023-05-31"
+  },
+  {
+    "name": "demo-1.png",
+    "caption": "Kiosk (demo) mode partially works",
+    "timestamp": "2023-05-31"
+  }
+]
