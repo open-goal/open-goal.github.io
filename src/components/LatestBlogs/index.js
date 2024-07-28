@@ -7,6 +7,17 @@ import { CardActionArea } from "@mui/material";
 
 const BlogList = [
   {
+    title: "Progress Report - July 2024",
+    image: require("@site/blog/progress-report-july-2024/img/poster.png")
+      .default,
+    description: (
+      <>
+        Jak 3 finally gets music and cutscene support and plenty of bugfixes.
+      </>
+    ),
+    link: "/blog/progress-report-july-2024",
+  },
+  {
     title: "Progress Report - June 2024",
     image: require("@site/blog/progress-report-june-2024/img/poster.png")
       .default,
@@ -27,17 +38,6 @@ const BlogList = [
       </>
     ),
     link: "/blog/progress-report-may-2024",
-  },
-  {
-    title: "Progress Report - April 2024",
-    image: require("@site/blog/progress-report-apr-2024/img/poster.png")
-      .default,
-    description: (
-      <>
-        Jak 3 progress is skyrocketing.
-      </>
-    ),
-    link: "/blog/progress-report-apr-2024",
   }
 ];
 
