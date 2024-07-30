@@ -73,3 +73,7 @@ Where `page_name` is the name of the folder in `decompiler_out/jak1/textures` an
 :::tip
 You'll have to create the `texture_replacements` folder yourself.
 :::
+
+:::caution
+In older releases, you'll need to leave out the `custom_assets/<GAME>` portion of the path - e.g. `data/texture_replacements/page_name/texture_name.png` instead of `data/custom_assets/<GAME>/texture_replacements/page_name/texture_name.png`
+:::
