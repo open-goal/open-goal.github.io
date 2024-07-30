@@ -37,7 +37,7 @@ Navigate to the folder that you set as the Installation Directory. You can find 
 From there, you'll want to create a `texture_replacements/` folder in the following directory:
 
 ```
-<INSTALLATION_DIRECTORY>/active/<GAME>/data
+<INSTALLATION_DIRECTORY>/active/<GAME>/data/custom_assets/<GAME>
 ```
 
 And copy your texture replacements into it.
@@ -51,7 +51,7 @@ Once this is done, you'll need to `Decompile` the game:
 Create a folder called `texture_replacements` inside the `data` directory. The directory structure should be
 
 ```
-data/texture_replacements/page_name/texture_name.png
+data/custom_assets/<GAME>/texture_replacements/page_name/texture_name.png
 ```
 
 Where `page_name` is the name of the folder in `data/decompiler_out/jak1/textures` and `texture_name.png` is the name of the texture.
@@ -68,4 +68,8 @@ Where `page_name` is the name of the folder in `decompiler_out/jak1/textures` an
 
 :::tip
 You'll have to create the `texture_replacements` folder yourself.
+:::
+
+:::caution
+In older releases, you'll need to leave out the `custom_assets/<GAME>` portion of the path - e.g. `data/texture_replacements/page_name/texture_name.png` instead of `data/custom_assets/<GAME>/texture_replacements/page_name/texture_name.png`
 :::
