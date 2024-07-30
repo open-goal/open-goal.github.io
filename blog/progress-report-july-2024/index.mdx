@@ -81,11 +81,15 @@ The prim renderer has now been implemented. It's used for a variety of effects, 
 - "New" lightning effects (in addition to the [old lightning renderer](https://www.youtube.com/watch?v=-Sawjr8fJQ0) from Jak 2), e.g. Arc Wielder, Dark Jak projectile attack.
 - "Light trails", e.g. Beam Reflexor, Plasmite RPG trail, Dune Hopper grenade trail, vehicle tire tracks, etc.
 
+With the implementation of `prim`, there are now only a couple of graphical effects missing, namely some new full screen effects like the screen blur + whiteout that occurs in some cutscenes or when firing the Super Nova.
+
 ![New Lightning on Arc Wielder](img/poster.png)
 
-<ReactPlayer controls url={require("./video/cloth.mp4").default} />
-
-TODO small compilation video here
+<ReactPlayer
+  controls
+  url={"https://www.youtube.com/watch?v=kR_pGXVYL8M"}
+  className="blog-video"
+/>
 
 ### Plenty of Bug Fixes <PRLink href="https://github.com/open-goal/jak-project/pull/3581"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3584"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3593"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3603"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3606"/>
 
@@ -110,7 +114,11 @@ A good number of bugs have been fixed:
 
 Initial texture animation support was added a while back, and now most of the missing texture animations have been added as well. [A couple of issues still remain](https://github.com/open-goal/jak-project/issues/3582), but the majority of the effects work.
 
-TODO compilation video here
+<ReactPlayer
+  controls
+  url={"https://www.youtube.com/watch?v=f-SJkvBswqg"}
+  className="blog-video"
+/>
 
 ### Overlord 2 <PRLink href="https://github.com/open-goal/jak-project/pull/3567"/>
 
