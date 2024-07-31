@@ -83,7 +83,7 @@ This fixes that, the following settings are now saved and restored from the `pc-
 
 ### Fix Progress Menu Exit Sound Not Respecting SFX Volume <PRLink href="https://github.com/open-goal/jak-project/pull/3574"/>
 
-A longstanding vanilla bug, the sound that plays when exiting the progress menu would not respect the SFX volume setting and always play at max volume even when muted.
+A longstanding vanilla bug, the sound that plays when exiting the progress menu would not respect the SFX volume setting and always play at max volume even when it should be muted.
 
 ### Increased Input Buffer at Higher Frame Rates <PRLink href="https://github.com/open-goal/jak-project/pull/3578"/>
 
@@ -91,7 +91,7 @@ This feature was already present in Jak 2 and has now been ported to Jak 1 and 3
 
 By default, at 60 FPS, the game has an input buffer that stores the last 3 frames of input and uses that when checking for button presses. At higher frame rates, this buffer would remain the same, leading to more easily mistimed inputs.
 
-The buffer has been increased to 15 frames and, depending on the frame rate setting, will check a certain amount of frames of input.
+The buffer has been increased to a maximum of 15 frames at the highest framerate setting.
 
 ### Fix Sprite Positioning on Non-Standard Aspect Ratios <PRLink href="https://github.com/open-goal/jak-project/pull/3596"/>
 
@@ -101,7 +101,7 @@ On non-standard aspect ratios, HUD sprites would quickly become misaligned. A lo
 
 ### Fix Invalid Menu Labels <PRLink href="https://github.com/open-goal/jak-project/pull/3613"/>
 
-There was a bug where some of the pause menu's labels would get corrupted, specifically the in the display selection and keybinding menus.
+There was a bug where some of the pause menu's labels would get corrupted, specifically in the display selection and keybinding menus.
 
 ## Jak 2
 
