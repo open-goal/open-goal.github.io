@@ -5,6 +5,7 @@ description: July 2024's OpenGOAL progress report
 slug: progress-report-july-2024
 authors:
   - hatkid
+  - vaser
 tags: [progress-report]
 image: ./img/poster.png
 hide_table_of_contents: false
@@ -31,6 +32,12 @@ This month's OpenGOAL Tooling (jak-project repo) release is `0.2.15`.
 
 ## General Changes
 
+### Merch Survey Results
+
+Thanks to everyone that took the time to fill out the survey in last month's progress report.  There were over 340 responses, with 93.8% of you saying you were interested in some capacity.
+
+Stay tuned for future updates in this regard (in the usual places, discord announcements / progress report updates).
+
 ### Support For Model Replacements <PRLink href="https://github.com/open-goal/jak-project/pull/3597"/>
 
 It is now possible to replace any in-game foreground/character model with a model of your choosing. This works for all three games.
@@ -51,6 +58,27 @@ Things to keep in mind:
 
 <ReactPlayer controls url={require("./video/babak-and-frong.mp4").default} />
 
+### Black Screen Fix <PRLink href="https://github.com/open-goal/jak-project/pull/3601"/>
+
+Hopefully this is the final nail in the coffin for this bug. It would seem that for some environments, having an invalid/mismatched `game-size` resolution would cause the game to only display a black screen.
+
+The characteristic log that you are affected by this is:
+> OpenGL error 0x502 S8246 T824C: GL_INVALID_OPERATION error generated. Source and destination dimensions must be identical with the current filtering modes.
+
+The game will now check if the set `game-size` is a supported resolution on your display, if it's not, it will default to the one currently set instead.
+
+Additionally a lot of the related code was simplified and centralized so future debugging should be easier related to display bugs.  Please reach out if you are still affected by this issue or if it unfortunately caused a new one.
+
+### Persist Memory Card Settings to pc-settings <PRLink href="https://github.com/open-goal/jak-project/pull/3612"/>
+
+In the original game, all settings had to be stored to the memory card due to having no other choice.  But we aren't limited by that and it can be inconvenient to have to load your save-file to initialize your preferred settings such as volume levels, vibration, play-hints, etc.  Some players do not even realize this is how it works and it just causes confusion that OpenGOAL isn't properly saving their settings.
+
+This fixes that, the following settings are now saved and restored from the `pc-settings.gc` file, instead of your save-slot:
+- Volume (SFX / Music / Dialog)
+- Controller Vibration
+- Play Hints (Only relevant in Jak 1)
+- Subtitles (Not relevant in Jak 1, it already had a custom one)
+
 ## Jak 1
 
 ### Fix Progress Menu Exit Sound Not Respecting SFX Volume <PRLink href="https://github.com/open-goal/jak-project/pull/3574"/>
@@ -70,6 +98,18 @@ The buffer has been increased to 15 frames and, depending on the frame rate sett
 On non-standard aspect ratios, HUD sprites would quickly become misaligned. A lot of these issues have been mitigated with a mix of a bunch of manual adjustments for the most common aspect ratios, approximations for anything in-between and hiding offending elements in certain cases.
 
 ![Progress Menu in 32:9](img/progress-32-9.png)
+
+### Fix Invalid Menu Labels <PRLink href="https://github.com/open-goal/jak-project/pull/3613"/>
+
+There was a bug where some of the pause menu's labels would get corrupted, specifically the in the display selection and keybinding menus.
+
+## Jak 2
+
+### Mirror Mode <PRLink href="https://github.com/open-goal/jak-project/pull/3616"/>
+
+Mirror mode should be fixed in Jak 2 and function properly.
+
+![Mirror Mode](img/mirror.png)
 
 ## Jak 3
 
