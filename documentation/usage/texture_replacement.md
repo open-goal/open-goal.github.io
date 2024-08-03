@@ -30,11 +30,15 @@ Next you'll want to enable the pack and apply the changes, and that should be it
 
 ### Manually
 
+:::info
+Anytime you see `<GAME>` it is a placeholder text that you need to replace with the specific game you are replacing textures for.
+:::
+
 If you don't want to use this feature, or the texture pack is not in the correct format, you can apply texture replacements yourself manually.
 
 Navigate to the folder that you set as the Installation Directory. You can find this in the settings page.
 
-From there, you'll want to create a `texture_replacements/` folder in the following directory:
+From there, you'll want to create a `custom_assets/<GAME>/texture_replacements/` folder in the following directory:
 
 ```
 <INSTALLATION_DIRECTORY>/active/<GAME>/data
@@ -48,10 +52,10 @@ Once this is done, you'll need to `Decompile` the game:
 
 ## Using a Release build
 
-Create a folder called `texture_replacements` inside the `data` directory. The directory structure should be
+Create a folder called `texture_replacements` inside the `data/custom_assets/<GAME>/` directory. The directory structure should be
 
 ```
-data/texture_replacements/page_name/texture_name.png
+data/custom_assets/<GAME>/texture_replacements/page_name/texture_name.png
 ```
 
 Where `page_name` is the name of the folder in `data/decompiler_out/jak1/textures` and `texture_name.png` is the name of the texture.
@@ -61,11 +65,15 @@ Where `page_name` is the name of the folder in `data/decompiler_out/jak1/texture
 Textures to be replaced should be saved in
 
 ```
-jak-project/texture_replacements/page_name/texture_name.png
+jak-project/custom_assets/<GAME>/texture_replacements/page_name/texture_name.png
 ```
 
 Where `page_name` is the name of the folder in `decompiler_out/jak1/textures` and `texture_name.png` is the name of the texture.
 
 :::tip
 You'll have to create the `texture_replacements` folder yourself.
+:::
+
+:::caution
+In older releases, you'll need to leave out the `custom_assets/<GAME>` portion of the path - e.g. `data/texture_replacements/page_name/texture_name.png` instead of `data/custom_assets/<GAME>/texture_replacements/page_name/texture_name.png`
 :::

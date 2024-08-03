@@ -1,0 +1,167 @@
+---
+title: Progress Report - July 2024
+date: 2024-07-31T10:00
+description: July 2024's OpenGOAL progress report
+slug: progress-report-july-2024
+authors:
+  - hatkid
+  - vaser
+tags: [progress-report]
+image: ./img/poster.png
+hide_table_of_contents: false
+draft: false
+---
+
+<head>
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+
+Jak 3 finally gets music and cutscene support and plenty of bugfixes.
+
+<!--truncate-->
+
+## Release Info
+
+This month's OpenGOAL Tooling (jak-project repo) release is `0.2.15`.
+
+<div className="row markdownMarginBottom">
+  <div className="col col--12">
+    <LauncherDownloadLink />
+  </div>
+</div>
+
+## General Changes
+
+### Merch Survey Results
+
+Thanks to everyone that took the time to fill out the survey in last month's progress report.  There were over 340 responses, with 93.8% of you saying you were interested in some capacity.
+
+Stay tuned for future updates in this regard (in the usual places, discord announcements / progress report updates).
+
+### Support For Model Replacements <PRLink href="https://github.com/open-goal/jak-project/pull/3597"/>
+
+It is now possible to replace any in-game foreground/character model with a model of your choosing. This works for all three games.
+
+The process is similar to texture replacements. The game will check `custom_assets/<GAME>/merc_replacements` for any models to replace. The file name has to match a merc model name, such as `eichar-lod0` for Jak's model in Jak 1 (so you'd have a path like `custom_assets/jak1/merc_replacements/eichar-lod0.glb`). Unlike texture replacements, the model files just go in the root `merc_replacements` folder without any subfolders (this will probably change in the future to allow you to replace models on a per level basis).
+
+Once you have your replacements set up, the decompiler/extractor, just like with texture replacements, has to be run again in order to apply the changes.
+
+:::warning
+Things to keep in mind:
+
+- The replacement has to be a GLTF model (file extension `.glb`). Blender 4.0 is recommended for this. Blender 4.2 should also work, but you may have to change it to use byte color or the vertex coloring can look messed up. Blender 4.1 will **NOT** work due to a quirk in the GLTF exporter.
+- This change is purely visual and quite rudimentary, it does not actually replace the model's skeleton/bones. It will try to match the replacement models' bone weights to the original skeleton, so don't expect the replacement to look very good unless it matches the original skeleton well.
+:::
+
+![Shrek](img/shrexter.png)
+![Light Babak](img/babak-drip.png)
+
+<ReactPlayer controls url={require("./video/babak-and-frong.mp4").default} />
+
+### Black Screen Fix <PRLink href="https://github.com/open-goal/jak-project/pull/3601"/>
+
+Hopefully this is the final nail in the coffin for this bug. It would seem that for some environments, having an invalid/mismatched `game-size` resolution would cause the game to only display a black screen.
+
+The characteristic log that you are affected by this is:
+> OpenGL error 0x502 S8246 T824C: GL_INVALID_OPERATION error generated. Source and destination dimensions must be identical with the current filtering modes.
+
+The game will now check if the set `game-size` is a supported resolution on your display, if it's not, it will default to the one currently set instead.
+
+Additionally a lot of the related code was simplified and centralized so future debugging should be easier related to display bugs.  Please reach out if you are still affected by this issue or if it unfortunately caused a new one.
+
+### Persist Memory Card Settings to pc-settings <PRLink href="https://github.com/open-goal/jak-project/pull/3612"/>
+
+In the original game, all settings had to be stored to the memory card due to having no other choice.  But we aren't limited by that and it can be inconvenient to have to load your save-file to initialize your preferred settings such as volume levels, vibration, play-hints, etc.  Some players do not even realize this is how it works and it just causes confusion that OpenGOAL isn't properly saving their settings.
+
+This fixes that, the following settings are now saved and restored from the `pc-settings.gc` file, instead of your save-slot:
+- Volume (SFX / Music / Dialog)
+- Controller Vibration
+- Play Hints (Only relevant in Jak 1)
+- Subtitles (Not relevant in Jak 1, it already had a custom one)
+
+## Jak 1
+
+### Fix Progress Menu Exit Sound Not Respecting SFX Volume <PRLink href="https://github.com/open-goal/jak-project/pull/3574"/>
+
+A longstanding vanilla bug, the sound that plays when exiting the progress menu would not respect the SFX volume setting and always play at max volume even when it should be muted.
+
+### Increased Input Buffer at Higher Frame Rates <PRLink href="https://github.com/open-goal/jak-project/pull/3578"/>
+
+This feature was already present in Jak 2 and has now been ported to Jak 1 and 3.
+
+By default, at 60 FPS, the game has an input buffer that stores the last 3 frames of input and uses that when checking for button presses. At higher frame rates, this buffer would remain the same, leading to more easily mistimed inputs.
+
+The buffer has been increased to a maximum of 15 frames at the highest framerate setting.
+
+### Fix Sprite Positioning on Non-Standard Aspect Ratios <PRLink href="https://github.com/open-goal/jak-project/pull/3596"/>
+
+On non-standard aspect ratios, HUD sprites would quickly become misaligned. A lot of these issues have been mitigated with a mix of a bunch of manual adjustments for the most common aspect ratios, approximations for anything in-between and hiding offending elements in certain cases.
+
+![Progress Menu in 32:9](img/progress-32-9.png)
+
+### Fix Invalid Menu Labels <PRLink href="https://github.com/open-goal/jak-project/pull/3613"/>
+
+There was a bug where some of the pause menu's labels would get corrupted, specifically in the display selection and keybinding menus.
+
+## Jak 2
+
+### Mirror Mode <PRLink href="https://github.com/open-goal/jak-project/pull/3616"/>
+
+Mirror mode should be fixed in Jak 2 and function properly.
+
+![Mirror Mode](img/mirror.png)
+
+## Jak 3
+
+### Prim Renderer <PRLink href="https://github.com/open-goal/jak-project/pull/3607"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3609"/>
+
+The prim renderer has now been implemented. It's used for a variety of effects, most notably:
+
+- Cloth physics simulation, e.g. Jak's skirt and scarf.
+- "New" lightning effects (in addition to the [old lightning renderer](https://www.youtube.com/watch?v=-Sawjr8fJQ0) from Jak 2), e.g. Arc Wielder, Dark Jak projectile attack.
+- "Light trails", e.g. Beam Reflexor, Plasmite RPG trail, Dune Hopper grenade trail, vehicle tire tracks, etc.
+
+With the implementation of `prim`, there are now only a couple of graphical effects missing, namely some new full screen effects like the screen blur + whiteout that occurs in some cutscenes or when firing the Super Nova.
+
+![New Lightning on Arc Wielder](img/poster.png)
+
+<ReactPlayer
+  controls
+  url={"https://www.youtube.com/watch?v=kR_pGXVYL8M"}
+  className="blog-video"
+/>
+
+### Plenty of Bug Fixes <PRLink href="https://github.com/open-goal/jak-project/pull/3581"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3584"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3593"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3603"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3606"/>
+
+A good number of bugs have been fixed:
+
+- In the Arena and Marauder Stronghold missions, some Marauders would spawn out of bounds.
+- When catching a second leaper in the Leaper Corral mission and watching the cutscene, Jak and the Sand Shark would be moved to an invalid position, instantly failing the mission by drowning.
+- The hovering KG robots' hand cannons were missing, making them unable to shoot Jak.
+- Rings would not spawn for side missions.
+- A crash during final boss.
+- A lot of cutscene models would be aggressively culled, making them invisible. The cause for this was a wrong skeleton setup, leading to the game use the wrong joint when doing culling checks.
+- Sometimes, models would skip updating their textures, which caused Skull Gems to occasionally not have their animated texture in certain spots.
+- After getting cloth physics working, NPCs that use them would fail to spawn because their process heap was not big enough.
+- During cutscenes, eye textures would not be assigned properly to models, leading to some very goofy results.
+
+![Eyes](img/eye.png)
+![Eyes](img/eye1.png)
+
+<ReactPlayer controls url={require("./video/eye.mp4").default} />
+
+### Implement Missing Texture Animations <PRLink href="https://github.com/open-goal/jak-project/pull/3577"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3586"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3587"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3586"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3611"/>
+
+Initial texture animation support was added a while back, and now most of the missing texture animations have been added as well. [A couple of issues still remain](https://github.com/open-goal/jak-project/issues/3582), but the majority of the effects work.
+
+<ReactPlayer
+  controls
+  url={"https://www.youtube.com/watch?v=f-SJkvBswqg"}
+  className="blog-video"
+/>
+
+### Overlord 2 <PRLink href="https://github.com/open-goal/jak-project/pull/3567"/>
+
+The biggest missing puzzle piece, Overlord 2, has been decompiled and implemented.
+
+This means we now finally have music, cutscene and voice line playback! While this means that there's now a number of new bugs to fix, it goes a long way towards making the game feel more complete.
