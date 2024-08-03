@@ -207,6 +207,7 @@ function customizedSvgo() {
                 ) {
                   if (typeof loader.options === "object") {
                     loader.options.svgoConfig = null;
+                    loader.options.svgo = false;
                   }
                 }
               }
