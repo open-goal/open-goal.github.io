@@ -1,9 +1,21 @@
+import React from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import ReactPlayer from 'react-player';
+
+// NOTE - this file is generated at build time, don't touch it!
+// - if you know of a better way to do this, contribute it!
+
+export default function Gallery() {
+  return (
+        <div id="galleryContainer" className="container-fluid ms-1">
           <section>
             <div className="row">
-              <div className="col col--12">
-                <h2>___TITLE___</h2>
+              <div className="col">
                 <p>___DESCRIPTION___</p>
               </div>
             </div>
 ___ENTRIES___
           </section>
+        </div>
+  );
+}

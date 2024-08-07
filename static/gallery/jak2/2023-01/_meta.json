@@ -1,0 +1,303 @@
+[
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1059206456588640296/unknown_2023.01.01-15.26_1.mp4",
+    "caption": "First functional enemy! Plus some nav-mesh debug tools",
+    "timestamp": "2023-01-01",
+    "name": "enemies-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1059241387620565022/collect-2023-01-01_17.45.55.mp4",
+    "caption": "Collectables",
+    "timestamp": "2023-01-01",
+    "name": "collectables-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1059265659034419240/unknown_2023.01.01-19.21.mp4",
+    "caption": "Early version of Vaser's debug text filter",
+    "timestamp": "2023-01-01",
+    "name": "filter-debug-text-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1059277082414293022/unknown_2023.01.01-20.08.mp4",
+    "caption": "Can also filter processes by their distance from Jak",
+    "timestamp": "2023-01-01",
+    "name": "filter-debug-text-2",
+    "video": true
+  },
+  {
+    "name": "hud-1.png",
+    "caption": "\"some minor issues with depth testing\"",
+    "timestamp": "2023-01-01"
+  },
+  {
+    "name": "hud-2.png",
+    "caption": "HUD for the gun partially implemented",
+    "timestamp": "2023-01-01"
+  },
+  {
+    "name": "gungame-1.png",
+    "caption": "The gun course sorta works with some HUD fixes",
+    "timestamp": "2023-01-01"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1059349801000501248/unknown_2023.01.02-00.56.mp4",
+    "caption": "Guards, Jak!",
+    "timestamp": "2023-01-01",
+    "name": "guards-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1059389154208788490/2023-01-02_09-32-18_.mp4",
+    "caption": "Titan Suit",
+    "timestamp": "2023-01-02",
+    "name": "titan-suit-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1059529181010067567/gun_game-2023-01-02_12.49.20.mp4",
+    "caption": "Spray and pray",
+    "timestamp": "2023-01-02",
+    "name": "gungame-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1059564695708774491/8mb.video-GIJ-bQWG2Otn.mp4",
+    "caption": "Vaser making it look easy to get Gold in the JET Board challenge",
+    "timestamp": "2023-01-02",
+    "name": "jetboard-3",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1059645341638598686/2023-01-03_02-30-42_.mp4",
+    "caption": "Enemy #2",
+    "timestamp": "2023-01-02",
+    "name": "enemies-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1059847821915852901/2023-01-03_15-55-07_.mp4",
+    "caption": "Metalheads",
+    "timestamp": "2023-01-03",
+    "name": "enemies-3",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1059929804566188103/2023-01-03_21-00-12_.mp4",
+    "caption": "",
+    "timestamp": "2023-01-03",
+    "name": "enemies-4",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1060008599490928680/2023-01-04_02-30-24_.mp4",
+    "caption": "",
+    "timestamp": "2023-01-03",
+    "name": "enemies-5",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1060085057051697152/8mb.video-n61-wrJWJOQm.mp4",
+    "caption": "Scouts mission with debug path tools",
+    "timestamp": "2023-01-03",
+    "name": "enemies-6",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1060253467614138459/8mb.video-OOK-9BAhJf9d.mp4",
+    "caption": "Protect Site in Dead Town mostly playable",
+    "timestamp": "2023-01-04",
+    "name": "enemies-7",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1061510596698320946/2023-01-08_06-01-56_.mp4",
+    "caption": "",
+    "timestamp": "2023-01-07",
+    "name": "titan-suit-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1061534362107117568/target-indax.mp4",
+    "caption": "The playable Daxter state is working",
+    "timestamp": "2023-01-07",
+    "name": "indax-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1061724479941787741/8mb.video-hnM-OLyAKSQd.mp4",
+    "caption": "Vaser demo-ing the first 2 Sewers missions, minus the water",
+    "timestamp": "2023-01-08",
+    "name": "sewers-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1061970886892212295/2023-01-09_12-31-51.mp4",
+    "caption": "Meanwhile in Mar's Tomb, Hat Kid sees very little except for water",
+    "timestamp": "2023-01-09",
+    "name": "tomb-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1061997857080614922/tomb-vibe.mp4",
+    "caption": "Good thing collision renderer works (oh and so do tombstones!)",
+    "timestamp": "2023-01-09",
+    "name": "tomb-2",
+    "video": true
+  },
+  {
+    "name": "high-res-1.png",
+    "caption": "Jak 2 gets a 2023 upgrade (native high resolution)",
+    "timestamp": "2023-01-11"
+  },
+  {
+    "name": "warp-1.png",
+    "caption": "Warp gates still need some work...",
+    "timestamp": "2023-01-11"
+  },
+  {
+    "name": "hideout-1.png",
+    "caption": "",
+    "timestamp": "2023-01-14"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1063951271201083412/2023-01-14_23-40-16_.mp4",
+    "caption": "Sig mission coming along",
+    "timestamp": "2023-01-14",
+    "name": "atoll-1",
+    "video": true
+  },
+  {
+    "link": "https://www.youtube.com/watch?v=ryAsAbicGXM",
+    "caption": "Totally normal intro cutscene",
+    "timestamp": "2023-01-14",
+    "name": "intro-1",
+    "video": true
+  },
+  {
+    "name": "intro-2.png",
+    "caption": "",
+    "timestamp": "2023-01-14"
+  },
+  {
+    "name": "intro-3.png",
+    "caption": "",
+    "timestamp": "2023-01-14"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1064173749911433246/2023-01-15_14-16-24.mp4",
+    "caption": "This mission and a couple others were plagued by a troublesome gui-control bug for some time",
+    "timestamp": "2023-01-15",
+    "name": "atoll-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1064230926315434085/output22.mp4",
+    "caption": "\"Some hacks to get str's to play, but the animation playback/decompress stuff in GOAL is working. It's 16/17ths of the right speed, I think.\" -water111",
+    "timestamp": "2023-01-15",
+    "name": "ruins-6",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1064250509604704386/unknown_2023.01.15-13.31.mp4",
+    "caption": "Mar is still alive!",
+    "timestamp": "2023-01-15",
+    "name": "sewers-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1064464949025456179/2023-01-16_09-40-01_.mp4",
+    "caption": "2nd Praxis fight",
+    "timestamp": "2023-01-15",
+    "name": "praxis-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1065267870201806858/2023-01-18_14-52-58.mp4",
+    "caption": "Minor bug in ocean-far where it moved with the camera",
+    "timestamp": "2023-01-18",
+    "name": "ruins-7",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1065311609628672030/2023-01-18_17-46-49.mp4",
+    "caption": "Missing transition between ocean-near and ocean-mid, but close!",
+    "timestamp": "2023-01-18",
+    "name": "ruins-8",
+    "video": true
+  },
+  {
+    "name": "emerc-1.png",
+    "caption": "Early screenshots using the new emerc renderer, used for environment mapping (shiny surfaces)!",
+    "timestamp": "2023-01-20"
+  },
+  {
+    "name": "emerc-2.png",
+    "caption": "Jak 2's emerc improved upon Jak 1's generic renderer,  and now it's been backported to Jak 1 OpenGOAL as well.",
+    "timestamp": "2023-01-20"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1066613829179539497/unknown_2023.01.22-02.01.mp4",
+    "caption": "Vaser blessing us with the THPS-style trick display",
+    "timestamp": "2023-01-21",
+    "name": "jetboard-4",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1066702686076014653/2023-01-22_13-37-55.mp4",
+    "caption": "Drill mission with the Titan Suit",
+    "timestamp": "2023-01-22",
+    "name": "titan-suit-3",
+    "video": true
+  },
+  {
+    "link": "https://www.youtube.com/watch?v=f6HPWKO0yAc",
+    "caption": "Metalhead Mash",
+    "timestamp": "2023-01-23",
+    "name": "metalhead-mash",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1067521325301768302/2023-01-24_20-07-58.mp4",
+    "caption": "Dark Eco animations",
+    "timestamp": "2023-01-24",
+    "name": "dark-eco-dive",
+    "video": true
+  },
+  {
+    "link": "https://www.youtube.com/watch?v=e3IBm6SwAyI",
+    "caption": "1st Praxis fight",
+    "timestamp": "2023-01-24",
+    "name": "praxis-1",
+    "video": true
+  },
+  {
+    "name": "precursor-1.png",
+    "caption": "Gumby or Precursor?",
+    "timestamp": "2023-01-27"
+  },
+  {
+    "name": "ask-water.png",
+    "caption": "Uhh... you'll have to ask water111 about this one (blerc+merc testing?)",
+    "timestamp": "2023-01-28"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1069784133380882442/ripple-2023-01-30_19.59.37.mp4",
+    "caption": "Water ripple effect",
+    "timestamp": "2023-01-30",
+    "name": "ripple-1",
+    "video": true
+  },
+  {
+    "name": "intro-no-tri.png",
+    "caption": "RIP to the unknown texture triangle",
+    "timestamp": "2023-01-31"
+  },
+  {
+    "name": "hud-no-tri.png",
+    "caption": "HUD textures",
+    "timestamp": "2023-01-31"
+  }
+]
