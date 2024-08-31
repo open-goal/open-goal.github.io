@@ -7,7 +7,7 @@ sidebar_position: 5
 
 <PostAuthors authors={["hat-kid"]} authorNames={["Hat Kid"]} />
 
-While still in very early stages, the "Build Actor" tool allows you to take a mesh created in Blender and import it into the game to use for your own custom actors in custom levels.
+While still in early stages, the "Build Actor" tool allows you to take a mesh created in Blender and import it into the game to use for your own custom actors in custom levels.
 
 This guide will cover the basics of what a custom actors needs to function, how to define a custom actor, and the minimum setup for the GOAL code. It will **not** cover how to create models in Blender or add any special custom behavior in GOAL.
 
@@ -19,15 +19,19 @@ Before we get started, it's worth covering the current limitations with this sys
 
 This tool currently only supports Jak 1.
 
-### Animations
+### Animations and Joints/Bones
 
-You cannot import animations for custom actors. Every actor just has a default `idle` animation that does nothing.
+Actors can have a skeleton. There is a limit of 100 bones. There is currently no support for the `align` bone.
 
-The animation system for Jak is extremely complex and the way the animation data is stored is still not very well understood. Due to this, it will be a while before custom animations become a thing.
+Custom animations are supported. You can have multiple animations for an actor. Currently, animations have 60 keyframes per second, which is higher than usual in Jak.
 
-### Joints/Bones
+:::info
 
-Currently, every model will have a single default `main` bone, located at the model root.
+- If there is no skeleton, actors will be given one `main` bone located at the root.
+- If there are no animations, actors will be given a default `idle` animation that doesn't do anything, as actors need to have at least one animation in order to work.
+- Try to keep the animation size reasonable, as there is a 2 MB file size limit for art groups. If your art group exceeds this limit, you will get a DGO heap overflow error when your art group is loaded.
+
+:::
 
 ### Collision
 
@@ -52,9 +56,9 @@ Note that Blender's GLTF exporter will separate faces, which could increase the 
 
 To get started, you will need the following:
 
-- Working OpenGOAL install with tooling version >=`0.2.13`
-- [Blender 4.0](https://download.blender.org/release/Blender4.0/) (needs to be this exact version due to GLTF exporter changes in later versions that break compatibility with OpenGOAL)
-- [OpenGOAL Blender plugin](https://github.com/open-goal/jak-project/blob/master/custom_assets/blender_plugins/opengoal.py) (only needed if you plan on using collision meshes)
+- Working OpenGOAL install with tooling version `>=0.2.13`. `>=0.2.16` if you plan on using custom animations.
+- [Blender 4.0](https://download.blender.org/release/Blender4.0/) or [Blender 4.2](https://download.blender.org/release/Blender4.2/). Blender 4.1 will **not** work due to a quirk in the GLTF exporter.
+- [OpenGOAL Blender plugin](https://github.com/open-goal/jak-project/blob/master/custom_assets/blender_plugins/opengoal.py) (only needed if you plan on using collision meshes).
 
 ## Custom Collision Properties in Blender
 
@@ -74,17 +78,17 @@ Thus, custom models will also require an art group to work. The Build Actor tool
 
 With the way OpenGOAL's foreground model renderer works, we luckily do not need to store the model data inside the art group (for custom models, we extract the model from the `.glb` file and store the data in the `.fr3` file for our custom level), so we can just insert some dummy data for the `merc-ctrl`. The game does, however, need at least some joint and animation data for the actor to work.
 
-For the `art-joint-geo`, we just define a single `main` joint with a default bind pose for now. In the future, we would ideally be able to extract the armature data from the model file so each model can have a proper bone structure.
+For the `art-joint-geo`, the armature from the GLB file is imported. If there is no armature present, a single `main` joint with a default bind pose is generated.
 
-For the `art-joint-anim`, we just steal the animation data from another vanilla art group that just has a default idle animation with nothing going on. The format for animation data is still kind of a mystery, so we have to make do with no custom animations for the time being.
+For the `art-joint-anim`, each animation present in the GLB file is converted to the game's animation format and compressed. If there are no animations, a default idle animation with nothing going on is generated.
 
 ### `skeleton-group`
 
-The `skeleton-group` is technically also an `art-group`, but instead of being stored as a binary GOAL object file, it's actually defined in code. It also serves a slightly different purpose: It stores settings related to the actor in question, such as the name of the art group it needs, the default animation and joint geometry, shadow and LOD settings.
+The `skeleton-group` is technically also an `art-group`, but instead of being stored as a binary GOAL object file, it's actually defined in code. It also serves a slightly different purpose: It stores settings related to the actor in question, such as the name of the art group it uses, the default animation and joint geometry, shadow and LOD settings and the bounds sphere used for culling.
 
 ### GOAL Code
 
-Every actor needs to be defined as its own type that inherits from `process-drawable` and have some logic set up in order to be able to be spawned and interacted with. If there is no code for the actor, its entity will spawn a `viewer-process` instead, which will, as the name suggests, just display the model and do the default idle animation, and it cannot be interacted with in any way.
+Every actor needs to be defined as its own type that inherits from `process-drawable` and have some logic set up in order to be able to be spawned and interacted with. If there is no code for the actor, its entity will spawn a `viewer-process` instead, which will, as the name suggests, just display the model and play back the first animation, and it cannot be interacted with in any way.
 
 ## File Setup
 
@@ -94,7 +98,7 @@ For the following, a custom level name of `test-zone` and a custom actor name of
 
 First off, there's a couple of files you will need to edit/add:
 
-### `custom_assets/jak1/models/test-actor.glb`
+### `custom_assets/jak1/models/custom_levels/test-actor.glb`
 
 This should be the location of your model file. In Blender, go to `File > Export > glTF 2.0 (.glb/.gltf)` to export your project as a `.glb` file.
 
@@ -112,9 +116,13 @@ To generate the art group for a custom actor, add `(build-actor "test-actor")` t
 
 ### [`custom_assets/jak1/levels/test-zone/test-zone.jsonc`](https://github.com/open-goal/jak-project/blob/c64eea633741e67840d0a71a90927c392e49af8b/custom_assets/jak1/levels/test-zone/test-zone.jsonc#L67)
 
-Add `"test-actor"` to the `custom_models` list.
+Add `"test-actor"` to the `custom_models` list. This will add the model data to the FR3 for your custom level.
 
 ![Level File](img/test-actor-level-file.png)
+
+:::info
+If you want your actor to be visible in levels other than your custom level, you can also add the model file to `custom_assets/jak1/models/common` with the name `test-actor-lod0.glb`. This adds the model data to the common level FR3, which will always keep it loaded.
+:::
 
 In the `actors` list, add an entry for the custom actor with etype `test-actor`.
 
@@ -180,7 +188,7 @@ The macro requires at minimum:
 - A list of all LODs and their maximum distance from which they are visible before switching to a lower LOD (we only have a single LOD, so we just set that to an effectively infinite distance).
 - A bounds sphere. Make sure this covers your entire model or it will be culled early if the sphere is off screen!
 
-Right now, the art group that is generated for the object will always have the joint geometry at index 0, the mesh group at index 1 and the default animation at index 2.
+Right now, the art group that is generated for the object will always have the joint geometry at index 0, the mesh group at index 1 and the first animation at index 2.
 
 ```opengoal
 (def-art-elt test-actor-ag test-actor-lod0-jg 0)
@@ -193,7 +201,7 @@ Right now, the art group that is generated for the object will always have the j
               )
 ```
 
-The `def-art-elt` definitions I added are not strictly required, but it just makes it look neater.
+The `def-art-elt` definitions I added are not strictly required, but it just makes it look neater and lets you reference animations in code by that name instead of having to do `(-> self draw art-group data 2)`.
 
 ### Defining the Collision
 
@@ -218,14 +226,14 @@ This method will look a bit different depending on whether you choose to use col
 
 Then, we allocate the `collide-shape-prim-group`, which will hold all of our collision spheres (and/or meshes). We need to set:
 
-- How many prims we want to allocate (the fourth argument of the `new` call, in this case `(the uint 1)` to allocate a single prim)
+- How many prims we want to allocate (the fourth argument of the `new` call, in this case `(the uint 1)` to allocate a single prim).
   - **Make sure that you allocate enough prims for all your `collide-mesh`es if you use a collision mesh**! As mentioned earlier, for every object in Blender that has collision properties applied, a new `collide-mesh` will be generated, so that's how many you need to allocate.
-- The prim ID for this group (last argument of the `new` call, in this case ID `0`)
-- What type of collision we collide as (`(-> cgroup prim-core collide-as)`)
-- What we can collide with (`(-> cgroup collide-with)`)
-- The collision action (`(-> cgroup prim-core collide-action)`)
-- The index of the bone we attach to (`(-> cgroup transform-index)`)
-- The radius of the bounds sphere for this prim group (make sure all objects in your prim group are contained within this sphere!)
+- The prim ID for this group (last argument of the `new` call, in this case ID `0`).
+- What type of collision we collide as (`(-> cgroup prim-core collide-as)`).
+- What we can collide with (`(-> cgroup collide-with)`).
+- The collision action (`(-> cgroup prim-core collide-action)`).
+- The index of the bone we attach to (`(-> cgroup transform-index)`). If this is not set, it will use the root position by default.
+- The radius of the bounds sphere for this prim group (make sure all objects in your prim group are contained within this sphere!).
 
 Finally, the prim group we just defined needs to be set as the root prim for our `collide-shape`.
 
@@ -350,7 +358,7 @@ An absolutely barebones `init-from-entity!` method would look something like thi
 ```opengoal
 (defmethod init-from-entity! ((this test-actor) (e entity-actor))
   (set! (-> this root) (new 'process 'trsqv)) ;; allocate root
-  (process-drawable-from-entity! this e) ;; read position and rotation from entity
+  (process-drawable-from-entity! this e) ;; copy position and rotation from entity
   (initialize-skeleton this *test-actor-sg* '()) ;; set up draw-control
   (go (method-of-object this idle)) ;; enter idle state
   )
@@ -361,7 +369,7 @@ Since we are not using a `trsqv`, instead of running `(set! (-> this root) (new 
 ```opengoal
 (defmethod init-from-entity! ((this test-actor) (e entity-actor))
   (init-collision! this) ;; allocate root and set up prim group
-  (process-drawable-from-entity! this e) ;; read position and rotation from entity
+  (process-drawable-from-entity! this e) ;; copy position and rotation from entity
   (initialize-skeleton this *test-actor-sg* '()) ;; set up draw-control
   (transform-post) ;; update our root transform
   (go (method-of-object this idle)) ;; enter idle state
