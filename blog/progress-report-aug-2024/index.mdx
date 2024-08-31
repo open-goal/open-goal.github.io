@@ -45,6 +45,22 @@ Additionally, before the settings file would only get created once you interacte
 
 Instead of using the same yellow OpenGOAL logo, it will now change depending on the game being played (Jak 1 / 2 / 3).
 
+### Mod Support in the Launcher <PRLink href="https://github.com/open-goal/launcher/pull/530"/>
+
+It is now possible to install and manage mods for OpenGOAL from within the official launcher.
+
+The way this works is you can add a "mod source" URL to the launcher which is a way to lookup what mods are available and how to download them.
+
+We provide and maintain none of this ourselves, so be on the lookout for an announcement from the modding community on how to take advantage of this new feature.
+
+:::danger
+NOTE - Mods are provided by third-parties and are not vetted, endorsed or supported by the official team.
+
+They can run arbitrary unverified code on your system so only install mods from sources that you trust!
+
+If you run into a problem with the mod you will likely have to reach out to it's author and not the OpenGOAL team.
+:::
+
 ## Jak 1
 
 ### Updated Finnish Translations <PRLink href="https://github.com/open-goal/jak-project/pull/3619"/>
@@ -85,3 +101,5 @@ There are a few limitations:
 - You can only have around 100 bones. It is technically possibly to have slightly more, but certain animations may fail to compress when there are more than ~100 bones.
 - Currently, all animations have 60 keyframes per second. This is a higher quality than what is normally used. If animation size becomes problematic, we could make this customizable somehow.
 - There is no support for the `align` bone.
+
+<ReactPlayer controls url={require("./video/animation.mp4").default} />
