@@ -7,6 +7,17 @@ import { CardActionArea } from "@mui/material";
 
 const BlogList = [
   {
+    title: "Progress Report - August 2024",
+    image: require("@site/blog/progress-report-aug-2024/img/poster.png")
+      .default,
+    description: (
+      <>
+        A slower month, but modders are having fun with some new animation tooling.
+      </>
+    ),
+    link: "/blog/progress-report-aug-2024",
+  },
+  {
     title: "Progress Report - July 2024",
     image: require("@site/blog/progress-report-july-2024/img/poster.png")
       .default,
@@ -27,17 +38,6 @@ const BlogList = [
       </>
     ),
     link: "/blog/progress-report-june-2024",
-  },
-  {
-    title: "Progress Report - May 2024",
-    image: require("@site/blog/progress-report-may-2024/img/poster.png")
-      .default,
-    description: (
-      <>
-        Jak 3 decompilation is nearing completion.
-      </>
-    ),
-    link: "/blog/progress-report-may-2024",
   }
 ];
 

@@ -1,0 +1,87 @@
+---
+title: Progress Report - August 2024
+date: 2024-08-31T10:00
+description: August 2024's OpenGOAL progress report
+slug: progress-report-aug-2024
+authors:
+  - vaser
+tags: [progress-report]
+image: ./img/poster.png
+hide_table_of_contents: false
+draft: false
+---
+
+<head>
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+
+A slower month, but modders are having fun with some new animation tooling.
+
+<!--truncate-->
+
+## Release Info
+
+This month's OpenGOAL Tooling (jak-project repo) release is `0.2.16`.
+
+<div className="row markdownMarginBottom">
+  <div className="col col--12">
+    <LauncherDownloadLink />
+  </div>
+</div>
+
+## General Changes
+
+### Merch Update
+
+Despite the overwhelmingly positive reaction and interest in the idea, we won't be going forward with it at this time for the foreseeable future. Once again, thanks to anyone who took the time to give feedback.
+
+### Black Screen Fix Once Again <PRLink href="https://github.com/open-goal/jak-project/pull/3624"/>
+
+A quick bug-fix from last's month black-screen fix.  That fix only worked for users that already had a `pc-settings.gc` file created.  This month the fix is extended to users who have not yet created that file (first time launching).
+
+Additionally, before the settings file would only get created once you interacted with the pause menu, now it will get created on first launch.  This should help reduce confusion and help us see what the game is initializing the settings to.
+
+### Per-game App Icons <PRLink href="https://github.com/open-goal/jak-project/pull/3634"/>
+
+Instead of using the same yellow OpenGOAL logo, it will now change depending on the game being played (Jak 1 / 2 / 3).
+
+## Jak 1
+
+### Updated Finnish Translations <PRLink href="https://github.com/open-goal/jak-project/pull/3619"/>
+
+Jak 1's Finnish translations received a huge update this month, thanks Aloqas!
+
+## Jak 2
+
+### Fix HUD in Mirror Mode <PRLink href="https://github.com/open-goal/jak-project/pull/3630"/>
+
+This was missed in last month's mirror mode update.  HUD elements should now be located on the proper sides of the screen.
+
+### Updated Finnish Translations <PRLink href="https://github.com/open-goal/jak-project/pull/3619"/>
+
+Aloqas also made a gigantic update to Jak 2's Finnish translations as well!
+
+### Additional Speedrunner Autosplit Locations <PRLink href="https://github.com/open-goal/jak-project/pull/3639"/>
+
+A few more autosplit spots were added to Jak 2 for those who want to use them.
+
+## Tooling
+
+### CI Workflow to Detect `goalc` Output Changes <PRLink href="https://github.com/open-goal/jak-project/pull/3626"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3631"/>
+
+When we make changes to the OpenGOAL compiler, of course a potential worry is that the output has changed in a way we did not expect.  This new workflow should flag the situation where a change to `goalc` results in file(s) being compiled differently than on `master`'s `goalc`.
+
+### Extract MERC Models into Individual `.glb`s <PRLink href="https://github.com/open-goal/jak-project/pull/3632"/>
+
+Instead of extracting every model into one giant file for the foreground and one for the background, these models are now separated and organized.  This compliments the recent model swapping features nicely.
+
+### Skeleton and Animation Support in Jak 1 <PRLink href="https://github.com/open-goal/jak-project/pull/3632"/>
+
+This adds a feature to `build_actor` to support importing skeletons and animations from .glb files.
+
+Multiple animations are handled and will use the name in the GLB. The default `viewer` process will end up playing back the first animation.
+
+There are a few limitations:
+- You can only have around 100 bones. It is technically possibly to have slightly more, but certain animations may fail to compress when there are more than ~100 bones.
+- Currently, all animations have 60 keyframes per second. This is a higher quality than what is normally used. If animation size becomes problematic, we could make this customizable somehow.
+- There is no support for the `align` bone.
