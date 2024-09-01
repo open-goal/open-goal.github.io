@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import BlogPostItemHeaderAuthor from "@theme/BlogPostItem/Header/Author";
+import BlogAuthor from '@theme/Blog/Components/Author';
 import styles from "./styles.module.css";
 // Component responsible for the authors layout
 // authorNames is optional
@@ -19,7 +19,7 @@ export default function PostAuthors({ className, authors, authorNames }) {
     >
       {authors.map((author, idx) => (
         <div className={clsx(styles.imageOnlyAuthorCol)} key={idx}>
-          <BlogPostItemHeaderAuthor
+          <BlogAuthor
             author={{
               ...author,
               name:

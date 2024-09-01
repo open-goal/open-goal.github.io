@@ -91,9 +91,28 @@ We have added a plethora of options to the game settings (and removed some that 
 
 We fix bugs that a player may unintentionally encounter. For example, we would fix random crashes, or collectibles that were mistakeningly made impossible to get after a certain point in the game is reached.  We would not patch for example, the Jet-Board hover glitch, or the infinite flight glitch, patching these adds no improvement to the game and only eliminates fun.
 
-### Will there be mod support?
+### How can I play mods?
 
-We intend to make it as easy as we can to make your own code or import graphics for the game, this is always a work-in-progress. Several mods can already be tried out using the unofficial mod launcher, found at [https://jakmods.dev/](https://jakmods.dev/).
+The launcher now supports mods natively! You will need a Mod Source URL that provides a list of available mods - the launcher doesn't provide any by default.
+
+- In the launcher, go to Settings > Mods, and add your Mod Source URL
+- Back on the Jak 1/Jak 2 page, after you've completed the vanilla installation, you can go to Features > Mods to see all the mods for that game from any Mod Source(s) you've added
+- Clicking on an available mod will install the latest version, and then clicking on an installed mod will bring you to a dedicated page for the mod
+- From here you can play, reboot in debug mode, change the active version, uninstall, etc.
+
+:::danger
+NOTE - Mods are provided by third-parties and are not vetted, endorsed or supported by the official team.
+
+They can run arbitrary unverified code on your system, so only install mods from sources that you trust!
+
+If you run into a problem with a mod, you will likely have to reach out to its author and not the OpenGOAL team.
+:::
+
+### How can I make and/or list mods?
+
+We intend to make it as easy as we can to make your own code or import graphics for the game, this is always a work-in-progress. For developing mods, check out the [Modding Examples documentation](category/modding-examples) and/or the [JakMods FAQ](https://jakmods.dev/faq).
+
+If you'd like to create your own Mod Source to list your mods, you just need to create a publicly accessible JSON file that adheres to [this schema](https://github.com/open-goal/launcher/blob/HEAD/fixtures/mock-mods.json).
 
 ### Will you support pressure sensitivity?
 
