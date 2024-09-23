@@ -690,7 +690,7 @@ Works on floats and integers. The exact behavior for integers needs to be explor
 Modulo operation. Takes exactly two arguments.
 
 ```lisp
-(/ dividend divisor)
+(mod dividend divisor)
 ```
 
 Works on integers only. The exact behavior needs to be explored because the EE is weird. It is unknown if the same code is generate for signed/unsigned mod.
