@@ -1,0 +1,188 @@
+[
+  {
+    "name": "eyes-1.png",
+    "caption": "Eyes are uh... half baked",
+    "timestamp": "2023-03-05"
+  },
+  {
+    "name": "env-map-1.png",
+    "caption": "An environment mapping bug is fixed across both Jak 1 and Jak 2, so shiny surfaces look less dull (such as ammo)",
+    "timestamp": "2023-03-08"
+  },
+  {
+    "name": "env-map-2.png",
+    "caption": "\"I also found that our environment mapping was probably wrong in a lot of places in jak 1. emerc matches generic, but they were both wrong in the same way.\" -water111",
+    "timestamp": "2023-03-08"
+  },
+  {
+    "name": "dark-eco-1.png",
+    "caption": "Dark eco has transparency issues in some levels",
+    "timestamp": "2023-03-09"
+  },
+  {
+    "name": "emerc-3.png",
+    "caption": "An issue with emerc fadeout helps ManDude realize there's an orb here",
+    "timestamp": "2023-03-11"
+  },
+  {
+    "name": "lod-1.png",
+    "caption": "OpenGOAL LOD settings. If you use PS2 settings, the orbs, conveyors, warp gate, and dark eco don't render from here.",
+    "timestamp": "2023-03-11"
+  },
+  {
+    "name": "jetboard-collision.png",
+    "caption": "These quarterpipes have a special type of collision used for the JET Board",
+    "timestamp": "2023-03-11"
+  },
+  {
+    "name": "fov-2.png",
+    "caption": "More FOV shenanigans",
+    "timestamp": "2023-03-11"
+  },
+  {
+    "name": "shadow-debug-1.png",
+    "caption": "A debug tool for shadows",
+    "timestamp": "2023-03-13"
+  },
+  {
+    "name": "multi-levels-1.png",
+    "caption": "A little stress testing, ManDude trying to load 8 levels at once",
+    "timestamp": "2023-03-14"
+  },
+  {
+    "name": "multi-levels-2.png",
+    "caption": "Success, 8 levels!",
+    "timestamp": "2023-03-14"
+  },
+  {
+    "name": "multi-levels-3.png",
+    "caption": "\"It would be funny if we get the entire city rendering at once in game before the big map in the progress menu works\" -Hat Kid",
+    "timestamp": "2023-03-14"
+  },
+  {
+    "name": "wide-moon.png",
+    "caption": "Oops, widescreen moon",
+    "timestamp": "2023-03-14"
+  },
+  {
+    "name": "region-lol-1.png",
+    "caption": "A poorly placed region (missing this skips loading ctyport and ctyfarmb)",
+    "timestamp": "2023-03-14"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1086412534971633664/mountain-2023-03-17_18.14.49.mp4",
+    "caption": "\"I like how [water111] said 4 days ago that etie would take a few weeks\" -Hat Kid",
+    "timestamp": "2023-03-17",
+    "name": "etie",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1086509927566168124/daxclass3.mp4",
+    "caption": "Stadium minimaps are working too",
+    "timestamp": "2023-03-17",
+    "name": "minimap-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1086524573282996234/unknown_2023.03.18-01.39.mp4",
+    "caption": "Vaser drops a preview of the SDL branch (replacement for GLFW)",
+    "timestamp": "2023-03-17",
+    "name": "minimap-2",
+    "video": true
+  },
+  {
+    "name": "palace-2.png",
+    "caption": "Throne room cutscene with palcab level running in the background",
+    "timestamp": "2023-03-18"
+  },
+  {
+    "name": "wrens-1.png",
+    "caption": "Debugging wren pathing",
+    "timestamp": "2023-03-18"
+  },
+  {
+    "name": "blue-lightning-1.png",
+    "caption": "",
+    "timestamp": "2023-03-21"
+  },
+  {
+    "name": "kor-no-blackface.png",
+    "caption": "There's no texture morphing at this point anyway, but rest assured OpenGOAL won't have the 'Kor blackface' issue that happens in the PS3 port",
+    "timestamp": "2023-03-22"
+  },
+  {
+    "name": "guard-4.png",
+    "caption": "\"Yeah I guess during the [metalhead] invasion it makes sense to just program the guards to hit everything\" -Zedb0t",
+    "timestamp": "2023-03-22"
+  },
+  {
+    "name": "eyes-3.png",
+    "caption": "",
+    "timestamp": "2023-03-23"
+  },
+  {
+    "name": "origin-1.png",
+    "caption": "A strange bug where lines would stretch out to the origin (0,0,0)",
+    "timestamp": "2023-03-23"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1089238506779443270/rotate-2023-03-25_13.24.41.mp4",
+    "caption": "Warp gate texscroll",
+    "timestamp": "2023-03-25",
+    "name": "warp-4",
+    "video": true
+  },
+  {
+    "name": "race-mesh-1.png",
+    "caption": "Race mesh debug tool",
+    "timestamp": "2023-03-26"
+  },
+  {
+    "name": "race-mesh-2.png",
+    "caption": "",
+    "timestamp": "2023-03-26"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1089655115910217788/nav_stuff-2023-03-26_16.58.59.mp4",
+    "caption": "\"I think all the messed up turning stuff is a nav issue unfortunately\" -water111",
+    "timestamp": "2023-03-25",
+    "name": "nav-enemy-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1089676005020532801/20230326232237393_gk_HQJlpyoi2V.webm",
+    "caption": "These airlocks are meant to hide load times on PS2. ManDude plays around with speeding them up, since this is less of a concern on modern hardware.",
+    "timestamp": "2023-03-26",
+    "name": "airlock-1",
+    "video": true
+  },
+  {
+    "name": "orb-1.png",
+    "caption": "Did you know there's an orb out of bounds in the underport level?",
+    "timestamp": "2023-03-26"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1090788386580746370/vortex-2023-03-29_20.03.08.mp4",
+    "caption": "\"Vortex renderer works! Just missing the textures...\" -water111",
+    "timestamp": "2023-03-29",
+    "name": "vortex-1",
+    "video": true
+  },
+  {
+    "name": "fog-1.png",
+    "caption": "\"Is the baron statue meant to ignore fog?\" -ManDude (no, it isn't)",
+    "timestamp": "2023-03-29"
+  },
+  {
+    "name": "neon-1.png",
+    "caption": "",
+    "timestamp": "2023-03-30"
+  },
+  {
+    "link": "https://youtu.be/86JRlMxYVRI",
+    "caption": "Shuttle missions are working",
+    "timestamp": "2023-03-31",
+    "name": "shuttle-1",
+    "video": true
+  }
+]

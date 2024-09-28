@@ -15,6 +15,8 @@
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   --docsearch-highlight-color: #006b9f !important;
+  --ifm-container-width-xl: 2000px;
+  --ifm-container-width: 2000px;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -425,8 +427,8 @@ section {
 }
 
 #galleryContainer {
-  margin-left: 3em;
-  margin-right: 3em;
+  margin-left: 0em;
+  margin-right: 0em;
   margin-bottom: 10em;
 }
 

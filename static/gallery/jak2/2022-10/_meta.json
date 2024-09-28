@@ -1,0 +1,65 @@
+[
+  {
+    "name": "region-boundaries.png",
+    "caption": "Region boundaries and their on-enter/exit scripts",
+    "timestamp": "2022-10-08"
+  },
+  {
+    "name": "wip-sunset.png",
+    "caption": "God didn't create the sun on the first day either",
+    "timestamp": "2022-10-08"
+  },
+  {
+    "name": "sunset.png",
+    "caption": "",
+    "timestamp": "2022-10-08"
+  },
+  {
+    "name": "moon.png",
+    "caption": "\"Pretty crazy how a moon formed during the 200 years between Jak 1 and 2\" -ManDude",
+    "timestamp": "2022-10-15"
+  },
+  {
+    "name": "sunrise.png",
+    "caption": "",
+    "timestamp": "2022-10-15"
+  },
+  {
+    "name": "wip-clouds.png",
+    "caption": "Clouds needed some changes from the Jak 1 engine...",
+    "timestamp": "2022-10-15"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1030955709577318460/jak2_sky_tod-2022-10-15_17.27.56.mp4",
+    "caption": "Time-lapse of ctysluma/ctywide",
+    "timestamp": "2022-10-15",
+    "name": "ctysluma-tod-timelapse",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1031732345709002782/j2sfx.mp4",
+    "caption": "Ziemas testing out sound effects",
+    "timestamp": "2022-10-17",
+    "name": "jak2-sound-fx-1",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1033967930569916447/2022-10-24_06-56-47.mp4",
+    "caption": "Some enemy sound effects",
+    "timestamp": "2022-10-23",
+    "name": "jak2-sound-fx-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1035049981192699914/2022-10-27_06-37-06.mp4",
+    "caption": "Haven Forest ambiance",
+    "timestamp": "2022-10-26",
+    "name": "jak2-sound-fx-3",
+    "video": true
+  },
+  {
+    "name": "collision-1.png",
+    "caption": "Jak 2 collision is up next, and introduces a new collide-hash type",
+    "timestamp": "2022-10-29"
+  }
+]
