@@ -1,0 +1,277 @@
+[
+  {
+    "name": "tie-1.png",
+    "caption": "TIE Renderer",
+    "timestamp": "2024-04-04"
+  },
+  {
+    "name": "shrubs.png",
+    "caption": "Shrubs",
+    "timestamp": "2024-04-04"
+  },
+  {
+    "name": "jak-model.png",
+    "caption": "\"Jak's model is not in a DGO, but in a STR file, so the common FR3 doesn't get the model data during extraction. target has an ext-geo-control which is an external-art-buffer and they load the file during target-continue so they can swap Jak's model\" -Hat Kid",
+    "timestamp": "2024-04-05"
+  },
+  {
+    "name": "cloth.png",
+    "caption": "And here's the new Jak 3 model",
+    "timestamp": "2024-04-05"
+  },
+  {
+    "name": "cursed-eyes.png",
+    "caption": "It's always the eyes...",
+    "timestamp": "2024-04-06"
+  },
+  {
+    "name": "green-stuff.png",
+    "caption": "...",
+    "timestamp": "2024-04-07"
+  },
+  {
+    "name": "progress-1.png",
+    "caption": "",
+    "timestamp": "2024-04-07"
+  },
+  {
+    "name": "okay-eyes.png",
+    "caption": "",
+    "timestamp": "2024-04-07"
+  },
+  {
+    "name": "drip.png",
+    "caption": "Glow is working and Light Jak is looking good",
+    "timestamp": "2024-04-07"
+  },
+  {
+    "name": "navmesh-1.png",
+    "caption": "nav-mesh, but nobody to use it yet",
+    "timestamp": "2024-04-08"
+  },
+  {
+    "name": "minimap-1.png",
+    "caption": "Minimap WIP",
+    "timestamp": "2024-04-08"
+  },
+  {
+    "name": "was-garage.png",
+    "caption": "Hat Kid's vehicle collection rivaling water111's from Jak II",
+    "timestamp": "2024-04-12"
+  },
+  {
+    "name": "minimap-2.png",
+    "caption": "",
+    "timestamp": "2024-04-12"
+  },
+  {
+    "name": "minimap-3.png",
+    "caption": "",
+    "timestamp": "2024-04-12"
+  },
+  {
+    "name": "minimap-4.png",
+    "caption": "1-line fix gets rid of the black lines around minimap textures",
+    "timestamp": "2024-04-12"
+  },
+  {
+    "name": "vehicle-hud.png",
+    "caption": "Desert vehicle HUD",
+    "timestamp": "2024-04-12"
+  },
+  {
+    "name": "boss-hud.png",
+    "caption": "",
+    "timestamp": "2024-04-12"
+  },
+  {
+    "name": "desert-1.png",
+    "caption": "\"finally, I reached the desert\" -water111",
+    "timestamp": "2024-04-12"
+  },
+  {
+    "name": "health.png",
+    "caption": "",
+    "timestamp": "2024-04-14"
+  },
+  {
+    "name": "regions-1.png",
+    "caption": "Region debug tools partially working",
+    "timestamp": "2024-04-14"
+  },
+  {
+    "name": "regions-2.png",
+    "caption": "",
+    "timestamp": "2024-04-14"
+  },
+  {
+    "name": "tokens-1.png",
+    "caption": "\"wow I did not know the tokens had 3D models\" -ManDude",
+    "timestamp": "2024-04-14"
+  },
+  {
+    "name": "pc-settings.png",
+    "caption": "ManDude carries over a bunch of the PC Settings improvements",
+    "timestamp": "2024-04-15"
+  },
+  {
+    "name": "memory-prof.png",
+    "caption": "",
+    "timestamp": "2024-04-15"
+  },
+  {
+    "name": "yellow1.png",
+    "caption": "",
+    "timestamp": "2024-04-15"
+  },
+  {
+    "name": "blue2.png",
+    "caption": "",
+    "timestamp": "2024-04-15"
+  },
+  {
+    "name": "purple3.png",
+    "caption": "",
+    "timestamp": "2024-04-15"
+  },
+  {
+    "name": "red3.png",
+    "caption": "",
+    "timestamp": "2024-04-15"
+  },
+  {
+    "name": "blue3.png",
+    "caption": "",
+    "timestamp": "2024-04-15"
+  },
+  {
+    "name": "dark-blast-1.png",
+    "caption": "",
+    "timestamp": "2024-04-15"
+  },
+  {
+    "name": "dark-blast-2.png",
+    "caption": "",
+    "timestamp": "2024-04-15"
+  },
+  {
+    "name": "collision-renderer.png",
+    "caption": "Collision Renderer, we love you",
+    "timestamp": "2024-04-15"
+  },
+  {
+    "name": "volcanox-1.png",
+    "caption": "\"volcanox\" level misbehaving",
+    "timestamp": "2024-04-17"
+  },
+  {
+    "name": "wascity-1.png",
+    "caption": "",
+    "timestamp": "2024-04-19"
+  },
+  {
+    "name": "dax-perch-1.png",
+    "caption": "\"The Daxter perch animation just breaks him\" -Hat Kid (happens on PS2 as well)",
+    "timestamp": "2024-04-21"
+  },
+  {
+    "name": "ocean-1.png",
+    "caption": "Hat Kid's Jak 3 PR was approaching 500k lines added at this point...",
+    "timestamp": "2024-04-22"
+  },
+  {
+    "name": "wide.png",
+    "caption": "",
+    "timestamp": "2024-04-22"
+  },
+  {
+    "name": "minimap-5.png",
+    "caption": "More minimap icons",
+    "timestamp": "2024-04-22"
+  },
+  {
+    "name": "minimap-6.png",
+    "caption": "Classic aspect ratio HUD bugs",
+    "timestamp": "2024-04-22"
+  },
+  {
+    "name": "minimap-8.png",
+    "caption": "The icons are in the right spot at least",
+    "timestamp": "2024-04-22"
+  },
+  {
+    "name": "bbush-1.png",
+    "caption": "",
+    "timestamp": "2024-04-22"
+  },
+  {
+    "name": "needle-laser-1.png",
+    "caption": "The Needle Laser tracking is... kinda dumb",
+    "timestamp": "2024-04-22"
+  },
+  {
+    "name": "hud-collectables-1.png",
+    "caption": "",
+    "timestamp": "2024-04-25"
+  },
+  {
+    "name": "hud-collectables-2.png",
+    "caption": "",
+    "timestamp": "2024-04-25"
+  },
+  {
+    "name": "warp-effect.png",
+    "caption": "",
+    "timestamp": "2024-04-25"
+  },
+  {
+    "name": "red3-dead-leaper.png",
+    "caption": "\"yeah the bombs dont explode when in proximity to the spirits of the dead leapers\" -ManDude",
+    "timestamp": "2024-04-25"
+  },
+  {
+    "name": "precd-1.png",
+    "caption": "\"precd\" level is having some issues too...",
+    "timestamp": "2024-04-29"
+  },
+  {
+    "name": "level-heap-prof-1.png",
+    "caption": "\"added a new bar that shows level heap usage for each level (color coded)\" -ManDude",
+    "timestamp": "2024-04-29"
+  },
+  {
+    "name": "level-heap-prof-2.png",
+    "caption": "\"not surprising but the memory management in the city is identical to jak 2. just 2 levels to juggle around in the edges\" -ManDude",
+    "timestamp": "2024-04-29"
+  },
+  {
+    "name": "skill-tracker.png",
+    "caption": "\"i love ctrl+v'ing code and it works first try\" -ManDude",
+    "timestamp": "2024-04-29"
+  },
+  {
+    "name": "subrails-path.png",
+    "caption": "",
+    "timestamp": "2024-04-29"
+  },
+  {
+    "name": "volcanox-2.png",
+    "caption": "Hat Kid & ManDude make sense of and fix the volcanox issue",
+    "timestamp": "2024-04-30"
+  },
+  {
+    "name": "cave.png",
+    "caption": "\"this cave also renders now\" -ManDude",
+    "timestamp": "2024-04-30"
+  },
+  {
+    "name": "region-bad.png",
+    "caption": "We found some poorly-placed triggers in Jak II, but wow this one",
+    "timestamp": "2024-04-30"
+  },
+  {
+    "name": "regions-3.png",
+    "caption": "",
+    "timestamp": "2024-04-30"
+  }
+]

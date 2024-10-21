@@ -1,0 +1,124 @@
+[
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1036981371253555290/2022-11-01_13-30-43.mp4",
+    "caption": "Sound integration!",
+    "timestamp": "2022-11-01",
+    "name": "jak2-sound-fx-4",
+    "video": true
+  },
+  {
+    "name": "entities-1.png",
+    "caption": "The first alive entities!",
+    "timestamp": "2022-11-12"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1043711854775640084/unknown_2022.11.19-21.16.mp4",
+    "caption": "Resurrecting Naughty Dog's cursor functionality",
+    "timestamp": "2022-11-19",
+    "name": "cursor",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1043918900036894750/target2-2022-11-20_11.00.01.mp4",
+    "caption": "Target is spawning and we can see bones!",
+    "timestamp": "2022-11-20",
+    "name": "bones",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1043953798852378794/2022-11-20_19-18-03.mp4",
+    "caption": "A little off...",
+    "timestamp": "2022-11-20",
+    "name": "bones-off",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1043966209768558612/target3-2022-11-20_14.08.01.mp4",
+    "caption": "Better! Collision and camera both coming along",
+    "timestamp": "2022-11-20",
+    "name": "bones-collision-camera",
+    "video": true
+  },
+  {
+    "name": "camera-marks.png",
+    "caption": "Using camera marks to debug camera issues",
+    "timestamp": "2022-11-20"
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1043975182924140625/2022-11-20_20-43-56.mp4",
+    "caption": "Hat Kid gives a sneak peek of the JET Board",
+    "timestamp": "2022-11-20",
+    "name": "bones-jetboard",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1043989732641746994/target4-2022-11-20_15.41.06.mp4",
+    "caption": "Testing out Jak's movement around the city",
+    "timestamp": "2022-11-20",
+    "name": "bones-explore",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1044040994737377330/2022-11-21_01-04-33_c.mp4",
+    "caption": "Hours later Hat Kid has earned the pleasure of doing the first OpenGOAL hover glitch!",
+    "timestamp": "2022-11-20",
+    "name": "bones-jetboard-hover",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1044065799549243514/target_og-2022-11-20_20.43.43.mp4",
+    "caption": "Debugging edge grabs",
+    "timestamp": "2022-11-20",
+    "name": "edgegrabs",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1044417698995638352/target_with_daxter-2022-11-21_20.02.19.mp4",
+    "caption": "Orange Lightning",
+    "timestamp": "2022-11-21",
+    "name": "dax",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1044653074666500166/2022-11-22_17-36-55_c.mp4",
+    "caption": "It's that dark eco freak!",
+    "timestamp": "2022-11-22",
+    "name": "darkjak",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1045094393461350400/2022-11-23.mp4",
+    "caption": "Ziemas gives us live sound effects and sound positioning",
+    "timestamp": "2022-11-23",
+    "name": "jak2-sound-fx-5",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1046543052971446272/merc-debugging-2022-11-27_16.47.25.mp4",
+    "caption": "water111 making progress on the merc renderer",
+    "timestamp": "2022-11-27",
+    "name": "merc-1",
+    "video": true
+  },
+  {
+    "link": "https://www.youtube.com/watch?v=_QIGl3eW254",
+    "caption": "So Jak 2 is done, yeah?",
+    "timestamp": "2022-11-27",
+    "name": "escape-1",
+    "video": true
+  },
+  {
+    "link": "https://www.youtube.com/watch?v=P55uBaoWXfA",
+    "caption": "\"I love that the opening level for Jak 2 has so many things to immediately test with (platforming / enemies / etc).  The amount of times I had to run to the beach to test the nav-mesh stuff before...\" -Vaser",
+    "timestamp": "2022-11-28",
+    "name": "escape-2",
+    "video": true
+  },
+  {
+    "link": "https://cdn.discordapp.com/attachments/995787558816595968/1047566514598969395/2022-11-30_18-34-22.mp4",
+    "caption": "Sliding state works now",
+    "timestamp": "2022-11-30",
+    "name": "tube",
+    "video": true
+  }
+]
