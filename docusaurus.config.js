@@ -31,6 +31,9 @@ const config = {
   markdown: {
     mermaid: true,
   },
+  future: {
+    experimental_faster: true,
+  },
   scripts: [
     {
       src: "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.74/dist/shoelace.js",
@@ -171,24 +174,7 @@ const config = {
         lightTheme: lightCodeTheme,
         additionalLanguages: ["lisp", "clojure"],
       },
-    }),
-  webpack: {
-    jsLoader: (isServer) => ({
-      loader: require.resolve("swc-loader"),
-      options: {
-        jsc: {
-          parser: {
-            syntax: "typescript",
-            tsx: true,
-          },
-          target: "es2017",
-        },
-        module: {
-          type: isServer ? "commonjs" : "es6",
-        },
-      },
-    }),
-  },
+    })
 };
 
 function customizedSvgo() {
