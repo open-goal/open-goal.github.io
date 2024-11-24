@@ -1,0 +1,9 @@
+---
+sidebar_position: ___SIDEBAR-POSITION___
+title: '___TITLE___'
+description: '___DESCRIPTION___'
+---
+
+import Gallery from '@site/___GALLERY-SRC-PATH___';
+
+<Gallery/>
