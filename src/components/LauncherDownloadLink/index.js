@@ -10,13 +10,15 @@ export default function LauncherDownloadLink({ hideTutorial = false }) {
 
   const [detectedPlatform, setDetectedPlatform] = useState("");
   const [forPlatform, setForPlatform] = useState("");
-  const [isArm, setIsArm] = useState(false);
+  const [isUnsupportedArmPlatform, setIsUnsupportedArmPlatform] =
+    useState(false);
 
   const [launcherVersion, setLauncherVersion] = useState("");
   const [downloadUrlAutomatic, setDownloadUrlAutomatic] = useState("#");
   const [downloadUrlWindows, setDownloadUrlWindows] = useState("#");
   const [downloadUrlLinux, setDownloadUrlLinux] = useState("#");
   const [downloadUrlMacOS, setDownloadUrlMacOS] = useState("#");
+  const [downloadUrlMacOSARM, setDownloadUrlMacOSARM] = useState("#");
 
   const [deckyPluginVersion, setDeckyPluginVersion] = useState("");
   const [deckyPluginDownloadUrl, setDeckyPluginDownloadUrl] = useState("");
@@ -30,6 +32,9 @@ export default function LauncherDownloadLink({ hideTutorial = false }) {
     const isWindows = platformLower === "windows";
     const isMacOS = platformLower === "mac os";
     const isLinux = !isWindows && !isMacOS;
+    const isARM =
+      parser.getCPU().architecture === "arm" ||
+      parser.getCPU().architecture === "arm64";
 
     const response = await fetch(
       `https://api.github.com/repos/open-goal/launcher/releases/latest`,
@@ -56,11 +61,18 @@ export default function LauncherDownloadLink({ hideTutorial = false }) {
           setForPlatform("Linux");
           setDownloadUrlAutomatic(asset.browser_download_url);
         }
-      } else if (asset.name.match(/^.*\.dmg$/)) {
+      } else if (asset.name.match(/^.*_x64\.dmg$/)) {
         setAvailable(true);
         setDownloadUrlMacOS(asset.browser_download_url);
-        if (isMacOS) {
+        if (isMacOS && !isARM) {
           setForPlatform("Intel MacOS");
+          setDownloadUrlAutomatic(asset.browser_download_url);
+        }
+      } else if (asset.name.match(/^.*_aarch64\.dmg$/)) {
+        setAvailable(true);
+        setDownloadUrlMacOSARM(asset.browser_download_url);
+        if (isMacOS && isARM) {
+          setForPlatform("Apple Silicon");
           setDownloadUrlAutomatic(asset.browser_download_url);
         }
       }
@@ -83,11 +95,7 @@ export default function LauncherDownloadLink({ hideTutorial = false }) {
       }
     }
 
-    setIsArm(
-      parser.getCPU().architecture === "arm" ||
-        parser.getCPU().architecture === "arm64",
-    );
-
+    setIsUnsupportedArmPlatform(isARM && !isMacOS);
     setLoading(false);
   };
 
@@ -158,12 +166,14 @@ export default function LauncherDownloadLink({ hideTutorial = false }) {
             `Windows Launcher @ ${launcherVersion}`,
             `Linux Launcher @ ${launcherVersion}`,
             `Intel MacOS Launcher @ ${launcherVersion}`,
+            `Apple Silicon Launcher @ ${launcherVersion}`,
             `Decky Plugin @ ${deckyPluginVersion}`,
           ]}
           secondaryButtonUrls={[
             downloadUrlWindows,
             downloadUrlLinux,
             downloadUrlMacOS,
+            downloadUrlMacOSARM,
             deckyPluginDownloadUrl,
           ]}
         />
@@ -189,15 +199,15 @@ export default function LauncherDownloadLink({ hideTutorial = false }) {
           </Button>
         )}
       </div>
-      {apiError || !available || isArm ? (
+      {apiError || !available || isUnsupportedArmPlatform ? (
         <div className="row" style={{ justifyContent: "center", gap: "1em" }}>
           <p>
             {apiError
               ? "Couldn't fetch latest release, API error or you are rate-limited!"
               : null}
             <br />
-            {isArm
-              ? `Launcher only supports Windows, Linux and Intel MacOS. Detected platform: ${forPlatform}`
+            {isUnsupportedArmPlatform
+              ? `Launcher only supports Windows, Linux and Intel MacOS. Detected platform: ${detectedPlatform}`
               : null}
           </p>
         </div>
