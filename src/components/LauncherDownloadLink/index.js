@@ -30,7 +30,7 @@ export default function LauncherDownloadLink({ hideTutorial = false }) {
       `${parser.getOS().name} - ${parser.getCPU().architecture}`,
     );
     const isWindows = platformLower === "windows";
-    const isMacOS = platformLower === "mac os";
+    const isMacOS = platformLower === "mac os" || platformLower === "macos";
     const isLinux = !isWindows && !isMacOS;
     const isARM =
       parser.getCPU().architecture === "arm" ||
