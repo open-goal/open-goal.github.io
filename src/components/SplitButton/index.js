@@ -75,7 +75,6 @@ export default function SplitButton({
         }}
       >
         {secondaryButtonLabels.map((option, index) => {
-          console.log(`${primaryButtonUrl} === ${secondaryButtonUrls[index]}`);
           if (secondaryButtonUrls[index] === primaryButtonUrl) {
             return null;
           }
