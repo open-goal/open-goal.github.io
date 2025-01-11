@@ -20,26 +20,22 @@ function HomepageHeader() {
   let colorizedText = `<span class="hero-bracket-color">(</span><span class="hero-identifier-color">format</span> <span class="hero-constant-color">0</span> <span class="hero-string-color">"~S~%"</span> <span class="hero-nested-bracket-color">(</span><span class="hero-identifier-color">-></span> <span class="hero-variable-color">*site-config* tag-line</span><span class="hero-nested-bracket-color">)</span><span class="hero-bracket-color">)</span>`;
   const [textFinishedTyping, setTextFinishedTyping] = useState(false);
   const [currText, setCurrText] = useState("");
-  let interval;
-
-  const initalState = 0;
-  const [count, setCount] = useState(initalState);
-  const counterRef = useRef(initalState);
+  const counterRef = useRef(0);
 
   useEffect(() => {
-    counterRef.current = count;
-    if (count >= textToType.length) {
-      clearInterval(interval);
-      setCurrText(colorizedText);
-      setTextFinishedTyping(true);
-    }
-  });
-
-  useEffect(() => {
-    interval = setInterval(() => {
-      setCount(counterRef.current + 1);
-      setCurrText(textToType.substring(0, counterRef.current));
+    const interval = setInterval(() => {
+      let newCount = counterRef.current + 1;
+      counterRef.current = newCount;
+      setCurrText(textToType.substring(0, newCount));
+      if (newCount >= textToType.length) {
+        setCurrText(colorizedText);
+        setTextFinishedTyping(true);
+        clearInterval(interval);
+      }
     }, 25);
+    return () => {
+      clearInterval(interval)
+    };
   }, []);
 
   const { siteConfig } = useDocusaurusContext();
