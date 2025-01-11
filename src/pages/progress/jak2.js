@@ -523,17 +523,19 @@ export default function Jak2DecompProgress() {
         <section>
           <div className="container">
             <div className="row">
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={developerMode}
-                      onChange={() => setDeveloperMode(!developerMode)}
-                    />
-                  }
-                  label="Are you a developer?"
-                />
-              </FormGroup>
+              <div class="col col--12">
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={developerMode}
+                        onChange={() => setDeveloperMode(!developerMode)}
+                      />
+                    }
+                    label="Are you a developer?"
+                  />
+                </FormGroup>
+              </div>
             </div>
             {developerMode ? (
               <DeveloperModeContent />

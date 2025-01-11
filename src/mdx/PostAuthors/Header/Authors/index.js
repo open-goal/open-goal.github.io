@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import BlogAuthor from '@theme/Blog/Components/Author';
+import BlogAuthor from "@theme/Blog/Components/Author";
 import styles from "./styles.module.css";
 // Component responsible for the authors layout
 // authorNames is optional
