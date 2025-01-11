@@ -37,7 +37,7 @@ To coincide with the changes in last month's upgrade, the launcher is now native
 
 ### Support Caron Diacritics and Czech Alphabet <PRLink href="https://github.com/open-goal/jak-project/pull/3815"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3816"/>
 
-Caron diacritics have been added to the games font, as well as some additional diacritics to fully support the Czech alphabet.  A reminder once again that if you would like to translate the games into a language but your font is not fully supported, please still reach out.  As long as the alphabet only requires some simple modifications with the game's existing glyphs (such as adding diacritics to the latin alphabet) it's relatively simple to accomodate.
+Caron diacritics have been added to the games font, as well as some additional diacritics to fully support the Czech alphabet. A reminder once again that if you would like to translate the games into a language but your font is not fully supported, please still reach out. As long as the alphabet only requires some simple modifications with the game's existing glyphs (such as adding diacritics to the latin alphabet) it's relatively simple to accomodate.
 
 ### Avoid Duplicate Model Replacement Processing <PRLink href="https://github.com/open-goal/jak-project/pull/3789"/>
 
@@ -74,7 +74,7 @@ A few improvements to color palette selection. These were made by tracing some p
 - The depth of the KD tree during the initial split was increased, allowing it to use up to 8192 colors, instead of just 1024.
 - In most cases, not all child nodes of the tree have colors in them, meaning that a tree of depth 13 would have less than 8192 colors. If this happens, child nodes are split until the color count reaches 8192. The selection of which nodes to split is somewhat arbitrary, but is breadth-first. The axis for splitting is the one with the largest range. (which might be a better idea in general?)
 
-On crystal-cave, the worst case color error was reduced from 221 to 9. 
+On crystal-cave, the worst case color error was reduced from 221 to 9.
 
 ### Option to copy mod/eye draws from Original Model <PRLink href="https://github.com/open-goal/jak-project/pull/3800"/>
 
@@ -88,7 +88,7 @@ Fix a missing scale factor when using the large mode in the animation compressor
 
 I finally went through and worked out the math for the camera matrix, and improved how it works for PC rendering. I was able to finally avoid the double perspective divide issue, which I always thought would cause accuracy issues.
 
-This will help tfrag, tie (no envmap), shrub, and hfrag have less z-fighting in cases where the camera and the thing you're looking at are pretty close, but the entire level is far from the origin - like jak 3 temple.  I was able to modify the camera matrix so we don't have to do all the weird scaling/addition in the shader. 
+This will help tfrag, tie (no envmap), shrub, and hfrag have less z-fighting in cases where the camera and the thing you're looking at are pretty close, but the entire level is far from the origin - like jak 3 temple. I was able to modify the camera matrix so we don't have to do all the weird scaling/addition in the shader.
 
 Here's a screenshot from the temple oracle checkpoint, cropped from 4k. This used to have a lot of fighting issues.
 
@@ -100,9 +100,9 @@ There's definitely more to do here, but this is a good starting point and proof 
 
 ### Increase Print Buffer and Check Size <PRLink href="https://github.com/open-goal/jak-project/pull/3826"/>
 
-This should fix the crash when entering the freedom HQ elevator. It was caused by a large number of prints, one for each process in the city being killed by `check-for-rougue-process`, which would overflow the print buffer. So I increased the print buffer. 
+This should fix the crash when entering the freedom HQ elevator. It was caused by a large number of prints, one for each process in the city being killed by `check-for-rougue-process`, which would overflow the print buffer. So I increased the print buffer.
 
-Detecting buffer overflow here is hard because lots of things are allowed to write to it, including  the user's GOAL print methods. I added a basic check that will assert when there's 1k or less space in the buffer. It won't catch every overflow, but it would have caught this one.
+Detecting buffer overflow here is hard because lots of things are allowed to write to it, including the user's GOAL print methods. I added a basic check that will assert when there's 1k or less space in the buffer. It won't catch every overflow, but it would have caught this one.
 
 ## Jak 2 and Jak 3
 
@@ -122,7 +122,7 @@ After collecting 600 orbs, cloth systems that didn't have any `alt-tex-name`s de
 
 ### Adjust Overlord SPU DMA to Avoid Audio Hangs <PRLink href="https://github.com/open-goal/jak-project/pull/3804"/>
 
-Change jak 3 SPU DMA to run the interrupt handler "immediately" (or at least before `DMA_SendToSPUAndSync` returns). 
+Change jak 3 SPU DMA to run the interrupt handler "immediately" (or at least before `DMA_SendToSPUAndSync` returns).
 
 This fixes an issue where audio can hang during fast cutscene playback. I'm hoping it fixes more issues with looping/stuck audio as well, but this needs more testing.
 

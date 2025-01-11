@@ -11,9 +11,7 @@ const BlogList = [
     image: require("@site/blog/progress-report-dec-2024/img/poster.png")
       .default,
     description: (
-      <>
-        Despite the holiday season, some work was still accomplished.
-      </>
+      <>Despite the holiday season, some work was still accomplished.</>
     ),
     link: "/blog/progress-report-dec-2024",
   },
@@ -21,24 +19,16 @@ const BlogList = [
     title: "Progress Report - November 2024",
     image: require("@site/blog/progress-report-nov-2024/img/poster.png")
       .default,
-    description: (
-      <>
-        Wouldn't you know it, more Jak 3 fixes!
-      </>
-    ),
+    description: <>Wouldn't you know it, more Jak 3 fixes!</>,
     link: "/blog/progress-report-nov-2024",
   },
   {
     title: "Progress Report - October 2024",
     image: require("@site/blog/progress-report-oct-2024/img/poster.png")
       .default,
-    description: (
-      <>
-        Yet more fixes for Jak 3 and custom levels.
-      </>
-    ),
+    description: <>Yet more fixes for Jak 3 and custom levels.</>,
     link: "/blog/progress-report-oct-2024",
-  }
+  },
 ];
 
 function BlogPost({ image, title, description, link, height, backgroundSvg }) {

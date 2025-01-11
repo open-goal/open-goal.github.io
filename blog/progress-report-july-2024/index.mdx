@@ -34,7 +34,7 @@ This month's OpenGOAL Tooling (jak-project repo) release is `0.2.15`.
 
 ### Merch Survey Results
 
-Thanks to everyone that took the time to fill out the survey in last month's progress report.  There were over 340 responses, with 93.8% of you saying you were interested in some capacity.
+Thanks to everyone that took the time to fill out the survey in last month's progress report. There were over 340 responses, with 93.8% of you saying you were interested in some capacity.
 
 Stay tuned for future updates in this regard (in the usual places, discord announcements / progress report updates).
 
@@ -51,7 +51,7 @@ Things to keep in mind:
 
 - The replacement has to be a GLTF model (file extension `.glb`). Blender 4.0 is recommended for this. Blender 4.2 should also work, but you may have to change it to use byte color or the vertex coloring can look messed up. Blender 4.1 will **NOT** work due to a quirk in the GLTF exporter.
 - This change is purely visual and quite rudimentary, it does not actually replace the model's skeleton/bones. It will try to match the replacement models' bone weights to the original skeleton, so don't expect the replacement to look very good unless it matches the original skeleton well.
-:::
+  :::
 
 ![Shrek](img/shrexter.png)
 ![Light Babak](img/babak-drip.png)
@@ -63,17 +63,19 @@ Things to keep in mind:
 Hopefully this is the final nail in the coffin for this bug. It would seem that for some environments, having an invalid/mismatched `game-size` resolution would cause the game to only display a black screen.
 
 The characteristic log that you are affected by this is:
+
 > OpenGL error 0x502 S8246 T824C: GL_INVALID_OPERATION error generated. Source and destination dimensions must be identical with the current filtering modes.
 
 The game will now check if the set `game-size` is a supported resolution on your display, if it's not, it will default to the one currently set instead.
 
-Additionally a lot of the related code was simplified and centralized so future debugging should be easier related to display bugs.  Please reach out if you are still affected by this issue or if it unfortunately caused a new one.
+Additionally a lot of the related code was simplified and centralized so future debugging should be easier related to display bugs. Please reach out if you are still affected by this issue or if it unfortunately caused a new one.
 
 ### Persist Memory Card Settings to pc-settings <PRLink href="https://github.com/open-goal/jak-project/pull/3612"/>
 
-In the original game, all settings had to be stored to the memory card due to having no other choice.  But we aren't limited by that and it can be inconvenient to have to load your save-file to initialize your preferred settings such as volume levels, vibration, play-hints, etc.  Some players do not even realize this is how it works and it just causes confusion that OpenGOAL isn't properly saving their settings.
+In the original game, all settings had to be stored to the memory card due to having no other choice. But we aren't limited by that and it can be inconvenient to have to load your save-file to initialize your preferred settings such as volume levels, vibration, play-hints, etc. Some players do not even realize this is how it works and it just causes confusion that OpenGOAL isn't properly saving their settings.
 
 This fixes that, the following settings are now saved and restored from the `pc-settings.gc` file, instead of your save-slot:
+
 - Volume (SFX / Music / Dialog)
 - Controller Vibration
 - Play Hints (Only relevant in Jak 1)

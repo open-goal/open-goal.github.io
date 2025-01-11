@@ -33,12 +33,12 @@ This month's OpenGOAL Tooling (jak-project repo) release is `0.2.14`.
 
 ### OpenGOAL Merch Survey
 
-This is the aforementioned exciting announcement.  It's taken a few months to get most of the designs ready to present but atleast I'm
+This is the aforementioned exciting announcement. It's taken a few months to get most of the designs ready to present but atleast I'm
 fairly excited about it.
 
 I thought it would be nice to have some physical merchandise to go along with the project, not only because I thought we could make something cool and there isn't a ton of quality stuff out there, but also because it kinda serves as a reward/reminder for all the work we've put into the project.
 
-Additionally, for a long time people have consistently brought up the desire to donate or contribute financially.  This is still off the table for several reasons, but purchasing merchandise is different than a donation.  It's not just gifting money away and it doesn't create a sense of obligation -- you are getting something out of the deal.
+Additionally, for a long time people have consistently brought up the desire to donate or contribute financially. This is still off the table for several reasons, but purchasing merchandise is different than a donation. It's not just gifting money away and it doesn't create a sense of obligation -- you are getting something out of the deal.
 
 So, if you are interested and you want to see the design previews, their potential prices, and give feedback (please be respectful) check out [the google form](https://forms.gle/5DyurhxR1AfFpjpx6).
 
@@ -62,15 +62,16 @@ If you don't use the launcher, use the following link [https://aka.ms/vs/17/rele
 
 ### Launcher Decompiler Options <PRLink href="https://github.com/open-goal/jak-project/pull/3560"/>
 
-People have wanted a simple way to use the launcher to extract textures, audio, etc for a while.  This has required them to either:
+People have wanted a simple way to use the launcher to extract textures, audio, etc for a while. This has required them to either:
+
 - manually edit the `.jsonc` config files and run the decompile option
 - be unable to, as the `extractor` binary could not do things like extract audio.
 
-Well no more, not only does the `extractor` binary now support anything the normal `decompiler` binary does -- but the launcher now has settings to do all of this for you.  Just enable what you want, and run the decompiler through `Advanced` on the respective game:
+Well no more, not only does the `extractor` binary now support anything the normal `decompiler` binary does -- but the launcher now has settings to do all of this for you. Just enable what you want, and run the decompiler through `Advanced` on the respective game:
 
 ![](./img/launcher-decomp.png)
 
-There is also a new button to open the folder that the game's data is located in, this is useful to quickly find the folder where your textures/audio/etc are extracted to.  For example textures get extracted to `.../decompiler_out/<GAME>/textures`
+There is also a new button to open the folder that the game's data is located in, this is useful to quickly find the folder where your textures/audio/etc are extracted to. For example textures get extracted to `.../decompiler_out/<GAME>/textures`
 
 ![](./img/launcher-decomp-button.png)
 
@@ -88,7 +89,7 @@ The hope is that it can be made an official thing in the future as flatpak suppo
 
 Just like in Jak 2, code has been added to make airlocks open faster if you so choose.
 
-Additionally, as Overlord2 is still being worked on, cutscenes have to be hacked around.  This change improves the way the cutscenes temporarily skipped.
+Additionally, as Overlord2 is still being worked on, cutscenes have to be hacked around. This change improves the way the cutscenes temporarily skipped.
 
 ### Jak 1 eco meter was flashing the wrong color <PRLink href="https://github.com/open-goal/jak-project/pull/3549"/>
 
@@ -96,24 +97,24 @@ Fixed
 
 ### Jak 1 enforce certain settings in speedrunner mode <PRLink href="https://github.com/open-goal/jak-project/pull/3553"/>
 
-Certain settings like `PS2 Actor Vis` and framerate were mistakenly only enforced at the start of a run.  This only impacted Jak 1.
+Certain settings like `PS2 Actor Vis` and framerate were mistakenly only enforced at the start of a run. This only impacted Jak 1.
 
 ## Tooling Changes
 
 ### REPL Improvements <PRLink href="https://github.com/open-goal/jak-project/pull/3545"/>
 
-One of the coolest parts about using OpenGOAL is the REPL and making changes while the game is live.  Well atleast it is, until you change
-something that the compiler doesn't like.  Such as a function definition, or a type definition.
+One of the coolest parts about using OpenGOAL is the REPL and making changes while the game is live. Well atleast it is, until you change
+something that the compiler doesn't like. Such as a function definition, or a type definition.
 
-This would require you to completely restart your REPL, re-compile the project, and then you can continue your work.  `goalc` is noble for
+This would require you to completely restart your REPL, re-compile the project, and then you can continue your work. `goalc` is noble for
 trying to prevent these types of redefinitions, but during development and experimentation it's the opposite of what you want.
 
-There is a new `permissiveRedefinitions` boolean option you can put in your `repl-config.json` file to enable this behaviour.  It's early days so it
+There is a new `permissiveRedefinitions` boolean option you can put in your `repl-config.json` file to enable this behaviour. It's early days so it
 may still not allow redefining everything, make an issue when/if you encounter such situations.
 
 ![](./img/repl-1.png)
 
-Additionally, there's a cooler welcome screen that provides more information in a more condensed format.  This is something that hasn't been changed in years!
+Additionally, there's a cooler welcome screen that provides more information in a more condensed format. This is something that hasn't been changed in years!
 
 ![](./img/repl-2.png)
 
@@ -121,9 +122,10 @@ Additionally, there's a cooler welcome screen that provides more information in 
 
 If you have a problem related to frame-pacing or performance, you'll often be told to record a profile dump via the ImGUI topbar.
 
-However this tool had it's limitations.  For one thing, the maximum number of events were quite low, only amounting to a handful of seconds that could be recorded.  Additionally the size of the profile dump would be quite large given the amount of time it would take.  Lastly the UI wouldn't really tell you anything to suggest how quickly you were hitting the limit.
+However this tool had it's limitations. For one thing, the maximum number of events were quite low, only amounting to a handful of seconds that could be recorded. Additionally the size of the profile dump would be quite large given the amount of time it would take. Lastly the UI wouldn't really tell you anything to suggest how quickly you were hitting the limit.
 
 All of these things have been fixed:
+
 - You can change the maximum number of events that are recorded
 - You can enable compression on the output (approximately a 10x reduction)
 - The UI shows how quickly it's recording, letting you know if you need to bump up your max or not.

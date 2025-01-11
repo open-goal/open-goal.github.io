@@ -179,7 +179,7 @@ const config = {
         lightTheme: lightCodeTheme,
         additionalLanguages: ["lisp", "clojure"],
       },
-    })
+    }),
 };
 
 function customizedSvgo() {
