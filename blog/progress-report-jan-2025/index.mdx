@@ -1,0 +1,169 @@
+---
+title: Progress Report - January 2025
+date: 2025-02-04T10:00
+description: January 2025's OpenGOAL progress report
+slug: progress-report-jan-2025
+authors:
+  - hatkid
+tags: [progress-report]
+image: ./img/poster.png
+hide_table_of_contents: false
+draft: false
+---
+
+<head>
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+
+Decompiler improvements, custom actor support for Jak 2 and 3 and more.
+
+<!--truncate-->
+
+## Release Info
+
+This month's OpenGOAL Tooling (jak-project repo) release is `0.2.22`.
+
+<div className="row markdownMarginBottom">
+  <div className="col col--12">
+    <LauncherDownloadLink />
+  </div>
+</div>
+
+## General Changes
+
+## Decompiler Improvements
+
+### Add More VF Macros <PRLink href="https://github.com/open-goal/jak-project/pull/3824"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3849"/>
+
+The PS2's Vector Units had a lot of instructions for vector operations that let you define a mask to only operate on specific parts of a vector. Our macros for this were a bit lackluster and required you to manually define the mask as a bitfield. This adds extra convenience macros for every mask combination, cleaning up the code a bit.
+
+```diff
+- (.add.w.vf vf2 vf0 vf5 :mask #b0001)
+- (.add.z.vf vf2 vf0 vf5 :mask #b0010)
+- (.sub.y.vf vf2 vf0 vf5 :mask #b0100)
+- (.sub.w.vf vf2 vf0 vf0 :mask #b1000)
++ (.add.w.vf.x vf2 vf0 vf5)
++ (.add.z.vf.y vf2 vf0 vf5)
++ (.sub.y.vf.z vf2 vf0 vf5)
++ (.sub.w.vf.w vf2 vf0 vf0)
+```
+
+### Detect `vector*!` And More <PRLink href="https://github.com/open-goal/jak-project/pull/3828"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3845"/>
+
+In Jak 2 and 3, the `vector*!` function was inlined, which the decompiler now detects. Along with this, some other common operations are now also detected:
+
+- `new-stack-matrix0`
+
+```diff
+- (let ((s4-2 (new 'stack-no-clear 'matrix)))
+-   (set! (-> s4-2 rvec quad) (the-as uint128 0))
+-   (set! (-> s4-2 uvec quad) (the-as uint128 0))
+-   (set! (-> s4-2 fvec quad) (the-as uint128 0))
+-   (set! (-> s4-2 trans quad) (the-as uint128 0))
+-   (let ((f30-0 (-> arg0 bounds w)))
+-     (matrix-4x4-inverse! s4-2 (-> arg1 data 0 bone transform))
+-     (set! (-> arg0 bounds w) 1.0)
+-     (vector-matrix*! (-> arg0 bounds) (-> arg0 bounds) s4-2)
+-     (set! (-> arg0 bounds w) f30-0)
+-     )
++ (let ((s4-2 (new-stack-matrix0))
++       (f30-0 (-> arg0 bounds w))
++       )
++   (matrix-4x4-inverse! s4-2 (-> arg1 data 0 bone transform))
++   (set! (-> arg0 bounds w) 1.0)
++   (vector-matrix*! (-> arg0 bounds) (-> arg0 bounds) s4-2)
++   (set! (-> arg0 bounds w) f30-0)
++   )
+```
+
+- `matrix-copy!`
+
+```diff
+- (let* ((a3-0 (-> this parent 0 node-list data a0-6 bone transform))
+-        (a2-0 (-> s3-0 mat))
+-        (v1-9 (-> a3-0 rvec quad))
+-        (a0-8 (-> a3-0 uvec quad))
+-        (a1-4 (-> a3-0 fvec quad))
+-        (a3-1 (-> a3-0 trans quad))
+-        )
+-   (set! (-> a2-0 rvec quad) v1-9)
+-   (set! (-> a2-0 uvec quad) a0-8)
+-   (set! (-> a2-0 fvec quad) a1-4)
+-   (set! (-> a2-0 trans quad) a3-1)
++ (let ((a3-0 (-> this parent 0 node-list data a0-6 bone transform)))
++   (matrix-copy! (-> s3-0 mat) a3-0)
++   )
+```
+
+- `vector-copy!`
+
+```diff
+- (set! (-> s5-1 trans quad) (-> self sphere quad))
++ (vector-copy! (-> s5-1 trans) (-> self sphere))
+```
+
+### `as-type` Macro and Font Inline Method Detection <PRLink href="https://github.com/open-goal/jak-project/pull/3855"/>
+
+Another very common operation in Jak 2 and 3 is to check if an object is of a specific type and then cast it to that type, similar to `dynamic_cast` in C++.
+
+```opengoal
+(let* ((s4-0 (-> this process))
+       (a0-15 (if (type? s4-0 process-focusable) s4-0)))
+  ...)
+```
+
+This operation is now detected and will use the `as-type` macro:
+
+```diff
+- (let* ((s4-0 (-> this process))
+-        (a0-15 (if (type? s4-0 process-focusable) s4-0)))
+-   ...)
++ (let ((a0-15 (as-type (-> this process) process-focusable))) ...)
+```
+
+Additionally, `font-context` methods that were previously inlined are now properly detected:
+
+```diff
+- (let ((v1-14 gp-0))
+-   (set! (-> v1-14 width) (the float 440))
+-   )
+- (let ((v1-15 gp-0))
+-   (set! (-> v1-15 height) (the float 140))
+-   )
++ (set-width! gp-0 440)
++ (set-height! gp-0 140)
+```
+
+## Custom Levels
+
+### Support Enviroment Mapping in Jak 2 and 3 <PRLink href="https://github.com/open-goal/jak-project/pull/3851"/>
+
+The environment mapping support that was added recently for Jak 1 now also works in Jak 2 and 3.
+
+### Custom Actor Support in Jak 2 and 3 <PRLink href="https://github.com/open-goal/jak-project/pull/3851"/>
+
+Jak 2 and 3 have received support for custom actors! Previously only available for Jak 1, this allows you to create a model in Blender with animations and import it into the game to create your own game objects with custom behavior.
+
+You can find a guide on how to make your own custom actors [here](/docs/developing/custom_levels/custom_actors) if interested.
+
+<ReactPlayer controls url={require("./video/build-actor2.mp4").default} />
+
+<ReactPlayer controls url={require("./video/build-actor3.mp4").default} />
+
+## Jak 1
+
+### Fix TIE Wind Regression <PRLink href="https://github.com/open-goal/jak-project/pull/3837"/>
+
+The camera code improvements from last month's release have caused a regression that made objects using wind, such as trees, vanish.
+
+## Jak 2
+
+### Fix `camera-other` Regression <PRLink href="https://github.com/open-goal/jak-project/pull/3843"/>
+
+Along with wind, there was another regression in Jak 2/3 that broke levels like the Palace Throne, which uses the `camera-other` effect to rotate parts of the level.
+
+## Jak 3
+
+### Enemy Code Cleanup <PRLink href="https://github.com/open-goal/jak-project/pull/3845"/>
+
+The code for enemy types has been cleaned up to make it a lot more readable.
