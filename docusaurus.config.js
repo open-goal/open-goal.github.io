@@ -77,8 +77,8 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       announcementBar: {
-        id: "announcementBar-21", // Increment on change
-        content: `<a href="/blog/progress-report-dec-2024">Check out December's Progress Report Here!</a>`,
+        id: "announcementBar-22", // Increment on change
+        content: `<a href="/blog/progress-report-jan-2025">Check out January's Progress Report Here!</a>`,
       },
       algolia: {
         // The application ID provided by Algolia
@@ -177,7 +177,7 @@ const config = {
       prism: {
         theme: darkCodeTheme,
         lightTheme: lightCodeTheme,
-        additionalLanguages: ["lisp", "clojure"],
+        additionalLanguages: ["lisp", "clojure", "diff"],
       },
     }),
 };
