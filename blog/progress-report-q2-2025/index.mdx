@@ -75,6 +75,12 @@ As a workaround, you can download a `jak-project` release directly and install m
 
 ## General Changes
 
+### Translations <PRLink href="https://github.com/open-goal/jak-project/pull/3942"/>
+
+All translations from [Crowdin](https://crowdin.com/project/opengoal) should now be updated and added to the games. The previous update was back in February, so this includes changes for Italian, Polish, Portuguese (Brazilian), Galician, French, Hungarian, Spanish, Catalan, Czech, German, English (UK), and Croatian!
+
+If you're interested in contributing translations, check out [these guides](https://opengoal.dev/docs/category/contributing).
+
 ### Fix `merc` transparency for custom actors <PRLink href="https://github.com/open-goal/jak-project/pull/3875"/>
 
 Because merc effects for custom models would always have the `envmap-usage` flag set, this would also set the `ignore-alpha` flag, making transparency effects not work. Now the `envmap-usage` flag is only set when the effect actually has an envmap, allowing for proper transparency support in custom models.
@@ -156,6 +162,10 @@ Users were reporting that some controller buttons were incorrectly considered he
 ### Fix ISO extraction validation bug <PRLink href="https://github.com/open-goal/jak-project/pull/3937"/>
 
 Fixes a bug where only the first 2^32 bytes were being properly extracted and hashed for validation.
+
+### Default to MSAA off <PRLink href="https://github.com/open-goal/jak-project/pull/3943"/>
+
+MSAA will now default to off instead of 2X (if you don't already have saved graphics settings, such as after a fresh install). We hope this will help with some black screen and performance issues some users have been facing.
 
 ## Jak 3
 
