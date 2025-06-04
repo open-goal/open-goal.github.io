@@ -230,7 +230,7 @@ There is a button to download this in the help page, as well as one should appea
 
 Once you've reached this screen, you're all set up and ready to go! Just hit `PLAY` to start the game. The other controls are not something you'll need to play the game, as most of them are tools for developers, or helpful links to folders such as your save files.
 
-That's everything! At this point you should have a working copy of the game to play. Join us in the [discord](https://discord.gg/VZbXMHXzWv) or finding streams/streaming yourself on [Twitch](https://www.twitch.tv/directory/game/Jak%20and%20Daxter:%20The%20Precursor%20Legacy) to get involved in the community.
+That's everything! At this point you should have a working copy of the game to play. Join us in the [discord](https://discord.gg/VZbXMHXzWv) or find streams/stream yourself on [Twitch](https://www.twitch.tv/directory/game/Jak%20and%20Daxter:%20The%20Precursor%20Legacy) to get involved in the community.
 
 **ENJOY!**
 
@@ -242,6 +242,7 @@ These releases can be found here - https://github.com/open-goal/jak-project/rele
 
 - For **Windows** you want to download the `opengoal-windows-vX.X.X.zip` asset
 - For **Linux** you want to download the `opengoal-linux-vX.X.X.tar.gz` asset
+- For **MacOS** (Intel only) you want to download the `opengoal-macos-intel-vX.X.X.tar.gz` asset
 
 :::tip
 If you have some technical experience, and would prefer to build this application from the source yourself, then take a look at the [project README instructions](https://github.com/open-goal/jak-project#setting-up-a-development-environment) instead. Support for this however is outside the scope of this document.
@@ -249,13 +250,13 @@ If you have some technical experience, and would prefer to build this applicatio
 
 ### Windows
 
-If you would prefer a video, see the following:
-
-<ReactPlayer url={"https://www.youtube.com/watch?v=yQBKCnS5MDY"} style={{marginBottom: "1em"}}/>
+If you would prefer a video, there is an old tutorial [here](https://www.youtube.com/watch?v=yQBKCnS5MDY), but it only covers installing/playing Jak 1.
 
 1. Extract the `.zip` file wherever you'd like
 2. Drag your `.iso` file onto the `extractor.exe` file
+   - Alternatively, from Powershell/Command Prompt you can run `./extractor.exe --game jak1 <path-to-iso>` (swap `jak1` for `jak2`/`jak3` if you're trying to install those games)
 3. Run `gk.exe` to open the game
+   - `gk` defaults to booting Jak 1. If you're trying to play Jak 2 or 3, you'll need to open Powershell/Command Prompt and run `./gk.exe --game jak2` or `./gk.exe --game jak3`.
 
 ### Linux
 
@@ -263,7 +264,11 @@ If you're continuing with the builds from the latest releases, extract the conte
 
 ![Expected files for Linux users](./img/linux_files_list.png)
 
-Once you have these files extracted, there are two main steps required. The first is to extract all of the assets from the `.iso` file you created earlier, using the `extractor` from the install above (eg `./extractor <path-to-iso>`). Once this extraction completes, you should be able to run `gk` from the same folder to start the game.
+Once you have these files extracted, there are two main steps required. 
+
+1. Extract all of the assets from the `.iso` file you created earlier, using the `extractor` from the install above (e.g. `./extractor --game jak1 <path-to-iso>`, swapping `jak1` for `jak2`/`jak3` if you're trying to install those games)
+2. Once the extraction completes, you should be able to run `gk` from the same folder to start the game
+   - `gk` defaults to booting Jak 1. If you're trying to play Jak 2 or 3, you'll need to open a terminal and run `./gk --game jak2` or `./gk --game jak3`.
 
 ### MacOS
 
@@ -271,7 +276,7 @@ Once you have these files extracted, there are two main steps required. The firs
 We do not support Apple Silicon (M1/M2) macOS at this time.
 :::
 
-The process of using a `jak-project` release on an Intel based Mac is very similar to the above mentioned Linux steps. Ensure you download the appropriate `macos`, `tar.gz` file however.
+The process of using a `jak-project` release on an Intel based Mac should follow the same steps mentioned above for Linux. Just be sure you download the appropriate `macos` asset from the release.
 
 ### Linux (Steam Deck)
 
@@ -307,4 +312,4 @@ This is a video guide for Steam Deck users that covers the process of installing
 
 ## Conclusion
 
-That's everything! At this point you should have a working copy of the game to play. Join us in the [discord](https://discord.gg/VZbXMHXzWv) or finding streams/streaming yourself on [Twitch](https://www.twitch.tv/directory/game/Jak%20and%20Daxter:%20The%20Precursor%20Legacy) to get involved in the community.
+That's everything! At this point you should have a working copy of the game to play. Join us in the [discord](https://discord.gg/VZbXMHXzWv) or find streams/stream yourself on [Twitch](https://www.twitch.tv/directory/game/Jak%20and%20Daxter:%20The%20Precursor%20Legacy) to get involved in the community.
