@@ -171,7 +171,7 @@ Default setting is 2x. Recommended value is as high as you can go without runnin
 
 An experimental setting to alter the game's framerate. The game's visuals and physics must run at the same framerate and due to technical reasons only a few values can be picked. While they have been tested a fair amount, settings that are not 60 can potentially cause all sorts of strange bugs with the game! Default value is 60. Recommended value is 60.
 
-Note that, if the game detected your monitor supports only at most 60fps, this option will be disabled. It will still be displayed in the menu, but it doesn't allow setting any value.
+Note that, if the game detects that your monitor does not support a framerate higher than 60, this option will be disabled. It will still be displayed in the menu, but it will not allow you to set any value.
 
 ### PS2 OPTIONS
 
