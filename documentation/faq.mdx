@@ -114,11 +114,26 @@ We intend to make it as easy as we can to make your own code or import graphics 
 
 If you'd like to create your own Mod Source to list your mods, you just need to create a publicly accessible JSON file that adheres to [this schema](https://github.com/open-goal/launcher/blob/HEAD/fixtures/mock-mods.json).
 
-### Will you support pressure sensitivity?
+### Do you support pressure sensitivity / other controller effects?
 
-No. Pressure sensitivity is the possibility of a few controllers such as DualShock 2, DualShock 3 to detect differences in the amount of force applied to them, as opposed to binary inputs (e.g. "pressed" or "not pressed").
+After the [upgrade to SDL3](https://opengoal.dev/blog/progress-report-q2-2025/#controller-functionality), there is some *limited support* for pressure sensitivity and vibration effects, depending on your controller (many controllers don't support these at a hardware or driver level).
 
-Even though pressure sensitivity is present in the PS2 and PS3 versions (for extra jump height and controlling the zoomer), there is no plan to support this. The vast majority of controllers don't support this at a hardware or driver level. The same functionality can be achieved by briefly tapping the respective buttons.
+- Pressure sensitivity support for DS3 controllers
+  - This option is disabled by default
+  - Only tested on Windows. You will need [DsHidMini](https://docs.nefarius.at/projects/DsHidMini) and to be using SXS mode.
+- Trigger resistance and vibration effects for DualSense controllers
+  - resistance when changing to dark jak
+  - different gun shooting effects
+    - red (resistance)
+    - yellow (weapon trigger)
+    - blue (vibrates)
+    - purple (less resistance)
+- Trigger vibration effects for Xbox One controllers
+  - small vibrate when collecting dark eco
+  - big vibrate when changing to dark jak
+  - vibrate when shooting gun, proportional to gun type
+
+Note that the gun shooting effects require enabling a new "Swap R1 and R2" option.
 
 ### Will you support ARM platforms (such as Android, Apple Silicon, Nintendo Switch, etc.)?
 
