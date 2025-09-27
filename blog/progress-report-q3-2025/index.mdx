@@ -1,0 +1,102 @@
+---
+title: Progress Report - Q3 2025
+date: 2025-09-30T10:00
+description: Q3 2025's OpenGOAL progress report
+slug: progress-report-q3-2025
+authors:
+  - barg
+  - vaser
+tags: [progress-report]
+image: ./img/poster.png
+hide_table_of_contents: false
+draft: false
+---
+
+<head>
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+
+As promised, the Q3 report, albeit likely not containing the progress you had hoped for.
+
+<!--truncate-->
+
+## Release Info
+
+This month's OpenGOAL Tooling (jak-project repo) release is `0.2.30`.
+
+<div className="row markdownMarginBottom">
+  <div className="col col--12">
+    <LauncherDownloadLink />
+  </div>
+</div>
+
+<!-- ## Community Spotlight -->
+
+<!-- ## Known Issues -->
+
+## General Changes
+
+### Replace PCRTC framebuffer blit with screen quad draw <PRLink href="https://github.com/open-goal/jak-project/pull/3980"/>
+
+Taking the suggestion from [@Calinou](https://github.com/open-goal/jak-project/pull/3943#issuecomment-3017359144), this replaces the resolve/render framebuffer -> window framebuffer blit with an actual drawn tri-strip which covers the entire viewport, which the PCRTC blackout already does.
+
+It appears we have no guarantee what state the internal window framebuffer will be in, so drawing an actual primitive and letting the fragment shader do all the work seems to be the more compatible/functional solution here.
+
+Thanks for the suggestion!
+
+We hope that this resolves some issues for some select users (such as the black screen issue)
+
+### Properly handle symlinks <PRLink href="https://github.com/open-goal/jak-project/pull/3990"/>
+
+If you use symlinks with your installation, this contribution updated our filesystem library so they would be handled properly.  Thanks for the fix!
+
+### Korean language support <PRLink href="https://github.com/open-goal/jak-project/pull/3988"/>
+
+TLDR, the original korean option in Jak 2 and Jak 3 is now working.  In Jak 3 this also resolved a crash when you would select it in the menu.
+
+If you want to learn more, about what had to be done / how it was done, take a look at the PR description.
+
+## Jak 3
+
+### Fix `was-pre-game` crash and `egg-spider` bbush <PRLink href="https://github.com/open-goal/jak-project/pull/4000"/>
+
+Fixes https://github.com/open-goal/jak-project/issues/3997
+- The script for the orb that is spawned when getting a medal in the satellite game was using the wrong entity name.
+
+Fixes https://github.com/open-goal/jak-project/issues/3998
+- The spider-manager process was invalid for one frame, causing the score to be set to the value of #f, winning the game instantly.
+
+Also doubled the PC port texture count, which should hopefully fix the crash that happens when playing the game all the way through to the end of the Destroy Dark Eco Tanks mission in one sitting.
+
+## Jak 2
+
+### Jak 2 duplicate input menu entry <PRLink href="https://github.com/open-goal/jak-project/pull/4024"/>
+
+`Right Analog Stick Left` was accidentally placed in the remapping menu in Jak 2 twice, fixed!  Thank you!
+
+## Jak 1
+
+### Allow skipping Jak 1 credits in speedrunner mode <PRLink href="https://github.com/open-goal/jak-project/pull/3981"/>
+
+In Jak 1 you can't skip the credits, similar to how you couldn't skip the cutscenes.  Now you can!
+
+### Some Jak 1 autosplitter fixes <PRLink href="https://github.com/open-goal/jak-project/pull/3996"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4022"/>
+
+- Don't update cell/orb/fly autosplit counters during blackout
+- Fix lavatube oranges autosplit
+
+### Jak 1 qbert crash <PRLink href="https://github.com/open-goal/jak-project/pull/4006"/>
+
+<!-- TODO BARG ill let you talk about this -->
+
+### Rename `WATER_AN.CGO` to `WATER-AN.CGO` during Jak 1 Installation <PRLink href="https://github.com/open-goal/jak-project/pull/3890"/>
+
+If you dump your ISO with a very outdated tool, it is possible that it will rename this one file incorrectly on you, and you will fail to install.
+
+Since this is the only file in the entire quadrilogy that uses an invalid ISO-9660 character, we will attempt to correct it for you.
+
+However, we will be updating the ISO extraction advice on the site soon to avoid people making bad dumps.  As truly that is the solution -- you gotta dump your ISO properly.
+
+### Jak 1 Bosnian Language <PRLink href="https://github.com/open-goal/jak-project/pull/4011"/>
+
+Another impressive full game translation, thanks a ton for all the effort on this contribution!
