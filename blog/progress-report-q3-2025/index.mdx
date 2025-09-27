@@ -30,7 +30,31 @@ This month's OpenGOAL Tooling (jak-project repo) release is `0.2.30`.
   </div>
 </div>
 
-<!-- ## Community Spotlight -->
+## Community Spotlight
+
+### Brume Village
+
+Cuttlefish (custom level creator behind [Glacier](https://www.youtube.com/watch?v=P3R-UODGtXw), [Overgrown](https://www.youtube.com/watch?v=Kbb2yiYg0cw), and [Rockpool](https://www.youtube.com/watch?v=hrH-foTn0IQ&pp=0gcJCfYJAYcqIYzv)) recently dropped not just a new custom level, but an entire custom hub with 4 new levels! Collect all 24 Power Cells and restore power to Brume Village, home of the Yellow Sage!
+
+<ReactPlayer
+  controls
+  url={"https://www.youtube.com/watch?v=IP4sevEfQNM"}
+  className="blog-video"
+/>
+
+### Sandpit
+
+Sandpit is another custom level from a new mod creator, Slak. Miners have vanished from a nearby excavation site, leaving behind their tools and Power Cells!
+
+<ReactPlayer
+  controls
+  url={"https://www.youtube.com/watch?v=3_17L5XoZFc"}
+  className="blog-video"
+/>
+
+:::info
+If you want to play these mods (and others), follow the instructions [here](https://jakmods.dev/) to set up the mod list for the OpenGOAL launcher.
+:::
 
 <!-- ## Known Issues -->
 
@@ -78,16 +102,18 @@ Also doubled the PC port texture count, which should hopefully fix the crash tha
 
 ### Allow skipping Jak 1 credits in speedrunner mode <PRLink href="https://github.com/open-goal/jak-project/pull/3981"/>
 
-In Jak 1 you can't skip the credits, similar to how you couldn't skip the cutscenes.  Now you can!
+Originally in Jak 1 you couldn't skip the credits, similar to how you couldn't skip the cutscenes.  Now you can!
 
 ### Some Jak 1 autosplitter fixes <PRLink href="https://github.com/open-goal/jak-project/pull/3996"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4022"/>
 
-- Don't update cell/orb/fly autosplit counters during blackout
+- Don't update cell/orb/fly autosplit counters during blackout (prevents extra splits when loading file)
 - Fix lavatube oranges autosplit
 
 ### Jak 1 qbert crash <PRLink href="https://github.com/open-goal/jak-project/pull/4006"/>
 
-<!-- TODO BARG ill let you talk about this -->
+There was a somewhat common crash that would happen in Lost Precursor City, while passing through the central room with the whirlpool in the middle. After you've completed the puzzle room challenge, if you leave the area and come back, when the `qbert-plat-master` spawns it tries to open up the room where the cell would be. It sends `'trigger` events to the processes for the door and the `wall-plat` under the door. In some scenarios, the `qbert-plat-master` will have a bad reference to one of these processes, and the `send-event-function` will crash trying to invoke the process's `event-hook`.
+
+The fix is simply to add an extra check in `send-event-function` that we have a valid `process` before we try to send it the event. Making the fix here in `send-event-function` (in Jak 2 and 3 as well) means this could potentially address other crashes throughout the games too.
 
 ### Rename `WATER_AN.CGO` to `WATER-AN.CGO` during Jak 1 Installation <PRLink href="https://github.com/open-goal/jak-project/pull/3890"/>
 
