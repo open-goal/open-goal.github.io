@@ -5,7 +5,16 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 
-const BlogList = [  
+const BlogList = [ 
+  {
+    title: "Progress Report - Q3 2025",
+    image: require("@site/blog/progress-report-q3-2025/img/poster.webp")
+      .default,
+    description: (
+      <>As promised, the Q3 report, albeit likely not containing the progress you had hoped for.</>
+    ),
+    link: "/blog/progress-report-q3-2025",
+  }, 
   {
     title: "Progress Report - Q2 2025",
     image: require("@site/blog/progress-report-q2-2025/img/poster.png")
@@ -21,15 +30,6 @@ const BlogList = [
       .default,
     description: <>A big translation update, and a couple Jak 3 fixes.</>,
     link: "/blog/progress-report-feb-2025",
-  },
-  {
-    title: "Progress Report - January 2025",
-    image: require("@site/blog/progress-report-jan-2025/img/poster.png")
-      .default,
-    description: (
-      <>Decompiler improvements, custom actor support for Jak 2 and 3 and more.</>
-    ),
-    link: "/blog/progress-report-jan-2025",
   }
 ];
 
