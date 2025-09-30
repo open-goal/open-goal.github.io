@@ -8,7 +8,7 @@ import { CardActionArea } from "@mui/material";
 const BlogList = [ 
   {
     title: "Progress Report - Q3 2025",
-    image: require("@site/blog/progress-report-q3-2025/img/poster.png")
+    image: require("@site/blog/progress-report-q3-2025/img/poster.webp")
       .default,
     description: (
       <>As promised, the Q3 report, albeit likely not containing the progress you had hoped for.</>
