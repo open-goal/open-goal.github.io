@@ -118,18 +118,6 @@ const config = {
                 label: "Major Milestones",
                 to: "/progress/milestones",
               },
-              {
-                label: "Jak and Daxter - Decompilation",
-                to: "/progress/jak1",
-              },
-              {
-                label: "Jak II - Decompilation",
-                to: "/progress/jak2",
-              },
-              {
-                label: "Jak 3 - Decompilation",
-                to: "/progress/jak3",
-              },
             ],
           },
           {

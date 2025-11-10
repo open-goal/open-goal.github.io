@@ -1,11 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
 import Layout from "@theme/Layout";
 import {
   createTheme,
-  Switch,
   ThemeProvider,
-  FormGroup,
-  FormControlLabel,
 } from "@mui/material";
 import MaterialTable from "material-table";
 import decompFileData from "/data/progress/jak1/progress.json";
@@ -67,67 +63,7 @@ const labelCastData = castData.labelCasts.filter((entry) => {
   return entry.value > castData.labelCastAvgFreq;
 });
 
-const fileStatusData = () => {
-  let statusAmounts = {};
-  for (let i = 0; i < decompFileData.length; i++) {
-    if (statusAmounts[decompFileData[i].status] == undefined) {
-      statusAmounts[decompFileData[i].status] = 1;
-    } else {
-      statusAmounts[decompFileData[i].status] += 1;
-    }
-  }
-  // combine "started" and "decompiled"
-  if (
-    Object.keys(statusAmounts).includes("started") &&
-    Object.keys(statusAmounts).includes("decompiled")
-  ) {
-    statusAmounts["decompiled"] += statusAmounts["started"];
-    delete statusAmounts["started"];
-  }
-  let data = [];
-  for (const [key, value] of Object.entries(statusAmounts)) {
-    data.push({ name: key, value: value });
-  }
-  return data;
-};
-
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-
-function NonDeveloperModeContent() {
-  return (
-    <div className="row mt-2 text--center">
-      <div className="col col--4">
-        <h2>File Progress</h2>
-        <ResponsiveContainer width="100%" height={400}>
-          <PieChart width={400} height={400}>
-            <Pie
-              dataKey="value"
-              isAnimationActive={false}
-              data={fileStatusData()}
-              cx="50%"
-              cy="50%"
-              innerRadius={"50%"}
-              outerRadius={"90%"}
-              fill="#8884d8"
-            >
-              {fileStatusData().map((entry, index) => (
-                <Cell fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip
-              wrapperStyle={{ outline: "#febb01 solid 1px" }}
-              contentStyle={{
-                backgroundColor: "#222222",
-                border: null,
-              }}
-              itemStyle={{ color: "#fff" }}
-            />
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-  );
-}
 
 function DeveloperModeContent() {
   return (
@@ -522,33 +458,12 @@ function DeveloperModeContent() {
 }
 
 export default function Jak1DecompProgress() {
-  const [developerMode, setDeveloperMode] = useState(false);
-
   return (
     <Layout title="Progress" description="Project Progress">
       <main className="sl-theme-dark">
         <section>
           <div className="container">
-            <div className="row">
-              <div class="col col--12">
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={developerMode}
-                        onChange={() => setDeveloperMode(!developerMode)}
-                      />
-                    }
-                    label="Are you a developer?"
-                  />
-                </FormGroup>
-              </div>
-            </div>
-            {developerMode ? (
-              <DeveloperModeContent />
-            ) : (
-              <NonDeveloperModeContent />
-            )}
+            <DeveloperModeContent />
           </div>
         </section>
       </main>
