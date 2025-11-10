@@ -270,16 +270,6 @@ export default function Progress() {
             </div>
           </div>
         </section>
-        <section className="home-section">
-          <div className="container">
-            <div className="row">
-              <div className="col">
-                <h1 className="monospaced">Jak 2</h1>
-                <p>Stay Tuned!</p>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
     </Layout>
   );
