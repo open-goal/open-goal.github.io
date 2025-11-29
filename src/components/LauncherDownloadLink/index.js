@@ -61,14 +61,14 @@ export default function LauncherDownloadLink({ hideTutorial = false }) {
           setForPlatform("Linux");
           setDownloadUrlAutomatic(asset.browser_download_url);
         }
-      } else if (asset.name.match(/^.*_x64\.dmg$/)) {
+      } else if (asset.name.match(/^.*_x64.*\.dmg$/)) {
         setAvailable(true);
         setDownloadUrlMacOS(asset.browser_download_url);
         if (isMacOS && !isARM) {
           setForPlatform("Intel MacOS");
           setDownloadUrlAutomatic(asset.browser_download_url);
         }
-      } else if (asset.name.match(/^.*_aarch64\.dmg$/)) {
+      } else if (asset.name.match(/^.*_aarch64.*\.dmg$/)) {
         setAvailable(true);
         setDownloadUrlMacOSARM(asset.browser_download_url);
         if (isMacOS && isARM) {
