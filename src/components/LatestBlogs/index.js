@@ -5,7 +5,16 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 
-const BlogList = [ 
+const BlogList = [
+  {
+    title: "Progress Report - Q4 2025",
+    image: require("@site/blog/progress-report-q4-2025/img/poster.webp")
+      .default,
+    description: (
+      <>Happy Holidays!</>
+    ),
+    link: "/blog/progress-report-q4-2025",
+  }, 
   {
     title: "Progress Report - Q3 2025",
     image: require("@site/blog/progress-report-q3-2025/img/poster.webp")
@@ -23,13 +32,6 @@ const BlogList = [
       <>As many of you noticed, it's been awhile since the last Progress Report 😅. Worry not, the project is still alive and well, but development on OpenGOAL Jak 3 has been a bit slower as of late.</>
     ),
     link: "/blog/progress-report-q2-2025",
-  },
-  {
-    title: "Progress Report - February 2025",
-    image: require("@site/blog/progress-report-feb-2025/img/poster.png")
-      .default,
-    description: <>A big translation update, and a couple Jak 3 fixes.</>,
-    link: "/blog/progress-report-feb-2025",
   }
 ];
 
