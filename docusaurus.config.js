@@ -147,6 +147,11 @@ const config = {
             ],
           },
           {
+            to: "#",
+            label: "Button_Holidays",
+            position: "right",
+          },
+          {
             href: "https://github.com/open-goal",
             position: "right",
             className: "header-github-link",
