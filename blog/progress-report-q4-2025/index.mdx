@@ -33,10 +33,19 @@ This month's OpenGOAL Tooling (jak-project repo) release is `0.2.31`.
 
 ### Cratetopia
 
-<!-- maybe skip since it's having frequent issues with crashing? -->
+GratefulForest (of [Platformia](https://www.youtube.com/watch?v=ZbhsCHf6X1s) infamy) is back with Cratetopia, a familiar-looking block game recreated in the OpenGOAL engine!
+
+<!-- waiting for outrag YT upload... -->
 
 ### Pogo
 
+EvelynTSMG came up with this Jak 1 challenge mod, where Jak is forced to keep jumping at all times! Be sure to check out the mod settings where you can adjust various difficulty settings.
+
+<ReactPlayer
+  controls
+  url={"https://www.youtube.com/watch?v=oNcmiJjPhdA"}
+  className="blog-video"
+/>
 
 :::info
 If you want to play these mods (and others), follow the instructions [here](https://jakmods.dev/) to set up the mod list for the OpenGOAL launcher.
@@ -48,111 +57,158 @@ If you want to play these mods (and others), follow the instructions [here](http
 
 ### Build new AppImage format <PRLink href="https://github.com/open-goal/launcher/pull/853"/> <PRLink href="https://github.com/open-goal/launcher/pull/858"/>
 
-
+Upgrades our Tauri version to support portable AppImages.
 
 ### Disable content selection in sidebar <PRLink href="https://github.com/open-goal/launcher/pull/862"/>
 
-
+Fixes minor bug where you could highlight unintended parts of the UI.
 
 ### Restore playtime feature <PRLink href="https://github.com/open-goal/launcher/pull/872"/>
 
+Restores a feature to track playtime per game, which was inadvertently removed during code cleanup.
 
+![](./img/playtime.png)
 
 ### Support window resizing & allow Linux users to change install directory <PRLink href="https://github.com/open-goal/launcher/pull/856"/>
 
-
+Now that the CSS is responsive, we can allow for the launcher window to be resized (e.g. fullscreen on Steamdeck). Also fixed an issue where Linux users couldn't change their installation directory.
 
 ### Improve support package output <PRLink href="https://github.com/open-goal/launcher/pull/875"/>
 
-
+Improves the accuracy of installation metadata collected for the support package, which users can provide to developers to get help troubleshooting.
 
 ### Restore changelog page <PRLink href="https://github.com/open-goal/launcher/pull/873"/>
 
-
+Adds back the page detailing what has changed when new updates are available. This also fixes responsive issues with the "Update Available" header positioning.
 
 ### Replace `svelte-navigator` with `sv-router` <PRLink href="https://github.com/open-goal/launcher/pull/874"/>
 
-
+Replaces the deprecated `svelte-navigator` with the more modern `sv-router`, which has some new features and a much nicer reactive model.
 
 ### Correct header version display for mods <PRLink href="https://github.com/open-goal/launcher/pull/879"/>
 
+Properly distinguishes between vanilla and mod versions in the header.
 
+![](./img/mod_version.png)
 
 ### Texture Pack / Mod feature cleanup <PRLink href="https://github.com/open-goal/launcher/pull/886"/>
 
-
+Fixes a bunch of typescript errors and refactored Texture Packs and Mods into isolated components.
 
 ### Fix local mod installation <PRLink href="https://github.com/open-goal/launcher/pull/880"/>
 
-
+Fixes an issue where mods could no longer be installed from a local release package.
 
 ### Fix offline mod support <PRLink href="https://github.com/open-goal/launcher/pull/848"/> <PRLink href="https://github.com/open-goal/launcher/pull/887"/>
 
-
+Fixes an issue where already-installed mods could not be played while offline. The launcher will now cache metadata about mods during installation, and will fall back to this if the information cannot be fetched from the mod list source (i.e. while offline).
 
 ### Fix brief UI flashes while navigating <PRLink href="https://github.com/open-goal/launcher/pull/885"/>
 
-
+Fixes an issue where previous component state could be briefly visible while naviating between pages.
 
 ## General Changes
 
-### Translations <PRLink href="https://github.com/open-goal/jak-project/pull/3942"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4027"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4028"/>
+### Translations <PRLink href="https://github.com/open-goal/jak-project/pull/4027"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4028"/>
 
-<!-- 2 PRs from Sept but we didn't shout out in Q3 report so maybe worth mentioning? last one isn't merged yet -->
+<!-- 1 PR from Sept but we didn't shout out in Q3 report so maybe worth mentioning? last one isn't merged yet -->
+
+All translations from [Crowdin](https://crowdin.com/project/opengoal) should now be updated and added to the games. This includes changes for Spanish, Czech, Portuguese (Brazilian), French, Dutch, German, Polish, and Finnish!
+
+If you're interested in contributing translations, check out [these guides](https://opengoal.dev/docs/category/contributing).
 
 ### Add REPL function `offset-of` <PRLink href="https://github.com/open-goal/jak-project/pull/4081"/>
 
+Adds a new function to the REPL which will return the offset in memory for a field within a reference type.
 
+![](./img/offset-of.png)
 
 ### Improved decompiler output for `part-tracker` <PRLink href="https://github.com/open-goal/jak-project/pull/4082"/>
 
+Improves the readability of decompiler output relating to particle groups / particle trackers. For example:
 
+```diff
+ (process-spawn part-tracker :init part-tracker-init
+-   (-> *part-group-id-table* 104)
++   group-part-yellow-eco-fireball-hit
+```
 
-### Fix custom model visibility when reusing materials <PRLink href="https://github.com/open-goal/jak-project/pull/4070"/>
+### Fix custom model meshes when reusing materials <PRLink href="https://github.com/open-goal/jak-project/pull/4070"/>
 
-
+Fixes an issue where collision and visibility on custom actors would get skipped if multiple Blender objects shared the same material.
 
 ### Fix custom level missing collision issue <PRLink href="https://github.com/open-goal/jak-project/pull/4060"/>
 
+Fixes an edge case in the BVH tree logic when processing custom level collision.
 
-
-### Speedrun mode/autosplitter updates <PRLink href="https://github.com/open-goal/jak-project/pull/4085"/> <PRLink href="https://github.com/open-goal/speedrunning/pull/27"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4086"/> <PRLink href="https://github.com/open-goal/speedrunning/pull/28"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4103"/> <PRLink href="https://github.com/open-goal/speedrunning/pull/29"/>
+### Speedrunner mode/autosplitter updates <PRLink href="https://github.com/open-goal/jak-project/pull/4085"/> <PRLink href="https://github.com/open-goal/speedrunning/pull/27"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4086"/> <PRLink href="https://github.com/open-goal/speedrunning/pull/28"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4103"/> <PRLink href="https://github.com/open-goal/speedrunning/pull/29"/>
 
 <!-- last pair of PRs arent merged yet, but should be good to go -->
+
+Various changes relating to speedrunner mode and autosplitter:
+- Jak 1
+  - Fixes Hub 2/3 100% categories to start with correct Scout Fly counts for previous levels
+- Jak 2
+  - Adds intro autosplit points for the Stadium races
+- Jak 3
+  - Adds useful non-resolution autosplit points
+  - Fixes end split timing to line up with last hit on final boss
+  - Updates suggested splits/routes for LiveSplit
 
 ## Jak 3
 
 ### Add zoom blur and color filter effect <PRLink href="https://github.com/open-goal/jak-project/pull/4031"/>
 
+Adds the zoom blur effect used for in cutscenes and for a few weapons:
+<ReactPlayer controls url={require("./video/zoom_blur.mp4").default} />
 
+Adds the color filter effect used in Misson Failed screen:
+<ReactPlayer controls url={require("./video/color_filter.mp4").default} />
 
 ### Fix crash when entering Freedom League HQ <PRLink href="https://github.com/open-goal/jak-project/pull/4035"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4038"/>
 
-
+Fixes some issues that would lead to a crash when entering the Freedom League HQ.
 
 ### Fix crash from VAG out-of-bounds access <PRLink href="https://github.com/open-goal/jak-project/pull/4040"/>
 
-
+Fixes an issue where all stereo VAG commands would write to an out-of-bounds array element and corrupt the whole VAG queue list. This was the cause of various sound-related crashes, such as when using Light Jak Freeze.
 
 ### Add support for brightness and contrast modifiers <PRLink href="https://github.com/open-goal/jak-project/pull/4041"/>
 
-
+Adds renderer support for modifying brightness and contrast, a new feature added to the graphics options in Jak 3.
 
 ### Fix subtitle speaker colors <PRLink href="https://github.com/open-goal/jak-project/pull/4043"/>
 
+Fixes copy/paste from Jak 2 for the text color of speakers in subtitles.
 
+### Decouple wasteland storm particles and wind pushback effect from framerate <PRLink href="https://github.com/open-goal/jak-project/pull/4046"/>
 
-### Decouple wasteland storm particles and wind pushback effect from FPS <PRLink href="https://github.com/open-goal/jak-project/pull/4046"/>
-
-
+Fixes an issue where the sandstorm in the wasteland had overly-aggressive particle effects and pushback effects on Jak. Players may have noticed this issue in the PS3 port, as it occurs because the newer console could maintain a better framerate than the PS2.
 
 ### Misc high FPS fixes <PRLink href="https://github.com/open-goal/jak-project/pull/4055"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4059"/>
 
-
+Various fixes to support framerates higher than 60 FPS:
+- `prebot` sword attack and projectile speed
+- Fast first person camera turning speed
+- Slow turret camera turning speed
+- `flyingsaw` movement and rotation speed
+- Green eco drain rate on jetboard during `forest-kill-plants` mission
+- `skeet` rotation speed
+- `maker-grenade` tumble speed
+- Jetboard spin speed
+- Texscroll speed
+- Slow walk anim after landing from a jump
+- `hud-skill` rotation speed (also for Jak 2)
+- `gun-dark-shot` projectile speed (also for Jak 2)
+- `target-float` up/down speed (also for Jak 2)
+- Prevents instantly killing Jak when exiting some vehicles (also for Jak 2)
 
 ### Collision Renderer support for new `pat-event`s and `pat-material`s <PRLink href="https://github.com/open-goal/jak-project/pull/4049"/>
 
+Adds support to the OpenGOAL collision renderer for new `pat-event`s and `pat-material`s added in Jak 3:
 
+![](./img/pat-event.png)
+![](./img/pat-material.png)
 
 ### Fix cutscene blackout issues <PRLink href="https://github.com/open-goal/jak-project/pull/4056"/>
 
