@@ -113,7 +113,7 @@ Fixes an issue where previous component state could be briefly visible while nav
 
 <!-- 1 PR from Sept but we didn't shout out in Q3 report so maybe worth mentioning? last one isn't merged yet -->
 
-All translations from [Crowdin](https://crowdin.com/project/opengoal) should now be updated and added to the games. This includes changes for Spanish, Czech, Portuguese (Brazilian), French, Dutch, German, Polish, and Finnish!
+All translations from [Crowdin](https://crowdin.com/project/opengoal) should now be updated and added to the games. This includes changes for Spanish, Czech, Portuguese (Brazilian), French, Dutch, German, Polish, and Finnish <!-- NOT YET MERGED -->!
 
 If you're interested in contributing translations, check out [these guides](https://opengoal.dev/docs/category/contributing).
 
@@ -147,9 +147,9 @@ Fixes an edge case in the BVH tree logic when processing custom level collision.
 
 Various changes relating to speedrunner mode and autosplitter:
 - Jak 1
-  - Fixes Hub 2/3 100% categories to start with correct Scout Fly counts for previous levels
+  - Fixes Hub 2/3 100% categories to start with correct Scout Fly counts for previous levels <!-- NOT YET MERGED -->
 - Jak 2
-  - Adds intro autosplit points for the Stadium races
+  - Adds intro autosplit points for the Stadium races <!-- NOT YET MERGED -->
 - Jak 3
   - Adds useful non-resolution autosplit points
   - Fixes end split timing to line up with last hit on final boss
@@ -201,10 +201,10 @@ Various fixes to support framerates higher than 60 FPS:
 - Jetboard spin speed
 - Texscroll speed
 - Slow walk anim after landing from a jump
-- `hud-skill` rotation speed (also for Jak 2)
-- `gun-dark-shot` projectile speed (also for Jak 2)
-- `target-float` up/down speed (also for Jak 2)
-- Prevents instantly killing Jak when exiting some vehicles (also for Jak 2)
+- `hud-skill` rotation speed
+- `gun-dark-shot` projectile speed
+- `target-float` up/down speed
+- Prevents instantly killing Jak when exiting some vehicles
 
 ### Collision Renderer support for new `pat-event`s and `pat-material`s <PRLink href="https://github.com/open-goal/jak-project/pull/4049"/>
 
@@ -264,30 +264,43 @@ The game tracks when the player last took damage using one clock, but compares t
 
 ### Fix `WakeupThread` Overlord/IOP issue <PRLink href="https://github.com/open-goal/jak-project/pull/4047"/>
 
-
+Fixes an issue where `StreamListThread` should have been deadlocked waiting for the uninitialized `LfoList` semaphore, but instead it would get woken up by `WakeupThread` erroneously.
 
 ### Fix HUD alignment for various aspect ratios <PRLink href="https://github.com/open-goal/jak-project/pull/4075"/>
 
+Fixes alignment of HUD elements to correctly scale with widescreen aspect ratios.
 
+### Misc high FPS fixes <PRLink href="https://github.com/open-goal/jak-project/pull/4055"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4059"/>
+
+Various fixes to support framerates higher than 60 FPS:
+- `hud-skill` rotation speed
+- `gun-dark-shot` projectile speed
+- `target-float` up/down speed
+- Prevents instantly killing Jak when exiting some vehicles
 
 ## Jak 1
 
 ### Subtitle fixes <PRLink href="https://github.com/open-goal/jak-project/pull/4063"/>
 
-
+Fixes a few typos in Uncler, Farmer, and Geologist subtitles.
 
 ### Misc high FPS fixes <PRLink href="https://github.com/open-goal/jak-project/pull/4067"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4069"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4105"/>
 
-<!-- last 2 aren't merged yet -->
+Various fixes to support framerates higher than 60 FPS:
+- water ripple effect
+- `balance-plat` speeds <!-- NOT YET MERGED -->
+- Speed of slider options in pause menu <!-- NOT YET MERGED -->
 
 ### Fix opening logo letterboxing for widescreen aspect ratios <PRLink href="https://github.com/open-goal/jak-project/pull/4073"/>
 
+Fixes letterboxing/blackout during the opening "Jak and Daxter" logo for widescreen aspect ratios. Previously you would start to see Sandover Village on the sides of the screen early, before the logo burst animation happened.
 
+<ReactPlayer controls url={require("./video/logo.mp4").default} />
 
 ### Fix custom levels tpages <PRLink href="https://github.com/open-goal/jak-project/pull/4074"/>
 
+Fixes an issue where the `tpage` list for custom levels was ignored, which could cause texture remapping to behave incorrectly.
 
+### Fix aspect ratio selection issues <PRLink href="https://github.com/open-goal/jak-project/pull/4101"/>
 
-### Fix progress menu aspect ratio issues <PRLink href="https://github.com/open-goal/jak-project/pull/4101"/>
-
-<!-- not yet merged -->
+Fixes an issue where aspect ratio was not properly updated from the progress menu upon selection. <!-- NOT YET MERGED -->
