@@ -111,9 +111,7 @@ Fixes an issue where previous component state could be briefly visible while nav
 
 ### Translations <PRLink href="https://github.com/open-goal/jak-project/pull/4027"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4028"/>
 
-<!-- 1 PR from Sept but we didn't shout out in Q3 report so maybe worth mentioning? last one isn't merged yet -->
-
-All translations from [Crowdin](https://crowdin.com/project/opengoal) should now be updated and added to the games. This includes changes for Spanish, Czech, Portuguese (Brazilian), French, Dutch, German, Polish, and Finnish <!-- NOT YET MERGED -->!
+All translations from [Crowdin](https://crowdin.com/project/opengoal) should now be updated and added to the games. This includes changes for Spanish, Czech, Portuguese (Brazilian), French, Dutch, German, Polish, and Finnish!
 
 If you're interested in contributing translations, check out [these guides](https://opengoal.dev/docs/category/contributing).
 
@@ -256,9 +254,14 @@ Fixes an issue where changing language didn't actually change the audio used for
 
 ### Fix `same-attack-invulnerable-timeout` clock drift bug <PRLink href="https://github.com/open-goal/jak-project/pull/3978"/>
 
-Fixes an original game bug that could lead to increasingly long cooldowns between taking damage from the same source, such as a flaming torch.
+Fixes an original game bug that could lead to increasingly long cooldowns between taking damage from the same source, such as a flaming torch. This is also fixed for Jak 2.
 
 The game tracks when the player last took damage using one clock, but compares this to a different clock when deciding if the player should take damage if it's from the same source. Only one of these clocks is affected by slow-down effects, such as during mission fails, Dark Jak special attacks, or Light Jak freeze. After one or more of these slow-down effects, these two clocks can end up drifting significantly apart, and throw off the intended cooldown logic.
+
+### Fix `*traffic-height-map*` array out-of-bounds bug <PRLink href="https://github.com/open-goal/jak-project/pull/4106"/>
+
+Fixes an original game bug, where extreme `h-vehicle` coordinates could lead to a crash by accessing out-of-bounds data in the `*traffic-height-map*`. This is also fixed for Jak 2.
+<!-- NOT YET MERGED -->
 
 ## Jak 2
 
