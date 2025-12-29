@@ -1,5 +1,6 @@
 ---
 sidebar_position: 0
+toc_max_heading_level: 4
 ---
 
 import Requirements from '../../partials/\_requirements.mdx';
