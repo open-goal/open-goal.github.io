@@ -133,7 +133,7 @@ sudo apt install libfuse2
 #### MacOS
 
 :::danger
-We do not support Apple Silicon (M1/M2) macOS at this time.
+Beware that while OpenGOAL currently runs on Apple Silicon devices, it depends on Rosetta, and there are known performance issues as a result of this.
 :::
 
 The Launcher is distributed as a `.dmg` and can be installed like any other common MacOS Application.
@@ -168,7 +168,7 @@ If you trust this application even without the signature, some screenshots of ho
 If you have chosen to continue installing the application after these warnings, you'll be shown a simple installation wizard that will allow you to configure and launch OpenGOAL. Some step by step screenshots have been included below.
 
 <details>
-  <summary>Expand this section to see the process of installing OpenGOAL</summary>
+  <summary>Expand this section to see the process of installing the launcher (on Windows)</summary>
   <div>
 
 ![Launching the installer](./img/opengoal_install_start.png)
@@ -183,6 +183,24 @@ If you have chosen to continue installing the application after these warnings, 
 If you choose to launch OpenGOAL once the install is completed, you'll skip right to the next step. If not you'll need to navigate to the location you chose for OpenGOAL to install (by default this location is `C:\Program Files\OpenGOAL-Launcher`), and run `OpenGOAL-Launcher.exe`.
 
 If this opens successfully, you've reached the final stage! Up next we'll be setting up the launcher, including extracting the assets from your `.iso` file.
+
+#### SteamDeck Setup
+
+On the SteamDeck, there are some steps you'll likely need to take before you can successfully launch the launcher.  The following steps are all done in desktop mode.
+
+First after downloading it, you should move it to a directory in your HOME directory so it is not lost between SteamOS updates.  Here I've created an `Apps` folder, and cut and pasted the file there.
+
+![](./img/steam/steamdeck_makeappsfolder.png)
+
+Next, you'll need to ensure it has execute permissions:
+
+![](./img/steam/steamdeck_adjustpermissions.png)
+
+Finally, you'll want to add the launcher to Steam, as a non-steam game.  This allows you to launch it from Game Mode.
+
+![](./img/steam/steamdeck_addshortcut.png)
+
+![](./img/steam/steamdeck_addshortcutb.png)
 
 ### Using the Launcher
 
@@ -234,6 +252,50 @@ That's everything! At this point you should have a working copy of the game to p
 
 **ENJOY!**
 
+### Setting up a Steam Shortcut
+
+If you would like to be able to launch the game without having to go through the launcher, which is especially useful on platforms like the SteamDeck, do the following:
+
+First click on the "Copy Game Executable Command" button on the relevant game page:
+
+![](./img/steam/steam_shortcut_0.jpg)
+
+Then, inside steam you'll want to add a new non-steam game:
+
+![](./img/steam/steam_shortcut_a.png)
+
+We'll need to find the `gk[.exe]` executable for the version you want to run.  If you are using the launcher, this will be in your installation directory under the `versions` folder.
+
+![](./img/steam/steam_shortcut_b.png)
+
+:::tip
+Two things to note here:
+1. When you change versions, this shortcut will have to be manually updated accordingly
+2. Atleast on linux, you have to switch to "All Files" to see `gk`
+:::
+
+Now we can open the shortcut's properties to paste in the command the launcher provided us into the `Launch Options` input
+
+![](./img/steam/steam_shortcut_c.png)
+
+![](./img/steam/steam_shortcut_d.png)
+
+![](./img/steam/steam_shortcut_e.png)
+
+Note that the beginning part of the pasted command should match the `Target`, we will delete this part of what we pasted, leaving only the arguments.
+
+![](./img/steam/steam_shortcut_f.png)
+
+Wrapping up, we can change the name:
+
+![](./img/steam/steam_shortcut_g.png)
+
+If you want to customize the look of the game's shortcut (the cover-art, thumbnail, etc) you can do so via the `Customize` menu:
+
+![](./img/steam/steam_shortcut_h.png)
+
+Check out [SteamGridDB](https://www.steamgriddb.com/) for assets or ideas
+
 ## Step 2b: Installing via a `jak-project` Release
 
 If you don't want to use the Launcher or it is not applicable for your platform, you can use the minimal base release instead.
@@ -270,37 +332,9 @@ Once you have these files extracted, there are two main steps required.
 2. Once the extraction completes, you should be able to run `gk` from the same folder to start the game
    - `gk` defaults to booting Jak 1. If you're trying to play Jak 2 or 3, you'll need to open a terminal and run `./gk --game jak2` or `./gk --game jak3`.
 
-### MacOS
-
-:::danger
-We do not support Apple Silicon (M1/M2) macOS at this time.
-:::
-
-The process of using a `jak-project` release on an Intel based Mac should follow the same steps mentioned above for Linux. Just be sure you download the appropriate `macos` asset from the release.
-
 ### Linux (Steam Deck)
 
-There are two main ways to install OpenGOAL on your SteamDeck. The first of which is to use our official plugin for the Decky Loader, the second is to do it all yourself and copy the files over as if you were installing in a normal linux environment.
-
-#### Decky Plugin
-
-First, you must have decky installed. Head over to https://decky.xyz/ and follow their installation steps, it's very simple.
-
-Next, you'll want to download the latest version of the plugin via our download link:
-
-<div className="row markdownMarginBottom">
-    <div className="col col--12">
-        <LauncherDownloadLink hideTutorial={true} />
-    </div>
-</div>
-
-You will have to enable developer tools to install from a `.zip` file.
-
-Once installed, the plugin will help you install the game as well as create a library shortcut for it.
-
-**TODO - a video tutorial that shows this process end-to-end.**
-
-#### Manually
+Similar to the previous section, you can manually install OpenGOAL on a SteamDeck
 
 This is a video guide for Steam Deck users that covers the process of installing and running OpenGOAL very thoroughly. The only change in this video is that we do now support other non black label versions of Jak and Daxter, so any disc should work!
 
@@ -309,6 +343,16 @@ This is a video guide for Steam Deck users that covers the process of installing
 > NOTE: For Steam Deck users, you can add OpenGOAL to your Steam library after installation by pointing to the `gk` file in this folder. You will need to change the `File type` to `All Files` in order to see it!
 >
 > ![Add gk to add OpenGOAL to your Steam Library, filter by All Files](./img/steam_deck_add_to_library.png)
+>
+> A simple shortcut like this will only work for launching Jak 1, you will need to specify the arguments as described in the previous Linux section for Jak 2 and beyond.
+
+### MacOS
+
+:::danger
+Beware that while OpenGOAL currently runs on Apple Silicon devices, it depends on Rosetta, and there are known performance issues as a result of this.
+:::
+
+The process of using a `jak-project` release on an Intel based Mac should follow the same steps mentioned above for Linux. Just be sure you download the appropriate `macos` asset from the release.
 
 ## Conclusion
 
