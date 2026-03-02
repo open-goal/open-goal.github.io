@@ -76,11 +76,11 @@ export function useSnowflakes() {
 }
 
 export default function LayoutWrapper(props) {
-  useSnowflakes();
+  // useSnowflakes();
 
   return (
     <>
-      <div id="holidays-animation"></div>
+      {/* <div id="holidays-animation"></div> */}
       <Layout {...props} />
     </>
   );

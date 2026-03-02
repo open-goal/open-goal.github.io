@@ -3,8 +3,8 @@
 
 // @ts-ignore
 const themes = require("prism-react-renderer").themes;
-const lightCodeTheme = themes.github;
-const darkCodeTheme = themes.dracula;
+const lightCodeTheme = themes.vsLight;
+const darkCodeTheme = themes.vsDark;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -146,11 +146,11 @@ const config = {
               },
             ],
           },
-          {
-            to: "#",
-            label: "Button_Holidays",
-            position: "right",
-          },
+          // {
+          //   to: "#",
+          //   label: "Button_Holidays",
+          //   position: "right",
+          // },
           {
             href: "https://github.com/open-goal",
             position: "right",

@@ -1,83 +1,108 @@
-// TODO - quoted expressions
-// TODO - proper sexpr
 Prism.languages.opengoal = {
-  comment: [
-    {
-      pattern: /#\|[\s\S]*?(?:\|#|$)/,
-      lookbehind: true,
-      greedy: true,
-    },
-    {
-      pattern: /(^|[^\\:]);+.*/,
-      lookbehind: true,
-      greedy: true,
-    },
-  ],
-  string: {
-    pattern: /"(?:[^"\\]|\\.)*"/,
+  // ----------------------------------
+  // Comments
+  // ----------------------------------
+
+  'block-comment': {
+    pattern: /#\|[\s\S]*?\|#/,
+    greedy: true
+  },
+
+  'comment': {
+    pattern: /;[^\n]*/,
+    greedy: true
+  },
+
+  // ----------------------------------
+  // Strings (with ~ format specifiers)
+  // ----------------------------------
+
+  'string': {
+    pattern: /"(?:\\.|~(?:[#vV]?[,0-9@:\-]*[\s\S])|[^\\~"])*~?"/,
     greedy: true,
+    inside: {
+      'format-specifier': {
+        pattern: /~[#vV]?[,0-9@:\-]*[\s\S]/,
+        alias: 'keyword'
+      },
+      'escape': {
+        pattern: /\\./,
+        alias: 'symbol'
+      }
+    }
   },
-  keyword: {
-    pattern: /de[sf][\w\d._:+=><!?*-]*/,
-    lookbehind: true,
+
+  // ----------------------------------
+  // Characters
+  // ----------------------------------
+
+  'char': {
+    pattern: /#\\(?:.|\\[snt])/,
+    alias: 'string'
   },
-  function: {
-    pattern: /((?:^|[^'])\()[\w*+!?'<>=/.-]+(?=[\s)]|$)/,
-    lookbehind: true,
+
+  // ----------------------------------
+  // Booleans + Null
+  // ----------------------------------
+
+  'boolean': /#(?:t|f)\b/,
+  'null': /\bnone\b/,
+
+  // ----------------------------------
+  // Numbers
+  // ----------------------------------
+
+  'number': {
+    pattern: /[+-]?(?:#x[0-9a-fA-F]+|#b[01]+|\d+\.\d*|\d+)/,
+    greedy: true
   },
-  constant: [
-    // nil
-    {
-      pattern: /(none)(?=\s|\)|\]|\})/,
-      greedy: true,
-    },
-  ],
-  boolean: [
-    // true/false,
-    {
-      pattern: /(#t|#f)/,
-      greedy: true,
-    },
-  ],
-  number: [
-    // ratio
-    {
-      pattern: /([-+]?\d+\/\d+)/,
-      greedy: true,
-    },
-    // hex
-    {
-      pattern: /([-+]?#[0-9a-fA-F]+N?)/,
-      greedy: true,
-    },
-    // binary
-    {
-      pattern: /([-+]?#b[0-9a-fA-F]+N?)/,
-      greedy: true,
-    },
-    // floats
-    {
-      pattern: /([-+]?[0-9]+(?:(\.|(?=[eEM]))[0-9]*([eE][-+]?[0-9]+)?)M?)/,
-      greedy: true,
-    },
-    // integers
-    {
-      pattern: /\s([-+]?\d+N?)/,
-      greedy: true,
-    },
-  ],
-  property: [
-    // keyword
-    {
-      pattern:
-        /(\s|\(|\[|\{):[\w\#\.\-\_\:\+\=\>\<\/\!\?\*]+(?=(\s|\)|\]|\}|\,))/,
-      lookbehind: true,
-    },
-  ],
-  operator: [
+
+  // ----------------------------------
+  // Keywords (colon-prefixed)
+  // ----------------------------------
+
+  'keyword': {
+    pattern: /:[^\s()\[\]{}"@~^;`\\,:/][^\s()\[\]{}"@~^;`\\,]*/,
+    greedy: true
+  },
+
+  // ----------------------------------
+  // Quoting / Reader Macros
+  // ----------------------------------
+
+  'reader-macro': {
+    pattern: /(?:,@|['`,])/,
+    alias: 'operator'
+  },
+
+  // ----------------------------------
+  // Symbols
+  // ----------------------------------
+
+  'symbol': {
+    pattern: /\b\d+[^\s()\[\]{}"@~^;`\\,:'0-9][^\s()\[\]{}"@~^;`\\,]*|\b\/|[^\s()\[\]{}"@~^;`\\,:'0-9][^\s()\[\]{}"@~^;`\\,]*/,
+    greedy: true
+  },
+
+  // ----------------------------------
+  // Lists / Delimiters
+  // ----------------------------------
+
+  'punctuation': /[()\[\]{}]/,
+
+  'operator': [
     // reader macros
     {
       pattern: /('|,@|`|,|&->)/,
     },
   ],
+
+  'keyword': {
+    pattern: /de[sf][\w\d._:+=><!?*-]*/,
+    lookbehind: true,
+  },
+  'keyword': {
+    pattern: /((?:^|[^'])\()[\w*+!?'<>=/.-]+(?=[\s)]|$)/,
+    lookbehind: true,
+  },
 };
