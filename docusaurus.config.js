@@ -13,7 +13,6 @@ const config = {
   url: "https://opengoal.dev",
   baseUrl: "/",
   onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "throw",
   favicon: "img/favicon.png",
 
   // GitHub pages deployment config.
@@ -30,9 +29,18 @@ const config = {
   },
   markdown: {
     mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: "throw",
+      onBrokenMarkdownImages: "throw"
+    }
   },
   future: {
-    experimental_faster: true,
+    v4: {
+      removeLegacyPostBuildHeadAttribute: true, // required
+    },
+    experimental_faster: {
+      ssgWorkerThreads: true,
+    },
   },
   scripts: [
     {
