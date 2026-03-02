@@ -1,11 +1,7 @@
-import { useState } from "react";
 import Layout from "@theme/Layout";
 import {
   createTheme,
-  ThemeProvider,
 } from "@mui/material";
-import MaterialTable from "material-table";
-import decompFileData from "/data/progress/jak2/progress.json";
 import decompHistoryData from "/data/progress/jak2/history.json";
 import castData from "/data/progress/jak2/casts.json";
 import {
@@ -20,15 +16,6 @@ import {
   PieChart,
   Pie,
 } from "recharts";
-import {
-  GitPullRequestIcon,
-  StopwatchIcon,
-  SyncIcon,
-  GitMergeIcon,
-  IssueOpenedIcon,
-  CheckCircleIcon,
-  BeakerIcon,
-} from "@primer/octicons-react";
 
 const darkTheme = createTheme({
   palette: {
@@ -184,7 +171,7 @@ function DeveloperModeContent() {
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="row mt-2">
+      {/* <div className="row mt-2">
         <div className="col">
           <ThemeProvider theme={darkTheme}>
             <MaterialTable
@@ -446,7 +433,7 @@ function DeveloperModeContent() {
             />
           </ThemeProvider>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

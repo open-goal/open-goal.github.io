@@ -50,7 +50,7 @@
   color: var(--ifm-color-primary) !important;
 }
 
-div[class^="announcementBar_"] {
+div.theme-announcement-bar {
   font-family: "Roboto Mono", monospace;
   color: black;
   font-weight: 700 !important;
@@ -466,7 +466,7 @@ section {
   transform: scale(1.05);
 }
 
-div[class^="announcementBar_"] {
+div.theme-announcement-bar {
   --site-announcement-bar-stripe-color1: hsl(44, 99%, 85%);
   --site-announcement-bar-stripe-color2: hsl(44, 99%, 95%);
   background: repeating-linear-gradient(

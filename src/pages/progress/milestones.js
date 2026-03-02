@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Layout from "@theme/Layout";
 
 function truncateString(str, num) {
