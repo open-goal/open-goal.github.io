@@ -44,7 +44,7 @@ So this has now been fixed and is the reason why we are pushing out atleast one 
 
 Lots of sound work bled over from the end of last month / early december. In addition to sound effects working, so does the music now.
 
-<ReactPlayer controls url={require("./video/music.mp4").default} />
+<ReactPlayer controls src={require("./video/music.mp4").default} />
 
 ### A bunch of files <PRLink href="https://github.com/open-goal/jak-project/pull/2042"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2048"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2059"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2069"/> <PRLink href="https://github.com/open-goal/jak-project/pull/2070"/>
 
@@ -75,14 +75,14 @@ Most sound issues that have been found so far have been very minor, the most int
 - Crash related to dark bomb and giant dark jak was fixed
 - Dark jak works! (mostly, not texture morphing yet)
 
-<ReactPlayer controls url={require("./video/jetboard.mp4").default} />
-<ReactPlayer controls url={require("./video/darkjak.mp4").default} />
+<ReactPlayer controls src={require("./video/jetboard.mp4").default} />
+<ReactPlayer controls src={require("./video/darkjak.mp4").default} />
 
 ### Guns! <PRLink href="https://github.com/open-goal/jak-project/pull/2067"/>
 
 Guns are mostly usable, while their effects are not yet perfect.
 
-<ReactPlayer controls url={require("./video/guns.mp4").default} />
+<ReactPlayer controls src={require("./video/guns.mp4").default} />
 
 ## Decompilation Tooling
 
@@ -97,7 +97,7 @@ There is still some work to do:
 
 But it's a good start, at the same time we also cleaned up the offline test code quite a bit.
 
-<ReactPlayer controls url={require("./video/offline-tests.mp4").default} />
+<ReactPlayer controls src={require("./video/offline-tests.mp4").default} />
 
 ### Update goal_src files via glob patterns <PRLink href="https://github.com/open-goal/jak-project/pull/2048"/>
 

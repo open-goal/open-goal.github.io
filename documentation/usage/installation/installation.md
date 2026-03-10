@@ -13,7 +13,7 @@ If you would prefer a video guide walking through installing the launcher (or St
 
 <ReactPlayer
   controls
-  url="https://www.youtube.com/watch?v=K84UUMnkJc4"
+  src="https://www.youtube.com/watch?v=K84UUMnkJc4"
   className="blog-video"
 />
 
@@ -327,7 +327,7 @@ Similar to the previous section, you can manually install OpenGOAL on a SteamDec
 
 This is a video guide for Steam Deck users that covers the process of installing and running OpenGOAL very thoroughly. The only change in this video is that we do now support other non black label versions of Jak and Daxter, so any disc should work!
 
-<ReactPlayer url={"https://www.youtube.com/watch?v=Cv7mlCSHKxc&t=564s"} style={{marginBottom: "1em"}}/>
+<ReactPlayer src={"https://www.youtube.com/watch?v=Cv7mlCSHKxc&t=564s"} style={{marginBottom: "1em"}}/>
 
 > NOTE: For Steam Deck users, you can add OpenGOAL to your Steam library after installation by pointing to the `gk` file in this folder. You will need to change the `File type` to `All Files` in order to see it!
 >

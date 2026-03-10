@@ -35,7 +35,7 @@ This month's OpenGOAL Tooling (jak-project repo) release is `0.2.31`.
 
 GratefulForest (of [Platformia](https://www.youtube.com/watch?v=ZbhsCHf6X1s) infamy) is back with Cratetopia, a familiar-looking block game recreated in the OpenGOAL engine!
 
-<ReactPlayer controls url={require("./video/cratetopia.mp4").default} />
+<ReactPlayer controls src={require("./video/cratetopia.mp4").default} />
 
 ### Pogo
 
@@ -43,7 +43,7 @@ EvelynTSMG came up with this Jak 1 challenge mod, where Jak is forced to keep ju
 
 <ReactPlayer
   controls
-  url={"https://www.youtube.com/watch?v=oNcmiJjPhdA"}
+  src={"https://www.youtube.com/watch?v=oNcmiJjPhdA"}
   className="blog-video"
 />
 
@@ -158,13 +158,13 @@ Various changes relating to speedrunner mode and autosplitter:
 ### Add zoom blur and color filter effect <PRLink href="https://github.com/open-goal/jak-project/pull/4031"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4037"/>
 
 Adds the zoom blur effect, as used in some cutscenes and for a few weapons:
-<ReactPlayer controls url={require("./video/zoom-blur.mp4").default} />
+<ReactPlayer controls src={require("./video/zoom-blur.mp4").default} />
 
 Adds the color filter effect, as used in Misson Failed screen:
-<ReactPlayer controls url={require("./video/color-filter.mp4").default} />
+<ReactPlayer controls src={require("./video/color-filter.mp4").default} />
 
 `slow-time` blur effect and fixed color filter:
-<ReactPlayer controls url={require("./video/slow-time.mp4").default} />
+<ReactPlayer controls src={require("./video/slow-time.mp4").default} />
 
 ### Fix crash when entering Freedom League HQ <PRLink href="https://github.com/open-goal/jak-project/pull/4035"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4038"/>
 
@@ -238,7 +238,7 @@ Adds a toggle under controller options to allow use of the directional pad for t
 Fixes a issue where the physics logic for `rigid-body` systems (e.g. zoomer vehicles) depended on framerate. This was another difference that could be observed between PS3 and PS2.
 
 For example, the "Superfasthoverbikeglitch" on OpenGOAL (pre-fix) vs PCSX2:
-<ReactPlayer controls url={require("./video/sfhbg.mp4").default} />
+<ReactPlayer controls src={require("./video/sfhbg.mp4").default} />
 
 ### Fix War Factory `hemi-gradient-flames` texture and ocean culling <PRLink href="https://github.com/open-goal/jak-project/pull/4036"/>
 
@@ -297,7 +297,7 @@ Various fixes to support framerates higher than 60 FPS:
 
 Fixes letterboxing/blackout during the opening "Jak and Daxter" logo for widescreen aspect ratios. Previously you would start to see Sandover Village on the sides of the screen early, before the logo burst animation happened.
 
-<ReactPlayer controls url={require("./video/logo.mp4").default} />
+<ReactPlayer controls src={require("./video/logo.mp4").default} />
 
 ### Fix custom levels tpages <PRLink href="https://github.com/open-goal/jak-project/pull/4074"/>
 
