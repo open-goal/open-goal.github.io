@@ -81,11 +81,11 @@ All in an effort to get Jak spawning in so we could test a bunch of stuff (like 
 
 After a lot of work, we've succeeded and Jak is working pretty well already. Here's a bunch of test footage
 
-<ReactPlayer controls url={require("./video/jak-collision.mp4").default} />
+<ReactPlayer controls src={require("./video/jak-collision.mp4").default} />
 
-<ReactPlayer controls url={require("./video/jetboard.mp4").default} />
+<ReactPlayer controls src={require("./video/jetboard.mp4").default} />
 
-<ReactPlayer controls url={require("./video/jak-and-daxter.mp4").default} />
+<ReactPlayer controls src={require("./video/jak-and-daxter.mp4").default} />
 
 ### In-game Editor Progress <PRLink href="https://github.com/open-goal/jak-project/pull/2029"/>
 
@@ -95,25 +95,25 @@ It's still very much a work-in-progress and it doesn't do much yet, but we've fi
 
 ![](./img/editor.png)
 
-<ReactPlayer controls url={require("./video/mouse.mp4").default} />
+<ReactPlayer controls src={require("./video/mouse.mp4").default} />
 
 ### Progress Menu "Opens"! <PRLink href="https://github.com/open-goal/jak-project/pull/2035"/>
 
 While it's still not rendering properly yet and there are some critical pieces of code still missing; you can atleast open, close and cycle through the progress ring menu.
 
-<ReactPlayer controls url={require("./video/progress-ring.mp4").default} />
+<ReactPlayer controls src={require("./video/progress-ring.mp4").default} />
 
 ### Sound-Effects Working in Game <PRLink href="https://github.com/open-goal/jak-project/pull/1991"/>
 
 Soon the game will not be completely silent with audio work continuing and already working in-game to some extent, atleast with sound-effects.
 
-<ReactPlayer controls url={require("./video/ingame-sfx.mp4").default} />
+<ReactPlayer controls src={require("./video/ingame-sfx.mp4").default} />
 
 ### MERC Rendering Progress
 
 And we also don't have to be stuck looking at Jak's skeleton for much longer with MERC already starting to work:
 
-<ReactPlayer controls url="https://www.youtube.com/watch?v=P55uBaoWXfA" />
+<ReactPlayer controls src="https://www.youtube.com/watch?v=P55uBaoWXfA" />
 <br />
 
 ## Jak 2 - Decompilation Tooling
@@ -143,7 +143,7 @@ Now, all of these tasks (and a few more) can be done with hotkeys
 
 Additionally, you can define commands to automatically run on startup _and_ I'm slowly transitioning away from CLI args to a config file scheme.
 
-<ReactPlayer controls url={require("./video/repl-binds.mp4").default} />
+<ReactPlayer controls src={require("./video/repl-binds.mp4").default} />
 
 These key-bindings can be found [here](https://github.com/open-goal/jak-project/blob/master/common/goos/ReplUtils.cpp#L147) and ignore the comments, at the time of writing they were accidentally not updated to match the code!
 

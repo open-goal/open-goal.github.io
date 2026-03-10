@@ -235,7 +235,7 @@ def generate_gallery(gallery, src_out_dir, mdx_out_dir):
         gallery_items = gallery_items + '            <div className="row center">\n'
       gallery_items = gallery_items + '              <div className="col" style={{textAlign: \'center\'}}>\n'
       if media_entry["video"]:
-        gallery_items = gallery_items + '                <ReactPlayer controls width=\'100%\' url="{}" title="{}{}"></ReactPlayer>\n'.format(media_entry["link"], timestamp_prefix, media_entry["caption"].replace('\"', ''))
+        gallery_items = gallery_items + '                <ReactPlayer controls width=\'100%\' src="{}" title="{}{}"></ReactPlayer>\n'.format(media_entry["link"], timestamp_prefix, media_entry["caption"].replace('\"', ''))
       else:
         imgThumbSrc = "useBaseUrl('{}')".format(media_entry["thumbLink"])
         imgSrc = "useBaseUrl('{}')".format(media_entry["link"])
