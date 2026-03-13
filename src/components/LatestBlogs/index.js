@@ -7,6 +7,15 @@ import { CardActionArea } from "@mui/material";
 
 const BlogList = [
   {
+    title: "Progress Report - Q1 2026",
+    image: require("@site/blog/progress-report-q1-2026/img/poster.png")
+      .default,
+    description: (
+      <>The right man in the wrong place can make all the difference in the world.</>
+    ),
+    link: "/blog/progress-report-q1-2026",
+  }, 
+  {
     title: "Progress Report - Q4 2025",
     image: require("@site/blog/progress-report-q4-2025/img/poster.webp")
       .default,
@@ -23,15 +32,6 @@ const BlogList = [
       <>As promised, the Q3 report, albeit likely not containing the progress you had hoped for.</>
     ),
     link: "/blog/progress-report-q3-2025",
-  }, 
-  {
-    title: "Progress Report - Q2 2025",
-    image: require("@site/blog/progress-report-q2-2025/img/poster.png")
-      .default,
-    description: (
-      <>As many of you noticed, it's been awhile since the last Progress Report 😅. Worry not, the project is still alive and well, but development on OpenGOAL Jak 3 has been a bit slower as of late.</>
-    ),
-    link: "/blog/progress-report-q2-2025",
   }
 ];
 
