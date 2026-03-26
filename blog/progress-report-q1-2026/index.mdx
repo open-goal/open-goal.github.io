@@ -67,28 +67,15 @@ Previously there was a single "Extraction" progress bar that also included the t
 
 @tripp plz summarize here thank u
 
-## General Changes
+## Jak 3 / Jak 2
 
-### Support Time of Day color variations in custom levels <PRLink href="https://github.com/open-goal/jak-project/pull/4111"/> <!-- TODO: not yet merged, unclear if compatible with jak2/3 yet -->
-
-Adds support for different colors based on Time of Day for custom levels.
-
-<ReactPlayer
-  controls
-  src={require("./video/time-of-day.mp4").default}
-/>
-
-### Reset speedrun autosplitter after blackout (Jak 2/3) <PRLink href="https://github.com/open-goal/jak-project/pull/4126"/>
+### Reset speedrun autosplitter after blackout <PRLink href="https://github.com/open-goal/jak-project/pull/4126"/>
 
 Improves the timing of the autosplitter reset to better match leaderboard timing (first non-blackout frame). Previously it would reset as soon as the menu option was chosen, and timing could vary depending on what levels needed to be loaded/unloaded.
 
-### Fix Split Boxes debug option (Jak 2/3) <PRLink href="https://github.com/open-goal/jak-project/pull/4133"/> <!-- TODO: not yet merged --> 
+### Fix Split Boxes debug option <PRLink href="https://github.com/open-goal/jak-project/pull/4133"/> 
 
 Prevents the Split Boxes debug visualization tool from immediately crashing.
-
-<!-- ## Jak 3 -->
-
-<!-- ## Jak 2 -->
 
 ## Jak 1
 
@@ -101,7 +88,7 @@ Improves the handling of the boxes around the memory cards across various aspect
   src={require("./video/memcard.mp4").default}
 />
 
-### Mountain Pass speedrun fixes <PRLink href="https://github.com/open-goal/jak-project/pull/4124"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4131"/> <!-- TODO: one of these not yet merged --> 
+### Mountain Pass speedrun fixes <PRLink href="https://github.com/open-goal/jak-project/pull/4124"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4131"/>
 
 Restores a change that was inadvertently reverted awhile back, skipping the Klaww cutscene when doing Mountain Pass individual level speedruns. 
 
