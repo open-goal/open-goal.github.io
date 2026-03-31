@@ -1,0 +1,117 @@
+---
+title: Progress Report - Q1 2026
+date: 2026-03-31T10:00
+description: Q1 2026's OpenGOAL progress report
+slug: progress-report-q1-2026
+authors:
+  - barg
+tags: [progress-report]
+image: ./img/poster.png
+hide_table_of_contents: false
+draft: false
+---
+
+<head>
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+
+The right man in the wrong place can make all the difference in the world.
+
+<!--truncate-->
+
+## Release Info
+
+This month's OpenGOAL Tooling (`jak-project` repo) release is `0.2.32`.
+
+<div className="row markdownMarginBottom">
+  <div className="col col--12">
+    <LauncherDownloadLink />
+  </div>
+</div>
+
+## Community Spotlight
+
+### Gordon and Daxter
+
+MFO came out swinging with their first mod - a recreation of Half-Life physics/movement built natively in OpenGOAL! You can read more about the technicals of how this mod works [here](https://github.com/mfOliveira19/GordonAndDaxter-Mod/blob/main/README.md).
+
+Whether you're a veteran bhopper or you've never touched a Source Engine game before, this one is definitely worth checking out. Speedrun.com actually held an [official Challenge](https://www.speedrun.com/challenges/64y602yr-jak1-gordon-daxter-speedrun-challenge) for this mod earlier this month.
+
+<ReactPlayer
+  controls
+    src={require("./video/gordon.mp4").default}
+/>
+
+&nbsp;
+
+:::info
+If you want to play these mods (and others), follow the instructions [here](https://jakmods.dev/) to set up the mod list for the OpenGOAL launcher.
+:::
+
+<!-- ## Known Issues -->
+
+## Launcher
+
+### Add links to mod websites <PRLink href="https://github.com/open-goal/launcher/pull/910"/>
+
+Sometimes mods have a README or other website with additional info that doesn't fit in the launcher description. This change makes the mod name a clickable link whenever there's a related website.
+
+<ReactPlayer
+  controls
+    src={require("./video/mods-links.mp4").default}
+/>
+
+### Split progress bars for mod download vs extraction <PRLink href="https://github.com/open-goal/launcher/pull/908"/>
+
+Previously there was a single "Extraction" progress bar that also included the time spent downloading the mod. This caused confusion for users downloading large mods or with slower internet speeds, thinking something had gone wrong during extraction. Now there is a separate progress bar just for the mod download process.
+
+### Improve error handling, user notifications, and debugging information <PRLink href="https://github.com/open-goal/launcher/pull/902"/> <PRLink href="https://github.com/open-goal/launcher/pull/909"/> <PRLink href="https://github.com/open-goal/launcher/pull/913"/> <PRLink href="https://github.com/open-goal/launcher/pull/914"/> <PRLink href="https://github.com/open-goal/launcher/pull/937"/> <PRLink href="https://github.com/open-goal/launcher/pull/938"/> <PRLink href="https://github.com/open-goal/launcher/pull/939"/> <PRLink href="https://github.com/open-goal/launcher/pull/940"/> <PRLink href="https://github.com/open-goal/launcher/pull/941"/> <PRLink href="https://github.com/open-goal/launcher/pull/942"/> <PRLink href="https://github.com/open-goal/launcher/pull/950"/> <PRLink href="https://github.com/open-goal/launcher/pull/951"/>
+
+Various changes to improve the launcher’s ability to handle errors and to surface useful information when something goes wrong, either to the user directly or in the support package for developer debugging.
+
+### Misc internal code refactors <PRLink href="https://github.com/open-goal/launcher/pull/911"/> <PRLink href="https://github.com/open-goal/launcher/pull/912"/> <PRLink href="https://github.com/open-goal/launcher/pull/921"/> <PRLink href="https://github.com/open-goal/launcher/pull/922"/> <PRLink href="https://github.com/open-goal/launcher/pull/923"/> <PRLink href="https://github.com/open-goal/launcher/pull/924"/> <PRLink href="https://github.com/open-goal/launcher/pull/925"/> <PRLink href="https://github.com/open-goal/launcher/pull/926"/> <PRLink href="https://github.com/open-goal/launcher/pull/927"/> <PRLink href="https://github.com/open-goal/launcher/pull/928"/> <PRLink href="https://github.com/open-goal/launcher/pull/929"/> <PRLink href="https://github.com/open-goal/launcher/pull/930"/> <PRLink href="https://github.com/open-goal/launcher/pull/931"/> <PRLink href="https://github.com/open-goal/launcher/pull/932"/> <PRLink href="https://github.com/open-goal/launcher/pull/933"/> <PRLink href="https://github.com/open-goal/launcher/pull/934"/> <PRLink href="https://github.com/open-goal/launcher/pull/935"/> <PRLink href="https://github.com/open-goal/launcher/pull/936"/> <PRLink href="https://github.com/open-goal/launcher/pull/943"/> <PRLink href="https://github.com/open-goal/launcher/pull/945"/> <PRLink href="https://github.com/open-goal/launcher/pull/946"/> <PRLink href="https://github.com/open-goal/launcher/pull/947"/> <PRLink href="https://github.com/open-goal/launcher/pull/949"/>
+
+A handful of internal changes aiming to streamline the code for readability.
+
+## General Changes
+
+### Translations <PRLink href="https://github.com/open-goal/jak-project/pull/4142"/> <PRLink href="https://github.com/open-goal/launcher/pull/952"/>
+
+All translations from [Crowdin](https://crowdin.com/project/opengoal) should now be updated and added to the games. This includes changes for French, Spanish, Catalan, Czech, German, Finnish, Italian, Japanese, Dutch, Norwegian, Polish, Portuguese, Danish, Hungarian, Croatian, Arabic, Greek, Serbian, and Portuguese (Brazilian)!
+
+If you're interested in contributing translations, check out [these guides](https://opengoal.dev/docs/category/contributing).
+
+## Jak 3 / Jak 2
+
+### Reset speedrun autosplitter after blackout <PRLink href="https://github.com/open-goal/jak-project/pull/4126"/>
+
+Improves the timing of the autosplitter reset to better match leaderboard timing (first non-blackout frame). Previously it would reset as soon as the menu option was chosen, and timing could vary depending on what levels needed to be loaded/unloaded.
+
+### Fix Split Boxes debug option <PRLink href="https://github.com/open-goal/jak-project/pull/4133"/> 
+
+Prevents the Split Boxes debug visualization tool from immediately crashing.
+
+## Jak 1
+
+### Fix memory card boxes on custom aspect ratios <PRLink href="https://github.com/open-goal/jak-project/pull/4116"/>
+
+Improves the handling of the boxes around the memory cards across various aspect ratios.
+
+<ReactPlayer
+  controls
+    src={require("./video/memcard.mp4").default}
+/>
+
+### Mountain Pass speedrun fixes <PRLink href="https://github.com/open-goal/jak-project/pull/4124"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4131"/>
+
+Restores a change that was inadvertently reverted awhile back, skipping the Klaww cutscene when doing Mountain Pass individual level speedruns. 
+
+Also fixes a visual bug where the column Klaww destroys during the cutscene was still being spawned when the cutscene was skipped.
+
+![](img/klaww-column.png)
+
+### Light Eco speedrun autosplitter fixes <PRLink href="https://github.com/open-goal/speedrunning/pull/30"/> <PRLink href="https://github.com/open-goal/speedrunning/pull/31"/>
+
+Fixes a bug where the checkbox for splitting on collecting Light Eco was being ignored and always splitting.
+
+Adds an option for splitting only once after collecting Light Eco (the existing option will split repeatedly until all splits are completed). This is useful for routes where you have more to do after collecting Light Eco.
