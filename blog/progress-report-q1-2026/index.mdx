@@ -15,13 +15,13 @@ draft: false
   <meta name="twitter:card" content="summary_large_image" />
 </head>
 
-Something something no Jak 3 launcher release
+The right man in the wrong place can make all the difference in the world.
 
 <!--truncate-->
 
 ## Release Info
 
-This month's OpenGOAL Tooling (jak-project repo) release is `0.2.32`.
+This month's OpenGOAL Tooling (`jak-project` repo) release is `0.2.32`.
 
 <div className="row markdownMarginBottom">
   <div className="col col--12">
@@ -33,14 +33,16 @@ This month's OpenGOAL Tooling (jak-project repo) release is `0.2.32`.
 
 ### Gordon and Daxter
 
-MFO comes out swinging with their first mod - a recreation of Half-Life physics/movement built natively in OpenGOAL! You can read more about the technicals of how this mod works [here](https://github.com/mfOliveira19/GordonAndDaxter-Mod/blob/main/README.md).
+MFO came out swinging with their first mod - a recreation of Half-Life physics/movement built natively in OpenGOAL! You can read more about the technicals of how this mod works [here](https://github.com/mfOliveira19/GordonAndDaxter-Mod/blob/main/README.md).
 
 Whether you're a veteran bhopper or you've never touched a Source Engine game before, this one is definitely worth checking out. Speedrun.com actually held an [official Challenge](https://www.speedrun.com/challenges/64y602yr-jak1-gordon-daxter-speedrun-challenge) for this mod earlier this month.
 
 <ReactPlayer
   controls
-  src={require("./video/gordon.mp4").default}
+    src={require("./video/gordon.mp4").default}
 />
+
+&nbsp;
 
 :::info
 If you want to play these mods (and others), follow the instructions [here](https://jakmods.dev/) to set up the mod list for the OpenGOAL launcher.
@@ -56,16 +58,28 @@ Sometimes mods have a README or other website with additional info that doesn't 
 
 <ReactPlayer
   controls
-  src={require("./video/mods-links.mp4").default}
+    src={require("./video/mods-links.mp4").default}
 />
 
 ### Split progress bars for mod download vs extraction <PRLink href="https://github.com/open-goal/launcher/pull/908"/>
 
 Previously there was a single "Extraction" progress bar that also included the time spent downloading the mod. This caused confusion for users downloading large mods or with slower internet speeds, thinking something had gone wrong during extraction. Now there is a separate progress bar just for the mod download process.
 
-### TODO: bunch of refactors from tripp <!-- TODO -->
+### Improve error handling, user notifications, and debugging information <PRLink href="https://github.com/open-goal/launcher/pull/902"/> <PRLink href="https://github.com/open-goal/launcher/pull/909"/> <PRLink href="https://github.com/open-goal/launcher/pull/913"/> <PRLink href="https://github.com/open-goal/launcher/pull/914"/> <PRLink href="https://github.com/open-goal/launcher/pull/937"/> <PRLink href="https://github.com/open-goal/launcher/pull/938"/> <PRLink href="https://github.com/open-goal/launcher/pull/939"/> <PRLink href="https://github.com/open-goal/launcher/pull/940"/> <PRLink href="https://github.com/open-goal/launcher/pull/941"/> <PRLink href="https://github.com/open-goal/launcher/pull/942"/> <PRLink href="https://github.com/open-goal/launcher/pull/950"/> <PRLink href="https://github.com/open-goal/launcher/pull/951"/>
 
-@tripp plz summarize here thank u
+Various changes to improve the launcher’s ability to handle errors and to surface useful information when something goes wrong, either to the user directly or in the support package for developer debugging.
+
+### Misc internal code refactors <PRLink href="https://github.com/open-goal/launcher/pull/911"/> <PRLink href="https://github.com/open-goal/launcher/pull/912"/> <PRLink href="https://github.com/open-goal/launcher/pull/921"/> <PRLink href="https://github.com/open-goal/launcher/pull/922"/> <PRLink href="https://github.com/open-goal/launcher/pull/923"/> <PRLink href="https://github.com/open-goal/launcher/pull/924"/> <PRLink href="https://github.com/open-goal/launcher/pull/925"/> <PRLink href="https://github.com/open-goal/launcher/pull/926"/> <PRLink href="https://github.com/open-goal/launcher/pull/927"/> <PRLink href="https://github.com/open-goal/launcher/pull/928"/> <PRLink href="https://github.com/open-goal/launcher/pull/929"/> <PRLink href="https://github.com/open-goal/launcher/pull/930"/> <PRLink href="https://github.com/open-goal/launcher/pull/931"/> <PRLink href="https://github.com/open-goal/launcher/pull/932"/> <PRLink href="https://github.com/open-goal/launcher/pull/933"/> <PRLink href="https://github.com/open-goal/launcher/pull/934"/> <PRLink href="https://github.com/open-goal/launcher/pull/935"/> <PRLink href="https://github.com/open-goal/launcher/pull/936"/> <PRLink href="https://github.com/open-goal/launcher/pull/943"/> <PRLink href="https://github.com/open-goal/launcher/pull/945"/> <PRLink href="https://github.com/open-goal/launcher/pull/946"/> <PRLink href="https://github.com/open-goal/launcher/pull/947"/> <PRLink href="https://github.com/open-goal/launcher/pull/949"/>
+
+A handful of internal changes aiming to streamline the code for readability.
+
+## General Changes
+
+### Translations <PRLink href="https://github.com/open-goal/jak-project/pull/4142"/> <PRLink href="https://github.com/open-goal/launcher/pull/952"/>
+
+All translations from [Crowdin](https://crowdin.com/project/opengoal) should now be updated and added to the games. This includes changes for French, Spanish, Catalan, Czech, German, Finnish, Italian, Japanese, Dutch, Norwegian, Polish, Portuguese, Danish, Hungarian, Croatian, Arabic, Greek, Serbian, and Portuguese (Brazilian)!
+
+If you're interested in contributing translations, check out [these guides](https://opengoal.dev/docs/category/contributing).
 
 ## Jak 3 / Jak 2
 
@@ -85,7 +99,7 @@ Improves the handling of the boxes around the memory cards across various aspect
 
 <ReactPlayer
   controls
-  src={require("./video/memcard.mp4").default}
+    src={require("./video/memcard.mp4").default}
 />
 
 ### Mountain Pass speedrun fixes <PRLink href="https://github.com/open-goal/jak-project/pull/4124"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4131"/>
