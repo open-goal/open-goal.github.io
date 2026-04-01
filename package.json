@@ -18,8 +18,8 @@
     "cf-pages-deploy": "pip install pillow pillow-avif-plugin && python ./scripts/gallery-updater/update-gallery.py && yarn install --immutable && unzip ./static/data/docs/opengoal-docs.zip -d ./ && yarn gen-docs && yarn build --no-minify"
   },
   "dependencies": {
-    "@algolia/client-search": "^5.49.1",
-    "@date-io/core": "^2.13.1",
+    "@algolia/client-search": "^5.50.1",
+    "@date-io/core": "^3.2.0",
     "@docusaurus/core": "^3.9.2",
     "@docusaurus/faster": "^3.9.2",
     "@docusaurus/plugin-content-docs": "^3.9.2",
@@ -30,16 +30,16 @@
     "@emotion/styled": "^11.14.1",
     "@mdx-js/react": "^3.1.1",
     "@mui/lab": "^7.0.0-beta.17",
-    "@mui/material": "^7.3.8",
-    "@mui/styled-engine": "^7.3.8",
+    "@mui/material": "^7.3.9",
+    "@mui/styled-engine": "^7.3.9",
     "@mui/styles": "^6.4.8",
-    "@primer/octicons-react": "^19.22.0",
-    "@svta/cml-cta": "1.0.1",
-    "@svta/cml-structured-field-values": "1.0.1",
-    "@svta/cml-utils": "1.0.1",
+    "@primer/octicons-react": "^19.23.1",
+    "@svta/cml-cta": "1.0.5",
+    "@svta/cml-structured-field-values": "1.1.2",
+    "@svta/cml-utils": "1.4.0",
     "clsx": "^2.1.1",
     "html-react-parser": "^5.2.17",
-    "jspdf": "^4.2.0",
+    "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.7",
     "prism-react-renderer": "^2.4.1",
     "prismjs": "^1.30.0",
@@ -49,10 +49,10 @@
     "react-is": "^19.2.4",
     "react-loadable": "^5.5.0",
     "react-player": "^3.4.0",
-    "recharts": "^3.7.0",
+    "recharts": "^3.8.1",
     "search-insights": "^2.17.3",
     "ua-parser-js": "^2.0.9",
-    "webpack": "^5.105.3"
+    "webpack": "^5.105.4"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.9.2",
@@ -60,7 +60,7 @@
     "@types/react": "^19.2.14",
     "@types/ua-parser-js": "^0.7.39",
     "prettier": "^3.8.1",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   },
   "browserslist": {
     "production": [
