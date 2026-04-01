@@ -168,7 +168,7 @@ export default function Home() {
               <div className="col col--6">
                 <p style={{ color: "#c6c6c6" }}>
                   Started in 2020, OpenGOAL has continuously improved and
-                  evolved. With the first two games being considered playable
+                  evolved. With the first three games being considered playable
                   and a small but very active modding community, there is always
                   something to work towards.
                 </p>
