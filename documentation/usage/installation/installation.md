@@ -304,8 +304,7 @@ If you have some technical experience, and would prefer to build this applicatio
 If you would prefer a video, there is an old tutorial [here](https://www.youtube.com/watch?v=yQBKCnS5MDY), but it only covers installing/playing Jak 1.
 
 1. Extract the `.zip` file wherever you'd like
-2. Drag your `.iso` file onto the `extractor.exe` file
-   - Alternatively, from Powershell/Command Prompt you can run `./extractor.exe --game jak1 <path-to-iso>` (swap `jak1` for `jak2`/`jak3` if you're trying to install those games)
+2. From Powershell/Command Prompt run `./extractor.exe --game jak1 <path-to-iso>` (swap `jak1` for `jak2`/`jak3` if you're trying to install those games)
 3. Run `gk.exe` to open the game
    - `gk` defaults to booting Jak 1. If you're trying to play Jak 2 or 3, you'll need to open Powershell/Command Prompt and run `./gk.exe --game jak2` or `./gk.exe --game jak3`.
 
