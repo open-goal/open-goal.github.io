@@ -21,13 +21,44 @@ The right man in the wrong place can make all the difference in the world.
 
 ## Release Info
 
-This month's OpenGOAL Tooling (`jak-project` repo) release is ~~`0.2.32`~~ `0.3.0`.
+This month's OpenGOAL Tooling (`jak-project` repo) release is ~~`0.2.32`~~ ~~`0.3.0`~~ `0.3.1`.
 
 <div className="row markdownMarginBottom">
   <div className="col col--12">
     <LauncherDownloadLink />
   </div>
 </div>
+
+## Version 0.3.1 Update
+
+Thanks all for the bug reports after the Jak 3 beta release, we just released a new patch tooling version `0.3.1` to fix a handful of issues! Again, make sure your launcher version is `2.8.17` or higher in order to install Jak 3.
+
+- Menu/setting fixes:
+  - Support changing FPS in menu, disable old PAL graphics menu <PRLink href="https://github.com/open-goal/jak-project/pull/4149"/>
+  - Various Discord RPC and progress menu fixes <PRLink href="https://github.com/open-goal/jak-project/pull/4159"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4166"/>
+  - Support R1/R2 swap and trigger effects <PRLink href="https://github.com/open-goal/jak-project/pull/4151"/>
+  - Support PC camera invert options <PRLink href="https://github.com/open-goal/jak-project/pull/4171"/>
+  - Fix language settings not saving, fix autosave not working from title screen new game <PRLink href="https://github.com/open-goal/jak-project/pull/4172"/>
+- Gameplay fixes:
+  - Fix Spargus Turret softlock, support analog stick sensitivity setting, fix Light Jak freeze visual bug <PRLink href="https://github.com/open-goal/jak-project/pull/4182"/>
+  - Support mirror mode <PRLink href="https://github.com/open-goal/jak-project/pull/4170"/>
+  - Ignore analog trigger values below 5% <PRLink href="https://github.com/open-goal/jak-project/pull/4157"/>
+  - Scale sandstorm "push" effect to better match PS2 <PRLink href="https://github.com/open-goal/jak-project/pull/4163"/>
+  - Fix Training Course tokens not spawning (original game bug) <PRLink href="https://github.com/open-goal/jak-project/pull/4150"/>
+  - Fix some debug function calls in retail mode (fix crash loading save from PCSX2) <PRLink href="https://github.com/open-goal/jak-project/pull/4187"/>
+  - Fix potential progress menu crashes, respect DPROCESS_STACK_SIZE <PRLink href="https://github.com/open-goal/jak-project/pull/4186"/>
+  - Fix overlapping hellcat models (Jak II and 3) <PRLink href="https://github.com/open-goal/jak-project/pull/4161"/>
+- Speedrun things:
+  - Give 1000 skull gems when starting Hero Mode speedruns <PRLink href="https://github.com/open-goal/jak-project/pull/4148"/>
+  - Restore `sidekick` feature for Hero Mode speedruns <PRLink href="https://github.com/open-goal/jak-project/pull/4173"/>
+- Misc:
+  - Add unlock debug menu options <PRLink href="https://github.com/open-goal/jak-project/pull/4184"/>
+  - Improve logging around ISO `fread` errors <PRLink href="https://github.com/open-goal/jak-project/pull/4155"/>
+  - Rename enemy sound-related methods <PRLink href="https://github.com/open-goal/jak-project/pull/4176"/>
+  - imgui upgrade <PRLink href="https://github.com/open-goal/jak-project/pull/4152"/>
+  - Support Cyrillic text (font DB implementation) <PRLink href="https://github.com/open-goal/jak-project/pull/4147"/>
+  - Fix font capitalization for translations <PRLink href="https://github.com/open-goal/jak-project/pull/4156"/>
+  - Prep for Jak 3 translations on Crowdin <PRLink href="https://github.com/open-goal/jak-project/pull/4185"/>
 
 ## Community Spotlight
 
