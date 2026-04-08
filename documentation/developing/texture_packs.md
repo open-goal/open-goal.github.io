@@ -10,6 +10,8 @@ This information should help you along the process of creating and distributing 
 
 Do not change the resolution of the sky, clouds, or eye textures. Other textures should let you change the size. Using extremely large textures will use more VRAM and will load slower.
 
+Do not change any animated textures. You can see the full list of animated textures in the decompiler config `inputs.jsonc` files: [jak2](https://github.com/open-goal/jak-project/blob/b5269a80eefec5bbb94fd90a276cb93461fa2c2d/decompiler/config/jak2/ntsc_v1/inputs.jsonc#L461), [jak3](https://github.com/open-goal/jak-project/blob/b5269a80eefec5bbb94fd90a276cb93461fa2c2d/decompiler/config/jak3/ntsc_v1/inputs.jsonc#L589)
+
 The PNG file should have an alpha channel. Some textures use their alpha channels for transparency, or for indicating which parts should have environment mapping applied. It may be useful to look at how the original texture uses the alpha channel first, especially for particle effects.
 
 ## Texture pack structure
