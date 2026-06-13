@@ -7,6 +7,15 @@ import { CardActionArea } from "@mui/material";
 
 const BlogList = [
   {
+    title: "Progress Report - Q2 2026",
+    image: require("@site/blog/progress-report-q2-2026/img/poster.png")
+      .default,
+    description: (
+      <>Tons of bugfixes post-Jak 3 release, new features for mods, and a fresh look for the launcher!</>
+    ),
+    link: "/blog/progress-report-q2-2026",
+  }, 
+  {
     title: "Progress Report - Q1 2026",
     image: require("@site/blog/progress-report-q1-2026/img/poster.png")
       .default,
@@ -23,15 +32,6 @@ const BlogList = [
       <>Happy Holidays!</>
     ),
     link: "/blog/progress-report-q4-2025",
-  }, 
-  {
-    title: "Progress Report - Q3 2025",
-    image: require("@site/blog/progress-report-q3-2025/img/poster.webp")
-      .default,
-    description: (
-      <>As promised, the Q3 report, albeit likely not containing the progress you had hoped for.</>
-    ),
-    link: "/blog/progress-report-q3-2025",
   }
 ];
 

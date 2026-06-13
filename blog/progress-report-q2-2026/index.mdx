@@ -1,0 +1,291 @@
+---
+title: Progress Report - Q2 2026
+date: 2026-06-30T10:00
+description: Q2 2026's OpenGOAL progress report
+slug: progress-report-q2-2026
+authors:
+  - barg
+tags: [progress-report]
+image: ./img/poster.png
+hide_table_of_contents: false
+draft: false
+---
+
+<head>
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+
+Tons of bugfixes post-Jak 3 release, new features for mods, and a fresh look for the launcher!
+
+<!--truncate-->
+
+## Release Info
+
+This month's OpenGOAL Tooling (`jak-project` repo) release is `0.3.4`.
+
+<div className="row markdownMarginBottom">
+  <div className="col col--12">
+    <LauncherDownloadLink />
+  </div>
+</div>
+
+## Community Spotlight
+
+### Jak and Daxter: The JET-Board Legacy
+
+HatKid has done the lord's work, and backported the JET-Board (with Jak 3 mechanics) to Jak 1! This feat was only possible after the decompiler was extended to support proper animation exporting, which was also implemented by HatKid.
+
+<!-- TODO: some video here? <ReactPlayer
+  controls
+    src={require("./video/board.mp4").default}
+/> -->
+
+![](img/poster.png)
+
+&nbsp;
+
+:::info
+If you want to play these mods (and others), follow the instructions [here](https://jakmods.dev/) to set up the mod list for the OpenGOAL launcher.
+:::
+
+<!-- ## Known Issues -->
+
+## Launcher
+
+### Launcher redesign <PRLink href="https://github.com/open-goal/launcher/pull/966"/> <PRLink href="https://github.com/open-goal/launcher/pull/968"/> <PRLink href="https://github.com/open-goal/launcher/pull/969"/> <PRLink href="https://github.com/open-goal/launcher/pull/967"/> <PRLink href="https://github.com/open-goal/launcher/pull/965"/> <PRLink href="https://github.com/open-goal/launcher/pull/971"/> <PRLink href="https://github.com/open-goal/launcher/pull/977"/> <PRLink href="https://github.com/open-goal/launcher/pull/983"/> <PRLink href="https://github.com/open-goal/launcher/pull/984"/> <PRLink href="https://github.com/open-goal/launcher/pull/986"/> <PRLink href="https://github.com/open-goal/launcher/pull/995"/> <PRLink href="https://github.com/open-goal/launcher/pull/1000"/> <PRLink href="https://github.com/open-goal/launcher/pull/1003"/> <PRLink href="https://github.com/open-goal/launcher/pull/1007"/> <PRLink href="https://github.com/open-goal/launcher/pull/1010"/> <PRLink href="https://github.com/open-goal/launcher/pull/1017"/> <PRLink href="https://github.com/open-goal/launcher/pull/1018"/> <PRLink href="https://github.com/open-goal/launcher/pull/970"/> <PRLink href="https://github.com/open-goal/launcher/pull/972"/> <PRLink href="https://github.com/open-goal/launcher/pull/973"/> <PRLink href="https://github.com/open-goal/launcher/pull/992"/> <PRLink href="https://github.com/open-goal/launcher/pull/994"/> <PRLink href="https://github.com/open-goal/launcher/pull/996"/> <PRLink href="https://github.com/open-goal/launcher/pull/997"/> <PRLink href="https://github.com/open-goal/launcher/pull/998"/> <PRLink href="https://github.com/open-goal/launcher/pull/1001"/> <PRLink href="https://github.com/open-goal/launcher/pull/1002"/> <PRLink href="https://github.com/open-goal/launcher/pull/1006"/> <PRLink href="https://github.com/open-goal/launcher/pull/1009"/>
+
+- Redesign for header, sidebar, `GameControls`, locale selection page, mod pages
+- Settings page for configuring background videos
+- Light mode fixes
+- Fix playtime maxing out at 23:59:59
+- Handle edge case where `iso_data` folder has been removed
+- Remove splash screen
+- Improved version selection page
+- Standalone mod page/sidebar entry
+- Support per-game name/description overrides for mods
+- Fix uninstall workflow on Linux
+- Add options to hide playtime, titles on game pages
+- Add button to choose random mod
+- Categorize launcher as "Game" to OS
+- Make launch string consistent regardless of active version
+- Support texture packs for mods (TODO: not yet listed in PRs above)
+- Misc internal fixes
+
+### Various support improvements <PRLink href="https://github.com/open-goal/launcher/pull/953"/> <PRLink href="https://github.com/open-goal/launcher/pull/957"/> <PRLink href="https://github.com/open-goal/launcher/pull/963"/> <PRLink href="https://github.com/open-goal/launcher/pull/964"/> <PRLink href="https://github.com/open-goal/launcher/pull/982"/>  <PRLink href="https://github.com/open-goal/launcher/pull/1005"/> <PRLink href="https://github.com/open-goal/launcher/pull/976"/>
+
+- Log kernel uptime diagnostic in support packages
+- Improved logging on `command.spawn` errors
+- Improved logging for `game_gpu_test`
+- Migrate logging to tracing, instrumentation
+- Updated image for support package guide
+- Improved requirements and bypass handling
+- Misc related bugfixes
+
+## General Changes
+
+### Translations <PRLink href="https://github.com/open-goal/jak-project/pull/4197"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4263"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4272"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4281"/>
+
+TODO
+
+<!-- All translations from [Crowdin](https://crowdin.com/project/opengoal) should now be updated and added to the games. This includes changes for French, Spanish, Catalan, Czech, German, Finnish, Italian, Japanese, Dutch, Norwegian, Polish, Portuguese, Danish, Hungarian, Croatian, Arabic, Greek, Serbian, and Portuguese (Brazilian)! -->
+
+If you're interested in contributing translations, check out [these guides](https://opengoal.dev/docs/category/contributing).
+
+### Update to SDL 3.4.10 <PRLink href="https://github.com/open-goal/jak-project/pull/4201"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4301"/>
+
+Updated the version of the SDL library used across OpenGOAL. Notably this fixed an issue with how the cursor was shown/hidden, and adds support for the new Steam Controller.
+
+### Improved decompiler stack variable support <PRLink href="https://github.com/open-goal/jak-project/pull/4222"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4264"/>
+
+TODO
+
+### Misc decompiler cleanup <PRLink href="https://github.com/open-goal/jak-project/pull/4247"/>
+
+TODO
+
+### Support Sony splash screen <PRLink href="https://github.com/open-goal/jak-project/pull/4236"/>
+
+TODO
+
+### Support animation exporting and master art-groups <PRLink href="https://github.com/open-goal/jak-project/pull/4260"/>
+
+TODO
+
+### Reduce memory usage during texture pack installation <PRLink href="https://github.com/open-goal/jak-project/pull/4278"/>
+
+TODO
+
+### Update to latest version from ares <PRLink href="https://github.com/open-goal/jak-project/pull/4282"/>
+
+TODO
+
+### Fix pressure sensitive axis handling <PRLink href="https://github.com/open-goal/jak-project/pull/4286"/>
+
+TODO
+
+### `build-actor` set `shader-cnt` to 0 for dummy `merc-fragment` <PRLink href="https://github.com/open-goal/jak-project/pull/4296"/>
+
+TODO
+
+### `extract-anim` model name remap <PRLink href="https://github.com/open-goal/jak-project/pull/4297"/>
+
+TODO
+
+### Support regions for custom levels <PRLink href="https://github.com/open-goal/jak-project/pull/4300"/>
+
+TODO
+
+### Allow manual reloading of `fr3` data <PRLink href="https://github.com/open-goal/jak-project/pull/4304"/>
+
+TODO
+
+### Support camera entities and custom keyframe values for custom levels <PRLink href="https://github.com/open-goal/jak-project/pull/4310"/>
+
+TODO
+
+### Include merc normals for glb extraction <PRLink href="https://github.com/open-goal/jak-project/pull/4271"/>
+
+TODO - not yet merged
+
+## Jak X
+
+TODO - edit this down https://github.com/open-goal/jak-project/pull/4266
+
+The PR you linked is indeed decomp work for Jak X. However, all it really does is copy over stuff that we have confirmed to be 100% identical between Jak 3 and Jak X (as the PR title says, "first batch of trivial files").
+
+This does NOT mean that we have officially started working on decompiling Jak X, let alone making a PC port, this PR, along with copying over identical code from Jak 3, simply lays the foundation so that anybody looking to pick up work on Jak X (whether it be us in the future or somebody else right now) will have an easier time getting started.
+
+As of right now, most of the core devs are not interested in continuing work on Jak X for the foreseeable future and would rather work on other things for the time being (e.g. squashing any remaining bugs and improving the tooling for the existing games so modders have more features and capabilities for creating custom content), so don't get your hopes up yet.
+
+While on the topic, I figured I should just get ahead of this before more rumors spread: There has been an effort by one person not affiliated with us to attempt to decompile Jak X and make a PC port by just relying on Claude vibecoding everything.
+Needless to say, none of that work will be merged by us and in case it somehow miraculously becomes playable and gets released somewhere, we have **no** affiliation with it.
+
+If Jak X officially releases in the future, it will be on the `jak-project` repo [on GitHub](https://github.com/open-goal/jak-project) and be available in the official launcher, as has always been the case. Any other source is not vetted by us and should only be used at your own risk.
+
+## Jak 3
+
+### Version 0.3.1 Updates
+
+See the [update on the previous Progress Report](progress-report-q1-2026#version-031-update) about the handful of fixes we released in version 0.3.1 following the Jak 3 beta release.
+
+### Various speedrun fixes <PRLink href="https://github.com/open-goal/jak-project/pull/4193"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4216"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4257"/> <PRLink href="https://github.com/open-goal/speedrunning/pull/34"/> <PRLink href="https://github.com/open-goal/speedrunning/pull/33"/>
+
+- Fixed the starting condition for speedruns - previously it required Jak to be in the `target-stance` state, so would fail if you were already moving on frame 1. This mainly affected Hero Mode runs, so it was less noticeable in Jak 2, but has also been fixed there.
+- Fixed starting new game from title screen in speedrunner mode to skip intro cutscene, start autosplitter, and show verification text.
+- Fixed endlessly looping bubble sound effect when resetting while being grabbed by ocean tentacle.
+- Added autosplitter option for Precursor Robot Skip, since the skip doesn't fully close the task.
+- Added option to speedrun menu to select unlocked Secrets for Hero Mode runs, as runners have different preferences.
+
+### Fix broken Secrets option on title screen <PRLink href="https://github.com/open-goal/jak-project/pull/4194"/>
+
+Some of the progress screens were rewritten for the PC port, and the title screen had a couple small bugs causing the Secrets option to always be drawn.
+
+### Fix `bigmap` icon stretching and scanlines for wide aspect ratios, scrolling at high FPS <PRLink href="https://github.com/open-goal/jak-project/pull/4199"/>
+
+- Expand scanlines to cover whole screen, not just 4:3 area
+- PS2 16:9 incorrectly squashes map icons, this was fixed for wider PC aspect ratios
+- Adjusted map scrolling speed for high FPS
+
+### Improved projectile focus fixes <PRLink href="https://github.com/open-goal/jak-project/pull/4207"/>
+
+There was already a setting added in OpenGOAL to fix projectile focus, and this addressed some edge cases to further improve this. Most notably, the tentacles in final boss should no longer be targeted once they are dead.
+
+### Add JET-Board trick name/score display <PRLink href="https://github.com/open-goal/jak-project/pull/4208"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4224"/>
+
+Ported over the trick display feature that was added in OpenGOAL for Jak 2, adding a new color for the L2 tricks.
+
+This also fixed a couple bugs in the scoring logic, where we wouldn't count the last trick in a 16-trick combo, and where the score wasn't properly reset after dismounting.
+
+If you want to see the full details of how tricks are scored, see [this comment](https://github.com/open-goal/jak-project/issues/3150#issuecomment-4241479134).
+
+### New flags for PC port languages <PRLink href="https://github.com/open-goal/jak-project/pull/4209"/>
+
+Aloqas added some new flags for languages that we've added support for in the PC port. These are all hand-crafted using a limited set of stripes, triangles, etc!
+
+![](img/flags.png)
+
+### Fix sound mode default <PRLink href="https://github.com/open-goal/jak-project/pull/4217"/>
+
+Previously the game would try to default to Surround Sound, which OpenGOAL doesn't properly support. Now it will default to Stereo.
+
+### Fix Dark Ship mech carry bug at high FPS <PRLink href="https://github.com/open-goal/jak-project/pull/4223"/>
+
+TODO
+
+### Prevent infinite loop in `ff-squad-control` bubble sort <PRLink href="https://github.com/open-goal/jak-project/pull/4225"/>
+
+TODO
+
+### Prevent NaN propagation in `spydroid` attack state <PRLink href="https://github.com/open-goal/jak-project/pull/4237"/>
+
+TODO
+
+### Fix death Daxter cutscenes not playing <PRLink href="https://github.com/open-goal/jak-project/pull/4243"/>
+
+TODO
+
+### Export documentation for website <PRLink href="https://github.com/open-goal/jak-project/pull/4254"/> <PRLink href="https://github.com/open-goal/open-goal.github.io/pull/324"/>
+
+TODO - need to fix/merge website PR too
+
+### Add speaker option to subtitles <PRLink href="https://github.com/open-goal/jak-project/pull/4230"/>
+
+TODO (also for jak 2)
+
+### Fix Dark/Light Eco vent powerup animation <PRLink href="https://github.com/open-goal/jak-project/pull/4269"/>
+
+TODO
+
+### Track orbs in crates for debug option <PRLink href="https://github.com/open-goal/jak-project/pull/4275"/>
+
+TODO
+
+### Fix Dark/Light Eco HUD flashing bug <PRLink href="https://github.com/open-goal/jak-project/pull/4285"/>
+
+TODO
+
+### Make actor LoD setting affect lightning quality <PRLink href="https://github.com/open-goal/jak-project/pull/4292"/>
+
+TODO
+
+### Support ocean environment mapping <PRLink href="https://github.com/open-goal/jak-project/pull/4303"/>
+
+TODO
+
+### Fix zoom blur flashbang in retail mode <PRLink href="https://github.com/open-goal/jak-project/pull/4305"/>
+
+TODO
+
+### Decompile some debug tooling <PRLink href="https://github.com/open-goal/jak-project/pull/4200"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4203"/>
+
+While not needed for retail gameplay, there were some debug/development features that hadn't been decompiled until now. This includes:
+- `visvol-edit`
+- `editable`
+- `editable-player`
+- `mysql-nav-graph`
+- `nav-graph-editor`
+- `nav-mesh-editor-h`
+- `nav-mesh-editor`
+- `cam-debug`
+- `hover-nav-edit`
+- `pilot-recorder`
+
+## Jak 2
+
+### Add missing inline declaration in `vector*!` <PRLink href="https://github.com/open-goal/jak-project/pull/4287"/>
+
+TODO
+
+## Jak 1
+
+### Fix crash when touching lightning moles on foot <PRLink href="https://github.com/open-goal/jak-project/pull/4294"/>
+
+TODO
+
+### Cleanup `control-info` naming <PRLink href="https://github.com/open-goal/jak-project/pull/4295"/>
+
+TODO
+
+### Show max of `flying-lurker` distances on HUD <PRLink href="https://github.com/open-goal/jak-project/pull/4309"/>
+
+TODO
