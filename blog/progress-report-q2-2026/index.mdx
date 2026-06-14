@@ -71,6 +71,11 @@ If you want to play these mods (and others), follow the instructions [here](http
 - Support texture packs for mods (TODO: not yet listed in PRs above)
 - Misc internal fixes
 
+<ReactPlayer
+  controls
+    src={require("./video/launcher.mp4").default}
+/>
+
 ### Various support improvements <PRLink href="https://github.com/open-goal/launcher/pull/953"/> <PRLink href="https://github.com/open-goal/launcher/pull/957"/> <PRLink href="https://github.com/open-goal/launcher/pull/963"/> <PRLink href="https://github.com/open-goal/launcher/pull/964"/> <PRLink href="https://github.com/open-goal/launcher/pull/982"/>  <PRLink href="https://github.com/open-goal/launcher/pull/1005"/> <PRLink href="https://github.com/open-goal/launcher/pull/976"/>
 
 - Log kernel uptime diagnostic in support packages
@@ -97,51 +102,81 @@ Updated the version of the SDL library used across OpenGOAL. Notably this fixed 
 
 ### Improved decompiler stack variable support <PRLink href="https://github.com/open-goal/jak-project/pull/4222"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4264"/>
 
-TODO
+Previously, stack variables were not always properly detected, e.g. in `let` blocks and other expressions. This would result in messy decompilation results, where the code was often awkward to read.
+
+These changes improve decompiler support for detecting stack variables, making the resulting code a bit easier on the eyes (and likely closer to how it looked in ND's code). For example, this before/after snippet from `citadel-obs.gc`:
+
+```diff
+-(let ((s4-0 sound-play-by-name)
+-      (s3-0 (make-u128 #x7061 (the-as uint #x7a2d646c65696873)))
+-      (s2-0 (new-sound-id))
+-      (s1-0 1024)
+-      (s0-0 0))
+-  (set! sv-96 0)
+-  (set! sv-112 1)
+-  (let ((t2-1 (target-pos 0)))
+-    (s4-0 (the-as sound-name s3-0) s2-0 s1-0 s0-0 sv-96 (the-as sound-group sv-112) (the-as symbol t2-1))))
++(sound-play "shield-zap" :position (the-as symbol (target-pos 0)))
+```
 
 ### Misc decompiler cleanup <PRLink href="https://github.com/open-goal/jak-project/pull/4247"/>
 
-TODO
+Some cleanup of decompiler code and scripts. Added a tool to hash the contents of each function, which can be useful to check if a function is unchanged across games (e.g. will the code for Jak X's `vector-xz-cross!` be identical to what we have for Jak 3).
 
 ### Support Sony splash screen <PRLink href="https://github.com/open-goal/jak-project/pull/4236"/>
 
-TODO
+Added back the Sony Computer Entertainment splash screens on boot, which had been missing in OpenGOAL.
 
-### Support animation exporting and master art-groups <PRLink href="https://github.com/open-goal/jak-project/pull/4260"/>
+![](./img/splash.png)
 
-TODO
+### Support animation exporting and master art-groups <PRLink href="https://github.com/open-goal/jak-project/pull/4260"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4297"/>
+
+Added initial support for exporting foreground models with animations - still has issues with some models in Jak 2/3.
+
+The build-actor tool was also changed to support custom art groups linking their animations to a different master art group. In particular this lets you add custom animations to vanilla art groups - like the JET-Board animations added in the new Jak 1 mod!
+
+<ReactPlayer
+  controls
+    src={require("./video/anims.mp4").default}
+/>
 
 ### Reduce memory usage during texture pack installation <PRLink href="https://github.com/open-goal/jak-project/pull/4278"/>
 
-TODO
+Rewrote some of the texture replacement code to reduce memory footprint. This should help users trying to install larger texture packs on devices such as the Steamdeck.
 
-### Update to latest version from ares <PRLink href="https://github.com/open-goal/jak-project/pull/4282"/>
+### Update to latest version of `libco` <PRLink href="https://github.com/open-goal/jak-project/pull/4282"/>
 
-TODO
+Updated to the latest version of `libco`, a cooperative multithreading library used in OpenGOAL.
 
 ### Fix pressure sensitive axis handling <PRLink href="https://github.com/open-goal/jak-project/pull/4286"/>
 
-TODO
+Fixed a bug in controller event handling that may have impacted controllers with pressure sensitive buttons.
 
 ### `build-actor` set `shader-cnt` to 0 for dummy `merc-fragment` <PRLink href="https://github.com/open-goal/jak-project/pull/4296"/>
 
-TODO
-
-### `extract-anim` model name remap <PRLink href="https://github.com/open-goal/jak-project/pull/4297"/>
-
-TODO
+Addressed an issue when using custom actors, which could cause crashes during level unloading as textures get unlinked.
 
 ### Support regions for custom levels <PRLink href="https://github.com/open-goal/jak-project/pull/4300"/>
 
-TODO
+Added support for defining regions in custom levels - a big missing feature for Jak 2 and 3 mods!
+
+<ReactPlayer
+  controls
+    src={require("./video/regions.mp4").default}
+/>
 
 ### Allow manual reloading of `fr3` data <PRLink href="https://github.com/open-goal/jak-project/pull/4304"/>
 
-TODO
+Added a feature that lets you reload custom levels and textures on the fly with the game running. This is another useful feature for custom level building, letting you quickly iterate and test changes.
+
+<ReactPlayer
+  controls
+    src={require("./video/reload.mp4").default}
+/>
 
 ### Support camera entities and custom keyframe values for custom levels <PRLink href="https://github.com/open-goal/jak-project/pull/4310"/>
 
-TODO
+Added support for using camera entities in custom levels, and for setting custom keyframe values, which allows for properly configured cameras and water volumes.
 
 ### Include merc normals for glb extraction <PRLink href="https://github.com/open-goal/jak-project/pull/4271"/>
 
@@ -149,16 +184,13 @@ TODO - not yet merged
 
 ## Jak X
 
-TODO - edit this down https://github.com/open-goal/jak-project/pull/4266
+### Initial base files <PRLink href="https://github.com/open-goal/jak-project/pull/4266"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4311"/>
 
-The PR you linked is indeed decomp work for Jak X. However, all it really does is copy over stuff that we have confirmed to be 100% identical between Jak 3 and Jak X (as the PR title says, "first batch of trivial files").
+There has indeed been some initial work for Jak X. However, all that has been done so far is copying over stuff that we have confirmed to be 100% identical between Jak 3 and Jak X.
 
-This does NOT mean that we have officially started working on decompiling Jak X, let alone making a PC port, this PR, along with copying over identical code from Jak 3, simply lays the foundation so that anybody looking to pick up work on Jak X (whether it be us in the future or somebody else right now) will have an easier time getting started.
+This does NOT mean that we have officially started working on decompiling Jak X, let alone making a PC port. These PRs simply aim to lay the foundation so that anybody looking to pick up work on Jak X (whether it be us in the future or somebody else right now) will have an easier time getting started.
 
-As of right now, most of the core devs are not interested in continuing work on Jak X for the foreseeable future and would rather work on other things for the time being (e.g. squashing any remaining bugs and improving the tooling for the existing games so modders have more features and capabilities for creating custom content), so don't get your hopes up yet.
-
-While on the topic, I figured I should just get ahead of this before more rumors spread: There has been an effort by one person not affiliated with us to attempt to decompile Jak X and make a PC port by just relying on Claude vibecoding everything.
-Needless to say, none of that work will be merged by us and in case it somehow miraculously becomes playable and gets released somewhere, we have **no** affiliation with it.
+As of right now, most of the core devs are not interested in continuing work on Jak X for the foreseeable future and would rather work on other things for the time being (e.g. squashing any remaining bugs and improving the tooling for the existing games so modders have more features and capabilities for creating custom content).
 
 If Jak X officially releases in the future, it will be on the `jak-project` repo [on GitHub](https://github.com/open-goal/jak-project) and be available in the official launcher, as has always been the case. Any other source is not vetted by us and should only be used at your own risk.
 
@@ -210,19 +242,32 @@ Previously the game would try to default to Surround Sound, which OpenGOAL doesn
 
 ### Fix Dark Ship mech carry bug at high FPS <PRLink href="https://github.com/open-goal/jak-project/pull/4223"/>
 
-TODO
+Fixed a bug at higher FPS where the Dark Ship mech would pick up boxes but could not put them back down.
 
 ### Prevent infinite loop in `ff-squad-control` bubble sort <PRLink href="https://github.com/open-goal/jak-project/pull/4225"/>
 
-TODO
+Addressed one symptom of a larger underlying issue where some actors end up with NaN position coordinates, which we have yet to pin down. 
+
+The Freedom Fighter `squad-control` code sorts the guards based on their distance to the target enemy, but if one of the guards has NaN coordinates, it leads to an infinite loop in the "bubble sort" algorithm, causing the entire game to hang. This patch just ignores any guards with NaN coordinates and only considers valid guards.
 
 ### Prevent NaN propagation in `spydroid` attack state <PRLink href="https://github.com/open-goal/jak-project/pull/4237"/>
 
-TODO
+Similar to the above, this addressed another symptom of the underlying NaN coordinates issue. Bugged guards will return NaN coordinates for their `bullseye-joint`, and since this is referenced in the `spydroid` `attack` code, it can propagate to the `spydroid`'s position, making it have NaN coordinates as well. The patch here will just uses the guard's overall position instead of the `bullseye-joint` position if it's NaN.
+
+In the Defend HQ mission, the KG carriers are only supposed to spawn a set number of `spydroid`s, and if you hang around long enough this can result in an interesting situation. If the max number of `spydroid`s are spawned and all end up with NaN coordinates, the mission appears bugged, with no KG enemies visible.
+
+We suspect this may also be related to the issue where the guards spawn with only half of their model visible.
+
+![](img/guard.png)
 
 ### Fix death Daxter cutscenes not playing <PRLink href="https://github.com/open-goal/jak-project/pull/4243"/>
 
-TODO
+Fixed a bug causing the occasional Daxter cutscenes after dying to never play.
+
+<ReactPlayer
+  controls
+    src={require("./video/dax.mp4").default}
+/>
 
 ### Export documentation for website <PRLink href="https://github.com/open-goal/jak-project/pull/4254"/> <PRLink href="https://github.com/open-goal/open-goal.github.io/pull/324"/>
 
