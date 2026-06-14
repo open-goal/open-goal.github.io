@@ -214,7 +214,7 @@ Some of the progress screens were rewritten for the PC port, and the title scree
 
 ### Fix `bigmap` icon stretching and scanlines for wide aspect ratios, scrolling at high FPS <PRLink href="https://github.com/open-goal/jak-project/pull/4199"/>
 
-- Expand scanlines to cover whole screen, not just 4:3 area
+- Expanded scanlines to cover whole screen, not just 4:3 area
 - PS2 16:9 incorrectly squashes map icons, this was fixed for wider PC aspect ratios
 - Adjusted map scrolling speed for high FPS
 
@@ -271,35 +271,61 @@ Fixed a bug causing the occasional Daxter cutscenes after dying to never play.
 
 ### Export documentation for website <PRLink href="https://github.com/open-goal/jak-project/pull/4254"/> <PRLink href="https://github.com/open-goal/open-goal.github.io/pull/324"/>
 
-TODO - need to fix/merge website PR too
+TODO - need to generate new jak-project release so the website builds
+
+Configured the export of the Jak 3 `goal_src` docs for the website, which you can find [here](/docs/category/jak-3).
 
 ### Add speaker option to subtitles <PRLink href="https://github.com/open-goal/jak-project/pull/4230"/>
 
-TODO (also for jak 2)
+Ported over a feature added in Jak 1, which adds options to show the name of the person speaking in the subtitles. This is now supported in both Jak 2 and 3.
 
 ### Fix Dark/Light Eco vent powerup animation <PRLink href="https://github.com/open-goal/jak-project/pull/4269"/>
 
-TODO
+Fixed a bug causing the powerup animations when touching a Dark/Light Eco vent to play incorrectly. It would use the animation intended for Light Eco vents when touching Dark Eco vents.
+
+This is another bug that just happened to luckily work out on PS2 hardware - the Eco vents send an event to Jak to make him go into the powerup state, but do not pass any event arguments which determine what animation to play and at what speed/start frame. For the Dark Eco vents, PS2 manages to somehow get the correct value of 7, but OpenGOAL was not so lucky.
+
+As a side effect of this fix, we also get the originally intended behavior for the Light Eco vents of playing the full powerup animation from the start at a slower speed, rather than the much shorter one you see on PS2.
+
+<ReactPlayer
+  controls
+    src={require("./video/ecovents.mp4").default}
+/>
 
 ### Track orbs in crates for debug option <PRLink href="https://github.com/open-goal/jak-project/pull/4275"/>
 
-TODO
+In Jak 2 OpenGOAL a "Track Skill" feature was added to the debug menu, which would draw a red line from Jak to all of the currently spawned Precursor Orbs (internally called `skill`s). This feature was ported over to Jak 3, but until now it didn't handle the new cases where Orbs were hidden inside of crates, urns, etc.
+
+![](img/skill.png)
 
 ### Fix Dark/Light Eco HUD flashing bug <PRLink href="https://github.com/open-goal/jak-project/pull/4285"/>
 
-TODO
+Fixed an original game bug where the Dark/Light Eco HUD elements would stop doing the intended flashing effect after your save file was several hours old.
+
+The code determines how much to flash by referencing the `game-clock` from your save file as part of the formula, which uses a sine function to achieve the smooth flashing rhythm. The `game-clock` counts the number of ticks that have passed while playing the game (300 ticks per second), so after several hours it ends up being a very large number. OpenGOAL's `sin` function breaks down when you give it extremely large floating point values, and will start to return a constant value - effectively pausing the flashing effect indefinitely.
+
+The number of ticks is effectively interpreted as degrees, sometimes with a multiplier to adjust the rate of flashing, and passed into the sine function. Since we know the sine function repeats every 360 degrees, we avoid extremely large floating point values but achieve the same intended results by using the tick value modulo 360.
 
 ### Make actor LoD setting affect lightning quality <PRLink href="https://github.com/open-goal/jak-project/pull/4292"/>
 
-TODO
+Copied over a change added in Jak 2 to use higher `lightning-quality` when the high LoD option is set, improving the appearance of `elec-gate`s from afar.
 
 ### Support ocean environment mapping <PRLink href="https://github.com/open-goal/jak-project/pull/4303"/>
 
-TODO
+Added proper environment mapping for the oceans. While the resulting envmap looks accurate compared to PCSX2 in Renderdoc, the end result does not seem 100% identical, but it is a big improvement over the default placeholder texture previously used. This is also supported in Jak 2 now.
+
+<ReactPlayer
+  controls
+    src={require("./video/ocean.mp4").default}
+/>
 
 ### Fix zoom blur flashbang in retail mode <PRLink href="https://github.com/open-goal/jak-project/pull/4305"/>
 
-TODO
+Fixed a visual bug where the zoom blur effect would incorrectly render as a bright white texture. This was probably most notable in the cutscene with Seem near the beginning of the game.
+
+When `do_zoom_blur` sets up its draw, it doesn't update the blend settings, so it ends up inheriting the previous values.
+
+In retail mode, the previous draw is from a texture animation, which sets up the blend in a specific way that causes it to draw a white texture over the screen. In debug mode, right before the zoom blur is drawn, the debug text is drawn, which modifies the blend settings to something that makes the blur look as it should.
 
 ### Decompile some debug tooling <PRLink href="https://github.com/open-goal/jak-project/pull/4200"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4203"/>
 
@@ -319,18 +345,22 @@ While not needed for retail gameplay, there were some debug/development features
 
 ### Add missing inline declaration in `vector*!` <PRLink href="https://github.com/open-goal/jak-project/pull/4287"/>
 
-TODO
+Fixed an issue in the `vector*!` definition for Jak 2 which caused the function to not be inlined, resulting in differing compiled output.
 
 ## Jak 1
 
 ### Fix crash when touching lightning moles on foot <PRLink href="https://github.com/open-goal/jak-project/pull/4294"/>
 
-TODO
+Fixed an original game bug where the game would crash if you touched a `lightning-mole` while on foot
+
+This is another case of an event sent between processes missing proper arguments, similar to the Dark/Light Eco vent animation issue above. Unlike the Eco vent example however, PS2 hardware does not get lucky on this one, and also crashes.
 
 ### Cleanup `control-info` naming <PRLink href="https://github.com/open-goal/jak-project/pull/4295"/>
 
-TODO
+One more benefit to the codebase resulting from HatKid's work on the JET-Board mod - as he compared `target` code between Jak 3 and Jak 1 to make sense of and backport the JET-Board code, he was able to give meaningful names to some fields and enum values.
+
+For example, `(water-flags wt24)` is now `(water-flag dark-eco)`, `(-> *target* control unknown-dword51)` is now `(-> *target* control attack-count)`, etc.
 
 ### Show max of `flying-lurker` distances on HUD <PRLink href="https://github.com/open-goal/jak-project/pull/4309"/>
 
-TODO
+Fixed a minor issue with the extra HUD element added in OpenGOAL for the `flying-lurker` Mountain Pass race. The HUD is supposed to show how many meters away the lurkers are, as the mission fails if *any* of them gets 500m away. However the value shown on the HUD was only checking against `flying-lurker-1`, so it was possible to fail while the HUD showed a value less than 500. Now it will show the maximum distance of the 3 lurkers.
