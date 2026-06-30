@@ -21,7 +21,7 @@ Tons of bugfixes post-Jak 3 release, new features for mods, and a fresh look for
 
 ## Release Info
 
-This month's OpenGOAL Tooling (`jak-project` repo) release is `0.3.4`. TODO - verify this
+This month's OpenGOAL Tooling (`jak-project` repo) release is `0.3.4`.
 
 <div className="row markdownMarginBottom">
   <div className="col col--12">
@@ -85,12 +85,13 @@ If you want to play these mods (and others), follow the instructions [here](http
 
 ## General Changes
 
-### Translations <PRLink href="https://github.com/open-goal/jak-project/pull/4197"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4263"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4272"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4281"/>
+### Translations <PRLink href="https://github.com/open-goal/jak-project/pull/4197"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4263"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4272"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4281"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4324"/>
 
 Thanks to the users who submitted translations for Jak 1 Portuguese subtitles, Jak 3 French subtitles, and subtitles for the Jak 3 developer commentary!
 
-TODO: crowdin
-<!-- All translations from [Crowdin](https://crowdin.com/project/opengoal) should now be updated and added to the games. This includes changes for French, Spanish, Catalan, Czech, German, Finnish, Italian, Japanese, Dutch, Norwegian, Polish, Portuguese, Danish, Hungarian, Croatian, Arabic, Greek, Serbian, and Portuguese (Brazilian)! -->
+All translations from [Crowdin](https://crowdin.com/project/opengoal) should now be updated and added to the games. This includes changes for 
+
+French, Spanish, Catalan, Czech, Italian, Norwegian, Portuguese, Croatian, and Portuguese (Brazilian)! 
 
 If you're interested in contributing translations, check out [these guides](https://opengoal.dev/docs/category/contributing).
 
@@ -191,8 +192,6 @@ Adds support for using camera entities in custom levels, and for setting custom 
 
 Adds normals from `MercVertex` as part of the exported `GLB` files.
 
-TODO - not yet merged
-
 ### Support controllers with identical names in imgui menu <PRLink href="https://github.com/open-goal/jak-project/pull/4290"/>
 
 Fixes a bug where players could not select a second controller if it had an identical name as the first controller.
@@ -282,9 +281,7 @@ Fixes a bug causing the occasional Daxter cutscenes after dying to never play.
 
 ### Export documentation for website <PRLink href="https://github.com/open-goal/jak-project/pull/4254"/> <PRLink href="https://github.com/open-goal/open-goal.github.io/pull/324"/>
 
-TODO - need to generate new jak-project release so the website builds
-
-Configures the export of the Jak 3 `goal_src` docs for the website. <!--, which you can find [here](/docs/category/jak-3). -->
+Configures the export of the Jak 3 `goal_src` docs for the website, which you can find [here](/docs/category/jak-3).
 
 ### Add speaker option to subtitles <PRLink href="https://github.com/open-goal/jak-project/pull/4230"/>
 
@@ -313,9 +310,9 @@ In Jak 2 OpenGOAL a "Track Skill" feature was added to the debug menu, which wou
 
 Fixes an original game bug where the Dark/Light Eco HUD elements would stop doing the intended flashing effect after your save file was several hours old.
 
-The code determines how much to flash by referencing the `game-clock` from your save file as part of the formula, which uses a sine function to achieve the smooth flashing rhythm. The `game-clock` counts the number of ticks that have passed while playing the game (300 ticks per second), so after several hours it ends up being a very large number. OpenGOAL's `sin` function breaks down when you give it extremely large floating point values, and will start to return a constant value - effectively pausing the flashing effect indefinitely.
+The code determines how much to flash by referencing the `game-clock` from your save file as part of the formula, which uses a sine function to achieve the smooth flashing rhythm. The `game-clock` counts the number of ticks that have passed while playing the game (300 ticks per second), so after several hours it ends up being a very large number. OpenGOAL's `sin` function breaks down when you give it extremely large floating point values, and will start to return a constant value - thus pausing the flashing effect indefinitely.
 
-The number of ticks is effectively interpreted as degrees, sometimes with a multiplier to adjust the rate of flashing, and passed into the sine function. Since we know the sine function repeats every 360 degrees, we avoid extremely large floating point values but achieve the same intended results by using the tick value modulo 360.
+The number of ticks is effectively interpreted as degrees, sometimes with a multiplier to adjust the rate of flashing, and passed into the sine function. Since we know the sine function repeats every 360 degrees, we can avoid extremely large floating point values but achieve the same intended results by using the tick value modulo 360.
 
 ### Make actor LoD setting affect lightning quality <PRLink href="https://github.com/open-goal/jak-project/pull/4292"/>
 
@@ -350,13 +347,9 @@ In retail mode, the previous draw is from a texture animation, which sets up the
 
 Adds options to the speedrun menu for starting Act 2, Act 3, and post-game (All Open Orbs) categories.
 
-TODO: not yet merged
-
 ### Implement 989snd/overlord functionality for ambient sounds <PRLink href="https://github.com/open-goal/jak-project/pull/4319"/>
 
 Implements the functionality for the `PLUGIN_MESSAGE` grain and the 989snd VAG plugin system, allowing sounds to queue up VAG streams. This fixes missing ambient sounds like wind, thunder, crowd cheering, etc. This applies to Jak 2 as well.
-
-TODO: not yet merged
 
 <ReactPlayer
   controls
@@ -422,8 +415,6 @@ Fixes an issue in the `vector*!` definition for Jak 2 which caused the function 
 ### Add speedrun categories for Act 2, 3, All Open Orbs <PRLink href="https://github.com/open-goal/jak-project/pull/4314"/>
 
 Adds options to the speedrun menu for starting Act 2, Act 3, and All Open Orbs categories.
-
-TODO: not yet merged - awaiting vote from Jak 2 runners on All Open Orbs
 
 ## Jak 1
 
