@@ -21,7 +21,7 @@ Tons of bugfixes post-Jak 3 release, new features for mods, and a fresh look for
 
 ## Release Info
 
-This month's OpenGOAL Tooling (`jak-project` repo) release is `0.3.4`.
+This month's OpenGOAL Tooling (`jak-project` repo) release is ~`0.3.4`~ `0.3.5`.
 
 <div className="row markdownMarginBottom">
   <div className="col col--12">
@@ -120,9 +120,9 @@ These changes improve decompiler support for detecting stack variables, making t
 
 Some cleanup of decompiler code and scripts. Adds a tool to hash the contents of each function, which can be useful to check if a function is unchanged across games (e.g. will the code for Jak X's `vector-xz-cross!` be identical to what we have for Jak 3).
 
-### Support Sony splash screen <PRLink href="https://github.com/open-goal/jak-project/pull/4236"/>
+### Support Sony splash screen <PRLink href="https://github.com/open-goal/jak-project/pull/4236"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4336"/>
 
-Adds back the Sony Computer Entertainment splash screens on boot, which had been missing in OpenGOAL.
+Adds back the Sony Computer Entertainment splash screens on boot, which had been missing in OpenGOAL. Note that tooling version `0.3.5` includes a patch related to this, fixing a crash for certain languages that was happening in `0.3.4`.
 
 ![](./img/splash.png)
 
