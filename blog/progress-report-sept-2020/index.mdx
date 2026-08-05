@@ -1,0 +1,314 @@
+---
+title: Progress Report - Sept. 2020
+date: 2020-09-30T10:00
+description: The first official progress report!
+slug: progress-report-sept-2020
+authors:
+  - water
+tags: [progress-report]
+# image: ./img/tie1.png
+hide_table_of_contents: false
+draft: false
+---
+
+<head>
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+
+The OpenGOAL project is a project to reverse engineer the Jak and Daxter video games and the custom programming language they were developed in: GOAL.
+
+<!--truncate-->
+
+The long-term objective of the project is to make Jak and Daxter run natively on a PC by decompiling and recompiling it with OpenGOAL, our reverse engineered version of GOAL for x86-64 PCs. We do not host any game assets or copyrighted material from the game – we only host tools for reverse engineering and porting the game. The user must provide a copy of the game to use our tools.
+
+This is a long term project that’s just getting started. To keep track of our progress, I’m writing monthly updates in this repository, and this is the first one.
+
+The GOAL language created for Jak and Daxter was a remarkable accomplishment. The main features of GOAL over C/C++ were:
+
+- An interactive “listener” which allowed programmers to modify or add code to the running game in a fraction of a second, no reset required. Modified files or code entered at a REPL is compiled into an object file, which can be linked into the running game.
+- Easy to use inline assembly, with types and automatic register coloring
+- A powerful compile-time macro system for defining new language syntax
+- A type system which gave programmers exact control over the memory layout of their types
+- The ability to include large and complicated static data in code. Loading an entire Jak and Daxter level is accomplished by loading and linking several GOAL object files.
+
+## What we have so far
+
+We’ve made significant progress on creating an OpenGOAL compiler and reverse engineering the C code originally found in the game. Our compiler can compile a large subset of the GOAL language and can generate DGO/CGO files and GOAL object files which can be loaded and executed by our in-progress “game”. The compiler has an interactive REPL which allows fragments of code to be immediately compiled and executed.
+
+The decompiler is able to unpack DGO/CGO files and disassemble all code. It understands the GOAL linking formats and instruction sequences for referencing static data so it produces a disassembly with links to symbols, types, and static data. The disassembly is split into functions, and names of functions are determined by reading through the code that adds function pointers to the symbol table. Common control flow patterns (cond, cond with else, and, or, while, until) are recognized and used to build a nested control flow graph.
+
+All of our code builds and runs on Windows and Linux. The compiler/game has unit tests for both Linux and Windows which are run through the GitHub Actions CI system. The compiler tests a number of simple GOAL test programs by compiling the program, booting up the GOAL “runtime”, sending the test programs over the Listener to the runtime, and checking the result printed.
+
+We have a GOAL “runtime” reverse engineered from the game and ported to x86-64. It contains the game’s “C Kernel”, which contains some low-level functions for GOAL including memory management, I/O, and linking. The runtime also has the “OVERLORD” I/O driver and an implementation of Sony library functions used by the C Kernel and OVERLORD.
+
+Since the project has started, we’ve had 4 external contributors who really helped to get the project started by
+
+- Getting the project building on Windows
+- Setting up GitHub Actions to automatically build the code and run tests
+- Implementing common utility functions for getting file paths on Linux and Windows
+- Designing an awesome logo for OpenGOAL
+- Adding the `spdlog` logging library to organize our debugging print statements
+
+The OpenGOAL compiler is in progress and can already compile and run many simple programs. Here are some of the most exciting highlights:
+
+Interaction with the REPL:
+```opengoal
+;; connecting to the runtime:
+g> (lt)
+[Listener] Socket connected established! (took 0 tries). Waiting for version...
+Got version 2.6 OK!
+[OUTPUT] reset #x147d24
+
+;; compiling code, sending to the runtime, and getting a result back
+gc> (+ 1 2 3 4)
+10
+
+;; support for floating point:
+gc> (format #t "We can print floats: ~f~%" (+ 1.2 3.4))
+We can print floats: 4.6000
+
+;; boxed integers, symbols, booleans, strings, and pairs
+gc> (define my-list (list (the binteger -13) 'bean #t "hello" (cons 'a 'b)))
+
+;; methods
+gc> (inspect my-list)
+[  164262] pair (-13 bean #t "hello" (a . b))
+
+gc> (inspect (ref my-list 3))
+[ 7ffbec4] string
+	allocated_length: 6
+	data: "hello"
+
+gc> (inspect (string->symbol "my-list"))
+[  142384] symbol
+	name: my-list
+	hash: #x56dc34cc
+	value: (-13 bean #t "hello" (a . b))
+```
+
+And here are some examples of functions I manually decompiled and can be compiled by our compiler:
+
+```opengoal
+;; Example of a function
+(defun basic-type? ((obj basic) (input-type type))
+  "Is obj an object of type input-type, or of child type of input-type?
+  Note: checking if a basic is of type object will return #f."
+  (let ((basics-type (-> obj type))
+        (object-type object))
+    (until (eq? (set! basics-type (-> basics-type parent)) object-type)
+           (if (eq? basics-type input-type)
+             ;; return-from #f will return from the function with the value of #t
+             (return-from #f #t)
+             )
+           )
+    )
+  #f ;; didn't find it, return false
+  )
+
+;; Floating point math
+(defun seek ((x float) (target float) (diff float))
+  "Move x toward target by at most diff, with floats"
+  (let ((err (- target x)))
+    ;; if we can get there all at once
+    (if (<= (fabs err) diff)
+      (return-from #f target)
+      )
+
+    (if (>= err 0)
+      (+ x diff)
+      (- x diff)
+      )
+    )
+  )
+
+;; Type declaration
+(deftype thread (basic)
+  ((name          basic)
+   (process       process)
+   (previous      thread)
+   (suspend-hook  basic)
+   (resume-hook   basic)
+   (pc            (pointer uint8))
+   (sp            (pointer uint8))
+   (stack-top     (pointer uint8))
+   (stack-size    int32)
+   )
+  
+  (:methods
+    (setup-stack ((this thread) (stack-size integer)) none)  
+    )
+  )
+
+;; Method
+
+(defmethod new array ((allocation symbol) (type-to-make type) (elt-type type) (elt-count integer))
+  "Create a new array. The length is initialized to elt-count."
+  (let ((arr (object-new (+ (-> type-to-make size)
+                 (* elt-count (if (type-type? elt-type number)
+                                (-> elt-type size) ;; if number, inline
+                                4 ;; otherwise, they're pointers
+                                ))
+                 ))))
+    (set! (-> arr allocated-length) elt-count)
+    (set! (-> arr length) elt-count)
+    (set! (-> arr elt-type) elt-type)
+    arr
+    )
+  )
+
+(defmethod print bfloat ((obj bfloat))
+  "Override the default print method to print a bfloat like a normal float"
+  (format #t "~f" (-> obj data))
+  )
+```
+
+And one just for fun:
+
+```opengoal
+(dotimes (i 16) 
+  (format #t "~2D: ~S~%" i 
+          (let ((div3 (= 0 (mod i 3))) 
+                (div5 (= 0 (mod i 5)))) 
+            (cond ((and div3 div5) "FizzBuzz") 
+                   (div3 "Fizz") 
+                   (div5 "Buzz") 
+                   (else (the binteger i))))))
+
+ 0: FizzBuzz
+ 1: 1
+ 2: 2
+ 3: Fizz
+ 4: 4
+ 5: Buzz
+ 6: Fizz
+ 7: 7
+ 8: 8
+ 9: Fizz
+10: Buzz
+11: 11
+12: Fizz
+13: 13
+14: 14
+15: FizzBuzz
+```
+
+The compiler has support for:
+- Interactive listener with a REPL
+- Scheme-based compile-time macro system
+- Integer and Floating Point Math
+- Defining and calling functions
+- Defining types
+- Constructing global objects
+- Symbols, Pairs, Boxed Integers, Strings, Functions, and Types as objects
+- Defining and calling methods (both virtual and non-virtual)
+- Control flow (cond, if, and, or, while, return-from, goto)
+- Pointers, dereference, address-of operators
+- Arrays, inline arrays, and dynamic types
+- Static floats and strings
+- Inline functions
+- Anonymous `lambda` functions
+
+The C Kernel has support for:
+- Remote Procedure Calls (RPCs) to the OVERLORD I/O driver for loading DGO files
+- Listener connection to the compiler using the DECI2 protocol
+- The GOAL linker and kernel allocator (`kmalloc`)
+- Initialization of the GOAL symbol table and heaps (`InitHeapAndSymbol`)
+- The GOAL `format` print function
+
+The OVERLORD has support for:
+- Responding to RPCs from the game
+- The “ISO Thread” and priority queue system for scheduling loads
+- Loading files from a “fake iso”
+- The DGO loading state machine
+- The IOP’s multi-threaded kernel
+
+## How is this possible?
+
+The Jak 1 game itself is quite large. I’d estimate there’s around 20k lines of C/C++ and 500k lines of GOAL. For the GOAL code, we will build an automatic decompiler that should cover all cases where inline assmebly wasn’t used. For the parts with inline assembly, it can be either manually ported or we can come up with an ugly “translator” to automatically rewrite it.
+
+Unlike many of the other video games that are being decompiled, Jak has a huge amount of debug information left in. It almost feels like they did it on purpose! The C code is compiled with no optimizations and includes debugging symbols. GOAL uses a string-based symbol table for global functions, global variables, and types, so we can get the names of all these for free. Many static GOAL objects contain a “type-tag” that can be used to identify their type.
+
+There’s also the “debug segment” which contains tons of debug code that can only be run on a PS2 devkit (see video below). The debug data includes a method which prints out the name and value of each field in each type, which gives us the memory layout and field names for almost every type!
+
+<ReactPlayer
+  controls
+  src={"https://www.youtube.com/watch?v=bjc9zz18ACA&t=245s"}
+  className="blog-video"
+/>
+
+A final advantage is that the GOAL compiler is relatively simple. It is mostly a single pass compiler and doesn’t do many “tricky to undo” optimizations, like reordering things. The fanciest optimization done by the GOAL compiler is its register allocation, which I believe uses the classic graph-coloring algorithm (see https://cs.gmu.edu/~white/CS640/p98-chaitin.pdf). With the correct representation, it should be straightforward to turn compiled GOAL code back into higher level expressions.
+
+### Porting to x86-64
+
+The PS2 has a MIPS processor, which is quite a bit different from a modern Intel CPU, so we’ve had to modify some language details. Many things are kept the same – we set aside a CPU register to store the address of the symbol table and use a signed 16-bit offset addressing mode to access the symbol table. The linker patches these instructions to point to the correct slot in the symbol hash table.
+
+To keep pointers 4-bytes, we created a separate 4-byte “GOAL pointer”, which represents an offset from a real x86-64 pointer. This x86-64 memory base pointer is always stored in the `r15` register, and fancy x86 addressing modes are used to dereference GOAL pointers in a single instruction.
+
+The OpenGOAL compiler is relatively simple and implements the same set of optimizations as the original GOAL compiler seems to use. There is still some work to do to make it more efficient, but the output is pretty reasonable. For example:
+
+```opengoal
+(defun factorial-iterative ((x integer))
+  (let ((result 1))
+    (while (!= x 1)
+       (set! result (* result x))
+       (set! x (- x 1))
+       )
+    result
+    )
+  )
+```
+
+compiles to
+
+```asm
+0:  b8 01 00 00 00          mov    eax,0x1
+5:  e9 0e 00 00 00          jmp    0x18
+a:  0f af c7                imul   eax,edi
+d:  48 63 c0                movsxd rax,eax
+10: b9 01 00 00 00          mov    ecx,0x1
+15: 48 29 cf                sub    rdi,rcx
+18: b9 01 00 00 00          mov    ecx,0x1
+1d: 48 3b f9                cmp    rdi,rcx
+20: 0f 85 e4 ff ff ff       jne    0xa
+26: c3                      ret
+```
+
+Performance comparison for computing the 10,000th prime number with a stupid `O(n^2)` check all factors with `mod` algorithm:
+
+- C (O3 optimization): 1.55 seconds
+- OpenGOAL: 1.74 seconds
+- Python 2: 61 seconds
+- Python 3: 67 seconds
+
+## What’s next?
+
+The focus for the next month is the decompiler, and getting it to the simplest version where it generates code that can be compiled. The rough process is
+
+- Do register use analysis
+- Propagate type information and figure out number of arguments in function calls
+- Translate MIPS instructions into GOAL “Intermediate Representation” operations
+- Combine control flow graph and GOAL “Intermediate Representation”
+
+At that point, we should be able to generate code that compiles and does the right thing. But there are a few extra steps that will dramatically improve the readability:
+
+- Parse debug segment `inspect` methods to determine type layouts
+- Use type information to make memory accesses use fields of types/array indexing when possible
+- “Untangle” register coloring and build up nested expressions
+- “Split” registers into separate local variables
+- Adjust scope of local variables
+- “Rebalance” expressions to get nice looking conditions in `if`s. Do `(set! a b) (if y ...)` instead of `(if (begin (set! a b) y) ...)`
+
+We’ll also need to “decompile” the static data – the original GOAL compiler made it easy to generate and store static objects at compile time, and likely had custom tools for embedding large data like animations, 3D models, or textures into GOAL code.
+
+There are still some small features to add to the compiler:
+
+- Enum types
+- Bitfield types
+- Static structure types and pairs
+- More sophisticated inline assembly
+- 128-bit floating point vector registers
+- 128-bit integer registers
+- Access to “process” memory, though the special process pointer register
+- Better error messages when the error happens in code generated in macro expansion.
+
+**Want to get involved or find out more? Check out the project on GitHub: https://github.com/water111/jak-project**
