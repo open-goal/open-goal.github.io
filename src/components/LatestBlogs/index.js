@@ -7,6 +7,15 @@ import { CardActionArea } from "@mui/material";
 
 const BlogList = [
   {
+    title: "Progress Report - Q3 2026",
+    image: require("@site/blog/progress-report-q3-2026/img/poster.png")
+      .default,
+    description: (
+      <>New extractor features, and several bugs fixed - most of them from OpenGOAL, but a couple from Naughty Dog.</>
+    ),
+    link: "/blog/progress-report-q3-2026",
+  }, 
+  {
     title: "Progress Report - Q2 2026",
     image: require("@site/blog/progress-report-q2-2026/img/poster.png")
       .default,
@@ -23,15 +32,6 @@ const BlogList = [
       <>The right man in the wrong place can make all the difference in the world.</>
     ),
     link: "/blog/progress-report-q1-2026",
-  }, 
-  {
-    title: "Progress Report - Q4 2025",
-    image: require("@site/blog/progress-report-q4-2025/img/poster.webp")
-      .default,
-    description: (
-      <>Happy Holidays!</>
-    ),
-    link: "/blog/progress-report-q4-2025",
   }
 ];
 
