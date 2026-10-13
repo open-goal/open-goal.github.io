@@ -234,6 +234,7 @@ There’s also the “debug segment” which contains tons of debug code that ca
   controls
   src={"https://www.youtube.com/watch?v=bjc9zz18ACA&t=245s"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 A final advantage is that the GOAL compiler is relatively simple. It is mostly a single pass compiler and doesn’t do many “tricky to undo” optimizations, like reordering things. The fanciest optimization done by the GOAL compiler is its register allocation, which I believe uses the classic graph-coloring algorithm (see https://cs.gmu.edu/~white/CS640/p98-chaitin.pdf). With the correct representation, it should be straightforward to turn compiled GOAL code back into higher level expressions.

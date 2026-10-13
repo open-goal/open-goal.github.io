@@ -56,7 +56,11 @@ Things to keep in mind:
 ![Shrek](img/shrexter.png)
 ![Light Babak](img/babak-drip.png)
 
-<ReactPlayer controls src={require("./video/babak-and-frong.mp4").default} />
+<ReactPlayer 
+  controls
+  src={require("./video/babak-and-frong.mp4").default} 
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
+  />
 
 ### Black Screen Fix <PRLink href="https://github.com/open-goal/jak-project/pull/3601"/>
 
@@ -131,6 +135,7 @@ With the implementation of `prim`, there are now only a couple of graphical effe
   controls
   src={"https://www.youtube.com/watch?v=kR_pGXVYL8M"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 ### Plenty of Bug Fixes <PRLink href="https://github.com/open-goal/jak-project/pull/3581"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3584"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3593"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3603"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3606"/>
@@ -150,7 +155,11 @@ A good number of bugs have been fixed:
 ![Eyes](img/eye.png)
 ![Eyes](img/eye1.png)
 
-<ReactPlayer controls src={require("./video/eye.mp4").default} />
+<ReactPlayer 
+  controls
+  src={require("./video/eye.mp4").default} 
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
+  />
 
 ### Implement Missing Texture Animations <PRLink href="https://github.com/open-goal/jak-project/pull/3577"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3586"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3587"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3586"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3611"/>
 
@@ -160,6 +169,7 @@ Initial texture animation support was added a while back, and now most of the mi
   controls
   src={"https://www.youtube.com/watch?v=f-SJkvBswqg"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 ### Overlord 2 <PRLink href="https://github.com/open-goal/jak-project/pull/3567"/>

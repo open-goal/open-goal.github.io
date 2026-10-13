@@ -4,9 +4,9 @@ date: 2026-09-30T10:00
 description: Q3 2026's OpenGOAL progress report
 slug: progress-report-q3-2026
 authors:
-  - barg
+  - open-goal
 tags: [progress-report]
-image: ./img/poster.png # todo real poster
+image: ./img/poster.png
 hide_table_of_contents: false
 draft: false
 ---
@@ -21,7 +21,7 @@ New extractor features, and several bugs fixed - most of them from OpenGOAL, but
 
 ## Release Info
 
-This month's OpenGOAL Tooling (`jak-project` repo) release is `0.3.8`. <!-- TODO cut new version to pickup all the changes mentioned? (some not yet merged) -->
+This month's OpenGOAL Tooling (`jak-project` repo) release is `0.3.9`. <!-- TODO this version needs to be cut still -->
 
 <div className="row markdownMarginBottom">
   <div className="col col--12">
@@ -29,11 +29,33 @@ This month's OpenGOAL Tooling (`jak-project` repo) release is `0.3.8`. <!-- TODO
   </div>
 </div>
 
-<!-- ## Community Spotlight
+## Community Spotlight
+
+### The Fishing Legacy
+
+Kraken, who you might remember from the Roguelike Jak II and Hero Mode Plus mods, shifts gears a bit and brings us a nice cozy fishing simulator, played throughout the Jak 1 universe!
+
+<ReactPlayer
+  controls
+  src={"https://www.youtube.com/watch?v=E3RaKSLjFKM"}
+  className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
+/>
+
+### A Complicated Mod
+
+MikeGamePro makes things difficult in this challenging randomizer mod, where you race against a ticking clock to beat the game and deal with ever-changing rules and complications.
+
+<ReactPlayer
+  controls
+  src={"https://www.youtube.com/watch?v=aTB4p3wktME"}
+  className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
+/>
 
 :::info
-If you want to play this mod (and others), follow the instructions [here](https://jakmods.dev/) to set up a mod list for the OpenGOAL launcher.
-::: -->
+If you want to play these mods (and others), follow the instructions [here](https://jakmods.dev/) to set up a mod list for the OpenGOAL launcher.
+:::
 
 <!-- ## Known Issues -->
 
@@ -75,7 +97,8 @@ Added support for storing different colors for changing time-of-day in custom le
 
 <ReactPlayer
   controls
-    src={require("./video/time_of_day.mp4").default}
+  src={require("./video/time_of_day.mp4").default}
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 ### Various GLTF exporter fixes <PRLink href="https://github.com/open-goal/jak-project/pull/4371"/>
@@ -94,7 +117,9 @@ Added support for storing different colors for changing time-of-day in custom le
 
 ### Sound Effect & Music Extraction <PRLink href="https://github.com/open-goal/jak-project/pull/4401"/> <PRLink href="https://github.com/open-goal/launcher/pull/1038"/>
 
-Added the ability to extract sound effects to `.wav` files for each of the four games, and music to `.wav` files for Jak 1 and Jak 2. <!-- TODO not merged --> There's a corresponding new decompiler option in the launcher settings for extracting music.
+Added the ability to extract sound effects to `.wav` files for each of the four games, and music to `.wav` files for Jak 1 and Jak 2. There are corresponding new decompiler options in the launcher settings for extracting these.
+
+![](./img/launcher.png)
 
 ### Fixed custom level region crash on Windows <PRLink href="https://github.com/open-goal/jak-project/pull/4369"/>
 
@@ -128,7 +153,7 @@ Various fixes for ARM64 compilation, and support for building and running the ga
 
 Various fixes to the build process.
 
-## Jak X <!-- TODO do we wanna keep this --> 
+## Jak X
 
 ### VU program disassembly <PRLink href="https://github.com/open-goal/jak-project/pull/4406"/>
 
@@ -165,7 +190,6 @@ Mirror world has a custom implementation in OpenGOAL, and some vanilla code that
 
 ### Fixed Onin's tent minimap icon showing in the desert <PRLink href="https://github.com/open-goal/jak-project/pull/4435"/>
 
-<!-- TODO not merged yet --> 
 Fixed an original game bug where the minimap icon for Onin's tent would show up in the desert in the northwest, rather than showing the blue air train icon in the northeast. This icon was missing some of the flags that other Haven City icons have that tell the game to show the air train icon instead of the real icon while outside of Haven City.
 
 ![](./img/onin.png)
@@ -211,6 +235,7 @@ The pause menu is waiting on the autosave to finish, but the autosave is stuck w
   controls
   src={"https://www.youtube.com/watch?v=4eZlQbRq6l8"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 This isn't a bug most players would run into, but it does affect speedrunners in certain situations. So we opted to fix this bug only while speedrun mode was enabled. In speedrun mode we were already skipping the autosave popup, but not until after the code that loops until there's no pending cutscene was satisfied. We changed the order of these checks, so that we wouldn't bother with the cutscene check if we were in speedrun mode.
