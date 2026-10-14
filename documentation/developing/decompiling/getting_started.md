@@ -163,7 +163,7 @@ In this case there are 32 words, aka 128 bytes. Each float is 4 bytes, so we hav
 
 ### `anonymous_function_types.jsonc`
 
-Lambdas don't show up too much in GOAL code, atleast not in Jak 1, and often times they are associated with a `state` and will automatically mostly resolve/name themselves (for more info see [this article](./decompiling_states)).
+Lambdas don't show up too much in GOAL code, atleast not in Jak 1, and often times they are associated with a `state` and will automatically mostly resolve/name themselves (for more info see [this article](decompiling_states)).
 
 But they do come up from time to time, and as the name implies they are functions with no name. Therefore we need a cast file to define the type, just like how we would normally do in `all-types.gc`
 
