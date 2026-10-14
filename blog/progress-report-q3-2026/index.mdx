@@ -22,7 +22,7 @@ New extractor features, and several bugs fixed - most of them from OpenGOAL, but
 
 ## Release Info
 
-This month's OpenGOAL Tooling (`jak-project` repo) release is `0.3.9`. <!-- TODO this version needs to be cut still -->
+This month's OpenGOAL Tooling (`jak-project` repo) release is `0.3.9`.
 
 <div className="row markdownMarginBottom">
   <div className="col col--12">
@@ -33,7 +33,7 @@ This month's OpenGOAL Tooling (`jak-project` repo) release is `0.3.9`. <!-- TODO
 :::caution
 We'd like to remind users that all official OpenGOAL releases will be on the [`jak-project`](https://github.com/open-goal/jak-project) repo on GitHub and will be available in the official launcher available from [`opengoal.dev`](https://opengoal.dev), as has always been the case.
 
-Any other sources (mods, forks, ports, etc) are not vetted by us and should only be used at your own risk.
+Any other sources (mods, forks, ports, etc) are not vetted by us and should only be used at your own risk. With the recent increase in AI/LLM usage, it's easier than ever for someone to develop software, whether that be for good or for bad, so please be cautious.
 :::
 
 ## Community Spotlight
@@ -74,35 +74,9 @@ As LLMs have continued to improve at an unprecedented pace, the barrier to entry
 
 Unfortunately, while these tools can be powerful in the right hands, if wielded by people with little domain knowledge, the results they produce are often questionable at best and downright unmaintainable at worst, plaguing maintainers of open source software all over the internet with pull requests that are completely automated, with extremely lengthy AI generated nonsense paragraphs in the description and more AI text in comments when asking for clarification.
 
-Our project has also been hit by this and it has become a problem too big to ignore, so we will be establishing a strict set of guidelines around the usage of LLMs when contributing to OpenGOAL going forward (these can also be found in our GitHub repo as well as the FAQ):
+Our project has also been hit by this and it has become a problem too big to ignore, so we will be establishing a strict set of guidelines around the usage of LLMs when contributing to OpenGOAL going forward. 
 
-### General Rules / Etiquette
-
-- **All AI usage in any form must be disclosed.** You must state the tool you used (e.g. Claude Code, Cursor, Amp) along with the extent that the work was AI-assisted.
-- **No commits authored/co-authored by AI agents will be merged.** We currently have no commits in `master` that are associated with Claude, Copilot, etc., and we would like to keep it that way.  The least you can do when making a contribution is making the commits yourself.
-- The following rules can be summarized with the new term of [don't be a meat proxy](https://dontbeameatproxy.com/):
-  - **The human-in-the-loop must fully understand all code.** If you can't explain what your changes do and how they interact with the greater system without the aid of AI tools, do not contribute to this project.
-  - **Issues and PR discussions can use AI assistance but must have a full human-in-the-loop.** This means that any content generated with AI must have been reviewed and edited by a human before submission. AI is very good at being overly verbose and including noise that distracts from the main point. **Humans must do their research and trim this down.**
-- **No AI-generated media is allowed (art, images, videos, audio, etc.).** Text and code are the only acceptable AI-generated content, per the other rules in this policy.
-- **Bad AI drivers will be denounced.** People who produce bad contributions that are clearly AI (slop) will have future contributions blocked, we don't have time or the motivation to deal with this. Additionally, this block list will be public and may be used by other projects to be aware of bad actors. We love to help junior developers learn and grow, but if you're interested in that then don't use AI, and we'll help you. I'm sorry that bad AI drivers have ruined this for you.
-
-### OpenGOAL / Decompilation Project Specific Rules
-
-- **No large or significant contributions to `/goal_src/` (the actual decompiled game code) from new contributors.** Sorry to gatekeep, but there are several reasons for this:
-  1. We successfully finished decompiling Jak 1, Jak 2, and Jak 3 without AI assistance, there is no reason to reach for an LLM for the last game (Jak X) when our decompilation tools are already heavily mature.  We would like to be able to say that all four games were decompiled the traditional way, especially since projects like these work via very loose legal gray areas / precedents for reverse-engineering.  It is anyone's guess at this point what will happen to all of these new AI-powered decompilation projects in the near-future and we have no reason to risk it after how successful and careful we have been.
-  2. The goal of our project is not to just get the games running on PC, as so many recent decompilation projects have as their only focus.  Our goal is to understand the game's code and to clean it up as we go along so it can be easily modified, extended, and read by humans.  This cannot be done using LLMs by someone who does not have the hard-earned experience of actually working with GOAL code.
-  3. Changes to this code can easily cause new bugs for users, bugs that we have no interest in solving, nor do we want to cause an inconvenience for our existing users.
-- **No Android/Mobile support related contributions.** No one on the team is interested in being involved in the Android or other mobile ecosystems, maintaining that release/distribution process, etc.  If you really want to do this, feel free to fork the project, we are not interested in it.
-- **No LLM powered translations.** We have already seen the low quality outputs of AI assisted localization, with people having to comb through and fix obvious mistakes that were never proof-read.  We are taking the stance that no translations are better than bad machine translations.  They also put up the false impression that the translations are complete, potentially discouraging or making it harder for actual translators to make an informed contribution.  Once again if you really want to do this, feel free to fork and distribute the translations yourself.
-- **No massive refactors or additions to enable low percentage user base support**.  Examples would include a Metal or DirectX renderer.  These sorts of things are large undertakings and come with significant maintenance burden, while only making an impact for 0-1% of our user base.  History shows that unfortunately these sorts of contributions are not made by people that will assist long-term with fixing bugs, but even if they were to break the mold and fix every bug that users report, it really isn't worth the noise.  Since the beginning we have made the decision to not support every possible user to improve the developer experience, for example, requiring things like AVX support and a modern OpenGL version, we are sticking by this decision.
-
-<Admonition type="danger" icon="❤︎⁠" title="There are Humans Here">
-  Please remember that OpenGOAL is maintained by humans, at zero financial gain.
-
-  Every discussion, issue, and pull request is read and reviewed by humans (and sometimes machines, too). It is a boundary point at which people interact with each other and the work done. It is rude and disrespectful to approach this boundary with low-effort, unqualified work, since it puts the burden of validation on the maintainer.
-
-  If you disagree with these rules and guidelines, do not waste both of our time arguing over them.  Move on to another project that aligns with your ideals instead, plenty exist, now more than ever.
-</Admonition>
+**You can [read our AI Policy here](/docs/contributing/ai_policy)**, and it will also be available in our GitHub repo and linked from the FAQ.
 
 ## Launcher
 
@@ -238,6 +212,14 @@ Mirror world has a custom implementation in OpenGOAL, and some vanilla code that
 Fixed an original game bug where the minimap icon for Onin's tent would show up in the desert in the northwest, rather than showing the blue air train icon in the northeast. This icon was missing some of the flags that other Haven City icons have that tell the game to show the air train icon instead of the real icon while outside of Haven City.
 
 ![](./img/onin.png)
+
+### Fixed crash in Glide to Volcano mission <PRLink href="https://github.com/open-goal/jak-project/pull/4443"/>
+
+Fixed an original game bug where the game would crash in the Glide to Volcano mission. Interestingly, the crash only occurs if you've played the Destroy Sniper Cannons mission beforehand (speedrunners would often encounter this when doing back-to-back runs, and learned to restart their game in between runs).
+
+Glide to Volcano and Destroy Snipper Cannons are the only two missions with code that makes use of a type called `simple-prim`. The bug is that ND defined the `relocate` method for `simple-prim` in 2 different files - `generic-obs.gc` and `cty-sniper-turret.gc`. 
+
+On the first Glide to Volcano run, the code from `generic-obs.gc` is used, and everything works fine. Once you start Destroy Sniper Cannons, that `relocate` method gets overwritten by the version from `cty-sniper-turret.gc`. Once the Destroy Sniper Cannons mission is no longer active, this code is unloaded, and we no longer have a valid `relocate` method for `simple-prim`. So the next time you try to run the Glide to Volcano mission, the game crashes because it can't find the necessary `relocate` code for `simple-prim`!
 
 ### Improved `game-score` related decomp, extended speedrun autosplitter to track ranked side missions and orbs by level <PRLink href="https://github.com/open-goal/jak-project/pull/4398"/> <PRLink href="https://github.com/open-goal/jak-project/pull/4409"/> <PRLink href="https://github.com/open-goal/speedrunning/pull/35"/>
 
