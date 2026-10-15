@@ -1,0 +1,361 @@
+---
+sidebar_position: 2
+title: Custom Side Missions Complete with Tasks
+description: Tutorial for Custom Side Missions (Burning Bush) Complete with Custom Tasks in Jak 2
+---
+
+# Custom Side Missions (Burning Bush) and Tasks in Jak 2 
+
+<PostAuthors authors={["atrueboss"]} authorNames={["atrueboss"]} />
+
+:::note
+Currently this tutorial will only show how to create custom ring, collection, get-to-orb and get-to-destination challenges. no races or custom objectives yet
+:::
+
+## Step 1: Placing burning-bush actor in Custom Level
+
+Once you have your custom level and are walking around in it, go to the `.jsonc` file which contains the custom actors for your level. From there add `"burning-bush-ag"` to the `"art_groups"`, otherwise the actor will load but will be invisible.
+After that you can add your burning-bush actor, the entry should look something like this:
+```json
+   {
+"trans": [9.4368, 1.0473, 32.3609], // location
+"etype": "burning-bush", // actor type
+"game_task": 0, // we don’t use this
+"quat" : [0.0000, 0.9987, 0.0000, -0.0508], // rotation
+"bsphere": [-2.70, 3.50, 64, 10], // bounding sphere, dw about this
+"lump": {
+"name":"burning-bush-test", // name of the actor
+"task-actor": ["int32", 42] // custom task-actor, just set to 42 for now
+        }
+   }
+```
+
+After that, you need to add the files that contain the data for the behaviour, model,
+textures, particles etc. for the burning bush.
+Go to the `.gd` file for your custom level and add the following:
+```opengoal
+"ctywide-obs-h.o"
+"ctywide-bbush.o"
+"ctywide-part.o"
+"ctywide-obs.o"
+```
+*(make sure they are in this order, otherwise level will crash or there will be other
+problems like stuff not loading properly. it's good practice to put the file with the init
+function last)
+`"ctywide-obs.o"` causes a crash when you include it because there is a function `(ctywide-entity-hack)` in the init (spawn function) for the burning-bush actor. so let's fix this by adding code that only calls that hack function when the `ctywide` level is loaded, that way we don't crash our custom level but it remains functional for vanilla haven city stuff.
+So go to `(defmethod init-from-entity! ((this burning-bush) (arg0 entity-actor))` in
+`ctywide-obs.gc` and scroll down a few lines and we will replace `(ctywide-entity-hack)` with:
+```opengoal
+  (cond 
+    ((= (level-status *level* 'ctywide) 'active) ;; runs only if ctywide loaded 
+     (ctywide-entity-hack)
+    )
+  )
+```
+After doing that you can save and compile again. The crash should be fixed, and you
+will see your burning bush actor spawned in the custom level.
+
+![](./img/custom_side_missions_complete_with_tasks/spawned_bush.png) 
+
+*note: the burning-bush particle effect texture won't appear correctly unless 1) You load the correct tpages, which is not currently possible in Jak 2. That functionality hasn't been added to the .jsonc files yet. or 2) The level `ctywide` is loaded (because it contains the tpages)
+
+## Step 2: Create Custom `task-actor` and Assign to `burning-bush`
+
+For this we simply need to add `enum` entries for our new custom `"task-actor"`.
+In `task-control-h.gc.`, find `(defenum game-task-actor` and add an entry at the bottom of the current list with the next number as your new entry (it can be any unused number). 
+For example, if `(whack-a-metal-hiphog 67)` is the last in the list, create the entry like this: `(burning-bush-testzone-get-to 68)` (you don't need to do this in `all-files.gc` as that's just for decompilation) 
+Finally, go back to the `.jsonc` of your custom actor and change the lump `"task-actor"` value to the one you just created `(68 in my case)` and save.
+:::note
+When you compile after doing this, the `repl` will always throw an error. This is expected since we modified `enum` entries. Just reset the `repl` and compile again.
+:::
+
+## Step 3: Create Checkpoint/Spawn Point for the Side Mission (burning-bush)
+
+Here we will create a simple checkpoint so that when you start the task or die and retry, you will spawn right in front of the `burning-bush` instead of halfway across the map. To create a checkpoint, go into `level-info.gc` and find where your level that you are using is defined, here I am using "test-zone". Then under `:continues`, create a new checkpoint by just copy pasting the one that is already there. After pasting, all you really need to change to make this checkpoint unique is the `:name` and `:trans` (location where jak will spawn). Get the location for where jak (target) will spawn by going into the game and standing somewhere, then using displaying Bug Report from debug menu. 
+So copy paste an entry like this:
+
+```opengoal
+
+(new 'static 'continue-point
+        :name "test-zone-burning-bush-get-to"
+        :level 'test-zone
+        :trans (new 'static 'vector :x (meters 9.7273) :y (meters 1.0473) :z (meters 26.6349) :w 1.0)
+        :quat (new 'static 'vector :y 0.061 :w 0.9981)
+        :camera-trans (new 'static 'vector :x 0.0 :y (meters 1) :z 0.0 :w 1.0)
+        :camera-rot (new 'static 'inline-array vector3s 3
+          (new 'static 'vector3s :data (new 'static 'array float 3 1.0 0.0 0.0))
+          (new 'static 'vector3s :data (new 'static 'array float 3 0.0 1.0 0.0))
+          (new 'static 'vector3s :data (new 'static 'array float 3 0.0 0.0 1.0)))
+        :on-goto #f
+        :vis-nick #f
+        :want (new 'static 'inline-array level-buffer-state 6
+          (new 'static 'level-buffer-state :name 'test-zone :display? 'display :force-vis? #f :force-inside? #f)
+          (new 'static 'level-buffer-state :name #f :display? #f :force-vis? #f :force-inside? #f)
+          (new 'static 'level-buffer-state :name #f :display? #f :force-vis? #f :force-inside? #f)
+          (new 'static 'level-buffer-state :name #f :display? #f :force-vis? #f :force-inside? #f)
+          (new 'static 'level-buffer-state :name #f :display? #f :force-vis? #f :force-inside? #f)
+          (new 'static 'level-buffer-state :name #f :display? #f :force-vis? #f :force-inside? #f))
+        :want-sound (new 'static 'array symbol 3 #f #f #f))
+```
+*make sure you put it in the correct place between the brackets for correct syntax or it will throw error.
+Save and that’s the checkpoint created. Easy.
+
+## Step 4: Create custom task for the `burning-bush` and assign to `task-actor`
+
+Right now your `burning-bush` should spawn in your level but it is inactive and doesn't do anything. This is because the `"task-actor"` we assigned has no actual task associated with it. 
+First we again make `enum` entries for the new task in `game-task-h.gc`.
+Go into the file and find `(defenum game-task` and scroll to the bottom to add the new entry, same as before. If the last entry is `(stadium-burning-bush-race-class1-r 109)`, then create an entry like `(testzone-burning-bush-test 110)`. Don’t forget to increase the `(max 110)` accordingly.
+
+Next are the game task nodes. Each task usually has introduction and resolution. 
+In the same file (`game-task-h.gc`), find `(defenum game-task-node`
+and scroll to the bottom to add new entries. For this tutorial, I will be creating a custom “get-to” orb under time limit challenge and I am calling it “get-to” to be consistent with the rest of the game. But you can call it whatever you like so long as the names match and one is `-introduction)` and the other is `-resolution)`. So make entries like these in the `(defenum game-task-node` like this:
+```opengoal
+  (testzone-burning-bush-get-to-introduction)
+  (testzone-burning-bush-get-to-resolution)
+```
+
+In `level-info.gc` let’s add an entry for your level (in my case it's `'test-zone`), under `(define *task-level*` and in `default-menu.gc`, also an entry for your level (for me `test-zone`), under `(defun debug-menu-make-task-menu`.
+That way we can see our newly created task in the debug menu and control it. 
+This entry needs to be the name of the level how it was defined in `level-info.gc`. 
+*This will not be usable right now as we still have not told the game that our tasks nodes `(testzone-burning-bush-get-to-introduction)` and `(testzone-burning-bush-get-to-resolution)` are inside of level `test-zone` but it’ll work once we do that.
+
+Next let’s create the task-info. So go to `game-task.gc` and under the final task in the list (in the vanilla game, the final task in the list should be `"stadium-burning-bush-race-class1-r"`), add another `game-task-info` like this:
+
+```opengoal
+(new 'static 'game-task-info
+ :name "testzone-burning-bush-get-to" ;; name of task 
+ :pre-play-node (game-task-node testzone-burning-bush-get-to-introduction) 
+ :kiosk-play-node (game-task-node testzone-burning-bush-get-to-resolution) 
+ :pre-play-continue #f
+ :play-node (game-task-node testzone-burning-bush-get-to-resolution) 
+ :play-continue "test-zone-burning-bush-get-to" ;; checkpoint you spawn at 
+ :kiosk-play-continue #f 
+)
+```
+*Note that the order of the array of `game-task-node` needs to match the order of the `enum`'s that we defined earlier.
+
+Now this is created, make sure everything is correct and save, reset repl (because we edited enums) and compile for a quick sanity check. Then let's move on.
+
+Now we have created the `game-task-info`, let’s create the info for the nodes (`game-task-node-info`) too in the same file `game-task.gc`. This will contain a lot of information such as what kind of challenge it is, which index of rings/orbs/collectables to spawn, what voice line is used when talking to the burning-bush, what to do during the active task, what to do after completing, what prize to give etc… 
+So you will need to create two entries here, one for the introduction node and one for the resolution node. Depending on what kind of burning-bush challenge you want to create, I recommend copy and pasting a vanilla entry of that type. For example here I am creating a “get to orb” challenge, so I will copy and paste the vanilla code for `city-burning-bush-get-to-2` and just modify it accordingly. First the introduction:
+
+# Vanilla Entry 
+```opengoal
+(new 'static 'game-task-node-info
+  :level 'city
+  :task (game-task city-burning-bush-get-to-2)
+  :name "city-burning-bush-get-to-2-introduction"
+  :when-open (new 'static 'boxed-array :type game-task-event
+    (new 'static 'game-task-event
+      :actor (game-task-actor burning-bush-indb)
+      :action (game-task-action show)
+      :tex (game-task-icon gaticon-04)
+      :scene "bb30int"
+    )
+    (new 'static 'game-task-event
+      :actor (game-task-actor minimap)
+      :action (game-task-action show)
+      :tex (game-task-icon gaticon-56)
+      :scene #f
+    )
+             )
+  :flags (game-task-node-flag save-on-try)
+  :parent-node (new 'static 'array game-task-node 4
+    (game-task-node atoll-sig-resolution) ;; burning bush becomes "alive" only after this task is closed
+    (game-task-node none)
+    (game-task-node none)
+    (game-task-node none)
+               )
+ :on-open #f
+ :info #f
+ :borrow '()
+ :open? #f
+ :on-close #f
+)
+```
+# New Entry, Copied and Edited 
+```opengoal
+;;;;;;;;;;;;;;; CUSTOM TASK NODES ;;;;;;;;;;;;;;;;
+(new 'static 'game-task-node-info
+  :level 'test-zone ;; edited 
+  :task (game-task testzone-burning-bush-get-to) ;; edited 
+  :name "testzone-burning-bush-get-to-introduction" ;; edited 
+  :when-open (new 'static 'boxed-array :type game-task-event
+    (new 'static 'game-task-event
+      :actor (game-task-actor burning-bush-testzone-get-to) ;; edited 
+      :action (game-task-action show)
+      :tex (game-task-icon gaticon-04)
+      :scene "bb30int" ;; voiceline when starting the challenge 
+    )
+    (new 'static 'game-task-event
+      :actor (game-task-actor minimap)
+      :action (game-task-action show)
+      :tex (game-task-icon gaticon-56)
+      :scene #f
+    )
+             )
+  :flags (game-task-node-flag save-on-try)
+  :parent-node (new 'static 'array game-task-node 4
+    (game-task-node none) ;; edited (bush is "alive" even at start of game)
+    (game-task-node none)
+    (game-task-node none)
+    (game-task-node none)
+               )
+ :on-open #f
+ :info #f
+ :borrow '()
+ :open? #f
+ :on-close #f
+)
+```
+*This also needs to match the order of the `enum`'s we defined earlier, so you should add these below the last `game-task-node-info` entry in the list `("stadium-burning-bush-race-class1-r-resolution")`. 
+
+Next let’s do the same for the resolution node, this one includes more information such as task-manager-info important for controlling what happens in the task.
+Add this below the previous node for the introduction:
+
+# Vanilla Entry 
+```opengoal
+(new 'static 'game-task-node-info
+            :level 'city
+            :task (game-task city-burning-bush-get-to-2)
+            :name "city-burning-bush-get-to-2-resolution"
+            :when-open (new 'static 'boxed-array :type game-task-event
+              (new 'static 'game-task-event
+                :actor (game-task-actor burning-bush-indb)
+                :action (game-task-action play)
+                :tex (game-task-icon gaticon-06)
+                :scene #f
+                )
+              )
+            :flags (game-task-node-flag close-task task-retry task-manager)
+            :parent-node (new 'static 'array game-task-node 4
+              (game-task-node city-burning-bush-get-to-2-introduction)
+              (game-task-node none)
+              (game-task-node none)
+              (game-task-node none)
+              )
+            :on-open #f
+            :info (new 'static 'task-manager-info
+              :level 'lbbush
+              :intro-scene #f
+              :resolution-scene #f
+              :resolution-scene-continue #f
+              :retry-continue "ctyindb-burning-bush"
+              :fail-continue #f
+              :init-hook #f
+              :cleanup-hook #f
+              :update-hook #f
+              :code-hook #f
+              :complete-hook #f
+              :fail-hook #f
+              :event-hook #f
+              :final-node (game-task-node city-burning-bush-get-to-2-resolution)
+              :index 14
+              :on-complete '(talker-spawn "bb10win")
+              :on-fail #f
+              )
+            :borrow '((ctywide 0 lbbush display))
+            :open? #f
+            :on-close #f
+            )
+```
+
+# New Entry, Copied and Edited
+```opengoal
+(new 'static 'game-task-node-info
+            :level 'test-zone
+            :task (game-task testzone-burning-bush-get-to)
+            :name "testzone-burning-bush-get-to-resolution"
+            :when-open (new 'static 'boxed-array :type game-task-event
+              (new 'static 'game-task-event
+                :actor (game-task-actor burning-bush-testzone-get-to)
+                :action (game-task-action play)
+                :tex (game-task-icon gaticon-06)
+                :scene #f
+                )
+              )
+            :flags (game-task-node-flag close-task task-retry task-manager)
+            :parent-node (new 'static 'array game-task-node 4
+              (game-task-node testzone-burning-bush-get-to-introduction)
+              (game-task-node none)
+              (game-task-node none)
+              (game-task-node none)
+              )
+            :on-open #f
+            :info (new 'static 'task-manager-info
+              :level 'test-zone
+              :intro-scene #f
+              :resolution-scene #f
+              :resolution-scene-continue #f
+              :retry-continue "test-zone-burning-bush-get-to"
+              :fail-continue #f
+              :init-hook #f
+              :cleanup-hook #f
+              :update-hook #f
+              :code-hook #f
+              :complete-hook #f
+              :fail-hook #f
+              :event-hook #f
+              :final-node (game-task-node testzone-burning-bush-get-to-resolution)
+              :index 14
+              :on-complete '(talker-spawn "bb10win")
+              :on-fail #f
+              )
+            :borrow '((ctywide 0 lbbush display))
+            :open? #f
+            :on-close #f
+            )
+```
+After adding, save and compile. 
+If you boot the game, you should be able to find your new tasks in the debug menu under `Task>[level-name]>` and also you can talk to the `burning-bush` and it will just play the voiceline that was included in the `game-task-node-info` that we just added:
+
+![](./img/custom_side_missions_complete_with_tasks/created_task_nodes.png)
+
+![](./img/custom_side_missions_complete_with_tasks/bush_active.png)
+
+But after talking to the burning-bush, you’ll see no mission loads, this is because we haven’t actually given it a mission info yet (this is a get-to-orb challenge, spawn the orb there and give 7 seconds to collect etc), that we will do in the final step.  
+
+## Step 5: Assign Side Mission Info (challenge type, where to spawn stuff etc)
+
+All this task info is stored in `ctywide-bbush.gc` in the vanilla game (although some race stuff is in other files). We need to do two things in here, first assign the locations for the orbs/rings/eco pickups etc and then tell the game that our task is actually a get-to-orb and not a ring challenge. 
+So first let’s find the function that stores all the info for the get-to orbs location, camera and time limit, which is `(define *burning-bush-get-on-info*`. Here let’s add another `'burning-bush-get-on-info` at the bottom of the list.  
+```opengoal
+    (new 'static 'burning-bush-get-on-info
+      :trans (new 'static 'vector :x (meters -21.4851) :y (meters 20.3442) :z (meters 17.2460) :w 1.0) ;; orb spawn location 
+      :quat (new 'static 'quaternion :y 0.5057 :w 0.8626) ;; rotation of orb. only :y and :w values (horizontal) are used here 
+      :camera-trans (new 'static 'vector :x (meters -29.5968) :y (meters 25.4119) :z (meters 8.1166) :w 1.0) ;; camera location 
+      :camera-rot (new 'static 'array float 9 0.7472 0.0000 -0.6645 0.0793 0.9928 0.0892 0.6598 -0.1194 0.7418) ;; camera rotation, used two full quaternions
+      :time 4000.0 ;; 12 seconds ;; time limit for challenge
+      )
+```
+The easiest way to get the coordinates is to boot your game, stand jak where you want the orb to spawn and position the camera where you want it to look at the orb, then enter REPL and `(lt)` to connect the REPL to the active game window, then use command `(trsq->continue-point (-> *target* root))` and the terminal will give you all the info you need. It will output the values in `meters` but won’t have "meters" printed, so you will need to manually input those values into your `'burning-bush-get-on-info`.
+![](./img/custom_side_missions_complete_with_tasks/target_stats.png)
+
+Now the game knows it should spawn an orb with that camera and time limit, but it doesn’t know on which mission it should do so. So we need to go back to `game-task.gc` and go to the `:index` of the resolution node for your task. The index just counts through that array (list) and assigns the one based on the number we give it. If you count through all the list of `'burning-bush-get-on-info`, and this is the first new one added, then this entry should be 15. (it’s actually the 16th in the list, but indexing starts at 0)
+Set as `:index 15` and now the task-manager knows to assign this task info to that task.
+
+Now there is one final thing to do: we haven’t actually told the game “hey this is a get-to-orb challenge, not a ring challenge or something else, so load that array and use that index”. This is done by having a hook point to it inside of `ctywide-bbush.gc`. 
+So go into `ctywide-bbush.gc` and scroll down past where you added your new `'burning-bush-get-on-info`, here you will find some code for `(set-subtask-hook!`. The code tells the game that `city-burning-bush-get-to-1-resolution` is a get-to-orb challenge and then just uses a `(copy-hooks!` command at the bottom to set the same hook to all the other get-to-orb challenges. So we will also do that with out custom task. So scroll down until you find the list of `(copy-hooks!` and then add an entry for your task like this:
+```opengoal
+(copy-hooks!
+  (-> *game-info* sub-task-list (game-task-node testzone-burning-bush-get-to-resolution))
+  (-> *game-info* sub-task-list (game-task-node city-burning-bush-get-to-1-resolution))
+  )
+```
+
+After that, if everything was done right the task should be working and playable.
+If something doesn’t work or there’s a problem, my advice for troubleshooting is to retrace the steps.
+
+![](./img/custom_side_missions_complete_with_tasks/active_bush.png)
+
+![](./img/custom_side_missions_complete_with_tasks/talk_to_bush.png)
+
+![](./img/custom_side_missions_complete_with_tasks/task_active.png)
+
+![](./img/custom_side_missions_complete_with_tasks/doing_task.png)
+
+
+
+
+
+
