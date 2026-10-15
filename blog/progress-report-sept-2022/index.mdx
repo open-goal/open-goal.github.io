@@ -97,7 +97,11 @@ This also is gradually being supported by the LSP to provide on-hover explanatio
 
 If you are a speedrunner you are probably already well aware of this feature, but if you are not you may have noticed a new menu option related to it.
 
-<ReactPlayer controls src={require("./video/speedrunner-mode.webm").default} />
+<ReactPlayer 
+  controls
+  src={require("./video/speedrunner-mode.webm").default} 
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
+  />
 
 This mode does a few things:
 
@@ -113,7 +117,11 @@ And the associated auto splitting LiveSplit integration (and maybe other tools i
 
 Most cutscenes can now be skipped in Jak 1, if you don't want to accidentally skip a cutscene there is a menu option to disable this feature
 
-<ReactPlayer controls src={require("./video/cutscene-skips.webm").default} />
+<ReactPlayer 
+  controls
+  src={require("./video/cutscene-skips.webm").default} 
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
+  />
 
 ### Brazilian Portuguese Translation <PRLink href="https://github.com/open-goal/jak-project/pull/1759"/>
 

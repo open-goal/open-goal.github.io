@@ -18,3 +18,7 @@ mandude:
   name: ManDude
   url: https://github.com/mandude
   image_url: https://github.com/mandude.png
+open-goal:
+  name: OpenGOAL Team
+  url: https://github.com/open-goal
+  image_url: https://github.com/open-goal.png

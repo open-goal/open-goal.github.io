@@ -57,6 +57,7 @@ Just in time for Halloween, Clanque has released their Halloween themed overhaul
   controls
   src={"https://www.youtube.com/watch?v=SYEALIfXZsY"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 ## General Changes
@@ -94,7 +95,11 @@ Due to a bad rotation value, whenever a projectile from one of the Dark Makers d
 :::danger
 EPILEPSY WARNING
 
-<ReactPlayer controls src={require("./video/maker-projectile.webm").default} />
+<ReactPlayer 
+  controls
+  src={require("./video/maker-projectile.webm").default} 
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
+  />
 :::
 
 ### Fix Envmap Texture <PRLink href="https://github.com/open-goal/jak-project/pull/3704"/>
@@ -107,7 +112,11 @@ Merc models were using the wrong default texture for their environment mapping e
 
 "Merc Fade" is a transparency effect on foreground models, used for example to make Jak invisible when interacting with a Dark Maker idol.
 
-<ReactPlayer controls src={require("./video/merc-fade.mp4").default} />
+<ReactPlayer 
+  controls
+  src={require("./video/merc-fade.mp4").default} 
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
+  />
 
 ### Fix `kleever-diaper` Secret <PRLink href="https://github.com/open-goal/jak-project/pull/3713"/>
 
@@ -132,8 +141,16 @@ The last of the remaining bugs with texture animations have been squashed, these
 - Some special eye texture animations would not show up, like the Dark Jak eye effect in cutscenes.
 - Texture animations that were using a size override would show up as black while not being animated.
 
-<ReactPlayer controls src={require("./video/glider-ring.mp4").default} />
-<ReactPlayer controls src={require("./video/tie-texture-anim.mp4").default} />
+<ReactPlayer 
+  controls
+  src={require("./video/glider-ring.mp4").default} 
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
+  />
+<ReactPlayer 
+  controls
+  src={require("./video/tie-texture-anim.mp4").default} 
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
+  />
 
 ![Black Texture Animation Fixed](img/tex-anim-black-fix.png)
 ![Dark Jak Eye Texture Fixed](img/clut-blender-anim-fix.png)

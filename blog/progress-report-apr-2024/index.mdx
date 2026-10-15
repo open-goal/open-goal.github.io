@@ -109,6 +109,7 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=ZtIRhGOX9SU"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 - Since we didn't have the foreground model renderer ("MERC") implemented yet, we needed to draw Jak's bones using debug tools to see anything.
@@ -117,6 +118,7 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=TfreMXr6iJQ"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 - Implementation of MERC a few hours later. It might look bad, but it was actually implemented correctly from the start, there were just some other missing components like the time of day and mood lighting which meant that foreground models would not receive any color information. Jak's model is missing because it turned out that it was stored in a completely different set of files compared to the previous games, so we needed to add extra code for extracting the model data from those files.
@@ -125,6 +127,7 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=aK-rADppHoY"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 - The debug menu was added.
@@ -133,6 +136,7 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=2KiE7MuBfXg"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 - Mood and time of day are used for the background/foreground lighting. Mood is used to apply special effects to the background, like weather (rain, lightning) or torch/lamp/electric gate lights. The time of day system uses 8 color palettes that are interpolated between. The colors are all baked into the level geometry.
@@ -141,12 +145,14 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=BbiIbZm6FLs"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 <ReactPlayer
   controls
   src={"https://www.youtube.com/watch?v=JWpMhkwYAPc"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 - Regions use the game's built in script system in order to load levels, play cutscenes if certain conditions are met, define water volumes, etc. when either Jak or the camera passes through them. They can be spheres, planes or boxes.
@@ -155,6 +161,7 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=MHJU0cputec"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 - The ragdoll editor was used to test out and modify ragdoll animations for specific skeletons. You could select each joint separately, modify some parameters and print the current setup to the listener to copy it into your ragdoll setup code. It crashes right before the interesting part in the video because some things weren't implemented yet.
@@ -163,6 +170,7 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=90UJoLgSg7Q"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 - BLERC was added, used for facial animations.
@@ -171,6 +179,7 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=7_osPeQlmzw"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 - The lightning renderer was added, used by Dark Jak and in many other places.
@@ -179,6 +188,7 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=-Sawjr8fJQ0"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 - Fun fact: Did you know that Jak has a special animation for switching ladder sides? You probably didn't, because this ladder from the test level "halfpipe" is the only one in the game that actually allows you to do this, so this animation goes completely unused in the base game.
@@ -187,6 +197,7 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=5HcUEZFlgH8"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 - First attempt at spawning enemies that use nav meshes to move around. I thought there was a bug in the code causing the enemies to not move around, but it turned out I simply forgot to turn on the enemy navigation logic...
@@ -195,6 +206,7 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=MpyUDyaZOcc"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 - After implementing the game's mission and task system, I decompiled the code for a single mission to test it out. This led to the first fully completable mission in OpenGOAL, "Escort Bomb Train"!
@@ -203,6 +215,7 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=mFPNCb78F-E"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 - Right after that, I went to work on more of the code for the Eco Mine missions, next up was the boss battle against the Precursor Robot.
@@ -211,6 +224,7 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=mDkzJvKEuwE"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 - Work on the code for the desert vehicles began a bit after that because a lot of missions require them. The desert vehicle code ended up being around 30 files and, just like Jak 2's vehicle code, was extremely awful to sift through, but luckily, everything mostly worked on the first try. It may be a bit hard to notice, but if you look closely, you can see that Jak is not actually sitting in the vehicle until the vehicle takes an impact and forces him to play an animation. The cause for this was eventually tracked down to be a single function using the wrong return value.
@@ -219,72 +233,84 @@ Here's a bunch of videos showing off more progress (roughly in chronological ord
   controls
   src={"https://www.youtube.com/watch?v=JsPN-44VQJM"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 <ReactPlayer
   controls
   src={"https://www.youtube.com/watch?v=SfS186dZF04"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 <ReactPlayer
   controls
   src={"https://www.youtube.com/watch?v=LyxfL6rOWRI"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 <ReactPlayer
   controls
   src={"https://www.youtube.com/watch?v=RrIZYA84efw"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 <ReactPlayer
   controls
   src={"https://www.youtube.com/watch?v=_YazQ9QNeK0"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 <ReactPlayer
   controls
   src={"https://www.youtube.com/watch?v=IhvNuA0b6UE"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 <ReactPlayer
   controls
   src={"https://www.youtube.com/watch?v=cFHEivV3igI"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 <ReactPlayer
   controls
   src={"https://www.youtube.com/watch?v=RxpSTsv1Q3w"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 <ReactPlayer
   controls
   src={"https://www.youtube.com/watch?v=SCVWrH4yKAY"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 <ReactPlayer
   controls
   src={"https://www.youtube.com/watch?v=MhVtGxbVed0"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 <ReactPlayer
   controls
   src={"https://www.youtube.com/watch?v=GpOJxyCQm6M"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 <ReactPlayer
   controls
   src={"https://www.youtube.com/watch?v=ra8RXPTUiBQ"}
   className="blog-video"
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
 />
 
 ### PC Kernel Implementation <PRLink href="https://github.com/open-goal/jak-project/pull/3472"/> <PRLink href="https://github.com/open-goal/jak-project/pull/3479"/>

@@ -55,13 +55,21 @@ More debugging code implemented and region boundary rendering now works
 
 The camera code is now functional:
 
-<ReactPlayer controls src={require("./video/camera.webm").default} />
+<ReactPlayer 
+  controls
+  src={require("./video/camera.webm").default} 
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
+  />
 
 ### Sky Renderer Functional <PRLink href="https://github.com/open-goal/jak-project/pull/1972"/>
 
 The sky renderer returns:
 
-<ReactPlayer controls src={require("./video/sky.webm").default} />
+<ReactPlayer 
+  controls
+  src={require("./video/sky.webm").default} 
+  style={{ width: '60%', height: 'auto', aspectRatio: '16/9' }}
+  />
 
 The stars are no longer particles like they were in Jak 1!
 
