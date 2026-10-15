@@ -558,3 +558,4 @@ function generateSourceDocsForGame(gameName) {
 
 generateSourceDocsForGame("jak1");
 generateSourceDocsForGame("jak2");
+generateSourceDocsForGame("jak3");
