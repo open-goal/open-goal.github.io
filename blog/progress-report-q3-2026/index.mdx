@@ -217,7 +217,7 @@ Fixed an original game bug where the minimap icon for Onin's tent would show up 
 
 Fixed an original game bug where the game would crash in the Glide to Volcano mission. Interestingly, the crash only occurs if you've played the Destroy Sniper Cannons mission beforehand (speedrunners would often encounter this when doing back-to-back runs, and learned to restart their game in between runs).
 
-Glide to Volcano and Destroy Snipper Cannons are the only two missions with code that makes use of a type called `simple-prim`. The bug is that ND defined the `relocate` method for `simple-prim` in 2 different files - `generic-obs.gc` and `cty-sniper-turret.gc`. 
+Glide to Volcano and Destroy Sniper Cannons are the only two missions with code that makes use of a type called `simple-prim`. The bug is that ND defined the `relocate` method for `simple-prim` in 2 different files - `generic-obs.gc` and `cty-sniper-turret.gc`. 
 
 On the first Glide to Volcano run, the code from `generic-obs.gc` is used, and everything works fine. Once you start Destroy Sniper Cannons, that `relocate` method gets overwritten by the version from `cty-sniper-turret.gc`. Once the Destroy Sniper Cannons mission is no longer active, this code is unloaded, and we no longer have a valid `relocate` method for `simple-prim`. So the next time you try to run the Glide to Volcano mission, the game crashes because it can't find the necessary `relocate` code for `simple-prim`!
 
